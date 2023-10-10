@@ -14,6 +14,8 @@ class TrajectoryView: SKView, AnimatedTransitioning {
     // MARK: - Public Properties
     var glowingBallScene: BallScene?
     var outOfROIPoints = 0
+    var duration = 0.0
+    var speed = 0.0
     var points: [VNPoint] = [] {
         didSet {
             updatePathLayer()
@@ -101,6 +103,8 @@ class TrajectoryView: SKView, AnimatedTransitioning {
         for point in points {
             scaledPoints.append(point.location.applying(CGAffineTransform(scaleX: frame.size.width, y: frame.size.height)))
         }
+        
+        speed = Double(15) / duration * 3.6 //over the thum estimation of speed
         
         // Animate the ball across the scene.
         if scaledPoints.last != nil {

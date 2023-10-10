@@ -17,6 +17,7 @@ class ContentAnalysisViewController: UIViewController,
     
     // MARK: - IBOutlets
     @IBOutlet var closeButton: UIButton!
+    @IBOutlet weak var serveSpeed: UILabel!
     
     // MARK: - IBActions
     @IBAction func closeRootViewTapped(_ sender: Any) {
@@ -34,6 +35,10 @@ class ContentAnalysisViewController: UIViewController,
     
     // A dictionary that stores all trajectories.
     private var trajectoryDictionary: [String: [VNPoint]] = [:]
+    
+    //add duration dictionary
+    private var trajectoryTimeDictionary: [String: (startTime: CMTime, endTime: CMTime)] = [:]
+
     
     // MARK: - Life Cycle
     
@@ -65,7 +70,7 @@ class ContentAnalysisViewController: UIViewController,
          Use a shorter length for real-time apps, and use longer lengths to observe finer and longer curves.
          */
         detectTrajectoryRequest = VNDetectTrajectoriesRequest(frameAnalysisSpacing: CMTime(value: 10, timescale: 600),
-                                                              trajectoryLength: 6) { [weak self] (request: VNRequest, error: Error?) -> Void in
+                                                              trajectoryLength: 2) { [weak self] (request: VNRequest, error: Error?) -> Void in
             
             guard let results = request.results as? [VNTrajectoryObservation] else {
                 return
@@ -89,7 +94,7 @@ class ContentAnalysisViewController: UIViewController,
             trajectoryView.resetPath()
             return
         }
-        print("Total trajectory count: \(results.count)")
+        //print("Total trajectory count: \(results.count)")
         
         for trajectory in results {
             // Filter the trajectory.
@@ -100,8 +105,17 @@ class ContentAnalysisViewController: UIViewController,
                 // Display a transition.
                 trajectoryView.performTransition(.fadeIn, duration: 0.05)
                 
+                //@ChatGPT: add duration of trajectory
+                //self.trajectoryView.duration = trajectory.timeRange.duration.seconds
+                self.trajectoryView.speed = Double(3.6*18) / trajectory.timeRange.duration.seconds
+
+                
+                print("Speed: \(self.trajectoryView.speed) km/h")
+                self.serveSpeed.text = String(format: "Ball speed: %.2f°", self.trajectoryView.speed)
+
+                
                 // Determine the size of the moving object that the app tracks.
-                print("The object's moving average radius: \(trajectory.movingAverageRadius)")
+                //print("The object's moving average radius: \(trajectory.movingAverageRadius)")
             }
         }
     
@@ -124,7 +138,8 @@ class ContentAnalysisViewController: UIViewController,
         /**
          Filter the trajectory with the following conditions:
             - The trajectory moves from left to right.
-            - The trajectory starts in the first half of the region of interest.
+         - The trajectory starts in the first half of the region of interest.
+         - The trajectory ens in the right half of the region of interest.
             - The trajectory length increases to 8.
             - The trajectory contains a parabolic equation constant a, less than or equal to 0, and implies there
                 are either straight lines or downward-facing lines.
@@ -133,10 +148,12 @@ class ContentAnalysisViewController: UIViewController,
          Add additional filters based on trajectory speed, location, and properties.
          */
         if trajectoryDictionary[trajectory.uuid.uuidString]!.first!.x < trajectoryDictionary[trajectory.uuid.uuidString]!.last!.x
-            && trajectoryDictionary[trajectory.uuid.uuidString]!.first!.x < 0.5
+            && trajectoryDictionary[trajectory.uuid.uuidString]!.first!.x < 0.6 //left-ish to right-ish
+            && trajectoryDictionary[trajectory.uuid.uuidString]!.last!.x > 0.4
+            && trajectoryDictionary[trajectory.uuid.uuidString]!.first!.y - 0.1 >  trajectoryDictionary[trajectory.uuid.uuidString]!.last!.y //high y to low y
             && trajectoryDictionary[trajectory.uuid.uuidString]!.count >= 8
             && trajectory.equationCoefficients[0] <= 0
-            && trajectory.confidence > 0.9 {
+            && trajectory.confidence > 0.6 {
             return true
         } else {
             return false
@@ -227,6 +244,8 @@ extension ContentAnalysisViewController: CameraViewControllerOutputDelegate {
                               didReceiveBuffer buffer: CMSampleBuffer,
                               orientation: CGImagePropertyOrientation) {
         
+        let timestamp = CMSampleBufferGetPresentationTimeStamp(buffer)
+
         let visionHandler = VNImageRequestHandler(cmSampleBuffer: buffer,
                                                   orientation: orientation,
                                                   options: [:])
@@ -250,11 +269,13 @@ extension ContentAnalysisViewController: CameraViewControllerOutputDelegate {
             detectTrajectoryRequest.objectMinimumNormalizedRadius = 10.0 / Float(1920.0)
             detectTrajectoryRequest.objectMaximumNormalizedRadius = 30.0 / Float(1920.0)
             
+            
             // Help manage the real-time use case to improve the precision versus delay tradeoff.
-            detectTrajectoryRequest.targetFrameTime = CMTimeMake(value: 1, timescale: 60)
+            detectTrajectoryRequest.targetFrameTime = CMTimeMake(value: 1, timescale: 20)
             
             // The region of interest where the object is moving in the normalized image space.
             detectTrajectoryRequest.regionOfInterest = normalizedFrame
+            
             
             try visionHandler.perform([detectTrajectoryRequest])
         } catch {

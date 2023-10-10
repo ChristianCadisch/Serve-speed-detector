@@ -4,23 +4,26 @@ See LICENSE folder for this sample’s licensing information.
 Abstract:
 The app's home view controller that displays instructions and camera options.
 */
-
+import Photos
 import UIKit
 import AVFoundation
 import UniformTypeIdentifiers
 
-class HomeViewController: UIViewController {
+class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     var recordedVideoURL: URL?
     
     @IBAction func uploadVideoForAnalysis(_ sender: Any) {
         
-        // Create a document picker the sample app uses to upload a video to analyze.
-        let docPicker = UIDocumentPickerViewController(forOpeningContentTypes: [UTType.movie,
-                                                                                UTType.video], asCopy: true)
-        docPicker.delegate = self
-        docPicker.allowsMultipleSelection = false
-        present(docPicker, animated: true, completion: nil)
+        let alert = UIAlertController(title: "Choose Video", message: nil, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Camera Roll", style: .default, handler: { _ in
+            self.openGallery()
+        }))
+        alert.addAction(UIAlertAction(title: "Files", style: .default, handler: { _ in
+            self.openDocumentPicker()
+        }))
+        alert.addAction(UIAlertAction.init(title: "Cancel", style: .cancel, handler: nil))
+        self.present(alert, animated: true, completion: nil)
         
     }
     
@@ -28,6 +31,45 @@ class HomeViewController: UIViewController {
         performSegue(withIdentifier: ContentAnalysisViewController.segueDestinationId,
                      sender: self)
     }
+    
+    func openGallery() {
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.sourceType = .photoLibrary
+        imagePicker.mediaTypes = ["public.movie"]
+        present(imagePicker, animated: true, completion: nil)
+    }
+
+    func openDocumentPicker() {
+        let docPicker = UIDocumentPickerViewController(forOpeningContentTypes: [UTType.movie, UTType.video], asCopy: true)
+        docPicker.delegate = self
+        docPicker.allowsMultipleSelection = false
+        present(docPicker, animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let pickedVideoUrl = info[UIImagePickerController.InfoKey.mediaURL] as? URL {
+            // Copy the video file to the app’s sandbox to ensure it persists
+            let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+            let destinationUrl = documentsDirectory.appendingPathComponent(pickedVideoUrl.lastPathComponent)
+            
+            do {
+                try FileManager.default.copyItem(at: pickedVideoUrl, to: destinationUrl)
+                recordedVideoURL = destinationUrl
+                
+                // Create an AVAsset from the URL
+                let videoAsset = AVAsset(url: destinationUrl)
+                // Now you can use videoAsset for further processing
+                
+                performSegue(withIdentifier: ContentAnalysisViewController.segueDestinationId, sender: self)
+            } catch {
+                print("Error copying file: \(error.localizedDescription)")
+            }
+        }
+        picker.dismiss(animated: true, completion: nil)
+    }
+
+    
     
 }
 
