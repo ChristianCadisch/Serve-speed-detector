@@ -17,7 +17,7 @@ class ContentAnalysisViewController: UIViewController,
     
     // MARK: - IBOutlets
     @IBOutlet var closeButton: UIButton!
-    @IBOutlet weak var serveSpeed: UILabel!
+    @IBOutlet weak var serveSpeedLabel: UILabel!
     
     // MARK: - IBActions
     @IBAction func closeRootViewTapped(_ sender: Any) {
@@ -107,11 +107,11 @@ class ContentAnalysisViewController: UIViewController,
                 
                 //@ChatGPT: add duration of trajectory
                 //self.trajectoryView.duration = trajectory.timeRange.duration.seconds
-                self.trajectoryView.speed = Double(3.6*18) / trajectory.timeRange.duration.seconds
+                self.trajectoryView.speed = round(Double(3.6*18) / trajectory.timeRange.duration.seconds)
 
                 
-                print("Speed: \(self.trajectoryView.speed) km/h")
-                self.serveSpeed.text = String(format: "Ball speed: %.2f°", self.trajectoryView.speed)
+                //print("Speed: \(self.trajectoryView.speed) km/h")
+                self.serveSpeedLabel.text = String(format: "Speed: \(self.trajectoryView.speed) km/h")
 
                 
                 // Determine the size of the moving object that the app tracks.
@@ -147,8 +147,8 @@ class ContentAnalysisViewController: UIViewController,
          
          Add additional filters based on trajectory speed, location, and properties.
          */
-        if trajectoryDictionary[trajectory.uuid.uuidString]!.first!.x < trajectoryDictionary[trajectory.uuid.uuidString]!.last!.x
-            && trajectoryDictionary[trajectory.uuid.uuidString]!.first!.x < 0.6 //left-ish to right-ish
+        if trajectoryDictionary[trajectory.uuid.uuidString]!.first!.x < trajectoryDictionary[trajectory.uuid.uuidString]!.last!.x //left to right
+            && trajectoryDictionary[trajectory.uuid.uuidString]!.first!.x < 0.6
             && trajectoryDictionary[trajectory.uuid.uuidString]!.last!.x > 0.4
             && trajectoryDictionary[trajectory.uuid.uuidString]!.first!.y - 0.1 >  trajectoryDictionary[trajectory.uuid.uuidString]!.last!.y //high y to low y
             && trajectoryDictionary[trajectory.uuid.uuidString]!.count >= 8
@@ -232,8 +232,10 @@ class ContentAnalysisViewController: UIViewController,
         // Add a custom trajectory view for overlaying trajectories.
         view.addSubview(trajectoryView)
         view.addSubview(closeButton)
+        view.addSubview(serveSpeedLabel)
         view.bringSubviewToFront(closeButton)
-        
+        view.bringSubviewToFront(serveSpeedLabel)
+
     }
     
 }

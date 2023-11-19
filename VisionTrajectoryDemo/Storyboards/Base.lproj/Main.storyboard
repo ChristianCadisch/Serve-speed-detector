@@ -100,14 +100,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="852" height="393"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Serve Speed" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2fb-IP-nFs">
-                                <rect key="frame" x="666" y="320" width="97" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" name="AccentColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rFZ-La-cLY">
                                 <rect key="frame" x="762" y="0.0" width="50" height="50"/>
                                 <constraints>
@@ -124,6 +116,14 @@
                                     <action selector="closeRootViewTapped:" destination="h3a-QN-pq7" eventType="touchUpInside" id="0bP-Oh-1aC"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Serve Speed" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2fb-IP-nFs">
+                                <rect key="frame" x="584" y="320" width="173" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" name="AccentColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Kj0-W5-a9q"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -135,12 +135,12 @@
                     <navigationItem key="navigationItem" id="Lee-tK-rEb"/>
                     <connections>
                         <outlet property="closeButton" destination="rFZ-La-cLY" id="O9y-Wl-UzJ"/>
-                        <outlet property="serveSpeed" destination="2fb-IP-nFs" id="r9U-D1-SpI"/>
+                        <outlet property="serveSpeedLabel" destination="2fb-IP-nFs" id="ZRX-Kh-2zT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZCH-Z4-h2R" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="29" y="1116"/>
+            <point key="canvasLocation" x="28.87323943661972" y="1115.2671755725191"/>
         </scene>
     </scenes>
     <resources>
