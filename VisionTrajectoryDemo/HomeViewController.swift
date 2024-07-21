@@ -48,25 +48,37 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let pickedVideoUrl = info[UIImagePickerController.InfoKey.mediaURL] as? URL {
-            // Copy the video file to the app’s sandbox to ensure it persists
-            let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-            let destinationUrl = documentsDirectory.appendingPathComponent(pickedVideoUrl.lastPathComponent)
+        guard let pickedVideoUrl = info[UIImagePickerController.InfoKey.mediaURL] as? URL else {
+            print("Failed to get the video URL from the picker")
+            picker.dismiss(animated: true, completion: nil)
+            return
+        }
+        
+        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let destinationUrl = documentsDirectory.appendingPathComponent(pickedVideoUrl.lastPathComponent)
+        
+        // Dismiss the picker first, then process the video and present the next view controller
+        picker.dismiss(animated: true) { [weak self] in
+            guard let self = self else { return }
             
             do {
+                if FileManager.default.fileExists(atPath: destinationUrl.path) {
+                    try FileManager.default.removeItem(at: destinationUrl)
+                }
                 try FileManager.default.copyItem(at: pickedVideoUrl, to: destinationUrl)
-                recordedVideoURL = destinationUrl
+                self.recordedVideoURL = destinationUrl
                 
                 // Create an AVAsset from the URL
                 let videoAsset = AVAsset(url: destinationUrl)
-                // Now you can use videoAsset for further processing
                 
-                performSegue(withIdentifier: ContentAnalysisViewController.segueDestinationId, sender: self)
+                // Perform the segue on the main thread after the picker is dismissed
+                DispatchQueue.main.async {
+                    self.performSegue(withIdentifier: ContentAnalysisViewController.segueDestinationId, sender: self)
+                }
             } catch {
-                print("Error copying file: \(error.localizedDescription)")
+                print("Error processing video: \(error.localizedDescription)")
             }
         }
-        picker.dismiss(animated: true, completion: nil)
     }
 
     
@@ -76,7 +88,6 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
 extension HomeViewController: UIDocumentPickerDelegate {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
         guard let controller = segue.destination as? ContentAnalysisViewController else {
             print("Failed to load the content analysis view controller.")
             return
@@ -86,8 +97,10 @@ extension HomeViewController: UIDocumentPickerDelegate {
             print("Failed to load a video path.")
             return
         }
+        
         controller.recordedVideoSource = AVAsset(url: videoURL)
-    
+        // Reset the URL after passing it to the next view controller
+        recordedVideoURL = nil
     }
     
     func  documentPicker(_ controller: UIDocumentPickerViewController,

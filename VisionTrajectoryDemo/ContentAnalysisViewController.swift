@@ -36,9 +36,6 @@ class ContentAnalysisViewController: UIViewController,
     // A dictionary that stores all trajectories.
     private var trajectoryDictionary: [String: [VNPoint]] = [:]
     
-    //add duration dictionary
-    private var trajectoryTimeDictionary: [String: (startTime: CMTime, endTime: CMTime)] = [:]
-
     
     // MARK: - Life Cycle
     
@@ -69,8 +66,8 @@ class ContentAnalysisViewController: UIViewController,
          Setting the trajectory length to 6 so the framework returns trajectories of a length of 6 or greater.
          Use a shorter length for real-time apps, and use longer lengths to observe finer and longer curves.
          */
-        detectTrajectoryRequest = VNDetectTrajectoriesRequest(frameAnalysisSpacing: CMTime(value: 10, timescale: 600),
-                                                              trajectoryLength: 2) { [weak self] (request: VNRequest, error: Error?) -> Void in
+        detectTrajectoryRequest = VNDetectTrajectoriesRequest(frameAnalysisSpacing: CMTime(value: 0, timescale: 600),
+                                                              trajectoryLength: 5) { [weak self] (request: VNRequest, error: Error?) -> Void in
             
             guard let results = request.results as? [VNTrajectoryObservation] else {
                 return
@@ -86,15 +83,19 @@ class ContentAnalysisViewController: UIViewController,
     }
     
     // MARK: - Private Methods
-    
+    private var lastProcessedTrajectory: VNTrajectoryObservation?
+    private var framesWithoutUpdate: Int = 0
+    private let frameThresholdForCompletion = 10 // Adjust this value as needed
     private func processTrajectoryObservation(results: [VNTrajectoryObservation]) {
-        
         // Clear and reset the trajectory view if there are no trajectories.
         guard !results.isEmpty else {
             trajectoryView.resetPath()
+            checkForCompletedTrajectory()
             return
         }
         //print("Total trajectory count: \(results.count)")
+        
+        var currentTrajectory: VNTrajectoryObservation?
         
         for trajectory in results {
             // Filter the trajectory.
@@ -105,20 +106,37 @@ class ContentAnalysisViewController: UIViewController,
                 // Display a transition.
                 trajectoryView.performTransition(.fadeIn, duration: 0.05)
                 
-                //@ChatGPT: add duration of trajectory
-                //self.trajectoryView.duration = trajectory.timeRange.duration.seconds
-                self.trajectoryView.speed = round(Double(3.6*18) / trajectory.timeRange.duration.seconds)
-
-                
-                //print("Speed: \(self.trajectoryView.speed) km/h")
-                self.serveSpeedLabel.text = String(format: "Speed: \(self.trajectoryView.speed) km/h")
-
-                
-                // Determine the size of the moving object that the app tracks.
-                //print("The object's moving average radius: \(trajectory.movingAverageRadius)")
+                currentTrajectory = trajectory
             }
         }
-    
+        
+        if let currentTrajectory = currentTrajectory {
+            if currentTrajectory.uuid == lastProcessedTrajectory?.uuid {
+                framesWithoutUpdate = 0
+            } else {
+                checkForCompletedTrajectory()
+                lastProcessedTrajectory = currentTrajectory
+                framesWithoutUpdate = 0
+            }
+        } else {
+            checkForCompletedTrajectory()
+        }
+    }
+
+    private func checkForCompletedTrajectory() {
+        framesWithoutUpdate += 1
+        
+        if framesWithoutUpdate >= frameThresholdForCompletion, let lastTrajectory = lastProcessedTrajectory {
+            // The previous trajectory is considered finished
+            let speed = round(Double(3.6*18) / lastTrajectory.timeRange.duration.seconds)
+            print("Duration: ", lastTrajectory.timeRange.duration.seconds)
+            self.trajectoryView.speed = speed
+            self.serveSpeedLabel.text = String(format: "Speed: %.1f km/h", speed)
+            
+            // Reset after displaying the speed
+            lastProcessedTrajectory = nil
+            framesWithoutUpdate = 0
+        }
     }
     
     private func filterParabola(trajectory: VNTrajectoryObservation) -> Bool {
