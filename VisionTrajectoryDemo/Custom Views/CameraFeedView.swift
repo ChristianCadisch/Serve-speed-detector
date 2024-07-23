@@ -5,6 +5,7 @@ Abstract:
 A view that displays the live-camera feed.
 */
 
+
 import UIKit
 import AVFoundation
 
@@ -39,3 +40,4 @@ class CameraFeedView: UIView, NormalizedRectConverting {
     }
     
 }
+

@@ -9,42 +9,21 @@ import UIKit
 import AVFoundation
 import UniformTypeIdentifiers
 
-class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
+class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, ContentAnalysisViewControllerDelegate {
+
     var recordedVideoURL: URL?
     
-    @IBAction func uploadVideoForAnalysis(_ sender: Any) {
-        
-        let alert = UIAlertController(title: "Choose Video", message: nil, preferredStyle: .actionSheet)
-        alert.addAction(UIAlertAction(title: "Camera Roll", style: .default, handler: { _ in
-            self.openGallery()
-        }))
-        alert.addAction(UIAlertAction(title: "Files", style: .default, handler: { _ in
-            self.openDocumentPicker()
-        }))
-        alert.addAction(UIAlertAction.init(title: "Cancel", style: .cancel, handler: nil))
-        self.present(alert, animated: true, completion: nil)
-        
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        openGallery()
     }
-    
-    @IBAction func startCameraForAnalysis(_ sender: Any) {
-        performSegue(withIdentifier: ContentAnalysisViewController.segueDestinationId,
-                     sender: self)
-    }
-    
+
     func openGallery() {
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
         imagePicker.sourceType = .photoLibrary
         imagePicker.mediaTypes = ["public.movie"]
         present(imagePicker, animated: true, completion: nil)
-    }
-
-    func openDocumentPicker() {
-        let docPicker = UIDocumentPickerViewController(forOpeningContentTypes: [UTType.movie, UTType.video], asCopy: true)
-        docPicker.delegate = self
-        docPicker.allowsMultipleSelection = false
-        present(docPicker, animated: true, completion: nil)
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
@@ -81,11 +60,9 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         }
     }
 
-    
-    
-}
-
-extension HomeViewController: UIDocumentPickerDelegate {
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
+    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let controller = segue.destination as? ContentAnalysisViewController else {
@@ -99,27 +76,15 @@ extension HomeViewController: UIDocumentPickerDelegate {
         }
         
         controller.recordedVideoSource = AVAsset(url: videoURL)
+        controller.delegate = self
         // Reset the URL after passing it to the next view controller
         recordedVideoURL = nil
     }
     
-    func  documentPicker(_ controller: UIDocumentPickerViewController,
-                         didPickDocumentsAt urls: [URL]) {
-        
-        guard let url = urls.first else {
-            print("Failed to find a document path at the selected path.")
-            return
+    func contentAnalysisViewControllerDidFinish(_ controller: ContentAnalysisViewController) {
+        controller.dismiss(animated: true) {
+            self.openGallery()
         }
-        recordedVideoURL = url
-        performSegue(withIdentifier: ContentAnalysisViewController.segueDestinationId,
-                     sender: self)
-        recordedVideoURL = nil
-        
     }
-    
-    func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
-        
-    }
-    
 }
 

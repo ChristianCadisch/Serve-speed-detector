@@ -48,59 +48,7 @@ class CameraViewController: UIViewController {
     
     // MARK: - Public Methods
     
-    func setupAVSession() throws {
-        
-        // Create a device discovery session.
-        let wideAngle = AVCaptureDevice.DeviceType.builtInWideAngleCamera
-        let discoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [wideAngle],
-                                                                mediaType: .video,
-                                                                position: .back)
-        
-        // Select a video device and make an input.
-        guard let videoDevice = discoverySession.devices.first else {
-            throw AppError.captureSessionSetup(reason: "Couldn't find a wide angle camera device.")
-        }
-        
-        guard let deviceInput = try? AVCaptureDeviceInput(device: videoDevice) else {
-            throw AppError.captureSessionSetup(reason: "Couldn't create an input video device.")
-        }
-        
-        let session = AVCaptureSession()
-        session.beginConfiguration()
-        session.sessionPreset = .hd1920x1080
-        
-        // Add a video input.
-        guard session.canAddInput(deviceInput) else {
-            throw AppError.captureSessionSetup(reason: "Couldn't add an input video device to the session.")
-        }
-        session.addInput(deviceInput)
-        
-        let dataOutput = AVCaptureVideoDataOutput()
-        if session.canAddOutput(dataOutput) {
-            session.addOutput(dataOutput)
-            // Add a video data output.
-            dataOutput.alwaysDiscardsLateVideoFrames = true
-            dataOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as String: Int(kCVPixelFormatType_420YpCbCr8BiPlanarFullRange)]
-            dataOutput.setSampleBufferDelegate(self, queue: videoDataOutputQueue)
-        } else {
-            throw AppError.captureSessionSetup(reason: "Couldn't add video data output to the session.")
-        }
-        
-        let captureConnection = dataOutput.connection(with: .video)
-        captureConnection?.preferredVideoStabilizationMode = .standard
-        captureConnection?.isEnabled = true
-        session.commitConfiguration()
-        cameraFeedSession = session
-        
-        cameraFeedView = CameraFeedView(frame: view.bounds, session: session)
-        setupVideoOutputView(cameraFeedView)
-        
-        let backgroundQueue = DispatchQueue(label: "background_queue", qos: .background)
-        backgroundQueue.async { [weak self] in
-            self?.cameraFeedSession?.startRunning()
-        }
-        
-    }
+    
     
     func viewRectForVisionRect(_ visionRect: CGRect) -> CGRect {
         
@@ -220,12 +168,3 @@ class CameraViewController: UIViewController {
     
 }
 
-extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
-    
-    func captureOutput(_ output: AVCaptureOutput,
-                       didOutput sampleBuffer: CMSampleBuffer,
-                       from connection: AVCaptureConnection) {
-        outputDelegate?.cameraViewController(self, didReceiveBuffer: sampleBuffer, orientation: .up)
-    }
-    
-}

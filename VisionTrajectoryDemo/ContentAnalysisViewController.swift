@@ -1,13 +1,17 @@
 /*
-See LICENSE folder for this sample’s licensing information.
-
-Abstract:
-The app's view controller that handles the trajectory analysis.
-*/
+ See LICENSE folder for this sample’s licensing information.
+ 
+ Abstract:
+ The app's view controller that handles the trajectory analysis.
+ */
 
 import UIKit
 import AVFoundation
 import Vision
+
+protocol ContentAnalysisViewControllerDelegate: AnyObject {
+    func contentAnalysisViewControllerDidFinish(_ controller: ContentAnalysisViewController)
+}
 
 class ContentAnalysisViewController: UIViewController,
                                      AVCaptureVideoDataOutputSampleBufferDelegate {
@@ -21,8 +25,14 @@ class ContentAnalysisViewController: UIViewController,
     
     // MARK: - IBActions
     @IBAction func closeRootViewTapped(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
-    }
+            print("close tapped")
+            dismiss(animated: true, completion: {
+                self.delegate?.contentAnalysisViewControllerDidFinish(self)
+            })
+        }
+    
+    // MARK: - Public Properties
+        weak var delegate: ContentAnalysisViewControllerDelegate?
     
     // MARK: - Public Properties
     var recordedVideoSource: AVAsset?
@@ -42,6 +52,7 @@ class ContentAnalysisViewController: UIViewController,
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
+        extractFrameRate()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -66,7 +77,7 @@ class ContentAnalysisViewController: UIViewController,
          Setting the trajectory length to 6 so the framework returns trajectories of a length of 6 or greater.
          Use a shorter length for real-time apps, and use longer lengths to observe finer and longer curves.
          */
-        detectTrajectoryRequest = VNDetectTrajectoriesRequest(frameAnalysisSpacing: CMTime(value: 0, timescale: 600),
+        detectTrajectoryRequest = VNDetectTrajectoriesRequest(frameAnalysisSpacing: CMTime(value: 10, timescale: 600),
                                                               trajectoryLength: 5) { [weak self] (request: VNRequest, error: Error?) -> Void in
             
             guard let results = request.results as? [VNTrajectoryObservation] else {
@@ -83,19 +94,34 @@ class ContentAnalysisViewController: UIViewController,
     }
     
     // MARK: - Private Methods
-    private var lastProcessedTrajectory: VNTrajectoryObservation?
-    private var framesWithoutUpdate: Int = 0
-    private let frameThresholdForCompletion = 10 // Adjust this value as needed
+    
+    
+    private var videoFrameRate: Float = 0.0
+    
+    private func extractFrameRate() {
+        guard let videoAsset = recordedVideoSource else {
+            print("No video asset available")
+            return
+        }
+        
+        let tracks = videoAsset.tracks(withMediaType: .video)
+        guard let videoTrack = tracks.first else {
+            print("No video track found")
+            return
+        }
+        
+        videoFrameRate = videoTrack.nominalFrameRate
+        print("Video frame rate: \(videoFrameRate) fps")
+    }
+    
+    
+    
     private func processTrajectoryObservation(results: [VNTrajectoryObservation]) {
         // Clear and reset the trajectory view if there are no trajectories.
         guard !results.isEmpty else {
             trajectoryView.resetPath()
-            checkForCompletedTrajectory()
             return
         }
-        //print("Total trajectory count: \(results.count)")
-        
-        var currentTrajectory: VNTrajectoryObservation?
         
         for trajectory in results {
             // Filter the trajectory.
@@ -106,38 +132,20 @@ class ContentAnalysisViewController: UIViewController,
                 // Display a transition.
                 trajectoryView.performTransition(.fadeIn, duration: 0.05)
                 
-                currentTrajectory = trajectory
+                let speed = round(Double(3.6*18) / trajectory.timeRange.duration.seconds)
+                
+                self.trajectoryView.speed = speed
+                self.serveSpeedLabel.text = String(format: "Speed: %.1f km/h", speed)
             }
-        }
-        
-        if let currentTrajectory = currentTrajectory {
-            if currentTrajectory.uuid == lastProcessedTrajectory?.uuid {
-                framesWithoutUpdate = 0
-            } else {
-                checkForCompletedTrajectory()
-                lastProcessedTrajectory = currentTrajectory
-                framesWithoutUpdate = 0
-            }
-        } else {
-            checkForCompletedTrajectory()
-        }
-    }
-
-    private func checkForCompletedTrajectory() {
-        framesWithoutUpdate += 1
-        
-        if framesWithoutUpdate >= frameThresholdForCompletion, let lastTrajectory = lastProcessedTrajectory {
-            // The previous trajectory is considered finished
-            let speed = round(Double(3.6*18) / lastTrajectory.timeRange.duration.seconds)
-            print("Duration: ", lastTrajectory.timeRange.duration.seconds)
-            self.trajectoryView.speed = speed
-            self.serveSpeedLabel.text = String(format: "Speed: %.1f km/h", speed)
             
-            // Reset after displaying the speed
-            lastProcessedTrajectory = nil
-            framesWithoutUpdate = 0
         }
+        
+        
     }
+    
+    
+    
+    
     
     private func filterParabola(trajectory: VNTrajectoryObservation) -> Bool {
         
@@ -155,13 +163,13 @@ class ContentAnalysisViewController: UIViewController,
         
         /**
          Filter the trajectory with the following conditions:
-            - The trajectory moves from left to right.
+         - The trajectory moves from left to right.
          - The trajectory starts in the first half of the region of interest.
          - The trajectory ens in the right half of the region of interest.
-            - The trajectory length increases to 8.
-            - The trajectory contains a parabolic equation constant a, less than or equal to 0, and implies there
-                are either straight lines or downward-facing lines.
-            - The trajectory confidence is greater than 0.9.
+         - The trajectory length increases to 8.
+         - The trajectory contains a parabolic equation constant a, less than or equal to 0, and implies there
+         are either straight lines or downward-facing lines.
+         - The trajectory confidence is greater than 0.9.
          
          Add additional filters based on trajectory speed, location, and properties.
          */
@@ -180,7 +188,7 @@ class ContentAnalysisViewController: UIViewController,
     }
     
     private func correctTrajectoryPath(trajectoryToCorrect: VNTrajectoryObservation) -> [VNPoint] {
-    
+        
         guard var basePoints = trajectoryDictionary[trajectoryToCorrect.uuid.uuidString],
               var basePointX = basePoints.first?.x else {
             return []
@@ -200,7 +208,7 @@ class ContentAnalysisViewController: UIViewController,
                 sum = sum + basePoints[i + 1].x - basePoints[i].x
             }
             let averageDifferenceInX = sum / 5.0
-        
+            
             while basePointX > 0.1 {
                 let nextXValue = basePointX - averageDifferenceInX
                 let aXX = Double(trajectoryToCorrect.equationCoefficients[0]) * nextXValue * nextXValue
@@ -239,7 +247,7 @@ class ContentAnalysisViewController: UIViewController,
                 cameraViewController.startReadingAsset(recordedVideoSource!)
             } else {
                 // Start live camera capture.
-                try cameraViewController.setupAVSession()
+                //try cameraViewController.setupAVSession()
             }
         } catch {
             AppError.display(error, inViewController: self)
@@ -253,7 +261,6 @@ class ContentAnalysisViewController: UIViewController,
         view.addSubview(serveSpeedLabel)
         view.bringSubviewToFront(closeButton)
         view.bringSubviewToFront(serveSpeedLabel)
-
     }
     
 }
@@ -264,8 +271,6 @@ extension ContentAnalysisViewController: CameraViewControllerOutputDelegate {
                               didReceiveBuffer buffer: CMSampleBuffer,
                               orientation: CGImagePropertyOrientation) {
         
-        let timestamp = CMSampleBufferGetPresentationTimeStamp(buffer)
-
         let visionHandler = VNImageRequestHandler(cmSampleBuffer: buffer,
                                                   orientation: orientation,
                                                   options: [:])
