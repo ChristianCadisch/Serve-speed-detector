@@ -32,7 +32,7 @@ class ContentAnalysisViewController: UIViewController,
         }
     
     // MARK: - Public Properties
-        weak var delegate: ContentAnalysisViewControllerDelegate?
+    weak var delegate: ContentAnalysisViewControllerDelegate?
     
     // MARK: - Public Properties
     var recordedVideoSource: AVAsset?
@@ -119,7 +119,7 @@ class ContentAnalysisViewController: UIViewController,
     private func processTrajectoryObservation(results: [VNTrajectoryObservation]) {
         // Clear and reset the trajectory view if there are no trajectories.
         guard !results.isEmpty else {
-            trajectoryView.resetPath()
+            //trajectoryView.resetPath()
             return
         }
         

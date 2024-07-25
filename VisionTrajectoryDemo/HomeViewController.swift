@@ -23,6 +23,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         imagePicker.delegate = self
         imagePicker.sourceType = .photoLibrary
         imagePicker.mediaTypes = ["public.movie"]
+        //imagePicker.modalPresentationStyle = .fullScreen
         present(imagePicker, animated: true, completion: nil)
     }
     
@@ -77,6 +78,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         
         controller.recordedVideoSource = AVAsset(url: videoURL)
         controller.delegate = self
+        controller.modalPresentationStyle = .fullScreen // Set full screen presentation style
         // Reset the URL after passing it to the next view controller
         recordedVideoURL = nil
     }
