@@ -43,6 +43,10 @@ class ContentAnalysisViewController: UIViewController,
     private var setupComplete = false
     private var detectTrajectoryRequest: VNDetectTrajectoriesRequest!
     
+    private var framesWithoutUpdate = 0
+    private var lastObservedTrajectory: VNTrajectoryObservation?
+    private let updateThreshold = 4 // Number of frames to wait before considering trajectory complete
+    
     // A dictionary that stores all trajectories.
     private var trajectoryDictionary: [String: [VNPoint]] = [:]
     
@@ -52,7 +56,7 @@ class ContentAnalysisViewController: UIViewController,
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
-        extractFrameRate()
+        // extractFrameRate()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -95,7 +99,7 @@ class ContentAnalysisViewController: UIViewController,
     
     // MARK: - Private Methods
     
-    
+    /*
     private var videoFrameRate: Float = 0.0
     
     private func extractFrameRate() {
@@ -113,34 +117,40 @@ class ContentAnalysisViewController: UIViewController,
         videoFrameRate = videoTrack.nominalFrameRate
         print("Video frame rate: \(videoFrameRate) fps")
     }
-    
+    */
     
     
     private func processTrajectoryObservation(results: [VNTrajectoryObservation]) {
-        // Clear and reset the trajectory view if there are no trajectories.
         guard !results.isEmpty else {
-            //trajectoryView.resetPath()
+            framesWithoutUpdate += 1
+            checkForTrajectoryCompletion()
             return
         }
-        
+
         for trajectory in results {
-            // Filter the trajectory.
             if filterParabola(trajectory: trajectory) {
-                // Verify and correct an incomplete path.
+                framesWithoutUpdate = 0
+                lastObservedTrajectory = trajectory
                 trajectoryView.points = correctTrajectoryPath(trajectoryToCorrect: trajectory)
-                
-                // Display a transition.
                 trajectoryView.performTransition(.fadeIn, duration: 0.05)
                 
-                let speed = round(Double(3.6*18) / trajectory.timeRange.duration.seconds)
-                
-                self.trajectoryView.speed = speed
-                self.serveSpeedLabel.text = String(format: "Speed: %.1f km/h", speed)
+                // Don't update speed here, just update the view
+                trajectoryView.speed = 0
+                serveSpeedLabel.text = "Measuring..."
             }
-            
         }
-        
-        
+    }
+    private func checkForTrajectoryCompletion() {
+        if framesWithoutUpdate >= updateThreshold, let lastTrajectory = lastObservedTrajectory {
+            // Trajectory is considered complete, update the speed
+            let speed = round(Double(3.6*18) / lastTrajectory.timeRange.duration.seconds)
+            trajectoryView.speed = speed
+            serveSpeedLabel.text = String(format: "%.0f km/h", speed)
+            
+            // Reset for next trajectory
+            lastObservedTrajectory = nil
+            framesWithoutUpdate = 0
+        }
     }
     
     
@@ -262,7 +272,6 @@ class ContentAnalysisViewController: UIViewController,
         view.bringSubviewToFront(closeButton)
         view.bringSubviewToFront(serveSpeedLabel)
     }
-    
 }
 
 extension ContentAnalysisViewController: CameraViewControllerOutputDelegate {
@@ -303,6 +312,7 @@ extension ContentAnalysisViewController: CameraViewControllerOutputDelegate {
             
             
             try visionHandler.perform([detectTrajectoryRequest])
+            checkForTrajectoryCompletion()
         } catch {
             print("Failed to perform the trajectory request: \(error.localizedDescription)")
             return
