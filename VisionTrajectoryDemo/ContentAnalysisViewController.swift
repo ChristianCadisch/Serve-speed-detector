@@ -60,6 +60,9 @@ class ContentAnalysisViewController: UIViewController,
         super.viewDidLoad()
         configureView()
         // extractFrameRate()
+        if let recordedVideoSource = recordedVideoSource {
+                    cameraViewController.startReadingAsset(recordedVideoSource)
+                }
     }
     
     override func viewDidDisappear(_ animated: Bool) {

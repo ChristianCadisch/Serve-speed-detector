@@ -13,6 +13,7 @@ import SwiftUI
 
 struct FeedView: View {
     @State private var analyzedVideos: [URL] = []
+    @State private var selectedVideo: URL?
     var onAddTapped: () -> Void
     
     @AppStorage("HighestScore") private var highestScore: Int = 0
@@ -41,10 +42,13 @@ struct FeedView: View {
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: 10) {
                         ForEach(analyzedVideos, id: \.self) { videoURL in
-                            VideoURLView(videoURL: videoURL)
-                                .frame(height: 100)
+                            ThumbnailView(videoURL: videoURL)
+                                .frame(height: 150)
                                 .background(Color.gray.opacity(0.2))
                                 .cornerRadius(10)
+                                .onTapGesture {
+                                    selectedVideo = videoURL
+                                }
                         }
                     }
                     .padding()
@@ -58,7 +62,11 @@ struct FeedView: View {
             highestScore = UserDefaults.standard.integer(forKey: "HighestScore")
             loadAnalyzedVideos()
         }
+        .sheet(item: $selectedVideo) { videoURL in
+            ContentAnalysisViewControllerWrapper(videoURL: videoURL)
+        }
     }
+    
     
     private var addButton: some View {
         Button(action: onAddTapped) {
@@ -74,55 +82,55 @@ struct FeedView: View {
     }
 }
 
-struct VideoURLView: View {
-    let videoURL: URL
-    
-    var body: some View {
-        VStack {
-            Image(systemName: "video")
-                .font(.largeTitle)
-                .foregroundColor(.blue)
-            Text(videoURL.lastPathComponent)
-                .font(.caption)
-                .lineLimit(2)
-                .multilineTextAlignment(.center)
-        }
-        .padding()
+extension URL: Identifiable {
+    public var id: String {
+        self.absoluteString
     }
 }
 
-
-struct VideoThumbnailView: View {
+struct ThumbnailView: View {
     let videoURL: URL
     @State private var thumbnail: UIImage?
     
     var body: some View {
-        Group {
+        VStack {
             if let thumbnail = thumbnail {
                 Image(uiImage: thumbnail)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
+                    .frame(height: 100)
+                    .clipped()
             } else {
-                Color.gray
+                ProgressView()
+                    .frame(height: 100)
             }
+            
         }
-        .onAppear(perform: generateThumbnail)
+        .onAppear(perform: loadThumbnail)
     }
     
-    private func generateThumbnail() {
-        print("VideoThumbnailView: Generating thumbnail for \(videoURL)")
+    private func loadThumbnail() {
         let asset = AVAsset(url: videoURL)
         let imageGenerator = AVAssetImageGenerator(asset: asset)
         imageGenerator.appliesPreferredTrackTransform = true
         
         do {
             let cgImage = try imageGenerator.copyCGImage(at: .zero, actualTime: nil)
-            DispatchQueue.main.async {
-                self.thumbnail = UIImage(cgImage: cgImage)
-                print("VideoThumbnailView: Thumbnail generated successfully")
-            }
+            thumbnail = UIImage(cgImage: cgImage)
         } catch {
-            print("VideoThumbnailView: Error generating thumbnail: \(error)")
+            print("Error generating thumbnail: \(error)")
         }
     }
+}
+
+struct ContentAnalysisViewControllerWrapper: UIViewControllerRepresentable {
+    let videoURL: URL
+
+    func makeUIViewController(context: Context) -> ContentAnalysisViewController {
+        let controller = ContentAnalysisViewController()
+        controller.recordedVideoSource = AVAsset(url: videoURL)
+        return controller
+    }
+
+    func updateUIViewController(_ uiViewController: ContentAnalysisViewController, context: Context) {}
 }

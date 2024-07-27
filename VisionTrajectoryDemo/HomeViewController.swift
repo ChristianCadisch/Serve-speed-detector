@@ -23,13 +23,21 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         }
     
     func addNewVideoURL(_ url: URL) {
+        print("HomeViewController: Attempting to add URL: \(url.absoluteString)")
         var savedURLs = UserDefaults.standard.stringArray(forKey: "AnalyzedVideos") ?? []
-        savedURLs.append(url.absoluteString)
-        UserDefaults.standard.set(savedURLs, forKey: "AnalyzedVideos")
-        print("Added new video URL, total count: \(savedURLs.count)")
+        let filename = url.lastPathComponent
         
-        // Notify FeedView to refresh
-        NotificationCenter.default.post(name: .highestScoreUpdated, object: nil)
+        if !savedURLs.contains(where: { URL(string: $0)?.lastPathComponent == filename }) {
+            savedURLs.append(url.absoluteString)
+            UserDefaults.standard.set(savedURLs, forKey: "AnalyzedVideos")
+            print("HomeViewController: Added new video URL, total count: \(savedURLs.count)")
+            
+            NotificationCenter.default.post(name: .highestScoreUpdated, object: nil)
+        } else {
+            print("HomeViewController: Video with filename \(filename) already exists, not adding duplicate")
+        }
+        
+        print("HomeViewController: Current saved URLs: \(savedURLs)")
     }
         
     private func setupFeedView() {
@@ -56,26 +64,34 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             }
         }
     
-    public func loadAnalyzedVideos() {
-            if let savedURLs = UserDefaults.standard.array(forKey: "AnalyzedVideos") as? [String] {
-                analyzedVideos = savedURLs.compactMap { URL(string: $0) }
-                print("HomeViewController: Loaded \(analyzedVideos.count) video URLs")
-            }
+    private func loadAnalyzedVideos() {
+        if let savedURLs = UserDefaults.standard.stringArray(forKey: "AnalyzedVideos") {
+            analyzedVideos = savedURLs.compactMap { URL(string: $0) }
+            print("FeedView: Loaded \(analyzedVideos.count) video URLs")
+        } else {
+            print("FeedView: No saved URLs found")
         }
+    }
         
     private func addAnalyzedVideo(_ url: URL) {
-            DispatchQueue.main.async {
-                self.analyzedVideos.append(url)
-                let savedURLs = self.analyzedVideos.map { $0.absoluteString }
+        print("ContentAnalysisViewController: Attempting to add URL: \(url.absoluteString)")
+        DispatchQueue.main.async {
+            var savedURLs = UserDefaults.standard.stringArray(forKey: "AnalyzedVideos") ?? []
+            let filename = url.lastPathComponent
+            
+            if !savedURLs.contains(where: { URL(string: $0)?.lastPathComponent == filename }) {
+                savedURLs.append(url.absoluteString)
                 UserDefaults.standard.set(savedURLs, forKey: "AnalyzedVideos")
-                print("HomeViewController: Added new video URL, total count: \(self.analyzedVideos.count)")
+                print("ContentAnalysisViewController: Added new video URL, total count: \(savedURLs.count)")
                 
-                // Force update the SwiftUI view
-                self.feedView.rootView = FeedView(onAddTapped: { [weak self] in
-                    self?.openGallery()
-                })
+                NotificationCenter.default.post(name: .highestScoreUpdated, object: nil)
+            } else {
+                print("ContentAnalysisViewController: Video with filename \(filename) already exists, not adding duplicate")
             }
+            
+            print("ContentAnalysisViewController: Current saved URLs: \(savedURLs)")
         }
+    }
     
     @objc private func addButtonTapped() {
             openGallery()
