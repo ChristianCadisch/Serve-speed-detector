@@ -23,22 +23,23 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         }
     
     func addNewVideoURL(_ url: URL) {
-        print("HomeViewController: Attempting to add URL: \(url.absoluteString)")
-        var savedURLs = UserDefaults.standard.stringArray(forKey: "AnalyzedVideos") ?? []
-        let filename = url.lastPathComponent
-        
-        if !savedURLs.contains(where: { URL(string: $0)?.lastPathComponent == filename }) {
-            savedURLs.append(url.absoluteString)
-            UserDefaults.standard.set(savedURLs, forKey: "AnalyzedVideos")
-            print("HomeViewController: Added new video URL, total count: \(savedURLs.count)")
+            print("HomeViewController: Attempting to add URL: \(url.absoluteString)")
+            var savedURLs = UserDefaults.standard.stringArray(forKey: "AnalyzedVideos") ?? []
+            let filename = url.lastPathComponent
             
-            NotificationCenter.default.post(name: .highestScoreUpdated, object: nil)
-        } else {
-            print("HomeViewController: Video with filename \(filename) already exists, not adding duplicate")
+            if !savedURLs.contains(where: { URL(string: $0)?.lastPathComponent == filename }) {
+                savedURLs.append(url.absoluteString)
+                UserDefaults.standard.set(savedURLs, forKey: "AnalyzedVideos")
+                print("HomeViewController: Added new video URL, total count: \(savedURLs.count)")
+                
+                NotificationCenter.default.post(name: .highestScoreUpdated, object: nil)
+                NotificationCenter.default.post(name: .newVideoAdded, object: nil)
+            } else {
+                print("HomeViewController: Video with filename \(filename) already exists, not adding duplicate")
+            }
+            
+            print("HomeViewController: Current saved URLs: \(savedURLs)")
         }
-        
-        print("HomeViewController: Current saved URLs: \(savedURLs)")
-    }
         
     private func setupFeedView() {
             let swiftUIView = FeedView(onAddTapped: { [weak self] in

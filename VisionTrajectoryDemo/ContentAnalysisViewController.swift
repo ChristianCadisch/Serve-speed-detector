@@ -412,6 +412,3 @@ extension ContentAnalysisViewController: CameraViewControllerOutputDelegate {
     
 }
 
-extension Notification.Name {
-    static let highestScoreUpdated = Notification.Name("highestScoreUpdated")
-}

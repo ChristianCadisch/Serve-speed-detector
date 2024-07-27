@@ -10,7 +10,6 @@ import Foundation
 import AVFoundation
 
 import SwiftUI
-
 struct FeedView: View {
     @State private var analyzedVideos: [URL] = []
     @State private var selectedVideo: URL?
@@ -19,55 +18,85 @@ struct FeedView: View {
     @AppStorage("HighestScore") private var highestScore: Int = 0
     @State private var fastestSpeeds: [URL: Double] = [:]
     
-    
     var body: some View {
-            NavigationView {
+            VStack(spacing: 0) {
+                // Highest Score Display
                 VStack {
-                    // Highest Score Display
-                    VStack {
-                        Text("Highest Score")
-                            .font(.headline)
-                        Text("\(highestScore) km/h")
-                            .font(.title)
-                            .fontWeight(.bold)
-                    }
-                    .padding()
-                    .background(Color.yellow.opacity(0.2))
-                    .cornerRadius(10)
-                    .padding(.top)
-                    
-                    ScrollView {
-                                        LazyVStack(spacing: 16) {
-                                            ForEach(analyzedVideos, id: \.self) { videoURL in
-                                                let speed = fastestSpeeds[videoURL] ?? 0
-                                                ThumbnailView(
-                                                    videoURL: videoURL,
-                                                    fastestSpeed: speed,
-                                                    username: "User \(analyzedVideos.firstIndex(of: videoURL)! + 1)",
-                                                    rank: Int.random(in: 1...1000),
-                                                    onDelete: {
-                                                        deleteVideo(videoURL)
-                                                    },
-                                                    onThumbnailTap: {
-                                                        selectedVideo = videoURL
-                                                    }
-                                                )
-                                            }
-                                        }
-                                        .padding()
-                                    }
+                    Text("Highest Score")
+                        .font(.headline)
+                    Text("\(highestScore) km/h")
+                        .font(.title)
+                        .fontWeight(.bold)
+                }
+                .padding()
+                .frame(maxWidth: .infinity)
+                .background(Color.yellow.opacity(0.2))
+                
+                // Video Feed
+                ScrollView {
+                    LazyVStack(spacing: 16) {
+                        ForEach(analyzedVideos, id: \.self) { videoURL in
+                            let speed = fastestSpeeds[videoURL] ?? 0
+                            ThumbnailView(
+                                videoURL: videoURL,
+                                fastestSpeed: speed,
+                                username: "User \(analyzedVideos.firstIndex(of: videoURL)! + 1)",
+                                rank: Int.random(in: 1...1000),
+                                onDelete: {
+                                    deleteVideo(videoURL)
+                                },
+                                onThumbnailTap: {
+                                    selectedVideo = videoURL
                                 }
-                                .navigationTitle("Analyzed Videos")
-                                .navigationBarItems(trailing: addButton)
-                            }
-                            .onAppear(perform: loadAnalyzedVideos)
-                            .onReceive(NotificationCenter.default.publisher(for: .highestScoreUpdated)) { _ in
-                                highestScore = UserDefaults.standard.integer(forKey: "HighestScore")
-                                loadAnalyzedVideos()
-                            }
-                            .sheet(item: $selectedVideo) { videoURL in
-                                ContentAnalysisViewControllerWrapper(videoURL: videoURL)
-                            }
+                            )
+                        }
+                    }
+                    .padding(.bottom, 60) // Add padding to account for the navbar
+                }
+            }
+            .overlay(navbar, alignment: .bottom)
+            .edgesIgnoringSafeArea(.bottom)
+            .onAppear(perform: loadAnalyzedVideos)
+            .onReceive(NotificationCenter.default.publisher(for: .highestScoreUpdated)) { _ in
+                highestScore = UserDefaults.standard.integer(forKey: "HighestScore")
+                loadAnalyzedVideos()
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .newVideoAdded)) { _ in
+                loadAnalyzedVideos()
+            }
+            .sheet(item: $selectedVideo) { videoURL in
+                ContentAnalysisViewControllerWrapper(videoURL: videoURL)
+            }
+        }
+    
+    private var navbar: some View {
+        VStack(spacing: 0) {
+            HStack {
+                Spacer()
+                NavigationBarItem(imageName: "house.fill", isActive: true)
+                Spacer()
+                Button(action: onAddTapped) {
+                    Image(systemName: "plus.circle.fill")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 30, height: 30)
+                        .foregroundColor(.gray)
+                }
+                Spacer()
+            }
+            .padding(.vertical, 8)
+            .background(Color.white)
+            .frame(height: 60)
+            
+            // Add bottom padding
+            Color.white.frame(height: 20) // Adjust this value as needed
+        }
+        .background(
+            Rectangle()
+                .fill(Color.white)
+                .shadow(color: Color.black.opacity(0.1), radius: 10, x: 0, y: -5)
+                .edgesIgnoringSafeArea(.bottom)
+        )
     }
     
     private func deleteVideo(_ videoURL: URL) {
@@ -99,11 +128,11 @@ struct FeedView: View {
     }
     
     private func loadAnalyzedVideos() {
-        if let savedURLs = UserDefaults.standard.stringArray(forKey: "AnalyzedVideos") {
-            analyzedVideos = savedURLs.compactMap { URL(string: $0) }
-            loadFastestSpeeds()
+            if let savedURLs = UserDefaults.standard.stringArray(forKey: "AnalyzedVideos") {
+                analyzedVideos = savedURLs.compactMap { URL(string: $0) }
+                loadFastestSpeeds()
+            }
         }
-    }
     
     private func loadFastestSpeeds() {
         print("Loading fastest speeds")
@@ -117,6 +146,20 @@ struct FeedView: View {
     }
 }
 
+
+struct NavigationBarItem: View {
+    let imageName: String
+    let isActive: Bool
+    
+    var body: some View {
+        Image(systemName: imageName)
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(width: 25, height: 25)
+            .foregroundColor(isActive ? .black : .gray)
+    }
+}
+
 extension URL: Identifiable {
     public var id: String {
         self.absoluteString
@@ -125,6 +168,11 @@ extension URL: Identifiable {
 
 extension Notification.Name {
     static let fastestSpeedUpdated = Notification.Name("fastestSpeedUpdated")
+}
+
+extension Notification.Name {
+    static let highestScoreUpdated = Notification.Name("highestScoreUpdated")
+    static let newVideoAdded = Notification.Name("newVideoAdded")
 }
 
 struct ThumbnailView: View {
