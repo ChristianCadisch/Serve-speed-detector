@@ -61,10 +61,14 @@ class ContentAnalysisViewController: UIViewController,
         configureView()
         setupButtonsAndLabels()
         // extractFrameRate()
+        /*
         if let recordedVideoSource = recordedVideoSource {
                     cameraViewController.startReadingAsset(recordedVideoSource)
                 }
+         */
     }
+    
+    
     
     private func setupButtonsAndLabels() {
             backButton = UIButton(type: .system)
