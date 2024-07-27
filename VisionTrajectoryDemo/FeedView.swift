@@ -17,6 +17,7 @@ struct FeedView: View {
     var onAddTapped: () -> Void
     
     @AppStorage("HighestScore") private var highestScore: Int = 0
+    @State private var fastestSpeeds: [URL: Double] = [:]
     
     let columns = [
         GridItem(.flexible()),
@@ -42,7 +43,9 @@ struct FeedView: View {
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: 10) {
                         ForEach(analyzedVideos, id: \.self) { videoURL in
-                            ThumbnailView(videoURL: videoURL)
+                            let speed = fastestSpeeds[videoURL] ?? 0
+                            //print("Creating ThumbnailView for \(videoURL.lastPathComponent) with speed: \(speed)")
+                            ThumbnailView(videoURL: videoURL, fastestSpeed: speed)
                                 .frame(height: 150)
                                 .background(Color.gray.opacity(0.2))
                                 .cornerRadius(10)
@@ -58,9 +61,17 @@ struct FeedView: View {
             .navigationBarItems(trailing: addButton)
         }
         .onAppear(perform: loadAnalyzedVideos)
+        .onReceive(NotificationCenter.default.publisher(for: .fastestSpeedUpdated)) { _ in
+            loadFastestSpeeds()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .fastestSpeedUpdated)) { _ in
+            print("Received fastestSpeedUpdated notification")
+            loadFastestSpeeds()
+        }
         .onReceive(NotificationCenter.default.publisher(for: .highestScoreUpdated)) { _ in
+            print("Received highestScoreUpdated notification")
             highestScore = UserDefaults.standard.integer(forKey: "HighestScore")
-            loadAnalyzedVideos()
+            print("Updated highest score: \(highestScore)")
         }
         .sheet(item: $selectedVideo) { videoURL in
             ContentAnalysisViewControllerWrapper(videoURL: videoURL)
@@ -77,7 +88,18 @@ struct FeedView: View {
     private func loadAnalyzedVideos() {
         if let savedURLs = UserDefaults.standard.stringArray(forKey: "AnalyzedVideos") {
             analyzedVideos = savedURLs.compactMap { URL(string: $0) }
-            print("FeedView: Loaded \(analyzedVideos.count) video URLs")
+            loadFastestSpeeds()
+        }
+    }
+    
+    private func loadFastestSpeeds() {
+        print("Loading fastest speeds")
+        for url in analyzedVideos {
+            let filename = url.lastPathComponent
+            let key = "FastestSpeed_\(filename)"
+            let speed = UserDefaults.standard.double(forKey: key)
+            fastestSpeeds[url] = speed
+            print("Loaded speed for \(filename): \(speed)")
         }
     }
 }
@@ -88,23 +110,37 @@ extension URL: Identifiable {
     }
 }
 
+extension Notification.Name {
+    static let fastestSpeedUpdated = Notification.Name("fastestSpeedUpdated")
+}
+
 struct ThumbnailView: View {
     let videoURL: URL
+    let fastestSpeed: Double
     @State private var thumbnail: UIImage?
     
     var body: some View {
         VStack {
             if let thumbnail = thumbnail {
-                Image(uiImage: thumbnail)
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(height: 100)
-                    .clipped()
+                ZStack {
+                    Image(uiImage: thumbnail)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(height: 100)
+                        .clipped()
+                    
+                    Text("\(Int(fastestSpeed)) km/h")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .padding(4)
+                        .background(Color.black.opacity(0.7))
+                        .cornerRadius(5)
+                        .position(x: 50, y: 80)  // Adjust position as needed
+                }
             } else {
                 ProgressView()
                     .frame(height: 100)
             }
-            
         }
         .onAppear(perform: loadThumbnail)
     }
@@ -125,12 +161,12 @@ struct ThumbnailView: View {
 
 struct ContentAnalysisViewControllerWrapper: UIViewControllerRepresentable {
     let videoURL: URL
-
+    
     func makeUIViewController(context: Context) -> ContentAnalysisViewController {
         let controller = ContentAnalysisViewController()
         controller.recordedVideoSource = AVAsset(url: videoURL)
         return controller
     }
-
+    
     func updateUIViewController(_ uiViewController: ContentAnalysisViewController, context: Context) {}
 }

@@ -68,6 +68,55 @@ class ContentAnalysisViewController: UIViewController,
          */
     }
     
+    private func saveFastestSpeed(_ speed: Double) {
+        guard let videoAsset = recordedVideoSource else {
+            print("saveFastestSpeed: No video asset available")
+            return
+        }
+        guard let urlString = (videoAsset as? AVURLAsset)?.url.absoluteString else {
+            print("saveFastestSpeed: Unable to get URL string")
+            return
+        }
+        let filename = URL(string: urlString)?.lastPathComponent ?? urlString
+        let key = "FastestSpeed_\(filename)"
+        DispatchQueue.main.async {
+            let currentFastestSpeed = UserDefaults.standard.double(forKey: key)
+            print("Current fastest speed for \(filename): \(currentFastestSpeed)")
+            if speed > currentFastestSpeed {
+                print("New fastest speed for \(filename): \(speed)")
+                UserDefaults.standard.set(speed, forKey: key)
+                NotificationCenter.default.post(name: .fastestSpeedUpdated, object: nil)
+                print("Posted fastestSpeedUpdated notification")
+            }
+        }
+    }
+
+    private func checkForTrajectoryCompletion() {
+        if framesWithoutUpdate >= updateThreshold, let lastTrajectory = lastObservedTrajectory {
+            let speed = round(Double(3.6*18) / lastTrajectory.timeRange.duration.seconds)
+            print("New speed detected: \(speed)")
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                self.trajectoryView.speed = speed
+                self.serveSpeedLabel.text = String(format: "%.0f km/h", speed)
+                self.saveFastestSpeed(speed)
+                
+                // Update highest score
+                let currentHighestScore = UserDefaults.standard.integer(forKey: "HighestScore")
+                print("Current highest score: \(currentHighestScore)")
+                if Int(speed) > currentHighestScore {
+                    print("New highest score: \(Int(speed))")
+                    UserDefaults.standard.set(Int(speed), forKey: "HighestScore")
+                    NotificationCenter.default.post(name: .highestScoreUpdated, object: nil)
+                    print("Posted highestScoreUpdated notification")
+                }
+            }
+            
+            lastObservedTrajectory = nil
+            framesWithoutUpdate = 0
+        }
+    }
+    
     
     
     private func setupButtonsAndLabels() {
@@ -196,28 +245,6 @@ class ContentAnalysisViewController: UIViewController,
             }
         }
     }
-    private func checkForTrajectoryCompletion() {
-            if framesWithoutUpdate >= updateThreshold, let lastTrajectory = lastObservedTrajectory {
-                // Trajectory is considered complete, update the speed
-                let speed = round(Double(3.6*18) / lastTrajectory.timeRange.duration.seconds)
-                            trajectoryView.speed = speed
-                            DispatchQueue.main.async {
-                                self.serveSpeedLabel.text = String(format: "%.0f km/h", speed)
-                            }
-                
-                // Update highest score if necessary
-                let currentHighestScore = UserDefaults.standard.integer(forKey: "HighestScore")
-                if Int(speed) > currentHighestScore {
-                    UserDefaults.standard.set(Int(speed), forKey: "HighestScore")
-                    // Post a notification when highest score is updated
-                    NotificationCenter.default.post(name: .highestScoreUpdated, object: nil)
-                }
-                
-                // Reset for next trajectory
-                lastObservedTrajectory = nil
-                framesWithoutUpdate = 0
-            }
-        }
     
     
     

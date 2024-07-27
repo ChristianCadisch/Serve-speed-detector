@@ -74,7 +74,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
         
     private func addAnalyzedVideo(_ url: URL) {
-        print("ContentAnalysisViewController: Attempting to add URL: \(url.absoluteString)")
+        print("Attempting to add URL: \(url.absoluteString)")
         DispatchQueue.main.async {
             var savedURLs = UserDefaults.standard.stringArray(forKey: "AnalyzedVideos") ?? []
             let filename = url.lastPathComponent
@@ -82,14 +82,21 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             if !savedURLs.contains(where: { URL(string: $0)?.lastPathComponent == filename }) {
                 savedURLs.append(url.absoluteString)
                 UserDefaults.standard.set(savedURLs, forKey: "AnalyzedVideos")
-                print("ContentAnalysisViewController: Added new video URL, total count: \(savedURLs.count)")
+                print("Added new video URL, total count: \(savedURLs.count)")
+                
+                // Load the fastest speed for this video
+                let speedKey = "FastestSpeed_\(filename)"
+                let speed = UserDefaults.standard.double(forKey: speedKey)
+                print("Loaded speed for new video: \(speed)")
                 
                 NotificationCenter.default.post(name: .highestScoreUpdated, object: nil)
+                NotificationCenter.default.post(name: .fastestSpeedUpdated, object: nil)
+                print("Posted highestScoreUpdated and fastestSpeedUpdated notifications")
             } else {
-                print("ContentAnalysisViewController: Video with filename \(filename) already exists, not adding duplicate")
+                print("Video with filename \(filename) already exists, not adding duplicate")
             }
             
-            print("ContentAnalysisViewController: Current saved URLs: \(savedURLs)")
+            print("Current saved URLs: \(savedURLs)")
         }
     }
     
