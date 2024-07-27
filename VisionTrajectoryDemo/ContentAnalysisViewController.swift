@@ -26,9 +26,12 @@ class ContentAnalysisViewController: UIViewController,
     // MARK: - IBActions
     @IBAction func closeRootViewTapped(_ sender: Any) {
             print("close tapped")
-            dismiss(animated: true, completion: {
+            NotificationCenter.default.post(name: .highestScoreUpdated, object: nil)
+            dismiss(animated: true) { [weak self] in
+                guard let self = self else { return }
+                print("ContentAnalysisViewController dismissed")
                 self.delegate?.contentAnalysisViewControllerDidFinish(self)
-            })
+            }
         }
     
     // MARK: - Public Properties
@@ -141,17 +144,26 @@ class ContentAnalysisViewController: UIViewController,
         }
     }
     private func checkForTrajectoryCompletion() {
-        if framesWithoutUpdate >= updateThreshold, let lastTrajectory = lastObservedTrajectory {
-            // Trajectory is considered complete, update the speed
-            let speed = round(Double(3.6*18) / lastTrajectory.timeRange.duration.seconds)
-            trajectoryView.speed = speed
-            serveSpeedLabel.text = String(format: "%.0f km/h", speed)
-            
-            // Reset for next trajectory
-            lastObservedTrajectory = nil
-            framesWithoutUpdate = 0
+            if framesWithoutUpdate >= updateThreshold, let lastTrajectory = lastObservedTrajectory {
+                // Trajectory is considered complete, update the speed
+                let speed = round(Double(3.6*18) / lastTrajectory.timeRange.duration.seconds)
+                trajectoryView.speed = speed
+                serveSpeedLabel.text = String(format: "%.0f km/h", speed)
+                
+                // Update highest score if necessary
+                let currentHighestScore = UserDefaults.standard.integer(forKey: "HighestScore")
+                if Int(speed) > currentHighestScore {
+                    UserDefaults.standard.set(Int(speed), forKey: "HighestScore")
+                    // Post a notification when highest score is updated
+                    NotificationCenter.default.post(name: .highestScoreUpdated, object: nil)
+                }
+                
+                // Reset for next trajectory
+                lastObservedTrajectory = nil
+                framesWithoutUpdate = 0
+            }
         }
-    }
+    
     
     
     
@@ -320,4 +332,8 @@ extension ContentAnalysisViewController: CameraViewControllerOutputDelegate {
         
     }
     
+}
+
+extension Notification.Name {
+    static let highestScoreUpdated = Notification.Name("highestScoreUpdated")
 }
