@@ -19,64 +19,77 @@ struct FeedView: View {
     @AppStorage("HighestScore") private var highestScore: Int = 0
     @State private var fastestSpeeds: [URL: Double] = [:]
     
-    let columns = [
-        GridItem(.flexible()),
-        GridItem(.flexible())
-    ]
     
     var body: some View {
-        NavigationView {
-            VStack {
-                // Highest Score Display
+            NavigationView {
                 VStack {
-                    Text("Highest Score")
-                        .font(.headline)
-                    Text("\(highestScore) km/h")
-                        .font(.title)
-                        .fontWeight(.bold)
-                }
-                .padding()
-                .background(Color.yellow.opacity(0.2))
-                .cornerRadius(10)
-                .padding(.top)
-                
-                ScrollView {
-                    LazyVGrid(columns: columns, spacing: 10) {
-                        ForEach(analyzedVideos, id: \.self) { videoURL in
-                            let speed = fastestSpeeds[videoURL] ?? 0
-                            //print("Creating ThumbnailView for \(videoURL.lastPathComponent) with speed: \(speed)")
-                            ThumbnailView(videoURL: videoURL, fastestSpeed: speed)
-                                .frame(height: 150)
-                                .background(Color.gray.opacity(0.2))
-                                .cornerRadius(10)
-                                .onTapGesture {
-                                    selectedVideo = videoURL
-                                }
-                        }
+                    // Highest Score Display
+                    VStack {
+                        Text("Highest Score")
+                            .font(.headline)
+                        Text("\(highestScore) km/h")
+                            .font(.title)
+                            .fontWeight(.bold)
                     }
                     .padding()
-                }
-            }
-            .navigationTitle("Analyzed Videos")
-            .navigationBarItems(trailing: addButton)
-        }
-        .onAppear(perform: loadAnalyzedVideos)
-        .onReceive(NotificationCenter.default.publisher(for: .fastestSpeedUpdated)) { _ in
-            loadFastestSpeeds()
-        }
-        .onReceive(NotificationCenter.default.publisher(for: .fastestSpeedUpdated)) { _ in
-            print("Received fastestSpeedUpdated notification")
-            loadFastestSpeeds()
-        }
-        .onReceive(NotificationCenter.default.publisher(for: .highestScoreUpdated)) { _ in
-            print("Received highestScoreUpdated notification")
-            highestScore = UserDefaults.standard.integer(forKey: "HighestScore")
-            print("Updated highest score: \(highestScore)")
-        }
-        .sheet(item: $selectedVideo) { videoURL in
-            ContentAnalysisViewControllerWrapper(videoURL: videoURL)
-        }
+                    .background(Color.yellow.opacity(0.2))
+                    .cornerRadius(10)
+                    .padding(.top)
+                    
+                    ScrollView {
+                                        LazyVStack(spacing: 16) {
+                                            ForEach(analyzedVideos, id: \.self) { videoURL in
+                                                let speed = fastestSpeeds[videoURL] ?? 0
+                                                ThumbnailView(
+                                                    videoURL: videoURL,
+                                                    fastestSpeed: speed,
+                                                    username: "User \(analyzedVideos.firstIndex(of: videoURL)! + 1)",
+                                                    rank: Int.random(in: 1...1000),
+                                                    onDelete: {
+                                                        deleteVideo(videoURL)
+                                                    },
+                                                    onThumbnailTap: {
+                                                        selectedVideo = videoURL
+                                                    }
+                                                )
+                                            }
+                                        }
+                                        .padding()
+                                    }
+                                }
+                                .navigationTitle("Analyzed Videos")
+                                .navigationBarItems(trailing: addButton)
+                            }
+                            .onAppear(perform: loadAnalyzedVideos)
+                            .onReceive(NotificationCenter.default.publisher(for: .highestScoreUpdated)) { _ in
+                                highestScore = UserDefaults.standard.integer(forKey: "HighestScore")
+                                loadAnalyzedVideos()
+                            }
+                            .sheet(item: $selectedVideo) { videoURL in
+                                ContentAnalysisViewControllerWrapper(videoURL: videoURL)
+                            }
     }
+    
+    private func deleteVideo(_ videoURL: URL) {
+            // Remove the video from the analyzedVideos array
+            analyzedVideos.removeAll { $0 == videoURL }
+            
+            // Remove the speed from fastestSpeeds dictionary
+            fastestSpeeds.removeValue(forKey: videoURL)
+            
+            // Update UserDefaults
+            UserDefaults.standard.set(analyzedVideos.map { $0.absoluteString }, forKey: "AnalyzedVideos")
+            
+            // Remove the speed from UserDefaults
+            UserDefaults.standard.removeObject(forKey: "FastestSpeed_\(videoURL.lastPathComponent)")
+            
+            // If this was the highest score, recalculate the highest score
+            if fastestSpeeds[videoURL] == Double(highestScore) {
+                highestScore = Int(fastestSpeeds.values.max() ?? 0)
+                UserDefaults.standard.set(highestScore, forKey: "HighestScore")
+            }
+            
+        }
     
     
     private var addButton: some View {
@@ -118,30 +131,109 @@ struct ThumbnailView: View {
     let videoURL: URL
     let fastestSpeed: Double
     @State private var thumbnail: UIImage?
+    @State private var profileImage: UIImage?
+    let username: String
+    let rank: Int
+    @State private var showingOptions = false
+    var onDelete: () -> Void
+    var onThumbnailTap: () -> Void
     
     var body: some View {
-        VStack {
-            if let thumbnail = thumbnail {
-                ZStack {
-                    Image(uiImage: thumbnail)
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(height: 100)
-                        .clipped()
-                    
-                    Text("\(Int(fastestSpeed)) km/h")
+        VStack(alignment: .leading, spacing: 8) {
+            // Header
+            HStack {
+                Image(uiImage: profileImage ?? UIImage(systemName: "person.circle.fill")!)
+                    .resizable()
+                    .frame(width: 40, height: 40)
+                    .clipShape(Circle())
+                
+                VStack(alignment: .leading) {
+                    Text(username)
                         .font(.headline)
-                        .foregroundColor(.white)
-                        .padding(4)
-                        .background(Color.black.opacity(0.7))
-                        .cornerRadius(5)
-                        .position(x: 50, y: 80)  // Adjust position as needed
+                    Text("EVGR Tennis Courts")
+                        .font(.subheadline)
+                        .foregroundColor(.gray)
                 }
-            } else {
-                ProgressView()
-                    .frame(height: 100)
+                
+                Spacer()
+                
+                Button(action: {
+                    showingOptions = true
+                }) {
+                    Image(systemName: "ellipsis")
+                }
+                .actionSheet(isPresented: $showingOptions) {
+                    ActionSheet(
+                        title: Text("Options"),
+                        buttons: [
+                            .destructive(Text("Delete")) {
+                                onDelete()
+                            },
+                            .cancel()
+                        ]
+                    )
+                }
             }
+            
+            // Speed and Rank
+            HStack {
+                Text("Speed")
+                    .font(.subheadline)
+                    .foregroundColor(.gray)
+                Text("\(Int(fastestSpeed)) km/h")
+                    .font(.headline)
+                
+                Spacer()
+                
+                Text("Rank")
+                    .font(.subheadline)
+                    .foregroundColor(.gray)
+                Text("\(rank)th")
+                    .font(.headline)
+            }
+            
+            // Video Thumbnail
+            if let thumbnail = thumbnail {
+                            Image(uiImage: thumbnail)
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(height: 200)
+                                .clipped()
+                                .onTapGesture {  // Add this gesture
+                                    onThumbnailTap()
+                                }
+                        } else {
+                            Rectangle()
+                                .fill(Color.gray.opacity(0.3))
+                                .frame(height: 200)
+                                .onTapGesture {  // Add this gesture
+                                    onThumbnailTap()
+                                }
+                        }
+            
+            // Action Buttons
+            HStack {
+                Button(action: {}) {
+                    Image(systemName: "heart")
+                }
+                Button(action: {}) {
+                    Image(systemName: "message")
+                }
+                Button(action: {}) {
+                    Image(systemName: "square.and.arrow.up")
+                }
+                Spacer()
+            }
+            .padding(.top, 8)
+            
+            Text("19 hours ago")
+                .font(.caption)
+                .foregroundColor(.gray)
         }
+        .padding()
+        .background(Color.white)
+        .cornerRadius(10)
+        .shadow(radius: 5)
         .onAppear(perform: loadThumbnail)
     }
     
@@ -156,6 +248,7 @@ struct ThumbnailView: View {
         } catch {
             print("Error generating thumbnail: \(error)")
         }
+        profileImage = UIImage(systemName: "person.circle.fill")
     }
 }
 
