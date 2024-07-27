@@ -20,8 +20,8 @@ class ContentAnalysisViewController: UIViewController,
     static let segueDestinationId = "ShowAnalysisView"
     
     // MARK: - IBOutlets
-    @IBOutlet var closeButton: UIButton!
-    @IBOutlet weak var serveSpeedLabel: UILabel!
+    private var backButton: UIButton!
+    private var serveSpeedLabel: UILabel!
     
     // MARK: - IBActions
     @IBAction func closeRootViewTapped(_ sender: Any) {
@@ -59,11 +59,57 @@ class ContentAnalysisViewController: UIViewController,
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
+        setupButtonsAndLabels()
         // extractFrameRate()
         if let recordedVideoSource = recordedVideoSource {
                     cameraViewController.startReadingAsset(recordedVideoSource)
                 }
     }
+    
+    private func setupButtonsAndLabels() {
+            backButton = UIButton(type: .system)
+            backButton.setTitle("Back", for: .normal)
+            backButton.setTitleColor(.white, for: .normal)
+            backButton.backgroundColor = .darkGray
+            backButton.layer.cornerRadius = 5
+            backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+            
+            view.addSubview(backButton)
+            backButton.translatesAutoresizingMaskIntoConstraints = false
+            
+            NSLayoutConstraint.activate([
+                backButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
+                backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+                backButton.widthAnchor.constraint(equalToConstant: 60),
+                backButton.heightAnchor.constraint(equalToConstant: 30)
+            ])
+        
+        serveSpeedLabel = UILabel()
+                serveSpeedLabel.textAlignment = .center
+                serveSpeedLabel.textColor = .white
+                serveSpeedLabel.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+                serveSpeedLabel.text = "0 km/h"
+                
+                view.addSubview(serveSpeedLabel)
+                serveSpeedLabel.translatesAutoresizingMaskIntoConstraints = false
+                
+                NSLayoutConstraint.activate([
+                    serveSpeedLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                    serveSpeedLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
+                    serveSpeedLabel.widthAnchor.constraint(equalToConstant: 200),
+                    serveSpeedLabel.heightAnchor.constraint(equalToConstant: 40)
+                ])
+        }
+    
+    @objc private func backButtonTapped() {
+            print("back tapped")
+            NotificationCenter.default.post(name: .highestScoreUpdated, object: nil)
+            dismiss(animated: true) { [weak self] in
+                guard let self = self else { return }
+                print("ContentAnalysisViewController dismissed")
+                self.delegate?.contentAnalysisViewControllerDidFinish(self)
+            }
+        }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
@@ -142,7 +188,7 @@ class ContentAnalysisViewController: UIViewController,
                 
                 // Don't update speed here, just update the view
                 trajectoryView.speed = 0
-                serveSpeedLabel.text = "Measuring..."
+                //serveSpeedLabel.text = "Measuring..."
             }
         }
     }
@@ -150,8 +196,10 @@ class ContentAnalysisViewController: UIViewController,
             if framesWithoutUpdate >= updateThreshold, let lastTrajectory = lastObservedTrajectory {
                 // Trajectory is considered complete, update the speed
                 let speed = round(Double(3.6*18) / lastTrajectory.timeRange.duration.seconds)
-                trajectoryView.speed = speed
-                serveSpeedLabel.text = String(format: "%.0f km/h", speed)
+                            trajectoryView.speed = speed
+                            DispatchQueue.main.async {
+                                self.serveSpeedLabel.text = String(format: "%.0f km/h", speed)
+                            }
                 
                 // Update highest score if necessary
                 let currentHighestScore = UserDefaults.standard.integer(forKey: "HighestScore")
@@ -282,10 +330,6 @@ class ContentAnalysisViewController: UIViewController,
         
         // Add a custom trajectory view for overlaying trajectories.
         view.addSubview(trajectoryView)
-        view.addSubview(closeButton)
-        view.addSubview(serveSpeedLabel)
-        view.bringSubviewToFront(closeButton)
-        view.bringSubviewToFront(serveSpeedLabel)
     }
 }
 

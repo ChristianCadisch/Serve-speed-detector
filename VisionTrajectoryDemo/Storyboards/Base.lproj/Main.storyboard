@@ -4,7 +4,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
-        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -35,46 +34,10 @@
                     <view key="view" contentMode="scaleToFill" id="ZAY-bE-ojN">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rFZ-La-cLY">
-                                <rect key="frame" x="303" y="0.0" width="50" height="50"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="50" id="5ZC-FY-aC0"/>
-                                    <constraint firstAttribute="height" constant="50" id="HrC-xt-FDz"/>
-                                </constraints>
-                                <color key="tintColor" systemColor="labelColor"/>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal">
-                                    <imageReference key="image" image="xmark.circle.fill" catalog="system" symbolScale="default" renderingMode="original"/>
-                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="40" scale="default" weight="bold"/>
-                                </state>
-                                <connections>
-                                    <action selector="closeRootViewTapped:" destination="h3a-QN-pq7" eventType="touchUpInside" id="0bP-Oh-1aC"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="0 km/h" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2fb-IP-nFs">
-                                <rect key="frame" x="110" y="769" width="173" height="30"/>
-                                <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
-                                <color key="tintColor" systemColor="opaqueSeparatorColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
                         <viewLayoutGuide key="safeArea" id="Kj0-W5-a9q"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="2fb-IP-nFs" firstAttribute="centerX" secondItem="ZAY-bE-ojN" secondAttribute="centerX" id="39p-iR-9xl"/>
-                            <constraint firstItem="rFZ-La-cLY" firstAttribute="top" secondItem="Kj0-W5-a9q" secondAttribute="top" id="iCH-YH-fj3"/>
-                            <constraint firstItem="Kj0-W5-a9q" firstAttribute="trailing" secondItem="rFZ-La-cLY" secondAttribute="trailing" constant="40" id="nR2-eL-MX5"/>
-                            <constraint firstItem="2fb-IP-nFs" firstAttribute="bottom" secondItem="Kj0-W5-a9q" secondAttribute="bottom" constant="-50" id="wRH-B1-JJB"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Lee-tK-rEb"/>
-                    <connections>
-                        <outlet property="closeButton" destination="rFZ-La-cLY" id="O9y-Wl-UzJ"/>
-                        <outlet property="serveSpeedLabel" destination="2fb-IP-nFs" id="ZRX-Kh-2zT"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZCH-Z4-h2R" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -82,13 +45,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="xmark.circle.fill" catalog="system" width="128" height="123"/>
-        <systemColor name="labelColor">
-            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="opaqueSeparatorColor">
-            <color red="0.77647058820000003" green="0.77647058820000003" blue="0.7843137255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
