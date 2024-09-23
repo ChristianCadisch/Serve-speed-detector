@@ -256,7 +256,7 @@ struct ThumbnailView: View {
                     }
                     Spacer()
                 }
-                .padding(.top, 8)
+                .padding(.bottom, 8)
                 
                 if likeCount > 0 {
                                     Text("\(likeCount) like\(likeCount == 1 ? "" : "s")")
