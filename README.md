@@ -1,3 +1,24 @@
+data structure:
+
+post = {
+video [mov, mp4],
+user_id,
+speeds [list of int],
+likes [list of like],
+comments [list of comment]
+}
+
+like = {
+user_id
+}
+
+comment = {
+user_id,
+comment [string],
+likes [list of like]
+}
+
+
 # Detecting moving objects in a video
 Identify the trajectory of a thrown object by using Vision.
 

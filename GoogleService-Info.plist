@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>322876771631-vge4hm3bdlrb4pqp58p3r95vdn580jpf.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.322876771631-vge4hm3bdlrb4pqp58p3r95vdn580jpf</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDV5PE7nE0E-nXOUlMTPfZuFfQdItmIFgk</string>
+	<key>GCM_SENDER_ID</key>
+	<string>322876771631</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.christiancadisch.tennis</string>
+	<key>PROJECT_ID</key>
+	<string>tennis-53e2f</string>
+	<key>STORAGE_BUCKET</key>
+	<string>tennis-53e2f.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:322876771631:ios:e97068a7ac492158ebe5da</string>
+	<key>DATABASE_URL</key>
+	<string>https://tennis-53e2f-default-rtdb.europe-west1.firebasedatabase.app</string>
+</dict>
+</plist>

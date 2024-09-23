@@ -4,13 +4,72 @@ See LICENSE folder for this sample’s licensing information.
 Abstract:
 The app's home view controller that displays instructions and camera options.
 */
+
 import Photos
 import UIKit
 import SwiftUI
 import AVFoundation
 import UniformTypeIdentifiers
+import Firebase
+import FirebaseStorage
+import FirebaseFirestore
+import FirebaseAuth
 
 class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, ContentAnalysisViewControllerDelegate {
+    
+    let db = Firestore.firestore()
+    let storage = Storage.storage()
+    
+    func uploadVideo(_ videoURL: URL, completion: @escaping (Result<String, Error>) -> Void) {
+        let videoName = UUID().uuidString + ".mp4"
+        let storageRef = storage.reference().child("videos/\(videoName)")
+        
+        // Get the video data
+        guard let videoData = try? Data(contentsOf: videoURL) else {
+            completion(.failure(NSError(domain: "VideoUploadError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to read video data"])))
+            return
+        }
+        
+        // Upload the video data
+        let metadata = StorageMetadata()
+        metadata.contentType = "video/mp4"
+        
+        storageRef.putData(videoData, metadata: metadata) { metadata, error in
+            if let error = error {
+                completion(.failure(error))
+            } else {
+                storageRef.downloadURL { url, error in
+                    if let downloadURL = url {
+                        completion(.success(downloadURL.absoluteString))
+                    } else if let error = error {
+                        completion(.failure(error))
+                    }
+                }
+            }
+        }
+    }
+    
+    func createPost(videoURL: String, speeds: [Int]) {
+        let post = [
+            "video": videoURL,
+            "user_id": Auth.auth().currentUser?.uid ?? "",
+            "speeds": speeds,
+            "likes": [],
+            "comments": [],
+            "timestamp": FieldValue.serverTimestamp()  // Add timestamp here
+        ] as [String : Any]
+
+        db.collection("posts").addDocument(data: post) { error in
+            if let error = error {
+                print("Error adding document: \(error)")
+            } else {
+                print("Document added successfully")
+            }
+        }
+    }
+
+    
+
 
     private var feedView: UIHostingController<FeedView>!
         var recordedVideoURL: URL?
@@ -90,6 +149,17 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
                 let speed = UserDefaults.standard.double(forKey: speedKey)
                 print("Loaded speed for new video: \(speed)")
                 
+                // Upload video to Firebase Storage
+                self.uploadVideo(url) { result in
+                    switch result {
+                    case .success(let downloadURL):
+                        // Create post in Firestore
+                        self.createPost(videoURL: downloadURL, speeds: [Int(speed)])
+                    case .failure(let error):
+                        print("Error uploading video: \(error)")
+                    }
+                }
+                
                 NotificationCenter.default.post(name: .highestScoreUpdated, object: nil)
                 NotificationCenter.default.post(name: .fastestSpeedUpdated, object: nil)
                 print("Posted highestScoreUpdated and fastestSpeedUpdated notifications")
@@ -114,45 +184,58 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        guard let pickedVideoUrl = info[UIImagePickerController.InfoKey.mediaURL] as? URL else {
-            print("Failed to get the video URL from the picker")
-            picker.dismiss(animated: true, completion: nil)
-            return
-        }
-        
-        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-        let destinationUrl = documentsDirectory.appendingPathComponent(pickedVideoUrl.lastPathComponent)
-        
-        print("Picked video URL: \(pickedVideoUrl)")
-        print("Destination URL: \(destinationUrl)")
-        
-        // Dismiss the picker first, then process the video and present the next view controller
-        picker.dismiss(animated: true) { [weak self] in
-            guard let self = self else { return }
+            guard let pickedVideoUrl = info[UIImagePickerController.InfoKey.mediaURL] as? URL else {
+                print("Failed to get the video URL from the picker")
+                picker.dismiss(animated: true, completion: nil)
+                return
+            }
             
-            do {
-                if FileManager.default.fileExists(atPath: destinationUrl.path) {
-                    try FileManager.default.removeItem(at: destinationUrl)
+            let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+            let destinationUrl = documentsDirectory.appendingPathComponent(pickedVideoUrl.lastPathComponent)
+            
+            print("Picked video URL: \(pickedVideoUrl)")
+            print("Destination URL: \(destinationUrl)")
+            
+            // Dismiss the picker first, then process the video and present the next view controller
+            picker.dismiss(animated: true) { [weak self] in
+                guard let self = self else { return }
+                
+                do {
+                    if FileManager.default.fileExists(atPath: destinationUrl.path) {
+                        try FileManager.default.removeItem(at: destinationUrl)
+                    }
+                    try FileManager.default.copyItem(at: pickedVideoUrl, to: destinationUrl)
+                    self.recordedVideoURL = destinationUrl
+                    
+                    print("Video copied successfully, recordedVideoURL set to: \(self.recordedVideoURL?.absoluteString ?? "nil")")
+                    
+                    // Upload the video to Firebase Storage
+                    self.uploadVideo(destinationUrl) { result in
+                        switch result {
+                        case .success(let downloadURL):
+                            print("Video uploaded successfully. Download URL: \(downloadURL)")
+                            
+                            // Create a post in Firestore
+                            // Note: You might want to get the actual speed data here
+                            self.createPost(videoURL: downloadURL, speeds: [0])
+                            
+                            // Add the new video URL to the analyzed videos
+                            self.addNewVideoURL(destinationUrl)
+                            
+                            // Perform the segue on the main thread after the upload is complete
+                            DispatchQueue.main.async {
+                                print("Performing segue to ContentAnalysisViewController")
+                                self.performSegue(withIdentifier: ContentAnalysisViewController.segueDestinationId, sender: self)
+                            }
+                        case .failure(let error):
+                            print("Error uploading video: \(error)")
+                        }
+                    }
+                } catch {
+                    print("Error processing video: \(error.localizedDescription)")
                 }
-                try FileManager.default.copyItem(at: pickedVideoUrl, to: destinationUrl)
-                self.recordedVideoURL = destinationUrl
-                
-                print("Video copied successfully, recordedVideoURL set to: \(self.recordedVideoURL?.absoluteString ?? "nil")")
-                
-                // Create an AVAsset from the URL
-                let videoAsset = AVAsset(url: destinationUrl)
-                addNewVideoURL(destinationUrl)
-                
-                // Perform the segue on the main thread after the picker is dismissed
-                DispatchQueue.main.async {
-                    print("Performing segue to ContentAnalysisViewController")
-                    self.performSegue(withIdentifier: ContentAnalysisViewController.segueDestinationId, sender: self)
-                }
-            } catch {
-                print("Error processing video: \(error.localizedDescription)")
             }
         }
-    }
 
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)

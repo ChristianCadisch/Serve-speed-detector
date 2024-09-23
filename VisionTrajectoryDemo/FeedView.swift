@@ -8,11 +8,13 @@
 
 import SwiftUI
 import AVFoundation
+import FirebaseFirestore
 
 struct FeedView: View {
     @State private var analyzedVideos: [URL] = []
     @State private var selectedVideo: URL?
     var onAddTapped: () -> Void
+    let db = Firestore.firestore()
     
     @AppStorage("HighestScore") private var highestScore: Int = 0
     @State private var fastestSpeeds: [URL: Double] = [:]
@@ -120,11 +122,34 @@ struct FeedView: View {
     }
     
     private func loadAnalyzedVideos() {
-        if let savedURLs = UserDefaults.standard.stringArray(forKey: "AnalyzedVideos") {
-            analyzedVideos = savedURLs.compactMap { URL(string: $0) }
-            loadFastestSpeeds()
-        }
+        // Fetch the last 10 video documents from the "posts" collection, ordered by timestamp
+        db.collection("posts")
+            .order(by: "timestamp", descending: true)
+            .limit(to: 10)
+            .getDocuments { (snapshot, error) in
+                if let error = error {
+                    print("Error fetching videos: \(error)")
+                    return
+                }
+
+                // Clear the current list
+                self.analyzedVideos.removeAll()
+
+                // Extract video URLs from the documents
+                for document in snapshot!.documents {
+                    if let videoURLString = document.data()["video"] as? String,
+                       let videoURL = URL(string: videoURLString) {
+                        self.analyzedVideos.append(videoURL)
+                    }
+                }
+
+                // Reload the fastest speeds
+                self.loadFastestSpeeds()
+
+                print("Loaded \(self.analyzedVideos.count) video URLs from Firebase")
+            }
     }
+
     
     private func loadFastestSpeeds() {
         print("Loading fastest speeds")
