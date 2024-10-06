@@ -8,12 +8,16 @@
 import SwiftUI
 import FirebaseAuth
 
+import SwiftUI
+import FirebaseAuth
+import FirebaseFirestore
+
 struct LoginView: View {
     @Binding var isLoggedIn: Bool
-    @State private var email = ""
+    @State private var emailOrUsername = ""
     @State private var password = ""
     @State private var errorMessage = ""
-    @State private var showCreateAccount = false // To track if user wants to create an account
+    @State private var showCreateAccount = false
 
     var body: some View {
         VStack {
@@ -21,8 +25,8 @@ struct LoginView: View {
                 .font(.largeTitle)
                 .padding()
 
-            TextField("Email", text: $email)
-                .keyboardType(.emailAddress)
+            // TextField for either Email or Username
+            TextField("Email or Username", text: $emailOrUsername)
                 .autocapitalization(.none)
                 .padding()
                 .background(Color.gray.opacity(0.2))
@@ -54,9 +58,8 @@ struct LoginView: View {
             }
             .padding(.bottom, 10)
             
-            // Create Account Button
             Button(action: {
-                showCreateAccount = true // Navigate to CreateAccountView
+                showCreateAccount = true
             }) {
                 Text("Create Account")
                     .font(.headline)
@@ -74,15 +77,56 @@ struct LoginView: View {
     }
 
     func login() {
-        Auth.auth().signIn(withEmail: email, password: password) { result, error in
-            if let error = error {
-                self.errorMessage = error.localizedDescription
-                return
+        if isValidEmail(emailOrUsername) {
+            // Log in using email
+            Auth.auth().signIn(withEmail: emailOrUsername, password: password) { result, error in
+                if let error = error {
+                    self.errorMessage = error.localizedDescription
+                    return
+                }
+                self.isLoggedIn = true
             }
-            self.isLoggedIn = true
+        } else {
+            // Log in using username (query Firestore to get the email)
+            let db = Firestore.firestore()
+            let usersRef = db.collection("users")
+            usersRef.whereField("username", isEqualTo: emailOrUsername).getDocuments { snapshot, error in
+                if let error = error {
+                    self.errorMessage = error.localizedDescription
+                    return
+                }
+                
+                guard let documents = snapshot?.documents, let document = documents.first else {
+                    self.errorMessage = "Username not found."
+                    return
+                }
+                
+                // Get the email associated with the username
+                if let email = document.data()["email"] as? String {
+                    // Log in with the email
+                    Auth.auth().signIn(withEmail: email, password: self.password) { result, error in
+                        if let error = error {
+                            self.errorMessage = error.localizedDescription
+                            return
+                        }
+                        self.isLoggedIn = true
+                    }
+                } else {
+                    self.errorMessage = "Error retrieving email for username."
+                }
+            }
         }
     }
+
+    // Helper function to validate if the input is an email
+    func isValidEmail(_ input: String) -> Bool {
+        // Simple email validation using a regular expression
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
+        let emailPredicate = NSPredicate(format: "SELF MATCHES %@", emailRegEx)
+        return emailPredicate.evaluate(with: input)
+    }
 }
+
 
 import SwiftUI
 import FirebaseAuth
