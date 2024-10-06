@@ -5,8 +5,6 @@
 //  Created by Christian on 06.10.2024.
 //  Copyright © 2024 Apple. All rights reserved.
 //
-import SwiftUI
-import FirebaseAuth
 
 import SwiftUI
 import FirebaseAuth
@@ -18,6 +16,7 @@ struct LoginView: View {
     @State private var password = ""
     @State private var errorMessage = ""
     @State private var showCreateAccount = false
+    var onLoginSuccess: () -> Void // Add this closure
 
     var body: some View {
         VStack {
@@ -85,6 +84,7 @@ struct LoginView: View {
                     return
                 }
                 self.isLoggedIn = true
+                onLoginSuccess() // Call the success closure
             }
         } else {
             // Log in using username (query Firestore to get the email)
@@ -110,6 +110,7 @@ struct LoginView: View {
                             return
                         }
                         self.isLoggedIn = true
+                        onLoginSuccess() // Call the success closure
                     }
                 } else {
                     self.errorMessage = "Error retrieving email for username."
@@ -120,12 +121,12 @@ struct LoginView: View {
 
     // Helper function to validate if the input is an email
     func isValidEmail(_ input: String) -> Bool {
-        // Simple email validation using a regular expression
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
         let emailPredicate = NSPredicate(format: "SELF MATCHES %@", emailRegEx)
         return emailPredicate.evaluate(with: input)
     }
 }
+
 
 
 import SwiftUI

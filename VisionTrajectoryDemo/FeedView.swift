@@ -15,6 +15,7 @@ struct FeedView: View {
     @State private var selectedVideo: URL?
     var onAddTapped: () -> Void
     let db = Firestore.firestore()
+    var videoManager: VideoManager
     
     @AppStorage("HighestScore") private var highestScore: Int = 0
     @State private var fastestSpeeds: [URL: Double] = [:]
@@ -53,10 +54,10 @@ struct FeedView: View {
                         Divider()
                     }
                 }
-                .padding(.bottom, 60) // Add padding to account for the navbar
+                .padding(.bottom, 60) // Adjust this padding for the navbar height
             }
+
         }
-        .overlay(navbar, alignment: .bottom)
         .edgesIgnoringSafeArea(.bottom)
         .onAppear(perform: loadAnalyzedVideos)
         .onReceive(NotificationCenter.default.publisher(for: .highestScoreUpdated)) { _ in
@@ -70,56 +71,20 @@ struct FeedView: View {
             ContentAnalysisViewControllerWrapper(videoURL: videoURL)
         }
     }
-    
-    private var navbar: some View {
-        VStack(spacing: 0) {
-            HStack {
-                Spacer()
-                NavigationBarItem(imageName: "house.fill", isActive: true)
-                Spacer()
-                Button(action: onAddTapped) {
-                    Image(systemName: "plus.circle.fill")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 30, height: 30)
-                        .foregroundColor(.gray)
-                }
-                Spacer()
-            }
-            .padding(.vertical, 8)
-            .background(Color.white)
-            .frame(height: 60)
-            
-            // Add bottom padding
-            Color.white.frame(height: 20) // Adjust this value as needed
-        }
-        .background(
-            Rectangle()
-                .fill(Color.white)
-                .shadow(color: Color.black.opacity(0.1), radius: 10, x: 0, y: -5)
-                .edgesIgnoringSafeArea(.bottom)
-        )
-    }
+
     
     private func deleteVideo(_ videoURL: URL) {
-        // Remove the video from the analyzedVideos array
-        analyzedVideos.removeAll { $0 == videoURL }
-        
-        // Remove the speed from fastestSpeeds dictionary
-        fastestSpeeds.removeValue(forKey: videoURL)
-        
-        // Update UserDefaults
-        UserDefaults.standard.set(analyzedVideos.map { $0.absoluteString }, forKey: "AnalyzedVideos")
-        
-        // Remove the speed from UserDefaults
-        UserDefaults.standard.removeObject(forKey: "FastestSpeed_\(videoURL.lastPathComponent)")
-        
-        // If this was the highest score, recalculate the highest score
-        if fastestSpeeds[videoURL] == Double(highestScore) {
-            highestScore = Int(fastestSpeeds.values.max() ?? 0)
-            UserDefaults.standard.set(highestScore, forKey: "HighestScore")
+        videoManager.deleteVideo(videoURL) { result in
+            switch result {
+            case .success:
+                // Remove the video from the UI
+                analyzedVideos.removeAll { $0 == videoURL }
+            case .failure(let error):
+                print("Error deleting video: \(error)")
+            }
         }
     }
+
     
     private func loadAnalyzedVideos() {
         // Fetch the last 10 video documents from the "posts" collection, ordered by timestamp
@@ -410,3 +375,22 @@ struct ContentAnalysisViewControllerWrapper: UIViewControllerRepresentable {
     
     func updateUIViewController(_ uiViewController: ContentAnalysisViewController, context: Context) {}
 }
+
+
+
+struct FeedViewRepresentable: UIViewControllerRepresentable {
+    @Binding var analyzedVideos: [URL]
+    var onAddTapped: () -> Void
+    var videoManager: VideoManager // Add videoManager as a property
+    
+    func makeUIViewController(context: Context) -> UIHostingController<FeedView> {
+        // Pass videoManager when creating FeedView
+        return UIHostingController(rootView: FeedView(onAddTapped: onAddTapped, videoManager: videoManager))
+    }
+    
+    func updateUIViewController(_ uiViewController: UIHostingController<FeedView>, context: Context) {
+        // Pass videoManager when updating FeedView
+        uiViewController.rootView = FeedView(onAddTapped: onAddTapped, videoManager: videoManager)
+    }
+}
+
