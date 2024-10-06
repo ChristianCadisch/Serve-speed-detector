@@ -14,6 +14,7 @@ import Firebase
 import FirebaseStorage
 import FirebaseFirestore
 import FirebaseAuth
+import GoogleSignIn
 
 class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, ContentAnalysisViewControllerDelegate {
     
@@ -77,8 +78,8 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         
         override func viewDidLoad() {
             super.viewDidLoad()
-            loadAnalyzedVideos()
-            setupFeedView()
+                loadAnalyzedVideos()
+                setupFeedView()
         }
     
     func addNewVideoURL(_ url: URL) {
