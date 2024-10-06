@@ -46,6 +46,7 @@
 		AA87F8CF2CA199520057288C /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = AA87F8CE2CA199520057288C /* FirebaseFirestore */; };
 		AA87F8D12CA19A030057288C /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = AA87F8D02CA19A030057288C /* FirebaseStorage */; };
 		AA87F8D32CA19A8C0057288C /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = AA87F8D22CA19A8C0057288C /* FirebaseAuth */; };
+		AAFDD3882CB2CE7600B2DFF2 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFDD3872CB2CE7600B2DFF2 /* LoginView.swift */; };
 		F01230A629140F8600AE811B /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F01230A529140F8600AE811B /* README.md */; };
 		F0C8C1FB2919915B00CF6186 /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C8C1FA2919915B00CF6186 /* AppError.swift */; };
 		F0C8C1FD2919A5C600CF6186 /* CameraFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C8C1FC2919A5C600CF6186 /* CameraFeedView.swift */; };
@@ -73,6 +74,7 @@
 		AA4AE74D2CA1A6BA009C639D /* DeviceCheck.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DeviceCheck.framework; path = System/Library/Frameworks/DeviceCheck.framework; sourceTree = SDKROOT; };
 		AA4AE7AC2CAC52C3009C639D /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		AA71D1AD2C5353A800E66284 /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
+		AAFDD3872CB2CE7600B2DFF2 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		F01230A529140F8600AE811B /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		F0C8C1FA2919915B00CF6186 /* AppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
 		F0C8C1FC2919A5C600CF6186 /* CameraFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraFeedView.swift; sourceTree = "<group>"; };
@@ -152,8 +154,9 @@
 			isa = PBXGroup;
 			children = (
 				956B529C26B2ACA400F7E865 /* HomeViewController.swift */,
-				956B52AC26B2B7D800F7E865 /* ContentAnalysisViewController.swift */,
+				AAFDD3872CB2CE7600B2DFF2 /* LoginView.swift */,
 				AA71D1AD2C5353A800E66284 /* FeedView.swift */,
+				956B52AC26B2B7D800F7E865 /* ContentAnalysisViewController.swift */,
 				956B52AE26B2CEE300F7E865 /* CameraViewController.swift */,
 				956B529826B2ACA400F7E865 /* AppDelegate.swift */,
 				956B529A26B2ACA400F7E865 /* SceneDelegate.swift */,
@@ -337,6 +340,7 @@
 				F0C8C1FF2919A60D00CF6186 /* VideoRenderView.swift in Sources */,
 				956B529B26B2ACA400F7E865 /* SceneDelegate.swift in Sources */,
 				F0C8C1FB2919915B00CF6186 /* AppError.swift in Sources */,
+				AAFDD3882CB2CE7600B2DFF2 /* LoginView.swift in Sources */,
 				F0C8C1FD2919A5C600CF6186 /* CameraFeedView.swift in Sources */,
 				F0C8C2012919A69B00CF6186 /* BallScene.swift in Sources */,
 			);

@@ -21,6 +21,11 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     let db = Firestore.firestore()
     let storage = Storage.storage()
     
+    private var feedView: UIHostingController<FeedView>!
+    var recordedVideoURL: URL?
+    @State private var analyzedVideos: [URL] = []
+    private var isLoggedIn = false
+    
     func uploadVideo(_ videoURL: URL, completion: @escaping (Result<String, Error>) -> Void) {
         let videoName = UUID().uuidString + ".mp4"
         let storageRef = storage.reference().child("videos/\(videoName)")
@@ -72,12 +77,11 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
 
 
-    private var feedView: UIHostingController<FeedView>!
-        var recordedVideoURL: URL?
-    @State private var analyzedVideos: [URL] = []
+    
         
         override func viewDidLoad() {
             super.viewDidLoad()
+                checkUserStatus()
                 loadAnalyzedVideos()
                 setupFeedView()
         }
@@ -100,7 +104,40 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             
             print("HomeViewController: Current saved URLs: \(savedURLs)")
         }
+    
+    func checkUserStatus() {
+        showLoginView()
+        /*
+            if Auth.auth().currentUser == nil {
+                // User is not logged in, show the LoginView in SwiftUI
+                showLoginView()
+            } else {
+                // User is logged in, proceed to the main content
+                isLoggedIn = true
+            }
+         */
+        }
+    
+    func showLoginView() {
+        let loginView = LoginView(isLoggedIn: Binding(
+            get: { self.isLoggedIn },
+            set: { newValue in
+                self.isLoggedIn = newValue
+                if newValue {
+                    // Dismiss the login view when the user is logged in
+                    self.dismiss(animated: true, completion: nil)
+                }
+            }
+        ))
         
+        let loginVC = UIHostingController(rootView: loginView)
+        loginVC.modalPresentationStyle = .fullScreen
+        
+        DispatchQueue.main.async {
+            self.present(loginVC, animated: true, completion: nil)
+        }
+    }
+
     private func setupFeedView() {
             let swiftUIView = FeedView(onAddTapped: { [weak self] in
                 self?.openGallery()
@@ -275,3 +312,5 @@ struct FeedViewRepresentable: UIViewControllerRepresentable {
         uiViewController.rootView = FeedView(onAddTapped: onAddTapped)
     }
 }
+
+

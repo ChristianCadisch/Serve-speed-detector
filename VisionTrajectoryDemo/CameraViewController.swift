@@ -43,7 +43,7 @@ class CameraViewController: UIViewController {
             // Stop the video reader.
             self?.videoFileReader?.cancelReading()
         }
-        
+
     }
     
     // MARK: - Public Methods
