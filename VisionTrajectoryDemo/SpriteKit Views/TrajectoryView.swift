@@ -16,6 +16,7 @@ class TrajectoryView: SKView, AnimatedTransitioning {
     var outOfROIPoints = 0
     var duration = 0.0
     var speed = 0.0
+    var numberOfServes = 0
     var points: [VNPoint] = [] {
         didSet {
             updatePathLayer()

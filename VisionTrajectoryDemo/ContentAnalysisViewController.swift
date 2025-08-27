@@ -98,6 +98,7 @@ class ContentAnalysisViewController: UIViewController,
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
                 self.trajectoryView.speed = speed
+                self.trajectoryView.numberOfServes += 1
                 self.serveSpeedLabel.text = String(format: "%.0f km/h", speed)
                 self.saveFastestSpeed(speed)
                 

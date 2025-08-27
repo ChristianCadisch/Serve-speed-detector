@@ -11,111 +11,256 @@ import AVFoundation
 
 struct FeedView: View {
     @State private var analyzedVideos: [URL] = []
+    @State private var videoThumbnails: [URL: UIImage] = [:]
     @State private var selectedVideo: URL?
     var onAddTapped: () -> Void
     
     @AppStorage("HighestScore") private var highestScore: Int = 0
     @State private var fastestSpeeds: [URL: Double] = [:]
     
+    // For showing the big "fastest serve" thumbnail (now the most recent video)
+    @State private var featuredThumbnail: UIImage?
+    
     var body: some View {
         VStack(spacing: 0) {
-            // Highest Score Display
-            VStack {
-                Text("Highest Score")
-                    .font(.headline)
-                Text("\(highestScore) km/h")
-                    .font(.title)
+            
+            // Top Bar
+            HStack {
+                Text("CLAY")
+                    .font(.title3)
                     .fontWeight(.bold)
+                
+                Spacer()
+                
+                HStack(spacing: 6) {
+                    Image(systemName: "tennisball")
+                    Text("135 Serves")
+                        .font(.subheadline)
+                }
             }
             .padding()
-            .frame(maxWidth: .infinity)
-            .background(Color.yellow.opacity(0.2))
+            .background(Color.white)
             
-            // Video Feed
-            ScrollView {
-                LazyVStack(spacing: 16) {
-                    ForEach(analyzedVideos, id: \.self) { videoURL in
-                        let speed = fastestSpeeds[videoURL] ?? 0
-                        ThumbnailView(
-                            videoURL: videoURL,
-                            fastestSpeed: speed,
-                            username: "User \(analyzedVideos.firstIndex(of: videoURL)! + 1)",
-                            rank: Int.random(in: 1...1000),
-                            onDelete: {
-                                deleteVideo(videoURL)
-                            },
-                            onThumbnailTap: {
-                                selectedVideo = videoURL
+            ScrollView(showsIndicators: false) {
+                VStack(spacing: 16) {
+                    
+                    // Big card for the most recently uploaded video
+                    if let featuredVideoURL = getFeaturedVideoURL(),
+                       let speed = fastestSpeeds[featuredVideoURL] {
+                        
+                        ZStack(alignment: .bottomLeading) {
+                            if let thumbnail = featuredThumbnail {
+                                Image(uiImage: thumbnail)
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(maxWidth: .infinity)
+                                    .frame(height: 300)
+                                    .clipped()
+                            } else {
+                                Rectangle()
+                                    .fill(Color.gray.opacity(0.2))
+                                    .frame(height: 300)
                             }
-                        )
-                        Divider()
+                            
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text("Most recent Serve")
+                                    .font(.headline)
+                                    .foregroundColor(.white)
+                                Text("\(Int(speed)) km/h")
+                                    .font(.largeTitle)
+                                    .fontWeight(.bold)
+                                    .foregroundColor(.white)
+                            }
+                            .padding()
+                        }
+                        .cornerRadius(8)
+                        .padding(.horizontal)
                     }
+                    
+                    // "Other Serves" heading
+                    if analyzedVideos.count > 1 {
+                        Text("Other Serves")
+                            .font(.headline)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.horizontal)
+                    }
+                    
+                    // Show the remaining serves in simpler cards
+                    LazyVStack(spacing: 12) {
+                        ForEach(analyzedVideos.filter { $0 != getFeaturedVideoURL() }, id: \.self) { videoURL in
+                            let speed = fastestSpeeds[videoURL] ?? 0
+                            
+                            Button {
+                                selectedVideo = videoURL
+                            } label: {
+                                HStack(spacing: 0) {
+                                    if let thumbnail = videoThumbnails[videoURL] {
+                                        Image(uiImage: thumbnail)
+                                            .resizable()
+                                            .scaledToFill()
+                                            .frame(width: 120, height: 100)
+                                            .maskedCornerRadius(8, corners: [.topLeft, .bottomLeft])
+                                    } else {
+                                        RoundedRectangle(cornerRadius: 16)
+                                            .fill(Color.gray.opacity(0.2))
+                                            .frame(width: 120, height: 100)
+                                            .maskedCornerRadius(8, corners: [.topLeft, .bottomLeft])
+                                    }
+                                    
+                                    VStack(alignment: .leading, spacing: 4) {
+                                        Text("\(Int(speed)) km/h")
+                                            .font(.headline)
+                                            .fontWeight(.bold)
+                                        HStack(spacing: 6) {
+                                            Image(systemName: "tennisball")
+                                            Text("1 serve recorded")
+                                                .font(.footnote)
+                                                .foregroundColor(.gray)
+                                        }
+                                    }
+                                    .padding(.leading, 12)
+                                    
+                                    Spacer()
+                                }
+                                //.padding()
+                                .frame(maxWidth: .infinity)
+                                .background(RoundedRectangle(cornerRadius: 8).fill(Color.blue.opacity(0.15)))
+                                .padding(.horizontal)
+                            }
+                            .contextMenu {
+                                Button(role: .destructive) {
+                                    deleteVideo(videoURL)
+                                } label: {
+                                    Text("Delete")
+                                }
+                            }
+                        }
+                    }
+                    .padding(.bottom, 60)
                 }
-                .padding(.bottom, 60) // Add padding to account for the navbar
+            }
+            .onAppear {
+                loadAnalyzedVideos()
+                loadFeaturedThumbnail()
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .highestScoreUpdated)) { _ in
+                highestScore = UserDefaults.standard.integer(forKey: "HighestScore")
+                loadAnalyzedVideos()
+                loadFeaturedThumbnail()
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .newVideoAdded)) { _ in
+                loadAnalyzedVideos()
+                loadFeaturedThumbnail()
+            }
+            .sheet(item: $selectedVideo) { videoURL in
+                ContentAnalysisViewControllerWrapper(videoURL: videoURL)
+            }
+            
+            // Bottom Tab Bar
+            VStack(spacing: 0) {
+                HStack {
+                    
+                    Spacer()
+                    
+                    Button {
+                        // Serves action
+                    } label: {
+                        VStack(spacing: 4) {
+                            Image(systemName: "figure.tennis")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 30, height: 30)
+                                .foregroundColor(.black)
+                        }
+                    }
+                    
+                    Spacer()
+                    
+                    Button {
+                        onAddTapped()
+                    } label: {
+                        VStack(spacing: 4) {
+                            Image(systemName: "camera.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 30, height: 30)
+                                .foregroundColor(.gray)
+                        }
+                    }
+                    
+                    
+                    Spacer()
+                    Button {
+                        onAddTapped()
+                    } label: {
+                        VStack(spacing: 4) {
+                            Image(systemName: "plus.app")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 30, height: 30)
+                                .foregroundColor(.gray)
+                        }
+                    }
+                    
+                    
+                    Spacer()
+                    
+                }
+                .padding(.vertical, 30)
+                .background(Color.white)
             }
         }
-        .overlay(navbar, alignment: .bottom)
         .edgesIgnoringSafeArea(.bottom)
-        .onAppear(perform: loadAnalyzedVideos)
-        .onReceive(NotificationCenter.default.publisher(for: .highestScoreUpdated)) { _ in
-            highestScore = UserDefaults.standard.integer(forKey: "HighestScore")
-            loadAnalyzedVideos()
-        }
-        .onReceive(NotificationCenter.default.publisher(for: .newVideoAdded)) { _ in
-            loadAnalyzedVideos()
-        }
-        .sheet(item: $selectedVideo) { videoURL in
-            ContentAnalysisViewControllerWrapper(videoURL: videoURL)
-        }
     }
     
-    private var navbar: some View {
-        VStack(spacing: 0) {
-            HStack {
-                Spacer()
-                NavigationBarItem(imageName: "house.fill", isActive: true)
-                Spacer()
-                Button(action: onAddTapped) {
-                    Image(systemName: "plus.circle.fill")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 30, height: 30)
-                        .foregroundColor(.gray)
-                }
-                Spacer()
-            }
-            .padding(.vertical, 8)
-            .background(Color.white)
-            .frame(height: 60)
-            
-            // Add bottom padding
-            Color.white.frame(height: 20) // Adjust this value as needed
+    // Now returns the most recently uploaded video (the last in the array)
+    private func getFeaturedVideoURL() -> URL? {
+        return analyzedVideos.last
+    }
+    
+    private func loadFeaturedThumbnail() {
+        guard let featuredVideoURL = getFeaturedVideoURL() else {
+            featuredThumbnail = nil
+            return
         }
-        .background(
-            Rectangle()
-                .fill(Color.white)
-                .shadow(color: Color.black.opacity(0.1), radius: 10, x: 0, y: -5)
-                .edgesIgnoringSafeArea(.bottom)
-        )
+        let asset = AVAsset(url: featuredVideoURL)
+        let imageGenerator = AVAssetImageGenerator(asset: asset)
+        imageGenerator.appliesPreferredTrackTransform = true
+        
+        do {
+            let cgImage = try imageGenerator.copyCGImage(at: .zero, actualTime: nil)
+            featuredThumbnail = UIImage(cgImage: cgImage)
+        } catch {
+            print("Error generating thumbnail: \(error)")
+            featuredThumbnail = nil
+        }
     }
     
     private func deleteVideo(_ videoURL: URL) {
-        // Remove the video from the analyzedVideos array
         analyzedVideos.removeAll { $0 == videoURL }
-        
-        // Remove the speed from fastestSpeeds dictionary
         fastestSpeeds.removeValue(forKey: videoURL)
-        
-        // Update UserDefaults
         UserDefaults.standard.set(analyzedVideos.map { $0.absoluteString }, forKey: "AnalyzedVideos")
-        
-        // Remove the speed from UserDefaults
         UserDefaults.standard.removeObject(forKey: "FastestSpeed_\(videoURL.lastPathComponent)")
         
-        // If this was the highest score, recalculate the highest score
         if fastestSpeeds[videoURL] == Double(highestScore) {
             highestScore = Int(fastestSpeeds.values.max() ?? 0)
             UserDefaults.standard.set(highestScore, forKey: "HighestScore")
+        }
+    }
+    
+    private func loadThumbnails() {
+        for url in analyzedVideos {
+            let asset = AVAsset(url: url)
+            let imageGenerator = AVAssetImageGenerator(asset: asset)
+            imageGenerator.appliesPreferredTrackTransform = true
+            
+            do {
+                let cgImage = try imageGenerator.copyCGImage(at: .zero, actualTime: nil)
+                videoThumbnails[url] = UIImage(cgImage: cgImage)
+            } catch {
+                videoThumbnails[url] = nil
+                print("Error generating thumbnail for \(url.lastPathComponent): \(error)")
+            }
         }
     }
     
@@ -123,224 +268,23 @@ struct FeedView: View {
         if let savedURLs = UserDefaults.standard.stringArray(forKey: "AnalyzedVideos") {
             analyzedVideos = savedURLs.compactMap { URL(string: $0) }
             loadFastestSpeeds()
+            loadThumbnails()
         }
     }
     
     private func loadFastestSpeeds() {
-        print("Loading fastest speeds")
         for url in analyzedVideos {
             let filename = url.lastPathComponent
             let key = "FastestSpeed_\(filename)"
             let speed = UserDefaults.standard.double(forKey: key)
             fastestSpeeds[url] = speed
-            print("Loaded speed for \(filename): \(speed)")
         }
     }
 }
 
-struct ThumbnailView: View {
-    let videoURL: URL
-    let fastestSpeed: Double
-    @State private var thumbnail: UIImage?
-    @State private var profileImage: UIImage?
-    let username: String
-    let rank: Int
-    @State private var showingOptions = false
-    var onDelete: () -> Void
-    var onThumbnailTap: () -> Void
-    @State private var isLiked = false
-    @State private var likeCount = 0
-    @State private var comments: [String] = []
-    @State private var newComment: String = ""
-    @State private var isCommentingEnabled = false
-    @State private var isSharePresented = false
-    
-    let shareLink = "https://github.com/ChristianCadisch"
-    
-    var body: some View {
-        VStack(spacing: 0) {
-            VStack(alignment: .leading, spacing: 8) {
-                // Header
-                HStack {
-                    Image(uiImage: profileImage ?? UIImage(systemName: "person.circle.fill")!)
-                        .resizable()
-                        .frame(width: 40, height: 40)
-                        .clipShape(Circle())
-                    
-                    VStack(alignment: .leading) {
-                        Text(username)
-                            .font(.headline)
-                        Text("EVGR Tennis Courts")
-                            .font(.subheadline)
-                            .foregroundColor(.gray)
-                    }
-                    
-                    Spacer()
-                    
-                    Button(action: {
-                        print("Ellipsis button tapped")
-                        showingOptions = true
-                    }) {
-                        Image(systemName: "ellipsis")
-                    }
-                }
-                
-                
-                // Speed and Rank
-                HStack {
-                    Text("Speed")
-                        .font(.subheadline)
-                        .foregroundColor(.gray)
-                    Text("\(Int(fastestSpeed)) km/h")
-                        .font(.headline)
-                    
-                    Spacer()
-                    
-                    Text("Rank")
-                        .font(.subheadline)
-                        .foregroundColor(.gray)
-                    Text("\(rank)th")
-                        .font(.headline)
-                }
-            }
-            .padding(.horizontal)
-            .padding(.top)
-            
-            // Video Thumbnail
-            if let thumbnail = thumbnail {
-                Image(uiImage: thumbnail)
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 200)
-                    .clipped()
-                    .onTapGesture(count: 2) {
-                                            likePost()
-                                        }
-                    .onTapGesture {
-                        onThumbnailTap()
-                    }
-            } else {
-                Rectangle()
-                    .fill(Color.gray.opacity(0.3))
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 200)
-                    .onTapGesture(count: 2) {
-                                            likePost()
-                                        }
-                    .onTapGesture {
-                        onThumbnailTap()
-                    }
-            }
-            
-            VStack(alignment: .leading, spacing: 8) {
-                // Action Buttons
-                HStack {
-                    Button(action: {
-                        isLiked.toggle()
-                        likeCount += isLiked ? 1 : -1
-                    }) {
-                        Image(systemName: isLiked ? "heart.fill" : "heart")
-                            .foregroundColor(isLiked ? .red : .primary)
-                    }
-                    Button(action: {
-                        isCommentingEnabled.toggle()
-                    }) {
-                        Image(systemName: "message")
-                            .foregroundColor(.primary)
-                    }
-                    Button(action: {
-                        isSharePresented = true
-                    }) {
-                        Image(systemName: "square.and.arrow.up")
-                    }
-                    Spacer()
-                }
-                .padding(.bottom, 8)
-                
-                if likeCount > 0 {
-                                    Text("\(likeCount) like\(likeCount == 1 ? "" : "s")")
-                                        .font(.subheadline)
-                                        .fontWeight(.semibold)
-                                }
-                
-                Text("19 hours ago")
-                    .font(.caption)
-                    .foregroundColor(.gray)
-                
-                // Comments Section
-                if !comments.isEmpty {
-                    VStack(alignment: .leading, spacing: 4) {
-                        ForEach(comments, id: \.self) { comment in
-                            Text(comment)
-                                .font(.subheadline)
-                        }
-                    }
-                    .padding(.vertical, 4)
-                }
-                
-                if isCommentingEnabled {
-                    HStack {
-                        TextField("Add a comment...", text: $newComment)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                        Button(action: addComment) {
-                            Text("Post")
-                                .foregroundColor(.blue)
-                        }
-                        .disabled(newComment.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
-                    }
-                }
-            }
-            .padding(.horizontal)
-            .padding(.bottom)
-        }
-        .background(Color.white)
-        .onAppear(perform: loadThumbnail)
-
-        .confirmationDialog("Options", isPresented: $showingOptions) {
-            Button("Delete", role: .destructive, action: onDelete)
-        }
-        .actionSheet(isPresented: $isSharePresented) {
-                    ActionSheet(
-                        title: Text("Share"),
-                        message: Text("Share this post: \(shareLink)"),
-                        buttons: [
-                            .default(Text("Copy Link")) {
-                                UIPasteboard.general.string = shareLink
-                            },
-                            .cancel()
-                        ]
-                    )
-                }
-    }
-    
-    private func likePost() {
-            if !isLiked {
-                isLiked = true
-                likeCount += 1
-            }
-        }
-    
-    private func addComment() {
-        let trimmedComment = newComment.trimmingCharacters(in: .whitespacesAndNewlines)
-        if !trimmedComment.isEmpty {
-            comments.append(trimmedComment)
-            newComment = ""
-        }
-    }
-    
-    private func loadThumbnail() {
-        let asset = AVAsset(url: videoURL)
-        let imageGenerator = AVAssetImageGenerator(asset: asset)
-        imageGenerator.appliesPreferredTrackTransform = true
-        
-        do {
-            let cgImage = try imageGenerator.copyCGImage(at: .zero, actualTime: nil)
-            thumbnail = UIImage(cgImage: cgImage)
-        } catch {
-            print("Error generating thumbnail: \(error)")
-        }
-        profileImage = UIImage(systemName: "person.circle.fill")
+struct FeedView_Previews: PreviewProvider {
+    static var previews: some View {
+        FeedView(onAddTapped: {})
     }
 }
 
@@ -357,6 +301,38 @@ struct NavigationBarItem: View {
             .foregroundColor(isActive ? .black : .gray)
     }
 }
+
+struct RoundedCorner: InsettableShape {
+    var radius: CGFloat
+    var corners: UIRectCorner
+    var insetAmount: CGFloat = 0
+
+    func path(in rect: CGRect) -> Path {
+        let insetRect = rect.insetBy(dx: insetAmount, dy: insetAmount)
+        let path = UIBezierPath(
+            roundedRect: insetRect,
+            byRoundingCorners: corners,
+            cornerRadii: CGSize(width: radius, height: radius)
+        )
+        return Path(path.cgPath)
+    }
+
+    func inset(by amount: CGFloat) -> some InsettableShape {
+        var copy = self
+        copy.insetAmount += amount
+        return copy
+    }
+}
+
+extension View {
+    func maskedCornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
+        self.mask(RoundedCorner(radius: radius, corners: corners))
+    }
+}
+
+
+
+
 
 extension URL: Identifiable {
     public var id: String {
@@ -385,3 +361,5 @@ struct ContentAnalysisViewControllerWrapper: UIViewControllerRepresentable {
     
     func updateUIViewController(_ uiViewController: ContentAnalysisViewController, context: Context) {}
 }
+
+

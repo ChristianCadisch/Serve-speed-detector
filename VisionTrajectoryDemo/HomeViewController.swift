@@ -191,3 +191,4 @@ struct FeedViewRepresentable: UIViewControllerRepresentable {
         uiViewController.rootView = FeedView(onAddTapped: onAddTapped)
     }
 }
+
