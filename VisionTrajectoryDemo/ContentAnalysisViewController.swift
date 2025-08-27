@@ -1,13 +1,17 @@
 /*
-See LICENSE folder for this sample’s licensing information.
-
-Abstract:
-The app's view controller that handles the trajectory analysis.
-*/
+ See LICENSE folder for this sample’s licensing information.
+ 
+ Abstract:
+ The app's view controller that handles the trajectory analysis.
+ */
 
 import UIKit
 import AVFoundation
 import Vision
+
+protocol ContentAnalysisViewControllerDelegate: AnyObject {
+    func contentAnalysisViewControllerDidFinish(_ controller: ContentAnalysisViewController)
+}
 
 class ContentAnalysisViewController: UIViewController,
                                      AVCaptureVideoDataOutputSampleBufferDelegate {
@@ -16,13 +20,22 @@ class ContentAnalysisViewController: UIViewController,
     static let segueDestinationId = "ShowAnalysisView"
     
     // MARK: - IBOutlets
-    @IBOutlet var closeButton: UIButton!
-    @IBOutlet weak var serveSpeedLabel: UILabel!
+    private var backButton: UIButton!
+    private var serveSpeedLabel: UILabel!
     
     // MARK: - IBActions
     @IBAction func closeRootViewTapped(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
-    }
+            print("close tapped")
+            NotificationCenter.default.post(name: .highestScoreUpdated, object: nil)
+            dismiss(animated: true) { [weak self] in
+                guard let self = self else { return }
+                print("ContentAnalysisViewController dismissed")
+                self.delegate?.contentAnalysisViewControllerDidFinish(self)
+            }
+        }
+    
+    // MARK: - Public Properties
+    weak var delegate: ContentAnalysisViewControllerDelegate?
     
     // MARK: - Public Properties
     var recordedVideoSource: AVAsset?
@@ -33,19 +46,124 @@ class ContentAnalysisViewController: UIViewController,
     private var setupComplete = false
     private var detectTrajectoryRequest: VNDetectTrajectoriesRequest!
     
+    private var framesWithoutUpdate = 0
+    private var lastObservedTrajectory: VNTrajectoryObservation?
+    private let updateThreshold = 4 // Number of frames to wait before considering trajectory complete
+    
     // A dictionary that stores all trajectories.
     private var trajectoryDictionary: [String: [VNPoint]] = [:]
     
-    //add duration dictionary
-    private var trajectoryTimeDictionary: [String: (startTime: CMTime, endTime: CMTime)] = [:]
-
     
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
+        setupButtonsAndLabels()
+        // extractFrameRate()
+        /*
+        if let recordedVideoSource = recordedVideoSource {
+                    cameraViewController.startReadingAsset(recordedVideoSource)
+                }
+         */
     }
+    
+    private func saveFastestSpeed(_ speed: Double) {
+        guard let videoAsset = recordedVideoSource else {
+            print("saveFastestSpeed: No video asset available")
+            return
+        }
+        guard let urlString = (videoAsset as? AVURLAsset)?.url.absoluteString else {
+            print("saveFastestSpeed: Unable to get URL string")
+            return
+        }
+        let filename = URL(string: urlString)?.lastPathComponent ?? urlString
+        let key = "FastestSpeed_\(filename)"
+        DispatchQueue.main.async {
+            let currentFastestSpeed = UserDefaults.standard.double(forKey: key)
+            print("Current fastest speed for \(filename): \(currentFastestSpeed)")
+            if speed > currentFastestSpeed {
+                print("New fastest speed for \(filename): \(speed)")
+                UserDefaults.standard.set(speed, forKey: key)
+                NotificationCenter.default.post(name: .fastestSpeedUpdated, object: nil)
+                print("Posted fastestSpeedUpdated notification")
+            }
+        }
+    }
+
+    private func checkForTrajectoryCompletion() {
+        if framesWithoutUpdate >= updateThreshold, let lastTrajectory = lastObservedTrajectory {
+            let speed = round(Double(3.6*18) / lastTrajectory.timeRange.duration.seconds)
+            print("New speed detected: \(speed)")
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                self.trajectoryView.speed = speed
+                self.trajectoryView.numberOfServes += 1
+                self.serveSpeedLabel.text = String(format: "%.0f km/h", speed)
+                self.saveFastestSpeed(speed)
+                
+                // Update highest score
+                let currentHighestScore = UserDefaults.standard.integer(forKey: "HighestScore")
+                print("Current highest score: \(currentHighestScore)")
+                if Int(speed) > currentHighestScore {
+                    print("New highest score: \(Int(speed))")
+                    UserDefaults.standard.set(Int(speed), forKey: "HighestScore")
+                    NotificationCenter.default.post(name: .highestScoreUpdated, object: nil)
+                    print("Posted highestScoreUpdated notification")
+                }
+            }
+            
+            lastObservedTrajectory = nil
+            framesWithoutUpdate = 0
+        }
+    }
+    
+    
+    
+    private func setupButtonsAndLabels() {
+            backButton = UIButton(type: .system)
+            backButton.setTitle("Back", for: .normal)
+            backButton.setTitleColor(.white, for: .normal)
+            backButton.backgroundColor = .darkGray
+            backButton.layer.cornerRadius = 5
+            backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+            
+            view.addSubview(backButton)
+            backButton.translatesAutoresizingMaskIntoConstraints = false
+            
+            NSLayoutConstraint.activate([
+                backButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
+                backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+                backButton.widthAnchor.constraint(equalToConstant: 60),
+                backButton.heightAnchor.constraint(equalToConstant: 30)
+            ])
+        
+        serveSpeedLabel = UILabel()
+                serveSpeedLabel.textAlignment = .center
+                serveSpeedLabel.textColor = .white
+                serveSpeedLabel.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+                serveSpeedLabel.text = "0 km/h"
+                
+                view.addSubview(serveSpeedLabel)
+                serveSpeedLabel.translatesAutoresizingMaskIntoConstraints = false
+                
+                NSLayoutConstraint.activate([
+                    serveSpeedLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                    serveSpeedLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
+                    serveSpeedLabel.widthAnchor.constraint(equalToConstant: 200),
+                    serveSpeedLabel.heightAnchor.constraint(equalToConstant: 40)
+                ])
+        }
+    
+    @objc private func backButtonTapped() {
+            print("back tapped")
+            NotificationCenter.default.post(name: .highestScoreUpdated, object: nil)
+            dismiss(animated: true) { [weak self] in
+                guard let self = self else { return }
+                print("ContentAnalysisViewController dismissed")
+                self.delegate?.contentAnalysisViewControllerDidFinish(self)
+            }
+        }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
@@ -70,7 +188,7 @@ class ContentAnalysisViewController: UIViewController,
          Use a shorter length for real-time apps, and use longer lengths to observe finer and longer curves.
          */
         detectTrajectoryRequest = VNDetectTrajectoriesRequest(frameAnalysisSpacing: CMTime(value: 10, timescale: 600),
-                                                              trajectoryLength: 2) { [weak self] (request: VNRequest, error: Error?) -> Void in
+                                                              trajectoryLength: 5) { [weak self] (request: VNRequest, error: Error?) -> Void in
             
             guard let results = request.results as? [VNTrajectoryObservation] else {
                 return
@@ -87,39 +205,52 @@ class ContentAnalysisViewController: UIViewController,
     
     // MARK: - Private Methods
     
-    private func processTrajectoryObservation(results: [VNTrajectoryObservation]) {
-        
-        // Clear and reset the trajectory view if there are no trajectories.
-        guard !results.isEmpty else {
-            trajectoryView.resetPath()
+    /*
+    private var videoFrameRate: Float = 0.0
+    
+    private func extractFrameRate() {
+        guard let videoAsset = recordedVideoSource else {
+            print("No video asset available")
             return
         }
-        //print("Total trajectory count: \(results.count)")
         
+        let tracks = videoAsset.tracks(withMediaType: .video)
+        guard let videoTrack = tracks.first else {
+            print("No video track found")
+            return
+        }
+        
+        videoFrameRate = videoTrack.nominalFrameRate
+        print("Video frame rate: \(videoFrameRate) fps")
+    }
+    */
+    
+    
+    private func processTrajectoryObservation(results: [VNTrajectoryObservation]) {
+        guard !results.isEmpty else {
+            framesWithoutUpdate += 1
+            checkForTrajectoryCompletion()
+            return
+        }
+
         for trajectory in results {
-            // Filter the trajectory.
             if filterParabola(trajectory: trajectory) {
-                // Verify and correct an incomplete path.
+                framesWithoutUpdate = 0
+                lastObservedTrajectory = trajectory
                 trajectoryView.points = correctTrajectoryPath(trajectoryToCorrect: trajectory)
-                
-                // Display a transition.
                 trajectoryView.performTransition(.fadeIn, duration: 0.05)
                 
-                //@ChatGPT: add duration of trajectory
-                //self.trajectoryView.duration = trajectory.timeRange.duration.seconds
-                self.trajectoryView.speed = round(Double(3.6*18) / trajectory.timeRange.duration.seconds)
-
-                
-                //print("Speed: \(self.trajectoryView.speed) km/h")
-                self.serveSpeedLabel.text = String(format: "Speed: \(self.trajectoryView.speed) km/h")
-
-                
-                // Determine the size of the moving object that the app tracks.
-                //print("The object's moving average radius: \(trajectory.movingAverageRadius)")
+                // Don't update speed here, just update the view
+                trajectoryView.speed = 0
+                //serveSpeedLabel.text = "Measuring..."
             }
         }
-    
     }
+    
+    
+    
+    
+    
     
     private func filterParabola(trajectory: VNTrajectoryObservation) -> Bool {
         
@@ -137,13 +268,13 @@ class ContentAnalysisViewController: UIViewController,
         
         /**
          Filter the trajectory with the following conditions:
-            - The trajectory moves from left to right.
+         - The trajectory moves from left to right.
          - The trajectory starts in the first half of the region of interest.
          - The trajectory ens in the right half of the region of interest.
-            - The trajectory length increases to 8.
-            - The trajectory contains a parabolic equation constant a, less than or equal to 0, and implies there
-                are either straight lines or downward-facing lines.
-            - The trajectory confidence is greater than 0.9.
+         - The trajectory length increases to 8.
+         - The trajectory contains a parabolic equation constant a, less than or equal to 0, and implies there
+         are either straight lines or downward-facing lines.
+         - The trajectory confidence is greater than 0.9.
          
          Add additional filters based on trajectory speed, location, and properties.
          */
@@ -162,7 +293,7 @@ class ContentAnalysisViewController: UIViewController,
     }
     
     private func correctTrajectoryPath(trajectoryToCorrect: VNTrajectoryObservation) -> [VNPoint] {
-    
+        
         guard var basePoints = trajectoryDictionary[trajectoryToCorrect.uuid.uuidString],
               var basePointX = basePoints.first?.x else {
             return []
@@ -182,7 +313,7 @@ class ContentAnalysisViewController: UIViewController,
                 sum = sum + basePoints[i + 1].x - basePoints[i].x
             }
             let averageDifferenceInX = sum / 5.0
-        
+            
             while basePointX > 0.1 {
                 let nextXValue = basePointX - averageDifferenceInX
                 let aXX = Double(trajectoryToCorrect.equationCoefficients[0]) * nextXValue * nextXValue
@@ -221,7 +352,7 @@ class ContentAnalysisViewController: UIViewController,
                 cameraViewController.startReadingAsset(recordedVideoSource!)
             } else {
                 // Start live camera capture.
-                try cameraViewController.setupAVSession()
+                //try cameraViewController.setupAVSession()
             }
         } catch {
             AppError.display(error, inViewController: self)
@@ -231,13 +362,7 @@ class ContentAnalysisViewController: UIViewController,
         
         // Add a custom trajectory view for overlaying trajectories.
         view.addSubview(trajectoryView)
-        view.addSubview(closeButton)
-        view.addSubview(serveSpeedLabel)
-        view.bringSubviewToFront(closeButton)
-        view.bringSubviewToFront(serveSpeedLabel)
-
     }
-    
 }
 
 extension ContentAnalysisViewController: CameraViewControllerOutputDelegate {
@@ -246,8 +371,6 @@ extension ContentAnalysisViewController: CameraViewControllerOutputDelegate {
                               didReceiveBuffer buffer: CMSampleBuffer,
                               orientation: CGImagePropertyOrientation) {
         
-        let timestamp = CMSampleBufferGetPresentationTimeStamp(buffer)
-
         let visionHandler = VNImageRequestHandler(cmSampleBuffer: buffer,
                                                   orientation: orientation,
                                                   options: [:])
@@ -280,6 +403,7 @@ extension ContentAnalysisViewController: CameraViewControllerOutputDelegate {
             
             
             try visionHandler.perform([detectTrajectoryRequest])
+            checkForTrajectoryCompletion()
         } catch {
             print("Failed to perform the trajectory request: \(error.localizedDescription)")
             return
@@ -288,3 +412,4 @@ extension ContentAnalysisViewController: CameraViewControllerOutputDelegate {
     }
     
 }
+

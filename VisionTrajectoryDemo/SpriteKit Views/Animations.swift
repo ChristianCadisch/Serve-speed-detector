@@ -46,6 +46,10 @@ extension AnimatedTransitioning where Self: UIView {
             }) { _ in
                 completion?()
             }
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "ss.SSS"
+            let currentTimeString = dateFormatter.string(from: Date())
+            //print("Current time:", currentTimeString)
         case .fadeOut:
             UIView.transition(with: self,
                               duration: duration,

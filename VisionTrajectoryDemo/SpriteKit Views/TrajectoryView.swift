@@ -16,6 +16,7 @@ class TrajectoryView: SKView, AnimatedTransitioning {
     var outOfROIPoints = 0
     var duration = 0.0
     var speed = 0.0
+    var numberOfServes = 0
     var points: [VNPoint] = [] {
         didSet {
             updatePathLayer()
@@ -56,18 +57,16 @@ class TrajectoryView: SKView, AnimatedTransitioning {
     // MARK: - Private Methods
     
     private func setupLayer() {
-        shadowLayer.strokeColor = UIColor(displayP3Red: 0 / 255, green: 0 / 255, blue: 254 / 255, alpha: 0.15).cgColor
-        shadowLayer.lineWidth = 5.0
+        shadowLayer.lineWidth = 6.0
+        shadowLayer.lineCap = .round
         shadowLayer.fillColor = UIColor.clear.cgColor
+        shadowLayer.strokeColor = #colorLiteral(red: 0.9882352941, green: 0.4666666667, blue: 0, alpha: 0.4519210188).cgColor
         layer.addSublayer(shadowLayer)
-        pathLayer.lineWidth = 2.5
+        pathLayer.lineWidth = 2.0
+        pathLayer.lineCap = .round
         pathLayer.fillColor = UIColor.clear.cgColor
-        pathLayer.strokeColor = UIColor(displayP3Red: 0 / 255, green: 254 / 255, blue: 254 / 255, alpha: 0.35).cgColor
+        pathLayer.strokeColor = #colorLiteral(red: 0.9960784314, green: 0.737254902, blue: 0, alpha: 0.7512574914).cgColor
         layer.addSublayer(pathLayer)
-        gradientLayer.frame = bounds
-        gradientLayer.colors = [UIColor(displayP3Red: 254 / 255, green: 234 / 255, blue: 0, alpha: 1).cgColor,
-                                UIColor(displayP3Red: 252 / 255, green: 119 / 255, blue: 0, alpha: 1).cgColor]
-        layer.addSublayer(gradientLayer)
     }
     
     private func updatePathLayer() {
@@ -103,13 +102,81 @@ class TrajectoryView: SKView, AnimatedTransitioning {
         for point in points {
             scaledPoints.append(point.location.applying(CGAffineTransform(scaleX: frame.size.width, y: frame.size.height)))
         }
-        
-        speed = Double(15) / duration * 3.6 //over the thum estimation of speed
-        
+                
         // Animate the ball across the scene.
         if scaledPoints.last != nil {
             glowingBallScene!.flyBall(points: scaledPoints)
         }
+        
+        // Automatically reset the path after 1 second
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+                self?.resetPath()
+            }
     }
     
+}
+
+
+
+
+class DashboardView: UIView, AnimatedTransitioning {
+    
+    var speed = 0.0 {
+        didSet {
+            updatePathLayer()
+        }
+    }
+    private var maxSpeed = 30.0
+    private var halfWidth: CGFloat = 0
+    private var startAngle = CGFloat.pi * 5 / 6
+    private var maxAngle = CGFloat.pi * 4 / 3
+    private var pathLayer = CAShapeLayer()
+    private var speedLayer = CAShapeLayer()
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        initialSetup()
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        initialSetup()
+    }
+    
+    func animateSpeedChart() {
+        let progressAnimation = CABasicAnimation(keyPath: "strokeEnd")
+        progressAnimation.duration = 1
+        progressAnimation.fromValue = 0
+        progressAnimation.toValue = 1
+        progressAnimation.fillMode = .forwards
+        progressAnimation.isRemovedOnCompletion = false
+        speedLayer.add(progressAnimation, forKey: "animateSpeedChart")
+    }
+
+    private func initialSetup() {
+        isOpaque = false
+        backgroundColor = .clear
+        halfWidth = bounds.width / 2
+        let endAngle = CGFloat.pi / 6
+        let circlePath = UIBezierPath(arcCenter: CGPoint(x: halfWidth, y: halfWidth), radius: bounds.width / 2,
+                                      startAngle: startAngle, endAngle: endAngle, clockwise: true)
+        pathLayer.path = circlePath.cgPath
+        pathLayer.fillColor = UIColor.clear.cgColor
+        pathLayer.strokeColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.4499411387).cgColor
+        pathLayer.lineCap = .round
+        pathLayer.lineWidth = 22
+        layer.addSublayer(pathLayer)
+    }
+
+    private func updatePathLayer() {
+        let endAngle = startAngle + maxAngle * CGFloat(speed / maxSpeed)
+        let circlePath = UIBezierPath(arcCenter: CGPoint(x: halfWidth, y: halfWidth), radius: bounds.width / 2,
+                                      startAngle: startAngle, endAngle: endAngle, clockwise: true)
+        speedLayer.path = circlePath.cgPath
+        speedLayer.fillColor = UIColor.clear.cgColor
+        speedLayer.strokeColor = #colorLiteral(red: 0.6078431373, green: 0.9882352941, blue: 0, alpha: 0.7539934132).cgColor
+        speedLayer.lineCap = .round
+        speedLayer.lineWidth = 22
+        speedLayer.strokeEnd = 1.0
+        layer.addSublayer(speedLayer)
+    }
 }

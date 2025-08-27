@@ -26,11 +26,14 @@ class BallScene: SKScene {
     func flyBall(points: [CGPoint]) {
         DispatchQueue.main.async {
             if self.children.isEmpty {
+                //fire ball animation
+                /*
                 if let fireParticle = SKEmitterNode(fileNamed: "FireBall2") {
                     fireParticle.position = points.first!
                     fireParticle.targetNode = self
                     self.addChild(fireParticle)
                 }
+                */
             } else {
                 self.children.last?.position = points.last!
             }
