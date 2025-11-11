@@ -22,17 +22,19 @@ class ContentAnalysisViewController: UIViewController,
     // MARK: - IBOutlets
     private var backButton: UIButton!
     private var serveSpeedLabel: UILabel!
+    var speedContainerView: UIView! // Add this property to your class
+    
     
     // MARK: - IBActions
     @IBAction func closeRootViewTapped(_ sender: Any) {
-            print("close tapped")
-            NotificationCenter.default.post(name: .highestScoreUpdated, object: nil)
-            dismiss(animated: true) { [weak self] in
-                guard let self = self else { return }
-                print("ContentAnalysisViewController dismissed")
-                self.delegate?.contentAnalysisViewControllerDidFinish(self)
-            }
+        print("close tapped")
+        NotificationCenter.default.post(name: .highestScoreUpdated, object: nil)
+        dismiss(animated: true) { [weak self] in
+            guard let self = self else { return }
+            print("ContentAnalysisViewController dismissed")
+            self.delegate?.contentAnalysisViewControllerDidFinish(self)
         }
+    }
     
     // MARK: - Public Properties
     weak var delegate: ContentAnalysisViewControllerDelegate?
@@ -62,9 +64,9 @@ class ContentAnalysisViewController: UIViewController,
         setupButtonsAndLabels()
         // extractFrameRate()
         /*
-        if let recordedVideoSource = recordedVideoSource {
-                    cameraViewController.startReadingAsset(recordedVideoSource)
-                }
+         if let recordedVideoSource = recordedVideoSource {
+         cameraViewController.startReadingAsset(recordedVideoSource)
+         }
          */
     }
     
@@ -90,7 +92,7 @@ class ContentAnalysisViewController: UIViewController,
             }
         }
     }
-
+    
     private func checkForTrajectoryCompletion() {
         if framesWithoutUpdate >= updateThreshold, let lastTrajectory = lastObservedTrajectory {
             let speed = round(Double(3.6*18) / lastTrajectory.timeRange.duration.seconds)
@@ -99,7 +101,28 @@ class ContentAnalysisViewController: UIViewController,
                 guard let self = self else { return }
                 self.trajectoryView.speed = speed
                 self.trajectoryView.numberOfServes += 1
-                self.serveSpeedLabel.text = String(format: "%.0f km/h", speed)
+                
+                
+                let numberString = String(format: "%.0f", speed)
+                let unitString = "km/h"
+                
+                let bigFont = UIFont.systemFont(ofSize: 45, weight: .bold)
+                let smallFont = UIFont.systemFont(ofSize: 20, weight: .medium)
+                
+                let attributed = NSMutableAttributedString(
+                    string: numberString + "\n",
+                    attributes: [.font: bigFont]
+                )
+                
+                attributed.append(NSAttributedString(
+                    string: unitString,
+                    attributes: [.font: smallFont]
+                ))
+                
+                self.serveSpeedLabel.attributedText = attributed
+                
+                
+                
                 self.saveFastestSpeed(speed)
                 
                 // Update highest score
@@ -121,49 +144,104 @@ class ContentAnalysisViewController: UIViewController,
     
     
     private func setupButtonsAndLabels() {
-            backButton = UIButton(type: .system)
-            backButton.setTitle("Back", for: .normal)
-            backButton.setTitleColor(.white, for: .normal)
-            backButton.backgroundColor = .darkGray
-            backButton.layer.cornerRadius = 5
-            backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
-            
-            view.addSubview(backButton)
-            backButton.translatesAutoresizingMaskIntoConstraints = false
-            
-            NSLayoutConstraint.activate([
-                backButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
-                backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-                backButton.widthAnchor.constraint(equalToConstant: 60),
-                backButton.heightAnchor.constraint(equalToConstant: 30)
-            ])
-        
+        backButton = UIButton(type: .system)
+        let config = UIImage.SymbolConfiguration(pointSize: 22, weight: .semibold)
+        let image = UIImage(systemName: "xmark.circle.fill", withConfiguration: config)
+        backButton.setImage(image, for: .normal)
+        backButton.tintColor = .white
+        backButton.backgroundColor = UIColor.black.withAlphaComponent(0.35)
+        backButton.layer.cornerRadius = 18
+        backButton.clipsToBounds = true
+        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+
+        view.addSubview(backButton)
+        backButton.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            backButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 22),
+            backButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            backButton.widthAnchor.constraint(equalToConstant: 36),
+            backButton.heightAnchor.constraint(equalToConstant: 36)
+        ])
+
+
+        // --- Container View ---
+        speedContainerView = UIView()
+        speedContainerView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        speedContainerView.layer.cornerRadius = 10
+        speedContainerView.clipsToBounds = true
+
+        view.addSubview(speedContainerView)
+        speedContainerView.translatesAutoresizingMaskIntoConstraints = false
+
+        let containerSize: CGFloat = 120
+
+        NSLayoutConstraint.activate([
+            speedContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            speedContainerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50),
+            speedContainerView.widthAnchor.constraint(equalToConstant: containerSize),
+            speedContainerView.heightAnchor.constraint(equalToConstant: containerSize)
+        ])
+
+
+        // --- Speed Label ---
         serveSpeedLabel = UILabel()
-                serveSpeedLabel.textAlignment = .center
-                serveSpeedLabel.textColor = .white
-                serveSpeedLabel.font = UIFont.systemFont(ofSize: 24, weight: .bold)
-                serveSpeedLabel.text = "0 km/h"
-                
-                view.addSubview(serveSpeedLabel)
-                serveSpeedLabel.translatesAutoresizingMaskIntoConstraints = false
-                
-                NSLayoutConstraint.activate([
-                    serveSpeedLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                    serveSpeedLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
-                    serveSpeedLabel.widthAnchor.constraint(equalToConstant: 200),
-                    serveSpeedLabel.heightAnchor.constraint(equalToConstant: 40)
-                ])
-        }
+        serveSpeedLabel.textAlignment = .center
+        serveSpeedLabel.textColor = .white
+        serveSpeedLabel.numberOfLines = 3
+
+        let number = "0"
+        let unit = "km/h"
+
+        let bigFont = UIFont.systemFont(ofSize: 45, weight: .bold)
+        let smallFont = UIFont.systemFont(ofSize: 20, weight: .medium)
+
+        let attributed = NSMutableAttributedString(
+            string: number + "\n",
+            attributes: [.font: bigFont, .foregroundColor: UIColor.white]
+        )
+        attributed.append(NSAttributedString(
+            string: unit,
+            attributes: [.font: smallFont, .foregroundColor: UIColor.white]
+        ))
+
+        serveSpeedLabel.attributedText = attributed
+
+
+        // --- Title Label ---
+        let titleLabel = UILabel()
+        titleLabel.text = "Serve speed"
+        titleLabel.textColor = .white
+        titleLabel.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
+        titleLabel.textAlignment = .center
+
+
+        // --- Stack View to center all content ---
+        let stack = UIStackView(arrangedSubviews: [titleLabel, serveSpeedLabel])
+        stack.axis = .vertical
+        stack.alignment = .center
+        stack.spacing = 4
+
+        speedContainerView.addSubview(stack)
+        stack.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            stack.centerXAnchor.constraint(equalTo: speedContainerView.centerXAnchor),
+            stack.centerYAnchor.constraint(equalTo: speedContainerView.centerYAnchor),
+            stack.widthAnchor.constraint(equalTo: speedContainerView.widthAnchor, constant: 0)
+        ])
+    }
+
     
     @objc private func backButtonTapped() {
-            print("back tapped")
-            NotificationCenter.default.post(name: .highestScoreUpdated, object: nil)
-            dismiss(animated: true) { [weak self] in
-                guard let self = self else { return }
-                print("ContentAnalysisViewController dismissed")
-                self.delegate?.contentAnalysisViewControllerDidFinish(self)
-            }
+        print("back tapped")
+        NotificationCenter.default.post(name: .highestScoreUpdated, object: nil)
+        dismiss(animated: true) { [weak self] in
+            guard let self = self else { return }
+            print("ContentAnalysisViewController dismissed")
+            self.delegate?.contentAnalysisViewControllerDidFinish(self)
         }
+    }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
@@ -206,24 +284,24 @@ class ContentAnalysisViewController: UIViewController,
     // MARK: - Private Methods
     
     /*
-    private var videoFrameRate: Float = 0.0
-    
-    private func extractFrameRate() {
-        guard let videoAsset = recordedVideoSource else {
-            print("No video asset available")
-            return
-        }
-        
-        let tracks = videoAsset.tracks(withMediaType: .video)
-        guard let videoTrack = tracks.first else {
-            print("No video track found")
-            return
-        }
-        
-        videoFrameRate = videoTrack.nominalFrameRate
-        print("Video frame rate: \(videoFrameRate) fps")
-    }
-    */
+     private var videoFrameRate: Float = 0.0
+     
+     private func extractFrameRate() {
+     guard let videoAsset = recordedVideoSource else {
+     print("No video asset available")
+     return
+     }
+     
+     let tracks = videoAsset.tracks(withMediaType: .video)
+     guard let videoTrack = tracks.first else {
+     print("No video track found")
+     return
+     }
+     
+     videoFrameRate = videoTrack.nominalFrameRate
+     print("Video frame rate: \(videoFrameRate) fps")
+     }
+     */
     
     
     private func processTrajectoryObservation(results: [VNTrajectoryObservation]) {
@@ -232,7 +310,7 @@ class ContentAnalysisViewController: UIViewController,
             checkForTrajectoryCompletion()
             return
         }
-
+        
         for trajectory in results {
             if filterParabola(trajectory: trajectory) {
                 framesWithoutUpdate = 0
@@ -413,3 +491,21 @@ extension ContentAnalysisViewController: CameraViewControllerOutputDelegate {
     
 }
 
+
+
+
+import SwiftUI
+
+struct ContentAnalysisPreview: UIViewControllerRepresentable {
+    func makeUIViewController(context: Context) -> ContentAnalysisViewController {
+        let vc = ContentAnalysisViewController()
+        // Optionally set properties on vc
+        return vc
+    }
+    
+    func updateUIViewController(_ uiViewController: ContentAnalysisViewController, context: Context) {}
+}
+
+#Preview {
+    ContentAnalysisPreview()
+}

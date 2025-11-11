@@ -427,7 +427,7 @@
 				DEVELOPMENT_TEAM = 5MWK363BVN;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = VisionTrajectoryDemo/Resources/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Trajectory;
+				INFOPLIST_KEY_CFBundleDisplayName = Clay;
 				INFOPLIST_KEY_NSCameraUsageDescription = "This app uses the camera to analyze the scene.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app allows to use recorded movies as a video source for Vision algorithms.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -465,7 +465,7 @@
 				DEVELOPMENT_TEAM = 5MWK363BVN;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = VisionTrajectoryDemo/Resources/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Trajectory;
+				INFOPLIST_KEY_CFBundleDisplayName = Clay;
 				INFOPLIST_KEY_NSCameraUsageDescription = "This app uses the camera to analyze the scene.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app allows to use recorded movies as a video source for Vision algorithms.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

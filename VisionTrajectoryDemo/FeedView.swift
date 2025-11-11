@@ -34,7 +34,7 @@ struct FeedView: View {
                 
                 HStack(spacing: 6) {
                     Image(systemName: "tennisball")
-                    Text("135 Serves")
+                    Text("\(analyzedVideos.count) Serve\(analyzedVideos.count == 1 ? "" : "s")")
                         .font(.subheadline)
                 }
             }
@@ -48,33 +48,39 @@ struct FeedView: View {
                     if let featuredVideoURL = getFeaturedVideoURL(),
                        let speed = fastestSpeeds[featuredVideoURL] {
                         
-                        ZStack(alignment: .bottomLeading) {
-                            if let thumbnail = featuredThumbnail {
-                                Image(uiImage: thumbnail)
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(maxWidth: .infinity)
-                                    .frame(height: 300)
-                                    .clipped()
-                            } else {
-                                Rectangle()
-                                    .fill(Color.gray.opacity(0.2))
-                                    .frame(height: 300)
+                        Button {
+                            selectedVideo = featuredVideoURL
+                        } label: {
+                            ZStack(alignment: .bottomLeading) {
+                                if let thumbnail = featuredThumbnail {
+                                    Image(uiImage: thumbnail)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(maxWidth: .infinity)
+                                        .frame(height: 300)
+                                        .clipped()
+                                } else {
+                                    Rectangle()
+                                        .fill(Color.gray.opacity(0.2))
+                                        .frame(height: 300)
+                                }
+
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text("Most recent Serve")
+                                        .font(.headline)
+                                        .foregroundColor(.white)
+                                    Text("\(Int(speed)) km/h")
+                                        .font(.largeTitle)
+                                        .fontWeight(.bold)
+                                        .foregroundColor(.white)
+                                }
+                                .padding()
                             }
-                            
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text("Most recent Serve")
-                                    .font(.headline)
-                                    .foregroundColor(.white)
-                                Text("\(Int(speed)) km/h")
-                                    .font(.largeTitle)
-                                    .fontWeight(.bold)
-                                    .foregroundColor(.white)
-                            }
-                            .padding()
                         }
+                        .buttonStyle(.plain)
                         .cornerRadius(8)
                         .padding(.horizontal)
+
                     }
                     
                     // "Other Serves" heading
@@ -87,7 +93,12 @@ struct FeedView: View {
                     
                     // Show the remaining serves in simpler cards
                     LazyVStack(spacing: 12) {
-                        ForEach(analyzedVideos.filter { $0 != getFeaturedVideoURL() }, id: \.self) { videoURL in
+                        ForEach(
+                            analyzedVideos
+                                .filter { $0 != getFeaturedVideoURL() }
+                                .reversed(),
+                            id: \.self
+                        ) { videoURL in
                             let speed = fastestSpeeds[videoURL] ?? 0
                             
                             Button {
@@ -306,7 +317,7 @@ struct RoundedCorner: InsettableShape {
     var radius: CGFloat
     var corners: UIRectCorner
     var insetAmount: CGFloat = 0
-
+    
     func path(in rect: CGRect) -> Path {
         let insetRect = rect.insetBy(dx: insetAmount, dy: insetAmount)
         let path = UIBezierPath(
@@ -316,7 +327,7 @@ struct RoundedCorner: InsettableShape {
         )
         return Path(path.cgPath)
     }
-
+    
     func inset(by amount: CGFloat) -> some InsettableShape {
         var copy = self
         copy.insetAmount += amount
@@ -361,5 +372,4 @@ struct ContentAnalysisViewControllerWrapper: UIViewControllerRepresentable {
     
     func updateUIViewController(_ uiViewController: ContentAnalysisViewController, context: Context) {}
 }
-
 
