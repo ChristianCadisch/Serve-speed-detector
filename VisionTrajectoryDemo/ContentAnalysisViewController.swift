@@ -20,7 +20,6 @@ class ContentAnalysisViewController: UIViewController,
     static let segueDestinationId = "ShowAnalysisView"
     
     // MARK: - IBOutlets
-    private var backButton: UIButton!
     private var serveSpeedLabel: UILabel!
     var speedContainerView: UIView! // Add this property to your class
     
@@ -29,11 +28,11 @@ class ContentAnalysisViewController: UIViewController,
     @IBAction func closeRootViewTapped(_ sender: Any) {
         print("close tapped")
         NotificationCenter.default.post(name: .highestScoreUpdated, object: nil)
-        dismiss(animated: true) { [weak self] in
-            guard let self = self else { return }
-            print("ContentAnalysisViewController dismissed")
+        navigationController?.popViewController(animated: true)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             self.delegate?.contentAnalysisViewControllerDidFinish(self)
         }
+
     }
     
     // MARK: - Public Properties
@@ -62,12 +61,25 @@ class ContentAnalysisViewController: UIViewController,
         super.viewDidLoad()
         configureView()
         setupButtonsAndLabels()
-        // extractFrameRate()
+        
         /*
          if let recordedVideoSource = recordedVideoSource {
          cameraViewController.startReadingAsset(recordedVideoSource)
          }
          */
+        
+        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            image: UIImage(systemName: "chevron.left"),
+            style: .plain,
+            target: self,
+            action: #selector(backButtonTapped)
+        )
+        navigationController?.navigationBar.tintColor = .white
+        navigationController?.navigationBar.isTranslucent = true
+        navigationController?.setNavigationBarHidden(false, animated: false)
+
+        
     }
     
     private func saveFastestSpeed(_ speed: Double) {
@@ -144,27 +156,7 @@ class ContentAnalysisViewController: UIViewController,
     
     
     private func setupButtonsAndLabels() {
-        backButton = UIButton(type: .system)
-        let config = UIImage.SymbolConfiguration(pointSize: 22, weight: .semibold)
-        let image = UIImage(systemName: "xmark.circle.fill", withConfiguration: config)
-        backButton.setImage(image, for: .normal)
-        backButton.tintColor = .white
-        backButton.backgroundColor = UIColor.black.withAlphaComponent(0.35)
-        backButton.layer.cornerRadius = 18
-        backButton.clipsToBounds = true
-        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
-
-        view.addSubview(backButton)
-        backButton.translatesAutoresizingMaskIntoConstraints = false
-
-        NSLayoutConstraint.activate([
-            backButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 22),
-            backButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            backButton.widthAnchor.constraint(equalToConstant: 36),
-            backButton.heightAnchor.constraint(equalToConstant: 36)
-        ])
-
-
+        
         // --- Container View ---
         speedContainerView = UIView()
         speedContainerView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
@@ -236,11 +228,11 @@ class ContentAnalysisViewController: UIViewController,
     @objc private func backButtonTapped() {
         print("back tapped")
         NotificationCenter.default.post(name: .highestScoreUpdated, object: nil)
-        dismiss(animated: true) { [weak self] in
-            guard let self = self else { return }
-            print("ContentAnalysisViewController dismissed")
+        navigationController?.popViewController(animated: true)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             self.delegate?.contentAnalysisViewControllerDidFinish(self)
         }
+
     }
     
     override func viewDidDisappear(_ animated: Bool) {

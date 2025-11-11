@@ -22,6 +22,8 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             setupFeedView()
         }
     
+    
+    
     func addNewVideoURL(_ url: URL) {
             print("HomeViewController: Attempting to add URL: \(url.absoluteString)")
             var savedURLs = UserDefaults.standard.stringArray(forKey: "AnalyzedVideos") ?? []
@@ -150,7 +152,10 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
                 // Perform the segue on the main thread after the picker is dismissed
                 DispatchQueue.main.async {
                     print("Performing segue to ContentAnalysisViewController")
-                    self.performSegue(withIdentifier: ContentAnalysisViewController.segueDestinationId, sender: self)
+                    let controller = ContentAnalysisViewController()
+                    controller.recordedVideoSource = AVAsset(url: destinationUrl)
+                    controller.delegate = self
+                    self.navigationController?.pushViewController(controller, animated: true)
                 }
             } catch {
                 print("Error processing video: \(error.localizedDescription)")
