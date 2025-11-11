@@ -47,11 +47,10 @@ struct FeedView: View {
                     // Big card for the most recently uploaded video
                     if let featuredVideoURL = getFeaturedVideoURL(),
                        let speed = fastestSpeeds[featuredVideoURL] {
-                        
-                        Button {
-                            selectedVideo = featuredVideoURL
-                        } label: {
+
+                        NavigationLink(value: featuredVideoURL) {
                             ZStack(alignment: .bottomLeading) {
+
                                 if let thumbnail = featuredThumbnail {
                                     Image(uiImage: thumbnail)
                                         .resizable()
@@ -71,7 +70,7 @@ struct FeedView: View {
                                         .foregroundColor(.white)
                                     Text("\(Int(speed)) km/h")
                                         .font(.largeTitle)
-                                        .fontWeight(.bold)
+                                        .bold()
                                         .foregroundColor(.white)
                                 }
                                 .padding()
@@ -80,8 +79,8 @@ struct FeedView: View {
                         .buttonStyle(.plain)
                         .cornerRadius(8)
                         .padding(.horizontal)
-
                     }
+
                     
                     // "Other Serves" heading
                     if analyzedVideos.count > 1 {
@@ -101,9 +100,7 @@ struct FeedView: View {
                         ) { videoURL in
                             let speed = fastestSpeeds[videoURL] ?? 0
                             
-                            Button {
-                                selectedVideo = videoURL
-                            } label: {
+                            NavigationLink(value: videoURL) {
                                 HStack(spacing: 0) {
                                     if let thumbnail = videoThumbnails[videoURL] {
                                         Image(uiImage: thumbnail)
@@ -117,7 +114,7 @@ struct FeedView: View {
                                             .frame(width: 120, height: 100)
                                             .maskedCornerRadius(8, corners: [.topLeft, .bottomLeft])
                                     }
-                                    
+
                                     VStack(alignment: .leading, spacing: 4) {
                                         Text("\(Int(speed)) km/h")
                                             .font(.headline)
@@ -130,14 +127,14 @@ struct FeedView: View {
                                         }
                                     }
                                     .padding(.leading, 12)
-                                    
+
                                     Spacer()
                                 }
-                                //.padding()
                                 .frame(maxWidth: .infinity)
                                 .background(RoundedRectangle(cornerRadius: 8).fill(Color.blue.opacity(0.15)))
                                 .padding(.horizontal)
                             }
+                            .buttonStyle(.plain)
                             .contextMenu {
                                 Button(role: .destructive) {
                                     deleteVideo(videoURL)
@@ -145,6 +142,7 @@ struct FeedView: View {
                                     Text("Delete")
                                 }
                             }
+
                         }
                     }
                     .padding(.bottom, 60)
@@ -162,9 +160,6 @@ struct FeedView: View {
             .onReceive(NotificationCenter.default.publisher(for: .newVideoAdded)) { _ in
                 loadAnalyzedVideos()
                 loadFeaturedThumbnail()
-            }
-            .sheet(item: $selectedVideo) { videoURL in
-                ContentAnalysisViewControllerWrapper(videoURL: videoURL)
             }
             
             // Bottom Tab Bar
@@ -222,7 +217,13 @@ struct FeedView: View {
             }
         }
         .edgesIgnoringSafeArea(.bottom)
+        .navigationDestination(for: URL.self) { videoURL in
+            ContentAnalysisViewControllerWrapper(videoURL: videoURL)
+                .ignoresSafeArea()
+        }
+
     }
+    
     
     // Now returns the most recently uploaded video (the last in the array)
     private func getFeaturedVideoURL() -> URL? {

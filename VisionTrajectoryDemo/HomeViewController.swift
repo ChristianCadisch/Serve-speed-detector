@@ -12,7 +12,7 @@ import UniformTypeIdentifiers
 
 class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, ContentAnalysisViewControllerDelegate {
 
-    private var feedView: UIHostingController<FeedView>!
+    private var feedView: UIHostingController<AnyView>!
         var recordedVideoURL: URL?
     @State private var analyzedVideos: [URL] = []
         
@@ -42,17 +42,21 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         }
         
     private func setupFeedView() {
-            let swiftUIView = FeedView(onAddTapped: { [weak self] in
+        let swiftUIView = NavigationStack {
+            FeedView(onAddTapped: { [weak self] in
                 self?.openGallery()
             })
-            feedView = UIHostingController(rootView: swiftUIView)
-            addChild(feedView)
-            view.addSubview(feedView.view)
-            feedView.view.frame = view.bounds
-            feedView.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-            feedView.didMove(toParent: self)
         }
+
+        feedView = UIHostingController(rootView: AnyView(swiftUIView))
         
+        addChild(feedView)
+        view.addSubview(feedView.view)
+        feedView.view.frame = view.bounds
+        feedView.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        feedView.didMove(toParent: self)
+    }
+
     
     func contentAnalysisViewControllerDidFinish(_ controller: ContentAnalysisViewController) {
             controller.dismiss(animated: true) {
