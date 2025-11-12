@@ -5,6 +5,7 @@ Abstract:
 The app's home view controller that displays instructions and camera options.
 */
 import Photos
+import PhotosUI
 import UIKit
 import SwiftUI
 import AVFoundation
@@ -111,13 +112,15 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             openGallery()
         }
     func openGallery() {
-        let imagePicker = UIImagePickerController()
-        imagePicker.delegate = self
-        imagePicker.sourceType = .photoLibrary
-        imagePicker.mediaTypes = ["public.movie"]
-        //imagePicker.modalPresentationStyle = .fullScreen
-        present(imagePicker, animated: true, completion: nil)
+        var configuration = PHPickerConfiguration(photoLibrary: .shared())
+        configuration.filter = .videos
+        configuration.preferredAssetRepresentationMode = .current   // ✅ original file only
+
+        let picker = PHPickerViewController(configuration: configuration)
+        picker.delegate = self
+        present(picker, animated: true)
     }
+
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let pickedVideoUrl = info[UIImagePickerController.InfoKey.mediaURL] as? URL else {
@@ -184,8 +187,73 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         print("Preparing to present ContentAnalysisViewController")
     }
     
+    private func handlePickedVideo(url: URL) {
+        self.recordedVideoURL = url
+        self.addNewVideoURL(url)
 
+        let controller = ContentAnalysisViewController()
+        controller.recordedVideoSource = AVAsset(url: url)
+        controller.delegate = self
+        self.navigationController?.pushViewController(controller, animated: true)
+    }
+
+    
+    
 }
+
+
+
+extension HomeViewController: PHPickerViewControllerDelegate {
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        picker.dismiss(animated: true)
+
+        guard let result = results.first else {
+            return
+        }
+
+        // ✅ Gets Photos asset ID (required to fetch original file)
+        guard let assetId = result.assetIdentifier else {
+            print("No asset identifier – cannot fetch original file.")
+            return
+        }
+
+        let assets = PHAsset.fetchAssets(withLocalIdentifiers: [assetId], options: nil)
+        guard let asset = assets.firstObject else {
+            print("Failed to fetch PHAsset.")
+            return
+        }
+
+        // ✅ Grab the original video resource
+        let resources = PHAssetResource.assetResources(for: asset)
+        guard let videoResource = resources.first(where: { $0.type == .video }) else {
+            print("No video resource found.")
+            return
+        }
+
+        let fileName = videoResource.originalFilename
+        let destinationURL = FileManager.default.temporaryDirectory.appendingPathComponent(fileName)
+
+        // ✅ Remove old file if needed
+        if FileManager.default.fileExists(atPath: destinationURL.path) {
+            try? FileManager.default.removeItem(at: destinationURL)
+        }
+
+        // ✅ Read original video bytes into your destination file
+        PHAssetResourceManager.default().writeData(for: videoResource, toFile: destinationURL, options: nil) { error in
+            if let error = error {
+                print("Error writing video file: \(error)")
+                return
+            }
+
+            print("✅ Video saved at: \(destinationURL)")
+            DispatchQueue.main.async {
+                self.handlePickedVideo(url: destinationURL)
+            }
+        }
+    }
+}
+
+
 
 
 struct FeedViewRepresentable: UIViewControllerRepresentable {

@@ -67,8 +67,6 @@ class ContentAnalysisViewController: UIViewController,
          cameraViewController.startReadingAsset(recordedVideoSource)
          }
          */
-        
-        
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             image: UIImage(systemName: "chevron.left"),
             style: .plain,

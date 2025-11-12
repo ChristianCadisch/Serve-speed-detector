@@ -26,7 +26,7 @@ struct FeedView: View {
             
             // Top Bar
             HStack {
-                Text("CLAY")
+                Text("Clay")
                     .font(.title3)
                     .fontWeight(.bold)
                 
@@ -38,19 +38,20 @@ struct FeedView: View {
                         .font(.subheadline)
                 }
             }
-            .padding()
+            .padding(.horizontal)
+            
+            .padding(.top, -45)
+            .padding(.bottom, 2)
+            .background(Color.white)
             .background(Color.white)
             
-            ScrollView(showsIndicators: false) {
-                VStack(spacing: 16) {
-                    
-                    // Big card for the most recently uploaded video
-                    if let featuredVideoURL = getFeaturedVideoURL(),
-                       let speed = fastestSpeeds[featuredVideoURL] {
-
+            List {
+                // Most recent serve section
+                if let featuredVideoURL = getFeaturedVideoURL(),
+                   let speed = fastestSpeeds[featuredVideoURL] {
+                    Section {
                         NavigationLink(value: featuredVideoURL) {
                             ZStack(alignment: .bottomLeading) {
-
                                 if let thumbnail = featuredThumbnail {
                                     Image(uiImage: thumbnail)
                                         .resizable()
@@ -75,27 +76,30 @@ struct FeedView: View {
                                 }
                                 .padding()
                             }
+                            .cornerRadius(8)
                         }
-                        .buttonStyle(.plain)
-                        .cornerRadius(8)
-                        .padding(.horizontal)
+                        .listRowInsets(EdgeInsets(top: 0, leading: 16, bottom: 12, trailing: 16))
+                        .listRowSeparator(.hidden)
+                        .swipeActions(edge: .trailing) {
+                            Button(role: .destructive) {
+                                deleteVideo(featuredVideoURL)
+                            } label: {
+                                Label("Delete", systemImage: "trash")
+                            }
+                            .tint(.red)
+                        }
                     }
+                }
 
-                    
-                    // "Other Serves" heading
-                    if analyzedVideos.count > 1 {
+                // Other serves section
+                if analyzedVideos.count > 1 {
+                    Section(header:
                         Text("Other Serves")
                             .font(.headline)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.horizontal)
-                    }
-                    
-                    // Show the remaining serves in simpler cards
-                    LazyVStack(spacing: 12) {
+                            .padding(.leading, 16)
+                    ) {
                         ForEach(
-                            analyzedVideos
-                                .filter { $0 != getFeaturedVideoURL() }
-                                .reversed(),
+                            analyzedVideos.filter { $0 != getFeaturedVideoURL() }.reversed(),
                             id: \.self
                         ) { videoURL in
                             let speed = fastestSpeeds[videoURL] ?? 0
@@ -107,12 +111,12 @@ struct FeedView: View {
                                             .resizable()
                                             .scaledToFill()
                                             .frame(width: 120, height: 100)
-                                            .maskedCornerRadius(8, corners: [.topLeft, .bottomLeft])
+                                            .clipped()
+                                            .mask(RoundedRectangle(cornerRadius: 8, style: .continuous))
                                     } else {
-                                        RoundedRectangle(cornerRadius: 16)
+                                        RoundedRectangle(cornerRadius: 8, style: .continuous)
                                             .fill(Color.gray.opacity(0.2))
                                             .frame(width: 120, height: 100)
-                                            .maskedCornerRadius(8, corners: [.topLeft, .bottomLeft])
                                     }
 
                                     VStack(alignment: .leading, spacing: 4) {
@@ -127,27 +131,36 @@ struct FeedView: View {
                                         }
                                     }
                                     .padding(.leading, 12)
-
                                     Spacer()
                                 }
-                                .frame(maxWidth: .infinity)
-                                .background(RoundedRectangle(cornerRadius: 8).fill(Color.blue.opacity(0.15)))
-                                .padding(.horizontal)
+                                .frame(height: 100)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 8, style: .continuous)
+                                        .fill(Color.blue.opacity(0.15))
+                                )
+                                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                                .contentShape(Rectangle())
                             }
-                            .buttonStyle(.plain)
-                            .contextMenu {
+                            
+                            .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
+                            .listRowSeparator(.hidden)
+                            .swipeActions(edge: .trailing) {
                                 Button(role: .destructive) {
                                     deleteVideo(videoURL)
                                 } label: {
-                                    Text("Delete")
+                                    Label("Delete", systemImage: "xmark.circle.fill")
                                 }
+                                .tint(.red)
                             }
-
                         }
                     }
-                    .padding(.bottom, 60)
                 }
             }
+            .listStyle(.plain)
+            .scrollContentBackground(.hidden)
+            .padding(.bottom, 4)
+            .environment(\.defaultMinListRowHeight, 0)
+
             .onAppear {
                 loadAnalyzedVideos()
                 loadFeaturedThumbnail()
