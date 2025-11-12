@@ -50,7 +50,15 @@ struct FeedView: View {
                 if let featuredVideoURL = getFeaturedVideoURL(),
                    let speed = fastestSpeeds[featuredVideoURL] {
                     Section {
-                        NavigationLink(value: featuredVideoURL) {
+                        ZStack {
+                            // Invisible NavigationLink
+                            NavigationLink(value: featuredVideoURL) {
+                                EmptyView()
+                            }
+                            .opacity(0)
+                            .buttonStyle(.plain)
+                            
+                            // Visible content
                             ZStack(alignment: .bottomLeading) {
                                 if let thumbnail = featuredThumbnail {
                                     Image(uiImage: thumbnail)
@@ -64,7 +72,7 @@ struct FeedView: View {
                                         .fill(Color.gray.opacity(0.2))
                                         .frame(height: 300)
                                 }
-
+                                
                                 VStack(alignment: .leading, spacing: 4) {
                                     Text("Most recent Serve")
                                         .font(.headline)
@@ -90,21 +98,35 @@ struct FeedView: View {
                         }
                     }
                 }
-
+                
+                
                 // Other serves section
                 if analyzedVideos.count > 1 {
                     Section(header:
-                        Text("Other Serves")
-                            .font(.headline)
-                            .padding(.leading, 16)
-                    ) {
+                                Text("Other Serves")
+                        .font(.headline)
+                        .foregroundStyle(.black)
+                        .padding(.leading, 16)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                        .textCase(nil)
+                    )
+                    {
                         ForEach(
                             analyzedVideos.filter { $0 != getFeaturedVideoURL() }.reversed(),
                             id: \.self
                         ) { videoURL in
                             let speed = fastestSpeeds[videoURL] ?? 0
                             
-                            NavigationLink(value: videoURL) {
+                            ZStack {
+                                // Invisible NavigationLink covering the whole row
+                                NavigationLink(value: videoURL) {
+                                    EmptyView()
+                                }
+                                .opacity(0)
+                                .buttonStyle(.plain)
+                                
+                                // Visible row content
                                 HStack(spacing: 0) {
                                     if let thumbnail = videoThumbnails[videoURL] {
                                         Image(uiImage: thumbnail)
@@ -118,7 +140,7 @@ struct FeedView: View {
                                             .fill(Color.gray.opacity(0.2))
                                             .frame(width: 120, height: 100)
                                     }
-
+                                    
                                     VStack(alignment: .leading, spacing: 4) {
                                         Text("\(Int(speed)) km/h")
                                             .font(.headline)
@@ -141,18 +163,18 @@ struct FeedView: View {
                                 .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
                                 .contentShape(Rectangle())
                             }
-                            
                             .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
                             .listRowSeparator(.hidden)
                             .swipeActions(edge: .trailing) {
                                 Button(role: .destructive) {
                                     deleteVideo(videoURL)
                                 } label: {
-                                    Label("Delete", systemImage: "xmark.circle.fill")
+                                    Label("Delete", systemImage: "trash")
                                 }
                                 .tint(.red)
                             }
                         }
+                        
                     }
                 }
             }
@@ -160,7 +182,7 @@ struct FeedView: View {
             .scrollContentBackground(.hidden)
             .padding(.bottom, 4)
             .environment(\.defaultMinListRowHeight, 0)
-
+            
             .onAppear {
                 loadAnalyzedVideos()
                 loadFeaturedThumbnail()
@@ -234,7 +256,7 @@ struct FeedView: View {
             ContentAnalysisViewControllerWrapper(videoURL: videoURL)
                 .ignoresSafeArea()
         }
-
+        
     }
     
     
