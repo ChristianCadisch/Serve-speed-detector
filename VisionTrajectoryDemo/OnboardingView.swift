@@ -8,38 +8,52 @@
 
 import Foundation
 import SwiftUI
-
-
 struct OnboardingView: View {
     @Binding var hasSeenOnboarding: Bool
     @State private var currentPage = 0
-    private let totalPages = 3
-
+    private let totalPages = 5
     
     var body: some View {
         GeometryReader { geo in
             ZStack {
+                Color(uiColor: .systemBackground)
+                    .ignoresSafeArea()
+                
                 TabView(selection: $currentPage) {
                     OnboardingPage(
-                        image: "tennisball",
+                        image: "onboarding",
                         title: "Welcome to Clay",
-                        description: "Analyze and improve your serve with AI-powered feedback."
+                        description: "Your personal AI serve coach — powered by the newest AI technology"
                     )
                     .tag(0)
-
+                    
                     OnboardingPage(
                         image: "camera.fill",
-                        title: "Record Serves",
-                        description: "Upload or record your serves directly in the app."
+                        title: "Keep the Camera Steady",
+                        description: "For accurate ball tracking, keep the camera completely still — handheld videos don’t work. Just lean your phone against a bottle or bag behind the court"
                     )
                     .tag(1)
-
+                    
                     OnboardingPage(
-                        image: "chart.bar.fill",
-                        title: "Track Progress",
-                        description: "See your speed history and performance trends."
+                        image: "timelapse",
+                        title: "Record in Slow Motion",
+                        description: "Use slow-motion mode (120 – 240 fps) for the most precise tracking"
                     )
                     .tag(2)
+                    
+                    OnboardingPage(
+                        image: "viewfinder.circle",
+                        title: "Capture the Whole Serve",
+                        description: "Ensure the entire serve is visible — from your toss and contact point to the ball landing on the other side of the net"
+                    )
+                    .tag(3)
+                    
+                    OnboardingPage(
+                        image: "chart.bar.fill",
+                        title: "Let’s Get Started",
+                        description: "Upload or record your first serve"
+                    )
+                    .tag(4)
                 }
                 .tabViewStyle(.page(indexDisplayMode: .never))
                 .ignoresSafeArea()
@@ -47,54 +61,57 @@ struct OnboardingView: View {
                 .simultaneousGesture(
                     DragGesture(minimumDistance: 0)
                         .onEnded { value in
-                            // treat as tap only if there was essentially no drag
                             let isTap =
-                                abs(value.translation.width) < 5 &&
-                                abs(value.translation.height) < 5
+                            abs(value.translation.width) < 5 &&
+                            abs(value.translation.height) < 5
                             guard isTap else { return }
-
+                            
                             let midX = geo.size.width / 2
                             if value.startLocation.x >= midX {
                                 if currentPage < totalPages - 1 {
                                     withAnimation { currentPage += 1 }
                                 } else {
                                     hasSeenOnboarding = true
+                                    UserDefaults.standard.set(true, forKey: "HasSeenOnboarding")
                                 }
-                            } else {
-                                if currentPage > 0 {
-                                    withAnimation { currentPage -= 1 }
-                                }
+                            } else if currentPage > 0 {
+                                withAnimation { currentPage -= 1 }
                             }
                         }
                 )
-
+                
                 VStack {
                     Spacer()
-
-                    // indicators don’t need to intercept gestures
+                    
                     HStack(spacing: 8) {
                         ForEach(0..<totalPages, id: \.self) { index in
                             Capsule()
-                                .fill(index == currentPage ? Color.blue : Color.gray.opacity(0.4))
+                                .fill(index == currentPage
+                                      ? Color.accentColor
+                                      : Color.secondary.opacity(0.4))
                                 .frame(width: index == currentPage ? 24 : 8, height: 8)
                                 .animation(.easeInOut(duration: 0.2), value: currentPage)
                         }
                     }
                     .padding(.bottom, 60)
                     .allowsHitTesting(false)
-
+                    
                     if currentPage == totalPages - 1 {
                         Button {
                             hasSeenOnboarding = true
                             UserDefaults.standard.set(true, forKey: "HasSeenOnboarding")
-                            UIApplication.shared.windows.first?.rootViewController?.dismiss(animated: true)
+                            UIApplication.shared.connectedScenes
+                                .compactMap { ($0 as? UIWindowScene)?.keyWindow }
+                                .first?
+                                .rootViewController?
+                                .dismiss(animated: true)
                         } label: {
                             Text("Get Started")
                                 .fontWeight(.bold)
                                 .frame(maxWidth: .infinity)
                                 .padding()
-                                .background(Color.blue)
-                                .foregroundColor(.white)
+                                .background(Color.accentColor)
+                                .foregroundColor(Color(uiColor: .systemBackground))
                                 .cornerRadius(12)
                                 .padding(.horizontal, 40)
                                 .padding(.bottom, 40)
@@ -105,42 +122,50 @@ struct OnboardingView: View {
             }
         }
     }
-
 }
-
 
 struct OnboardingPage: View {
     let image: String
     let title: String
     let description: String
-
+    
     var body: some View {
         VStack(spacing: 30) {
             Spacer()
-            Image(systemName: image)
-                .resizable()
-                .scaledToFit()
-                .frame(width: 120, height: 120)
-                .foregroundColor(.blue)
-
+            if image == "onboarding" {
+                            // Case 1: Custom Asset ("onboarding")
+                            Image(image)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 200, height: 200) // Larger size
+                        } else {
+                            // Case 2: SF Symbol (any other name, like "timelapse")
+                            Image(systemName: image)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 80, height: 80) // Smaller size
+                                .foregroundColor(.accentColor)
+                        }
             Text(title)
                 .font(.largeTitle)
                 .bold()
-
+                .foregroundColor(Color.primary)
+            
             Text(description)
                 .font(.body)
                 .multilineTextAlignment(.center)
-                .foregroundColor(.gray)
+                .foregroundColor(Color.secondary)
                 .padding(.horizontal, 40)
             Spacer()
         }
         .padding()
-        .background(Color.white)
+        .background(Color(uiColor: .systemBackground))
     }
+    
 }
-
 
 
 #Preview {
     OnboardingView(hasSeenOnboarding: .constant(false))
 }
+
