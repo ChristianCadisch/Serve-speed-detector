@@ -86,6 +86,8 @@ struct OnboardingView: View {
                     if currentPage == totalPages - 1 {
                         Button {
                             hasSeenOnboarding = true
+                            UserDefaults.standard.set(true, forKey: "HasSeenOnboarding")
+                            UIApplication.shared.windows.first?.rootViewController?.dismiss(animated: true)
                         } label: {
                             Text("Get Started")
                                 .fontWeight(.bold)

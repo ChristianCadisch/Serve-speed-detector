@@ -4,6 +4,7 @@ See LICENSE folder for this sample’s licensing information.
 Abstract:
 The app's home view controller that displays instructions and camera options.
 */
+
 import Photos
 import PhotosUI
 import UIKit
@@ -14,50 +15,179 @@ import UniformTypeIdentifiers
 class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, ContentAnalysisViewControllerDelegate {
 
     private var feedView: UIHostingController<AnyView>!
-        var recordedVideoURL: URL?
+    var recordedVideoURL: URL?
     @State private var analyzedVideos: [URL] = []
-        
-        override func viewDidLoad() {
-            super.viewDidLoad()
-            loadAnalyzedVideos()
-            setupFeedView()
+    private var activeTab: ActiveTab = .feed
+    private var currentHostingController: UIHostingController<AnyView>?
+
+
+    
+    private enum ActiveTab {
+        case feed
+        case settings
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if !UserDefaults.standard.bool(forKey: "HasSeenOnboarding") {
+            let onboardingView = OnboardingView(hasSeenOnboarding: .constant(false))
+            let hosting = UIHostingController(rootView: onboardingView)
+            hosting.modalPresentationStyle = .fullScreen
+            present(hosting, animated: false)
         }
-    
-    
-    
-    func addNewVideoURL(_ url: URL) {
-            print("HomeViewController: Attempting to add URL: \(url.absoluteString)")
-            var savedURLs = UserDefaults.standard.stringArray(forKey: "AnalyzedVideos") ?? []
-            let filename = url.lastPathComponent
-            
-            if !savedURLs.contains(where: { URL(string: $0)?.lastPathComponent == filename }) {
-                savedURLs.append(url.absoluteString)
-                UserDefaults.standard.set(savedURLs, forKey: "AnalyzedVideos")
-                print("HomeViewController: Added new video URL, total count: \(savedURLs.count)")
-                
-                NotificationCenter.default.post(name: .highestScoreUpdated, object: nil)
-                NotificationCenter.default.post(name: .newVideoAdded, object: nil)
-            } else {
-                print("HomeViewController: Video with filename \(filename) already exists, not adding duplicate")
-            }
-            
-            print("HomeViewController: Current saved URLs: \(savedURLs)")
-        }
-        
+    }
+
+
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        loadAnalyzedVideos()
+        setupFeedView()
+    }
+
     private func setupFeedView() {
-        let swiftUIView = NavigationStack {
-            FeedView(
-                onAddTapped: { [weak self] in
-                    self?.openGallery()
-                },
-                onSettingsTapped: { [weak self] in
-                    self?.openSettings()
-                }
-            )
+        showFeedView()
+    }
+    
+    private func showFeedView() {
+        let feedView = FeedView(
+            onAddTapped: { [weak self] in
+                self?.openGallery()
+            },
+            onSettingsTapped: { [weak self] in
+                self?.showSettingsView()
+            },
+            onVideoSelected: { [weak self] videoURL in
+                self?.openContentAnalysis(for: videoURL)
+            }
+        )
+
+        let hosting = UIHostingController(rootView: AnyView(feedView))
+        replaceRoot(with: hosting, title: "Clay")
+    }
+
+    private func showSettingsView() {
+        let settingsView = SettingsView(hasSeenOnboarding: .constant(true))
+        let hosting = UIHostingController(rootView: AnyView(settingsView))
+        replaceRoot(with: hosting, title: "Settings")
+    }
+
+    private func replaceRoot(with controller: UIHostingController<AnyView>, title: String) {
+        // Remove old SwiftUI controller
+        currentHostingController?.willMove(toParent: nil)
+        currentHostingController?.view.removeFromSuperview()
+        currentHostingController?.removeFromParent()
+
+        // Container stack
+        let container = UIStackView()
+        container.axis = .vertical
+        container.translatesAutoresizingMaskIntoConstraints = false
+        container.alignment = .fill
+        container.distribution = .fill
+
+        // --- Main SwiftUI content ---
+        addChild(controller)
+        container.addArrangedSubview(controller.view)
+        controller.didMove(toParent: self)
+
+        // --- Bottom bar ---
+        let tabBar = makeBottomTabBar()
+        container.addArrangedSubview(tabBar)
+        tabBar.heightAnchor.constraint(equalToConstant: 100).isActive = true
+
+        // Replace everything in view
+        view.subviews.forEach { $0.removeFromSuperview() }
+        view.addSubview(container)
+
+        NSLayoutConstraint.activate([
+            container.topAnchor.constraint(equalTo: view.topAnchor),
+            container.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            container.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            container.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
+
+        navigationItem.title = title
+        currentHostingController = controller
+    }
+
+    
+    
+    
+    private func makeBottomTabBar() -> UIView {
+        let bar = UIStackView()
+        bar.axis = .horizontal
+        bar.alignment = .center
+        bar.distribution = .equalSpacing
+        bar.backgroundColor = .white
+        bar.layoutMargins = UIEdgeInsets(top: 10, left: 50, bottom: -10, right: 50)
+        bar.isLayoutMarginsRelativeArrangement = true
+        bar.spacing = 0
+
+        func createButton(systemName: String, isActive: Bool, action: @escaping () -> Void) -> UIButton {
+            let button = UIButton(type: .system)
+            // ✅ Explicitly configure size + scale
+            let config = UIImage.SymbolConfiguration(pointSize: 32, weight: .regular, scale: .large)
+            let image = UIImage(systemName: systemName, withConfiguration: config)
+            button.setImage(image, for: .normal)
+            button.tintColor = isActive ? .black : .gray
+
+            // ✅ Fixed frame for consistent large tap target
+            button.addAction(UIAction { _ in action() }, for: .touchUpInside)
+
+            button.translatesAutoresizingMaskIntoConstraints = false
+            button.widthAnchor.constraint(equalToConstant: 50).isActive = true
+            button.heightAnchor.constraint(equalToConstant: 50).isActive = true
+
+            button.imageView?.contentMode = .scaleAspectFit
+            button.contentHorizontalAlignment = .center
+            button.contentVerticalAlignment = .center
+            return button
         }
 
-        feedView = UIHostingController(rootView: AnyView(swiftUIView))
-        
+        let feedButton = createButton(
+            systemName: "figure.tennis",
+            isActive: activeTab == .feed
+        ) { [weak self] in
+            self?.activeTab = .feed
+            self?.showFeedView()
+        }
+
+        let addButton = createButton(
+            systemName: "plus.app",
+            isActive: false
+        ) { [weak self] in
+            self?.openGallery()
+        }
+
+        let settingsButton = createButton(
+            systemName: "gearshape",
+            isActive: activeTab == .settings
+        ) { [weak self] in
+            self?.activeTab = .settings
+            self?.showSettingsView()
+        }
+
+        bar.addArrangedSubview(feedButton)
+        bar.addArrangedSubview(addButton)
+        bar.addArrangedSubview(settingsButton)
+
+        // ✅ Taller overall bar for breathing room
+        bar.heightAnchor.constraint(equalToConstant: 70).isActive = true
+
+        return bar
+    }
+
+
+
+
+
+
+    private func replaceSwiftUIView(with newView: AnyView) {
+        feedView?.willMove(toParent: nil)
+        feedView?.view.removeFromSuperview()
+        feedView?.removeFromParent()
+
+        feedView = UIHostingController(rootView: newView)
         addChild(feedView)
         view.addSubview(feedView.view)
         feedView.view.frame = view.bounds
@@ -65,226 +195,99 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         feedView.didMove(toParent: self)
     }
 
+
+
     private func openSettings() {
         let settingsView = SettingsView(hasSeenOnboarding: .constant(true))
         let hostingController = UIHostingController(rootView: settingsView)
         navigationController?.pushViewController(hostingController, animated: true)
     }
 
+    private func openContentAnalysis(for videoURL: URL) {
+        let controller = ContentAnalysisViewController()
+        controller.recordedVideoSource = AVAsset(url: videoURL)
+        controller.delegate = self
+        navigationController?.pushViewController(controller, animated: true)
+    }
 
-    
-    func contentAnalysisViewControllerDidFinish(_ controller: ContentAnalysisViewController) {
-            controller.dismiss(animated: true) {
-                if let newVideoURL = self.recordedVideoURL {
-                    print("New video URL: \(newVideoURL)")
-                    self.addAnalyzedVideo(newVideoURL)
-                } else {
-                    print("recordedVideoURL is nil")
-                }
-            }
-        }
-    
-    private func loadAnalyzedVideos() {
-        if let savedURLs = UserDefaults.standard.stringArray(forKey: "AnalyzedVideos") {
-            analyzedVideos = savedURLs.compactMap { URL(string: $0) }
-            print("FeedView: Loaded \(analyzedVideos.count) video URLs")
-        } else {
-            print("FeedView: No saved URLs found")
-        }
-    }
-        
-    private func addAnalyzedVideo(_ url: URL) {
-        print("Attempting to add URL: \(url.absoluteString)")
-        DispatchQueue.main.async {
-            var savedURLs = UserDefaults.standard.stringArray(forKey: "AnalyzedVideos") ?? []
-            let filename = url.lastPathComponent
-            
-            if !savedURLs.contains(where: { URL(string: $0)?.lastPathComponent == filename }) {
-                savedURLs.append(url.absoluteString)
-                UserDefaults.standard.set(savedURLs, forKey: "AnalyzedVideos")
-                print("Added new video URL, total count: \(savedURLs.count)")
-                
-                // Load the fastest speed for this video
-                let speedKey = "FastestSpeed_\(filename)"
-                let speed = UserDefaults.standard.double(forKey: speedKey)
-                print("Loaded speed for new video: \(speed)")
-                
-                NotificationCenter.default.post(name: .highestScoreUpdated, object: nil)
-                NotificationCenter.default.post(name: .fastestSpeedUpdated, object: nil)
-                print("Posted highestScoreUpdated and fastestSpeedUpdated notifications")
-            } else {
-                print("Video with filename \(filename) already exists, not adding duplicate")
-            }
-            
-            print("Current saved URLs: \(savedURLs)")
-        }
-    }
-    
-    @objc private func addButtonTapped() {
-            openGallery()
-        }
+    // MARK: - Video Handling
+
     func openGallery() {
         var configuration = PHPickerConfiguration(photoLibrary: .shared())
         configuration.filter = .videos
-        configuration.preferredAssetRepresentationMode = .current   // ✅ original file only
+        configuration.preferredAssetRepresentationMode = .current
 
         let picker = PHPickerViewController(configuration: configuration)
         picker.delegate = self
         present(picker, animated: true)
     }
 
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        guard let pickedVideoUrl = info[UIImagePickerController.InfoKey.mediaURL] as? URL else {
-            print("Failed to get the video URL from the picker")
-            picker.dismiss(animated: true, completion: nil)
-            return
+    func contentAnalysisViewControllerDidFinish(_ controller: ContentAnalysisViewController) {
+        controller.dismiss(animated: true) {
+            if let newVideoURL = self.recordedVideoURL {
+                self.addAnalyzedVideo(newVideoURL)
+            }
+            // ✅ Always return to FeedView after finishing analysis
+            self.activeTab = .feed
+            self.showFeedView()
         }
-        
-        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-        let destinationUrl = documentsDirectory.appendingPathComponent(pickedVideoUrl.lastPathComponent)
-        
-        print("Picked video URL: \(pickedVideoUrl)")
-        print("Destination URL: \(destinationUrl)")
-        
-        // Dismiss the picker first, then process the video and present the next view controller
-        picker.dismiss(animated: true) { [weak self] in
-            guard let self = self else { return }
-            
-            do {
-                if FileManager.default.fileExists(atPath: destinationUrl.path) {
-                    try FileManager.default.removeItem(at: destinationUrl)
-                }
-                try FileManager.default.copyItem(at: pickedVideoUrl, to: destinationUrl)
-                self.recordedVideoURL = destinationUrl
-                
-                print("Video copied successfully, recordedVideoURL set to: \(self.recordedVideoURL?.absoluteString ?? "nil")")
-                
-                // Create an AVAsset from the URL
-                let videoAsset = AVAsset(url: destinationUrl)
-                addNewVideoURL(destinationUrl)
-                
-                // Perform the segue on the main thread after the picker is dismissed
-                DispatchQueue.main.async {
-                    print("Performing segue to ContentAnalysisViewController")
-                    let controller = ContentAnalysisViewController()
-                    controller.recordedVideoSource = AVAsset(url: destinationUrl)
-                    controller.delegate = self
-                    self.navigationController?.pushViewController(controller, animated: true)
-                }
-            } catch {
-                print("Error processing video: \(error.localizedDescription)")
+    }
+
+
+    private func loadAnalyzedVideos() {
+        if let savedURLs = UserDefaults.standard.stringArray(forKey: "AnalyzedVideos") {
+            analyzedVideos = savedURLs.compactMap { URL(string: $0) }
+        }
+    }
+
+    private func addAnalyzedVideo(_ url: URL) {
+        DispatchQueue.main.async {
+            var savedURLs = UserDefaults.standard.stringArray(forKey: "AnalyzedVideos") ?? []
+            let filename = url.lastPathComponent
+            if !savedURLs.contains(where: { URL(string: $0)?.lastPathComponent == filename }) {
+                savedURLs.append(url.absoluteString)
+                UserDefaults.standard.set(savedURLs, forKey: "AnalyzedVideos")
+                NotificationCenter.default.post(name: .highestScoreUpdated, object: nil)
+                NotificationCenter.default.post(name: .fastestSpeedUpdated, object: nil)
             }
         }
     }
-
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        picker.dismiss(animated: true, completion: nil)
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let controller = segue.destination as? ContentAnalysisViewController else {
-            print("Failed to load the content analysis view controller.")
-            return
-        }
-        
-        guard let videoURL = recordedVideoURL else {
-            print("Failed to load a video path.")
-            return
-        }
-        
-        controller.recordedVideoSource = AVAsset(url: videoURL)
-        controller.delegate = self  // Make sure this line is here
-        controller.modalPresentationStyle = .fullScreen
-        print("Preparing to present ContentAnalysisViewController")
-    }
-    
-    private func handlePickedVideo(url: URL) {
-        self.recordedVideoURL = url
-        self.addNewVideoURL(url)
-
-        let controller = ContentAnalysisViewController()
-        controller.recordedVideoSource = AVAsset(url: url)
-        controller.delegate = self
-        self.navigationController?.pushViewController(controller, animated: true)
-    }
-
-    
-    
 }
-
-
 
 extension HomeViewController: PHPickerViewControllerDelegate {
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         picker.dismiss(animated: true)
-
-        guard let result = results.first else {
-            return
-        }
-
-        // ✅ Gets Photos asset ID (required to fetch original file)
-        guard let assetId = result.assetIdentifier else {
-            print("No asset identifier – cannot fetch original file.")
-            return
-        }
+        guard let result = results.first,
+              let assetId = result.assetIdentifier else { return }
 
         let assets = PHAsset.fetchAssets(withLocalIdentifiers: [assetId], options: nil)
-        guard let asset = assets.firstObject else {
-            print("Failed to fetch PHAsset.")
-            return
-        }
+        guard let asset = assets.firstObject else { return }
 
-        // ✅ Grab the original video resource
         let resources = PHAssetResource.assetResources(for: asset)
-        guard let videoResource = resources.first(where: { $0.type == .video }) else {
-            print("No video resource found.")
-            return
-        }
+        guard let videoResource = resources.first(where: { $0.type == .video }) else { return }
 
-        let fileName = videoResource.originalFilename
-        let destinationURL = FileManager.default.temporaryDirectory.appendingPathComponent(fileName)
-
-        // ✅ Remove old file if needed
+        let destinationURL = FileManager.default.temporaryDirectory.appendingPathComponent(videoResource.originalFilename)
         if FileManager.default.fileExists(atPath: destinationURL.path) {
             try? FileManager.default.removeItem(at: destinationURL)
         }
 
-        // ✅ Read original video bytes into your destination file
         PHAssetResourceManager.default().writeData(for: videoResource, toFile: destinationURL, options: nil) { error in
             if let error = error {
                 print("Error writing video file: \(error)")
                 return
             }
-
-            print("✅ Video saved at: \(destinationURL)")
             DispatchQueue.main.async {
-                self.handlePickedVideo(url: destinationURL)
+                self.recordedVideoURL = destinationURL
+                self.addAnalyzedVideo(destinationURL)
+                self.openContentAnalysis(for: destinationURL)
             }
         }
     }
 }
 
 
-
-struct FeedViewRepresentable: UIViewControllerRepresentable {
-    @Binding var analyzedVideos: [URL]
-    var onAddTapped: () -> Void
-    var onSettingsTapped: () -> Void
-
-    func makeUIViewController(context: Context) -> UIHostingController<FeedView> {
-        return UIHostingController(
-            rootView: FeedView(
-                onAddTapped: onAddTapped,
-                onSettingsTapped: onSettingsTapped
-            )
-        )
-    }
-
-    func updateUIViewController(_ uiViewController: UIHostingController<FeedView>, context: Context) {
-        uiViewController.rootView = FeedView(
-            onAddTapped: onAddTapped,
-            onSettingsTapped: onSettingsTapped
-        )
-    }
+extension Notification.Name {
+    static let fastestSpeedUpdated = Notification.Name("fastestSpeedUpdated")
+    static let highestScoreUpdated = Notification.Name("highestScoreUpdated")
+    static let newVideoAdded = Notification.Name("newVideoAdded")
 }

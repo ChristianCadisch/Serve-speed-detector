@@ -12,16 +12,14 @@ import AVFoundation
 struct FeedView: View {
     @State private var analyzedVideos: [URL] = []
     @State private var videoThumbnails: [URL: UIImage] = [:]
-    @State private var selectedVideo: URL?
-    var onAddTapped: () -> Void
-    var onSettingsTapped: () -> Void
-    
+    @State private var featuredThumbnail: UIImage?
     @AppStorage("HighestScore") private var highestScore: Int = 0
     @State private var fastestSpeeds: [URL: Double] = [:]
-    
-    // For showing the big "fastest serve" thumbnail (now the most recent video)
-    @State private var featuredThumbnail: UIImage?
-    
+
+    var onAddTapped: () -> Void
+    var onSettingsTapped: () -> Void
+    var onVideoSelected: (URL) -> Void
+
     var body: some View {
         VStack(spacing: 0) {
             
@@ -40,52 +38,45 @@ struct FeedView: View {
                 }
             }
             .padding(.horizontal)
-            
             .padding(.top, -45)
             .padding(.bottom, 2)
             .background(Color.white)
-            .background(Color.white)
             
+            // Feed List
             List {
-                // Most recent serve section
+                // Featured serve
                 if let featuredVideoURL = getFeaturedVideoURL(),
                    let speed = fastestSpeeds[featuredVideoURL] {
                     Section {
-                        ZStack {
-                            // Invisible NavigationLink
-                            NavigationLink(value: featuredVideoURL) {
-                                EmptyView()
+                        ZStack(alignment: .bottomLeading) {
+                            if let thumbnail = featuredThumbnail {
+                                Image(uiImage: thumbnail)
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(maxWidth: .infinity)
+                                    .frame(height: 300)
+                                    .clipped()
+                            } else {
+                                Rectangle()
+                                    .fill(Color.gray.opacity(0.2))
+                                    .frame(height: 300)
                             }
-                            .opacity(0)
-                            .buttonStyle(.plain)
                             
-                            // Visible content
-                            ZStack(alignment: .bottomLeading) {
-                                if let thumbnail = featuredThumbnail {
-                                    Image(uiImage: thumbnail)
-                                        .resizable()
-                                        .scaledToFill()
-                                        .frame(maxWidth: .infinity)
-                                        .frame(height: 300)
-                                        .clipped()
-                                } else {
-                                    Rectangle()
-                                        .fill(Color.gray.opacity(0.2))
-                                        .frame(height: 300)
-                                }
-                                
-                                VStack(alignment: .leading, spacing: 4) {
-                                    Text("Most recent Serve")
-                                        .font(.headline)
-                                        .foregroundColor(.white)
-                                    Text("\(Int(speed)) km/h")
-                                        .font(.largeTitle)
-                                        .bold()
-                                        .foregroundColor(.white)
-                                }
-                                .padding()
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text("Most recent Serve")
+                                    .font(.headline)
+                                    .foregroundColor(.white)
+                                Text("\(Int(speed)) km/h")
+                                    .font(.largeTitle)
+                                    .bold()
+                                    .foregroundColor(.white)
                             }
-                            .cornerRadius(8)
+                            .padding()
+                        }
+                        .cornerRadius(8)
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            onVideoSelected(featuredVideoURL)
                         }
                         .listRowInsets(EdgeInsets(top: 0, leading: 16, bottom: 12, trailing: 16))
                         .listRowSeparator(.hidden)
@@ -100,8 +91,7 @@ struct FeedView: View {
                     }
                 }
                 
-                
-                // Other serves section
+                // Other serves
                 if analyzedVideos.count > 1 {
                     Section(header:
                                 Text("Other Serves")
@@ -109,60 +99,48 @@ struct FeedView: View {
                         .foregroundStyle(.black)
                         .padding(.leading, 16)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                         .textCase(nil)
-                    )
-                    {
-                        ForEach(
-                            analyzedVideos.filter { $0 != getFeaturedVideoURL() }.reversed(),
-                            id: \.self
-                        ) { videoURL in
+                    ) {
+                        ForEach(analyzedVideos.filter { $0 != getFeaturedVideoURL() }.reversed(), id: \.self) { videoURL in
                             let speed = fastestSpeeds[videoURL] ?? 0
                             
-                            ZStack {
-                                // Invisible NavigationLink covering the whole row
-                                NavigationLink(value: videoURL) {
-                                    EmptyView()
-                                }
-                                .opacity(0)
-                                .buttonStyle(.plain)
-                                
-                                // Visible row content
-                                HStack(spacing: 0) {
-                                    if let thumbnail = videoThumbnails[videoURL] {
-                                        Image(uiImage: thumbnail)
-                                            .resizable()
-                                            .scaledToFill()
-                                            .frame(width: 120, height: 100)
-                                            .clipped()
-                                            .mask(RoundedRectangle(cornerRadius: 8, style: .continuous))
-                                    } else {
-                                        RoundedRectangle(cornerRadius: 8, style: .continuous)
-                                            .fill(Color.gray.opacity(0.2))
-                                            .frame(width: 120, height: 100)
-                                    }
-                                    
-                                    VStack(alignment: .leading, spacing: 4) {
-                                        Text("\(Int(speed)) km/h")
-                                            .font(.headline)
-                                            .fontWeight(.bold)
-                                        HStack(spacing: 6) {
-                                            Image(systemName: "tennisball")
-                                            Text("1 serve recorded")
-                                                .font(.footnote)
-                                                .foregroundColor(.gray)
-                                        }
-                                    }
-                                    .padding(.leading, 12)
-                                    Spacer()
-                                }
-                                .frame(height: 100)
-                                .background(
+                            HStack(spacing: 0) {
+                                if let thumbnail = videoThumbnails[videoURL] {
+                                    Image(uiImage: thumbnail)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 120, height: 100)
+                                        .clipped()
+                                        .mask(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                                } else {
                                     RoundedRectangle(cornerRadius: 8, style: .continuous)
-                                        .fill(Color.blue.opacity(0.15))
-                                )
-                                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-                                .contentShape(Rectangle())
+                                        .fill(Color.gray.opacity(0.2))
+                                        .frame(width: 120, height: 100)
+                                }
+                                
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text("\(Int(speed)) km/h")
+                                        .font(.headline)
+                                        .fontWeight(.bold)
+                                    HStack(spacing: 6) {
+                                        Image(systemName: "tennisball")
+                                        Text("1 serve recorded")
+                                            .font(.footnote)
+                                            .foregroundColor(.gray)
+                                    }
+                                }
+                                .padding(.leading, 12)
+                                Spacer()
+                            }
+                            .frame(height: 100)
+                            .background(
+                                RoundedRectangle(cornerRadius: 8, style: .continuous)
+                                    .fill(Color.blue.opacity(0.15))
+                            )
+                            .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                onVideoSelected(videoURL)
                             }
                             .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
                             .listRowSeparator(.hidden)
@@ -175,7 +153,6 @@ struct FeedView: View {
                                 .tint(.red)
                             }
                         }
-                        
                     }
                 }
             }
@@ -183,7 +160,6 @@ struct FeedView: View {
             .scrollContentBackground(.hidden)
             .padding(.bottom, 4)
             .environment(\.defaultMinListRowHeight, 0)
-            
             .onAppear {
                 loadAnalyzedVideos()
                 loadFeaturedThumbnail()
@@ -197,71 +173,13 @@ struct FeedView: View {
                 loadAnalyzedVideos()
                 loadFeaturedThumbnail()
             }
-            
-            // Bottom Tab Bar
-            VStack(spacing: 0) {
-                HStack {
-                    
-                    Spacer()
-                    
-                    Button {
-                        // Serves action
-                    } label: {
-                        VStack(spacing: 4) {
-                            Image(systemName: "figure.tennis")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 30, height: 30)
-                                .foregroundColor(.black)
-                        }
-                    }
-                    
-                    Spacer()
-                    
-                    Button {
-                        onAddTapped()
-                    } label: {
-                        VStack(spacing: 4) {
-                            Image(systemName: "plus.app")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 30, height: 30)
-                                .foregroundColor(.gray)
-                        }
-                    }
-                    
-                    
-                    Spacer()
-                    Button {
-                        onSettingsTapped()
-                    } label: {
-                        VStack(spacing: 4) {
-                            Image(systemName: "gearshape")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 30, height: 30)
-                                .foregroundColor(.gray)
-                        }
-                    }
-                    
-                    
-                    Spacer()
-                    
-                }
-                .padding(.vertical, 30)
-                .background(Color.white)
-            }
+
         }
         .edgesIgnoringSafeArea(.bottom)
-        .navigationDestination(for: URL.self) { videoURL in
-            ContentAnalysisViewControllerWrapper(videoURL: videoURL)
-                .ignoresSafeArea()
-        }
-        
     }
     
+    // MARK: - Helper Methods
     
-    // Now returns the most recently uploaded video (the last in the array)
     private func getFeaturedVideoURL() -> URL? {
         return analyzedVideos.last
     }
@@ -274,7 +192,6 @@ struct FeedView: View {
         let asset = AVAsset(url: featuredVideoURL)
         let imageGenerator = AVAssetImageGenerator(asset: asset)
         imageGenerator.appliesPreferredTrackTransform = true
-        
         do {
             let cgImage = try imageGenerator.copyCGImage(at: .zero, actualTime: nil)
             featuredThumbnail = UIImage(cgImage: cgImage)
@@ -289,27 +206,6 @@ struct FeedView: View {
         fastestSpeeds.removeValue(forKey: videoURL)
         UserDefaults.standard.set(analyzedVideos.map { $0.absoluteString }, forKey: "AnalyzedVideos")
         UserDefaults.standard.removeObject(forKey: "FastestSpeed_\(videoURL.lastPathComponent)")
-        
-        if fastestSpeeds[videoURL] == Double(highestScore) {
-            highestScore = Int(fastestSpeeds.values.max() ?? 0)
-            UserDefaults.standard.set(highestScore, forKey: "HighestScore")
-        }
-    }
-    
-    private func loadThumbnails() {
-        for url in analyzedVideos {
-            let asset = AVAsset(url: url)
-            let imageGenerator = AVAssetImageGenerator(asset: asset)
-            imageGenerator.appliesPreferredTrackTransform = true
-            
-            do {
-                let cgImage = try imageGenerator.copyCGImage(at: .zero, actualTime: nil)
-                videoThumbnails[url] = UIImage(cgImage: cgImage)
-            } catch {
-                videoThumbnails[url] = nil
-                print("Error generating thumbnail for \(url.lastPathComponent): \(error)")
-            }
-        }
     }
     
     private func loadAnalyzedVideos() {
@@ -322,93 +218,19 @@ struct FeedView: View {
     
     private func loadFastestSpeeds() {
         for url in analyzedVideos {
-            let filename = url.lastPathComponent
-            let key = "FastestSpeed_\(filename)"
-            let speed = UserDefaults.standard.double(forKey: key)
-            fastestSpeeds[url] = speed
+            let key = "FastestSpeed_\(url.lastPathComponent)"
+            fastestSpeeds[url] = UserDefaults.standard.double(forKey: key)
+        }
+    }
+    
+    private func loadThumbnails() {
+        for url in analyzedVideos {
+            let asset = AVAsset(url: url)
+            let imageGenerator = AVAssetImageGenerator(asset: asset)
+            imageGenerator.appliesPreferredTrackTransform = true
+            if let cgImage = try? imageGenerator.copyCGImage(at: .zero, actualTime: nil) {
+                videoThumbnails[url] = UIImage(cgImage: cgImage)
+            }
         }
     }
 }
-
-struct FeedView_Previews: PreviewProvider {
-    static var previews: some View {
-        FeedView(
-            onAddTapped: {},
-            onSettingsTapped: {}
-        )
-    }
-}
-
-struct NavigationBarItem: View {
-    let imageName: String
-    let isActive: Bool
-    
-    var body: some View {
-        Image(systemName: imageName)
-            .resizable()
-            .aspectRatio(contentMode: .fit)
-            .frame(width: 25, height: 25)
-            .foregroundColor(isActive ? .black : .gray)
-    }
-}
-
-struct RoundedCorner: InsettableShape {
-    var radius: CGFloat
-    var corners: UIRectCorner
-    var insetAmount: CGFloat = 0
-    
-    func path(in rect: CGRect) -> Path {
-        let insetRect = rect.insetBy(dx: insetAmount, dy: insetAmount)
-        let path = UIBezierPath(
-            roundedRect: insetRect,
-            byRoundingCorners: corners,
-            cornerRadii: CGSize(width: radius, height: radius)
-        )
-        return Path(path.cgPath)
-    }
-    
-    func inset(by amount: CGFloat) -> some InsettableShape {
-        var copy = self
-        copy.insetAmount += amount
-        return copy
-    }
-}
-
-extension View {
-    func maskedCornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
-        self.mask(RoundedCorner(radius: radius, corners: corners))
-    }
-}
-
-
-
-
-
-extension URL: Identifiable {
-    public var id: String {
-        self.absoluteString
-    }
-}
-
-extension Notification.Name {
-    static let fastestSpeedUpdated = Notification.Name("fastestSpeedUpdated")
-}
-
-extension Notification.Name {
-    static let highestScoreUpdated = Notification.Name("highestScoreUpdated")
-    static let newVideoAdded = Notification.Name("newVideoAdded")
-}
-
-
-struct ContentAnalysisViewControllerWrapper: UIViewControllerRepresentable {
-    let videoURL: URL
-    
-    func makeUIViewController(context: Context) -> ContentAnalysisViewController {
-        let controller = ContentAnalysisViewController()
-        controller.recordedVideoSource = AVAsset(url: videoURL)
-        return controller
-    }
-    
-    func updateUIViewController(_ uiViewController: ContentAnalysisViewController, context: Context) {}
-}
-
