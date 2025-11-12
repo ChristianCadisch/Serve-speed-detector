@@ -41,14 +41,10 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadAnalyzedVideos()
-        setupFeedView()
-    }
-
-    private func setupFeedView() {
         showFeedView()
     }
-    
+
+
     private func showFeedView() {
         let feedView = FeedView(
             onAddTapped: { [weak self] in
@@ -63,7 +59,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         )
 
         let hosting = UIHostingController(rootView: AnyView(feedView))
-        replaceRoot(with: hosting, title: "Clay")
+        replaceRoot(with: hosting, title: "")
     }
 
     private func showSettingsView() {
@@ -227,18 +223,15 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             if let newVideoURL = self.recordedVideoURL {
                 self.addAnalyzedVideo(newVideoURL)
             }
-            // ✅ Always return to FeedView after finishing analysis
-            self.activeTab = .feed
-            self.showFeedView()
+            // ✅ Only switch if not already on the feed
+            if self.activeTab != .feed {
+                self.activeTab = .feed
+                self.showFeedView()
+            }
         }
     }
 
 
-    private func loadAnalyzedVideos() {
-        if let savedURLs = UserDefaults.standard.stringArray(forKey: "AnalyzedVideos") {
-            analyzedVideos = savedURLs.compactMap { URL(string: $0) }
-        }
-    }
 
     private func addAnalyzedVideo(_ url: URL) {
         DispatchQueue.main.async {
@@ -260,29 +253,29 @@ extension HomeViewController: PHPickerViewControllerDelegate {
         guard let result = results.first,
               let assetId = result.assetIdentifier else { return }
 
+        // ✅ Save only the persistent Photos identifier
+        var savedIds = UserDefaults.standard.stringArray(forKey: "AnalyzedAssetIDs") ?? []
+        if !savedIds.contains(assetId) {
+            savedIds.append(assetId)
+            UserDefaults.standard.set(savedIds, forKey: "AnalyzedAssetIDs")
+        }
+
+        // ✅ Fetch AVAsset temporarily for analysis
         let assets = PHAsset.fetchAssets(withLocalIdentifiers: [assetId], options: nil)
         guard let asset = assets.firstObject else { return }
 
-        let resources = PHAssetResource.assetResources(for: asset)
-        guard let videoResource = resources.first(where: { $0.type == .video }) else { return }
+        let manager = PHImageManager.default()
+        let options = PHVideoRequestOptions()
+        options.deliveryMode = .highQualityFormat
 
-        let destinationURL = FileManager.default.temporaryDirectory.appendingPathComponent(videoResource.originalFilename)
-        if FileManager.default.fileExists(atPath: destinationURL.path) {
-            try? FileManager.default.removeItem(at: destinationURL)
-        }
-
-        PHAssetResourceManager.default().writeData(for: videoResource, toFile: destinationURL, options: nil) { error in
-            if let error = error {
-                print("Error writing video file: \(error)")
-                return
-            }
+        manager.requestAVAsset(forVideo: asset, options: options) { avAsset, _, _ in
+            guard let avAsset = avAsset else { return }
             DispatchQueue.main.async {
-                self.recordedVideoURL = destinationURL
-                self.addAnalyzedVideo(destinationURL)
-                self.openContentAnalysis(for: destinationURL)
+                self.openContentAnalysis(for: (avAsset as? AVURLAsset)?.url ?? URL(fileURLWithPath: ""))
             }
         }
     }
+
 }
 
 

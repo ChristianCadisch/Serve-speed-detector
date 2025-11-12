@@ -8,6 +8,7 @@
 
 import SwiftUI
 import AVFoundation
+import Photos
 
 struct FeedView: View {
     @State private var analyzedVideos: [URL] = []
@@ -15,6 +16,8 @@ struct FeedView: View {
     @State private var featuredThumbnail: UIImage?
     @AppStorage("HighestScore") private var highestScore: Int = 0
     @State private var fastestSpeeds: [URL: Double] = [:]
+    @State private var assetURLMap: [String: URL] = [:]
+
 
     var onAddTapped: () -> Void
     var onSettingsTapped: () -> Void
@@ -202,19 +205,64 @@ struct FeedView: View {
     }
     
     private func deleteVideo(_ videoURL: URL) {
+        guard var savedIds = UserDefaults.standard.stringArray(forKey: "AnalyzedAssetIDs") else { return }
+
+        if let (id, _) = assetURLMap.first(where: { $0.value == videoURL }) {
+            savedIds.removeAll { $0 == id }
+            UserDefaults.standard.set(savedIds, forKey: "AnalyzedAssetIDs")
+            assetURLMap.removeValue(forKey: id)
+        }
+
         analyzedVideos.removeAll { $0 == videoURL }
         fastestSpeeds.removeValue(forKey: videoURL)
-        UserDefaults.standard.set(analyzedVideos.map { $0.absoluteString }, forKey: "AnalyzedVideos")
-        UserDefaults.standard.removeObject(forKey: "FastestSpeed_\(videoURL.lastPathComponent)")
+        videoThumbnails.removeValue(forKey: videoURL)
+
+        // ✅ Refresh featured thumbnail immediately
+        if analyzedVideos.isEmpty {
+            featuredThumbnail = nil
+        } else {
+            loadFeaturedThumbnail()
+        }
+
     }
+
+
     
     private func loadAnalyzedVideos() {
-        if let savedURLs = UserDefaults.standard.stringArray(forKey: "AnalyzedVideos") {
-            analyzedVideos = savedURLs.compactMap { URL(string: $0) }
-            loadFastestSpeeds()
-            loadThumbnails()
+        analyzedVideos.removeAll()
+        assetURLMap.removeAll()
+        guard let savedIds = UserDefaults.standard.stringArray(forKey: "AnalyzedAssetIDs") else { return }
+
+        let assets = PHAsset.fetchAssets(withLocalIdentifiers: savedIds, options: nil)
+        let manager = PHImageManager.default()
+        let options = PHVideoRequestOptions()
+        options.deliveryMode = .automatic
+
+        var newVideos: [URL] = []
+        let group = DispatchGroup()
+
+        assets.enumerateObjects { asset, _, _ in
+            group.enter()
+            manager.requestAVAsset(forVideo: asset, options: options) { avAsset, _, _ in
+                if let urlAsset = avAsset as? AVURLAsset {
+                    DispatchQueue.main.async {
+                        newVideos.append(urlAsset.url)
+                        assetURLMap[asset.localIdentifier] = urlAsset.url
+                    }
+                }
+                group.leave()
+            }
+        }
+
+        group.notify(queue: .main) {
+            self.analyzedVideos = newVideos
+            self.loadFastestSpeeds()
+            self.loadThumbnails()
+            self.loadFeaturedThumbnail()
         }
     }
+
+
     
     private func loadFastestSpeeds() {
         for url in analyzedVideos {
