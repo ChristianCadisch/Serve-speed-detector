@@ -61,12 +61,7 @@ class ContentAnalysisViewController: UIViewController,
         super.viewDidLoad()
         configureView()
         setupButtonsAndLabels()
-        
-        /*
-         if let recordedVideoSource = recordedVideoSource {
-         cameraViewController.startReadingAsset(recordedVideoSource)
-         }
-         */
+
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             image: UIImage(systemName: "chevron.left"),
             style: .plain,
@@ -76,8 +71,6 @@ class ContentAnalysisViewController: UIViewController,
         navigationController?.navigationBar.tintColor = .white
         navigationController?.navigationBar.isTranslucent = true
         navigationController?.setNavigationBarHidden(false, animated: false)
-
-        
     }
     
     private func saveFastestSpeed(_ speed: Double) {

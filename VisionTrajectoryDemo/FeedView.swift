@@ -14,6 +14,7 @@ struct FeedView: View {
     @State private var videoThumbnails: [URL: UIImage] = [:]
     @State private var selectedVideo: URL?
     var onAddTapped: () -> Void
+    var onSettingsTapped: () -> Void
     
     @AppStorage("HighestScore") private var highestScore: Int = 0
     @State private var fastestSpeeds: [URL: Double] = [:]
@@ -221,7 +222,7 @@ struct FeedView: View {
                         onAddTapped()
                     } label: {
                         VStack(spacing: 4) {
-                            Image(systemName: "camera.fill")
+                            Image(systemName: "plus.app")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 30, height: 30)
@@ -232,10 +233,10 @@ struct FeedView: View {
                     
                     Spacer()
                     Button {
-                        onAddTapped()
+                        onSettingsTapped()
                     } label: {
                         VStack(spacing: 4) {
-                            Image(systemName: "plus.app")
+                            Image(systemName: "gearshape")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 30, height: 30)
@@ -331,10 +332,12 @@ struct FeedView: View {
 
 struct FeedView_Previews: PreviewProvider {
     static var previews: some View {
-        FeedView(onAddTapped: {})
+        FeedView(
+            onAddTapped: {},
+            onSettingsTapped: {}
+        )
     }
 }
-
 
 struct NavigationBarItem: View {
     let imageName: String

@@ -46,9 +46,14 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         
     private func setupFeedView() {
         let swiftUIView = NavigationStack {
-            FeedView(onAddTapped: { [weak self] in
-                self?.openGallery()
-            })
+            FeedView(
+                onAddTapped: { [weak self] in
+                    self?.openGallery()
+                },
+                onSettingsTapped: { [weak self] in
+                    self?.openSettings()
+                }
+            )
         }
 
         feedView = UIHostingController(rootView: AnyView(swiftUIView))
@@ -59,6 +64,13 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         feedView.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         feedView.didMove(toParent: self)
     }
+
+    private func openSettings() {
+        let settingsView = SettingsView(hasSeenOnboarding: .constant(true))
+        let hostingController = UIHostingController(rootView: settingsView)
+        navigationController?.pushViewController(hostingController, animated: true)
+    }
+
 
     
     func contentAnalysisViewControllerDidFinish(_ controller: ContentAnalysisViewController) {
@@ -255,17 +267,24 @@ extension HomeViewController: PHPickerViewControllerDelegate {
 
 
 
-
 struct FeedViewRepresentable: UIViewControllerRepresentable {
     @Binding var analyzedVideos: [URL]
     var onAddTapped: () -> Void
-    
+    var onSettingsTapped: () -> Void
+
     func makeUIViewController(context: Context) -> UIHostingController<FeedView> {
-        return UIHostingController(rootView: FeedView(onAddTapped: onAddTapped))
+        return UIHostingController(
+            rootView: FeedView(
+                onAddTapped: onAddTapped,
+                onSettingsTapped: onSettingsTapped
+            )
+        )
     }
-    
+
     func updateUIViewController(_ uiViewController: UIHostingController<FeedView>, context: Context) {
-        uiViewController.rootView = FeedView(onAddTapped: onAddTapped)
+        uiViewController.rootView = FeedView(
+            onAddTapped: onAddTapped,
+            onSettingsTapped: onSettingsTapped
+        )
     }
 }
-
