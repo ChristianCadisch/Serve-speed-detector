@@ -114,7 +114,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         bar.axis = .horizontal
         bar.alignment = .center
         bar.distribution = .equalSpacing
-        bar.backgroundColor = .white
+        bar.backgroundColor = UIColor.systemBackground
         bar.layoutMargins = UIEdgeInsets(top: 10, left: 50, bottom: -10, right: 50)
         bar.isLayoutMarginsRelativeArrangement = true
         bar.spacing = 0
@@ -125,9 +125,9 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             let config = UIImage.SymbolConfiguration(pointSize: 32, weight: .regular, scale: .large)
             let image = UIImage(systemName: systemName, withConfiguration: config)
             button.setImage(image, for: .normal)
-            button.tintColor = isActive ? .black : .gray
 
-            // ✅ Fixed frame for consistent large tap target
+            button.tintColor = isActive ? UIColor.label : UIColor.secondaryLabel
+
             button.addAction(UIAction { _ in action() }, for: .touchUpInside)
 
             button.translatesAutoresizingMaskIntoConstraints = false
@@ -167,11 +167,11 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         bar.addArrangedSubview(addButton)
         bar.addArrangedSubview(settingsButton)
 
-        // ✅ Taller overall bar for breathing room
         bar.heightAnchor.constraint(equalToConstant: 70).isActive = true
 
         return bar
     }
+
 
 
 

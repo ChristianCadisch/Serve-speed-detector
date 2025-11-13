@@ -43,7 +43,7 @@ struct FeedView: View {
             .padding(.horizontal)
             .padding(.top, -45)
             .padding(.bottom, 2)
-            .background(Color.white)
+            .background(Color(.systemBackground))
             
             // Feed List
             List {
@@ -68,11 +68,11 @@ struct FeedView: View {
                             VStack(alignment: .leading, spacing: 4) {
                                 Text("Most recent Serve")
                                     .font(.headline)
-                                    .foregroundColor(.white)
+                                    .foregroundColor(.primary)
                                 Text("\(Int(speed)) km/h")
                                     .font(.largeTitle)
                                     .bold()
-                                    .foregroundColor(.white)
+                                    .foregroundColor(.primary)
                             }
                             .padding()
                         }
@@ -99,7 +99,7 @@ struct FeedView: View {
                     Section(header:
                                 Text("Other Serves")
                         .font(.headline)
-                        .foregroundStyle(.black)
+                        .foregroundStyle(.primary)
                         .padding(.leading, 16)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .textCase(nil)
@@ -129,7 +129,7 @@ struct FeedView: View {
                                         Image(systemName: "tennisball")
                                         Text("1 serve recorded")
                                             .font(.footnote)
-                                            .foregroundColor(.gray)
+                                            .foregroundColor(.secondary)
                                     }
                                 }
                                 .padding(.leading, 12)
@@ -255,11 +255,15 @@ struct FeedView: View {
         }
 
         group.notify(queue: .main) {
-            self.analyzedVideos = newVideos
+            // Preserve order from savedIds
+            self.analyzedVideos = savedIds.compactMap { id in
+                self.assetURLMap[id]
+            }
             self.loadFastestSpeeds()
             self.loadThumbnails()
             self.loadFeaturedThumbnail()
         }
+
     }
 
 
@@ -281,4 +285,13 @@ struct FeedView: View {
             }
         }
     }
+}
+
+
+#Preview {
+    FeedView(
+        onAddTapped: {},
+        onSettingsTapped: {},
+        onVideoSelected: { _ in }
+    )
 }

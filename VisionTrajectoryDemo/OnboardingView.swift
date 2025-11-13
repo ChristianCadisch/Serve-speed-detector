@@ -28,7 +28,7 @@ struct OnboardingView: View {
                     .tag(0)
                     
                     OnboardingPage(
-                        image: "camera.fill",
+                        image: "camera",
                         title: "Keep the Camera Steady",
                         description: "For accurate ball tracking, keep the camera completely still — handheld videos don’t work. Just lean your phone against a bottle or bag behind the court"
                     )
