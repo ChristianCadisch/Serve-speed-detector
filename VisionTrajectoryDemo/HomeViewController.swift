@@ -200,11 +200,13 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
 
     private func openContentAnalysis(for videoURL: URL) {
+        recordedVideoURL = videoURL     // ← ADD THIS LINE
         let controller = ContentAnalysisViewController()
         controller.recordedVideoSource = AVAsset(url: videoURL)
         controller.delegate = self
         navigationController?.pushViewController(controller, animated: true)
     }
+
 
     // MARK: - Video Handling
 
@@ -218,12 +220,20 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         present(picker, animated: true)
     }
 
-    func contentAnalysisViewControllerDidFinish(_ controller: ContentAnalysisViewController) {
+    func contentAnalysisViewControllerDidFinish(_ controller: ContentAnalysisViewController,
+                                                serveCount: Int) {
+
         controller.dismiss(animated: true) {
-            if let newVideoURL = self.recordedVideoURL {
-                self.addAnalyzedVideo(newVideoURL)
+
+            if let url = self.recordedVideoURL {
+                let key = "ServeCount_\(url.lastPathComponent)"
+                UserDefaults.standard.set(serveCount, forKey: key)
             }
-            // ✅ Only switch if not already on the feed
+
+            if let newVideoURL = self.recordedVideoURL {
+                self.addAnalyzedVideo(newVideoURL, serveCount: serveCount)
+            }
+
             if self.activeTab != .feed {
                 self.activeTab = .feed
                 self.showFeedView()
@@ -233,18 +243,24 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
 
 
 
-    private func addAnalyzedVideo(_ url: URL) {
+    private func addAnalyzedVideo(_ url: URL, serveCount: Int) {
         DispatchQueue.main.async {
             var savedURLs = UserDefaults.standard.stringArray(forKey: "AnalyzedVideos") ?? []
             let filename = url.lastPathComponent
+
             if !savedURLs.contains(where: { URL(string: $0)?.lastPathComponent == filename }) {
                 savedURLs.append(url.absoluteString)
                 UserDefaults.standard.set(savedURLs, forKey: "AnalyzedVideos")
+
+                let key = "ServeCount_\(filename)"
+                UserDefaults.standard.set(serveCount, forKey: key)
+
                 NotificationCenter.default.post(name: .highestScoreUpdated, object: nil)
                 NotificationCenter.default.post(name: .fastestSpeedUpdated, object: nil)
             }
         }
     }
+
 }
 
 extension HomeViewController: PHPickerViewControllerDelegate {

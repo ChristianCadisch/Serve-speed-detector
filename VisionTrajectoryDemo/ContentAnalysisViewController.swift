@@ -10,7 +10,9 @@ import AVFoundation
 import Vision
 
 protocol ContentAnalysisViewControllerDelegate: AnyObject {
-    func contentAnalysisViewControllerDidFinish(_ controller: ContentAnalysisViewController)
+    func contentAnalysisViewControllerDidFinish(_ controller: ContentAnalysisViewController,
+                                                serveCount: Int)
+
 }
 
 class ContentAnalysisViewController: UIViewController,
@@ -21,6 +23,7 @@ class ContentAnalysisViewController: UIViewController,
     
     // MARK: - IBOutlets
     private var serveSpeedLabel: UILabel!
+    var detectedServeCount: Int = 0
     var speedContainerView: UIView! // Add this property to your class
     
     
@@ -30,10 +33,11 @@ class ContentAnalysisViewController: UIViewController,
         NotificationCenter.default.post(name: .highestScoreUpdated, object: nil)
         navigationController?.popViewController(animated: true)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            self.delegate?.contentAnalysisViewControllerDidFinish(self)
+            self.delegate?.contentAnalysisViewControllerDidFinish(self,
+                                                                  serveCount: self.detectedServeCount)
         }
-
     }
+
     
     // MARK: - Public Properties
     weak var delegate: ContentAnalysisViewControllerDelegate?
@@ -59,6 +63,7 @@ class ContentAnalysisViewController: UIViewController,
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        resetFastestSpeedForCurrentVideo()
         configureView()
         setupButtonsAndLabels()
 
@@ -72,6 +77,19 @@ class ContentAnalysisViewController: UIViewController,
         navigationController?.navigationBar.isTranslucent = true
         navigationController?.setNavigationBarHidden(false, animated: false)
     }
+    
+    
+    private func resetFastestSpeedForCurrentVideo() {
+        guard let videoAsset = recordedVideoSource,
+              let urlString = (videoAsset as? AVURLAsset)?.url.absoluteString else { return }
+
+        let filename = URL(string: urlString)?.lastPathComponent ?? urlString
+        let key = "FastestSpeed_\(filename)"
+
+        UserDefaults.standard.set(0, forKey: key)
+        print("Reset fastest speed for this video.")
+    }
+
     
     private func saveFastestSpeed(_ speed: Double) {
         guard let videoAsset = recordedVideoSource else {
@@ -98,12 +116,19 @@ class ContentAnalysisViewController: UIViewController,
     
     private func checkForTrajectoryCompletion() {
         if framesWithoutUpdate >= updateThreshold, let lastTrajectory = lastObservedTrajectory {
-            let speed = round(Double(3.6*18) / lastTrajectory.timeRange.duration.seconds)
+            var speed = round(Double(3.6*18) / lastTrajectory.timeRange.duration.seconds)
             print("New speed detected: \(speed)")
+            if speed > 200 {
+                speed = 0
+                print("speed wrongly measured, reset to 0")
+            }
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
                 self.trajectoryView.speed = speed
                 self.trajectoryView.numberOfServes += 1
+                self.detectedServeCount = self.trajectoryView.numberOfServes
+                print("Serve count now: \(self.detectedServeCount)")
+
                 
                 
                 let numberString = String(format: "%.0f", speed)
@@ -126,21 +151,31 @@ class ContentAnalysisViewController: UIViewController,
                 
                 
                 
-                self.saveFastestSpeed(speed)
+                
                 
                 // Update highest score
-                let currentHighestScore = UserDefaults.standard.integer(forKey: "HighestScore")
-                print("Current highest score: \(currentHighestScore)")
-                if Int(speed) > currentHighestScore {
-                    print("New highest score: \(Int(speed))")
-                    UserDefaults.standard.set(Int(speed), forKey: "HighestScore")
-                    NotificationCenter.default.post(name: .highestScoreUpdated, object: nil)
-                    print("Posted highestScoreUpdated notification")
+                if let videoAsset = self.recordedVideoSource,
+                   let urlString = (videoAsset as? AVURLAsset)?.url.absoluteString {
+                    
+                    let filename = URL(string: urlString)?.lastPathComponent ?? urlString
+                    let key = "FastestSpeed_\(filename)"
+
+                    let previousVideoFastest = UserDefaults.standard.double(forKey: key)
+
+                    if speed > previousVideoFastest {
+                        UserDefaults.standard.set(speed, forKey: key)
+                        NotificationCenter.default.post(name: .fastestSpeedUpdated, object: nil)
+                        print("new fastest speed overall is \(speed)")
+                    }
                 }
+
             }
             
             lastObservedTrajectory = nil
             framesWithoutUpdate = 0
+            trajectoryDictionary.removeAll()
+
+            
         }
     }
     
@@ -221,7 +256,9 @@ class ContentAnalysisViewController: UIViewController,
         NotificationCenter.default.post(name: .highestScoreUpdated, object: nil)
         navigationController?.popViewController(animated: true)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            self.delegate?.contentAnalysisViewControllerDidFinish(self)
+            self.delegate?.contentAnalysisViewControllerDidFinish(self,
+                                                                  serveCount: self.detectedServeCount)
+
         }
 
     }

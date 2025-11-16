@@ -17,6 +17,7 @@ struct FeedView: View {
     @AppStorage("HighestScore") private var highestScore: Int = 0
     @State private var fastestSpeeds: [URL: Double] = [:]
     @State private var assetURLMap: [String: URL] = [:]
+    @State private var serveCounts: [URL: Int] = [:]
 
 
     var onAddTapped: () -> Void
@@ -36,7 +37,7 @@ struct FeedView: View {
                 
                 HStack(spacing: 6) {
                     Image(systemName: "tennisball")
-                    Text("\(analyzedVideos.count) Serve\(analyzedVideos.count == 1 ? "" : "s")")
+                    Text("\(serveCounts.values.reduce(0, +)) Serve\(serveCounts.values.reduce(0, +) == 1 ? "" : "s")")
                         .font(.subheadline)
                 }
             }
@@ -68,11 +69,11 @@ struct FeedView: View {
                             VStack(alignment: .leading, spacing: 4) {
                                 Text("Most recent Serve")
                                     .font(.headline)
-                                    .foregroundColor(.primary)
+                                    .foregroundColor(.white)
                                 Text("\(Int(speed)) km/h")
                                     .font(.largeTitle)
                                     .bold()
-                                    .foregroundColor(.primary)
+                                    .foregroundColor(.white)
                             }
                             .padding()
                         }
@@ -127,9 +128,10 @@ struct FeedView: View {
                                         .fontWeight(.bold)
                                     HStack(spacing: 6) {
                                         Image(systemName: "tennisball")
-                                        Text("1 serve recorded")
+                                        Text("\(serveCounts[videoURL, default: 1]) serve\(serveCounts[videoURL, default: 1] == 1 ? "" : "s") recorded")
                                             .font(.footnote)
                                             .foregroundColor(.secondary)
+
                                     }
                                 }
                                 .padding(.leading, 12)
@@ -262,10 +264,17 @@ struct FeedView: View {
             self.loadFastestSpeeds()
             self.loadThumbnails()
             self.loadFeaturedThumbnail()
+            self.loadServeCounts()
         }
 
     }
 
+    private func loadServeCounts() {
+        for url in analyzedVideos {
+            let key = "ServeCount_\(url.lastPathComponent)"
+            serveCounts[url] = UserDefaults.standard.integer(forKey: key)
+        }
+    }
 
     
     private func loadFastestSpeeds() {
