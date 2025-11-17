@@ -15,8 +15,6 @@
 		956B52A526B2ACA500F7E865 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 956B52A326B2ACA500F7E865 /* LaunchScreen.storyboard */; };
 		956B52B126B2CF6D00F7E865 /* Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956B52B026B2CF6D00F7E865 /* Animations.swift */; };
 		956B52B426B2D8C100F7E865 /* SpriteKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 956B52B326B2D8C100F7E865 /* SpriteKit.framework */; };
-		AA28018A2C633F5E0042F187 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = AA2801892C633F5E0042F187 /* FirebaseAnalyticsWithoutAdIdSupport */; };
-		AA28018C2C633F5E0042F187 /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = AA28018B2C633F5E0042F187 /* FirebaseAppCheck */; };
 		AA3D55C22EC4A6DD0017CD7B /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3D55C12EC4A6DD0017CD7B /* OnboardingView.swift */; };
 		AA3D55C62EC4BB400017CD7B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3D55C52EC4BB400017CD7B /* SettingsView.swift */; };
 		AA58BEC72ECA4D500032B602 /* RecordingSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA58BEC62ECA4D500032B602 /* RecordingSetupView.swift */; };
@@ -31,7 +29,7 @@
 /* Begin PBXFileReference section */
 		7D62CF35A387570964C54683 /* LICENSE.txt */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		844969F1F4B334FEFB1CEA33 /* SampleCode.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = SampleCode.xcconfig; path = Configuration/SampleCode.xcconfig; sourceTree = "<group>"; };
-		956B529526B2ACA400F7E865 /* VisionTrajectoryDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VisionTrajectoryDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		956B529526B2ACA400F7E865 /* Clay Tennis.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Clay Tennis.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		956B529826B2ACA400F7E865 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		956B529A26B2ACA400F7E865 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		956B529C26B2ACA400F7E865 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -62,8 +60,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				956B52B426B2D8C100F7E865 /* SpriteKit.framework in Frameworks */,
-				AA28018C2C633F5E0042F187 /* FirebaseAppCheck in Frameworks */,
-				AA28018A2C633F5E0042F187 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,7 +78,7 @@
 			isa = PBXGroup;
 			children = (
 				F01230A529140F8600AE811B /* README.md */,
-				956B529726B2ACA400F7E865 /* VisionTrajectoryDemo */,
+				956B529726B2ACA400F7E865 /* Clay Tennis */,
 				956B529626B2ACA400F7E865 /* Products */,
 				956B52B226B2D8C000F7E865 /* Frameworks */,
 				EC4E95B6D8ADF52F15420C1E /* Configuration */,
@@ -93,12 +89,12 @@
 		956B529626B2ACA400F7E865 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				956B529526B2ACA400F7E865 /* VisionTrajectoryDemo.app */,
+				956B529526B2ACA400F7E865 /* Clay Tennis.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		956B529726B2ACA400F7E865 /* VisionTrajectoryDemo */ = {
+		956B529726B2ACA400F7E865 /* Clay Tennis */ = {
 			isa = PBXGroup;
 			children = (
 				956B529C26B2ACA400F7E865 /* HomeViewController.swift */,
@@ -114,7 +110,7 @@
 				F01230A8291411B500AE811B /* Storyboards */,
 				F01230A72914119200AE811B /* Resources */,
 			);
-			path = VisionTrajectoryDemo;
+			path = "Clay Tennis";
 			sourceTree = "<group>";
 		};
 		956B52B226B2D8C000F7E865 /* Frameworks */ = {
@@ -165,9 +161,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		956B529426B2ACA400F7E865 /* VisionTrajectoryDemo */ = {
+		956B529426B2ACA400F7E865 /* Clay Tennis */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 956B52A926B2ACA500F7E865 /* Build configuration list for PBXNativeTarget "VisionTrajectoryDemo" */;
+			buildConfigurationList = 956B52A926B2ACA500F7E865 /* Build configuration list for PBXNativeTarget "Clay Tennis" */;
 			buildPhases = (
 				956B529126B2ACA400F7E865 /* Sources */,
 				956B529226B2ACA400F7E865 /* Frameworks */,
@@ -180,13 +176,11 @@
 			fileSystemSynchronizedGroups = (
 				AADF48FF2ECB62350003ED95 /* serve_speed_analysis */,
 			);
-			name = VisionTrajectoryDemo;
+			name = "Clay Tennis";
 			packageProductDependencies = (
-				AA2801892C633F5E0042F187 /* FirebaseAnalyticsWithoutAdIdSupport */,
-				AA28018B2C633F5E0042F187 /* FirebaseAppCheck */,
 			);
 			productName = "Vision Trajectory API Demo";
-			productReference = 956B529526B2ACA400F7E865 /* VisionTrajectoryDemo.app */;
+			productReference = 956B529526B2ACA400F7E865 /* Clay Tennis.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -205,7 +199,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 956B529026B2ACA400F7E865 /* Build configuration list for PBXProject "VisionTrajectoryDemo" */;
+			buildConfigurationList = 956B529026B2ACA400F7E865 /* Build configuration list for PBXProject "Clay Tennis" */;
 			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -215,13 +209,12 @@
 			);
 			mainGroup = 956B528C26B2ACA400F7E865;
 			packageReferences = (
-				AA2801882C633F5E0042F187 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = 956B529626B2ACA400F7E865 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				956B529426B2ACA400F7E865 /* VisionTrajectoryDemo */,
+				956B529426B2ACA400F7E865 /* Clay Tennis */,
 			);
 		};
 /* End PBXProject section */
@@ -414,9 +407,8 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 5MWK363BVN;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = VisionTrajectoryDemo/Resources/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Clay;
-				INFOPLIST_KEY_NSCameraUsageDescription = "This app uses the camera to analyze the scene.";
+				INFOPLIST_FILE = "Clay Tennis/Resources/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Clay Tennis";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app allows to use recorded movies as a video source for Vision algorithms.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -435,6 +427,10 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -453,9 +449,8 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 5MWK363BVN;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = VisionTrajectoryDemo/Resources/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Clay;
-				INFOPLIST_KEY_NSCameraUsageDescription = "This app uses the camera to analyze the scene.";
+				INFOPLIST_FILE = "Clay Tennis/Resources/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Clay Tennis";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app allows to use recorded movies as a video source for Vision algorithms.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -474,6 +469,10 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -483,7 +482,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		956B529026B2ACA400F7E865 /* Build configuration list for PBXProject "VisionTrajectoryDemo" */ = {
+		956B529026B2ACA400F7E865 /* Build configuration list for PBXProject "Clay Tennis" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				956B52A726B2ACA500F7E865 /* Debug */,
@@ -492,7 +491,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		956B52A926B2ACA500F7E865 /* Build configuration list for PBXNativeTarget "VisionTrajectoryDemo" */ = {
+		956B52A926B2ACA500F7E865 /* Build configuration list for PBXNativeTarget "Clay Tennis" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				956B52AA26B2ACA500F7E865 /* Debug */,
@@ -502,30 +501,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		AA2801882C633F5E0042F187 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 11.0.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		AA2801892C633F5E0042F187 /* FirebaseAnalyticsWithoutAdIdSupport */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = AA2801882C633F5E0042F187 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAnalyticsWithoutAdIdSupport;
-		};
-		AA28018B2C633F5E0042F187 /* FirebaseAppCheck */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = AA2801882C633F5E0042F187 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAppCheck;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 956B528D26B2ACA400F7E865 /* Project object */;
 }
