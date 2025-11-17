@@ -1,10 +1,7 @@
 //
 //  FeedView.swift
-//  VisionTrajectoryDemo
-//
-//  Created by Christian on 25.07.2024.
-//  Copyright © 2024 Apple. All rights reserved.
-//
+//  Main view used to see the past tennis serves
+
 
 import SwiftUI
 import AVFoundation
@@ -14,10 +11,10 @@ struct FeedView: View {
     @State private var analyzedVideos: [URL] = []
     @State private var videoThumbnails: [URL: UIImage] = [:]
     @State private var featuredThumbnail: UIImage?
-    @AppStorage("HighestScore") private var highestScore: Int = 0
     @State private var fastestSpeeds: [URL: Double] = [:]
     @State private var assetURLMap: [String: URL] = [:]
     @State private var serveCounts: [URL: Int] = [:]
+
 
 
     var onAddTapped: () -> Void
@@ -205,16 +202,10 @@ struct FeedView: View {
                 loadAnalyzedVideos()
                 loadFeaturedThumbnail()
             }
-            .onReceive(NotificationCenter.default.publisher(for: .highestScoreUpdated)) { _ in
-                highestScore = UserDefaults.standard.integer(forKey: "HighestScore")
-                loadAnalyzedVideos()
-                loadFeaturedThumbnail()
-            }
             .onReceive(NotificationCenter.default.publisher(for: .newVideoAdded)) { _ in
                 loadAnalyzedVideos()
                 loadFeaturedThumbnail()
             }
-
         }
         .edgesIgnoringSafeArea(.bottom)
     }
@@ -255,7 +246,7 @@ struct FeedView: View {
         fastestSpeeds.removeValue(forKey: videoURL)
         videoThumbnails.removeValue(forKey: videoURL)
 
-        // ✅ Refresh featured thumbnail immediately
+        // Refresh featured thumbnail immediately
         if analyzedVideos.isEmpty {
             featuredThumbnail = nil
         } else {
@@ -264,8 +255,6 @@ struct FeedView: View {
 
     }
 
-
-    
     private func loadAnalyzedVideos() {
         analyzedVideos.removeAll()
         assetURLMap.removeAll()
@@ -333,10 +322,4 @@ struct FeedView: View {
 }
 
 
-#Preview {
-    FeedView(
-        onAddTapped: {},
-        onSettingsTapped: {},
-        onVideoSelected: { _ in }
-    )
-}
+

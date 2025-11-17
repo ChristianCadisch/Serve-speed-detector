@@ -12,7 +12,7 @@ import Vision
 protocol ContentAnalysisViewControllerDelegate: AnyObject {
     func contentAnalysisViewControllerDidFinish(_ controller: ContentAnalysisViewController,
                                                 serveCount: Int)
-
+    
 }
 
 class ContentAnalysisViewController: UIViewController,
@@ -24,20 +24,21 @@ class ContentAnalysisViewController: UIViewController,
     // MARK: - IBOutlets
     private var serveSpeedLabel: UILabel!
     var detectedServeCount: Int = 0
-    var speedContainerView: UIView! // Add this property to your class
+    var speedContainerView: UIView!
+    private var motionWarningView: UIView?
+    
     
     
     // MARK: - IBActions
     @IBAction func closeRootViewTapped(_ sender: Any) {
         print("close tapped")
-        NotificationCenter.default.post(name: .highestScoreUpdated, object: nil)
         navigationController?.popViewController(animated: true)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             self.delegate?.contentAnalysisViewControllerDidFinish(self,
                                                                   serveCount: self.detectedServeCount)
         }
     }
-
+    
     
     // MARK: - Public Properties
     weak var delegate: ContentAnalysisViewControllerDelegate?
@@ -66,7 +67,7 @@ class ContentAnalysisViewController: UIViewController,
         resetFastestSpeedForCurrentVideo()
         configureView()
         setupButtonsAndLabels()
-
+        
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             image: UIImage(systemName: "chevron.left"),
             style: .plain,
@@ -82,14 +83,14 @@ class ContentAnalysisViewController: UIViewController,
     private func resetFastestSpeedForCurrentVideo() {
         guard let videoAsset = recordedVideoSource,
               let urlString = (videoAsset as? AVURLAsset)?.url.absoluteString else { return }
-
+        
         let filename = URL(string: urlString)?.lastPathComponent ?? urlString
         let key = "FastestSpeed_\(filename)"
-
+        
         UserDefaults.standard.set(0, forKey: key)
         print("Reset fastest speed for this video.")
     }
-
+    
     
     private func saveFastestSpeed(_ speed: Double) {
         guard let videoAsset = recordedVideoSource else {
@@ -108,7 +109,7 @@ class ContentAnalysisViewController: UIViewController,
             if speed > currentFastestSpeed {
                 print("New fastest speed for \(filename): \(speed)")
                 UserDefaults.standard.set(speed, forKey: key)
-                NotificationCenter.default.post(name: .fastestSpeedUpdated, object: nil)
+
                 print("Posted fastestSpeedUpdated notification")
             }
         }
@@ -121,60 +122,62 @@ class ContentAnalysisViewController: UIViewController,
             if speed > 200 {
                 speed = 0
                 print("speed wrongly measured, reset to 0")
-            }
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                self.trajectoryView.speed = speed
-                self.trajectoryView.numberOfServes += 1
-                self.detectedServeCount = self.trajectoryView.numberOfServes
-                print("Serve count now: \(self.detectedServeCount)")
-
-                
-                
-                let numberString = String(format: "%.0f", speed)
-                let unitString = "km/h"
-                
-                let bigFont = UIFont.systemFont(ofSize: 45, weight: .bold)
-                let smallFont = UIFont.systemFont(ofSize: 20, weight: .medium)
-                
-                let attributed = NSMutableAttributedString(
-                    string: numberString + "\n",
-                    attributes: [.font: bigFont]
-                )
-                
-                attributed.append(NSAttributedString(
-                    string: unitString,
-                    attributes: [.font: smallFont]
-                ))
-                
-                self.serveSpeedLabel.attributedText = attributed
-                
-                
-                
-                
-                
-                // Update highest score
-                if let videoAsset = self.recordedVideoSource,
-                   let urlString = (videoAsset as? AVURLAsset)?.url.absoluteString {
-                    
-                    let filename = URL(string: urlString)?.lastPathComponent ?? urlString
-                    let key = "FastestSpeed_\(filename)"
-
-                    let previousVideoFastest = UserDefaults.standard.double(forKey: key)
-
-                    if speed > previousVideoFastest {
-                        UserDefaults.standard.set(speed, forKey: key)
-                        NotificationCenter.default.post(name: .fastestSpeedUpdated, object: nil)
-                        print("new fastest speed overall is \(speed)")
-                    }
+                DispatchQueue.main.async { [weak self] in
+                    self?.showMotionWarning(errormessage: "Speed measurement failed")
                 }
+            } else {
+                DispatchQueue.main.async { [weak self] in
+                    guard let self = self else { return }
+                    self.trajectoryView.speed = speed
+                    self.trajectoryView.numberOfServes += 1
+                    self.detectedServeCount = self.trajectoryView.numberOfServes
+                    print("Serve count now: \(self.detectedServeCount)")
 
+                    
+                    
+                    
+                    
+                    let numberString = String(format: "%.0f", speed)
+                    let unitString = "km/h"
+                    
+                    let bigFont = UIFont.systemFont(ofSize: 45, weight: .bold)
+                    let smallFont = UIFont.systemFont(ofSize: 20, weight: .medium)
+                    
+                    let attributed = NSMutableAttributedString(
+                        string: numberString + "\n",
+                        attributes: [.font: bigFont]
+                    )
+                    
+                    attributed.append(NSAttributedString(
+                        string: unitString,
+                        attributes: [.font: smallFont]
+                    ))
+                    
+                    self.serveSpeedLabel.attributedText = attributed
+                    
+                    
+                    // Update highest score
+                    if let videoAsset = self.recordedVideoSource,
+                       let urlString = (videoAsset as? AVURLAsset)?.url.absoluteString {
+                        
+                        let filename = URL(string: urlString)?.lastPathComponent ?? urlString
+                        let key = "FastestSpeed_\(filename)"
+                        
+                        let previousVideoFastest = UserDefaults.standard.double(forKey: key)
+                        
+                        if speed > previousVideoFastest {
+                            UserDefaults.standard.set(speed, forKey: key)
+                            print("new fastest speed overall is \(speed)")
+                        }
+                    }
+                    
+                }
             }
             
             lastObservedTrajectory = nil
             framesWithoutUpdate = 0
-            trajectoryDictionary.removeAll()
-
+            
+            
             
         }
     }
@@ -188,32 +191,32 @@ class ContentAnalysisViewController: UIViewController,
         speedContainerView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
         speedContainerView.layer.cornerRadius = 10
         speedContainerView.clipsToBounds = true
-
+        
         view.addSubview(speedContainerView)
         speedContainerView.translatesAutoresizingMaskIntoConstraints = false
-
+        
         let containerSize: CGFloat = 120
-
+        
         NSLayoutConstraint.activate([
             speedContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             speedContainerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50),
             speedContainerView.widthAnchor.constraint(equalToConstant: containerSize),
             speedContainerView.heightAnchor.constraint(equalToConstant: containerSize)
         ])
-
-
+        
+        
         // --- Speed Label ---
         serveSpeedLabel = UILabel()
         serveSpeedLabel.textAlignment = .center
         serveSpeedLabel.textColor = .white
         serveSpeedLabel.numberOfLines = 3
-
+        
         let number = "0"
         let unit = "km/h"
-
+        
         let bigFont = UIFont.systemFont(ofSize: 45, weight: .bold)
         let smallFont = UIFont.systemFont(ofSize: 20, weight: .medium)
-
+        
         let attributed = NSMutableAttributedString(
             string: number + "\n",
             attributes: [.font: bigFont, .foregroundColor: UIColor.white]
@@ -222,45 +225,44 @@ class ContentAnalysisViewController: UIViewController,
             string: unit,
             attributes: [.font: smallFont, .foregroundColor: UIColor.white]
         ))
-
+        
         serveSpeedLabel.attributedText = attributed
-
-
+        
+        
         // --- Title Label ---
         let titleLabel = UILabel()
         titleLabel.text = "Serve speed"
         titleLabel.textColor = .white
         titleLabel.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         titleLabel.textAlignment = .center
-
-
+        
+        
         // --- Stack View to center all content ---
         let stack = UIStackView(arrangedSubviews: [titleLabel, serveSpeedLabel])
         stack.axis = .vertical
         stack.alignment = .center
         stack.spacing = 4
-
+        
         speedContainerView.addSubview(stack)
         stack.translatesAutoresizingMaskIntoConstraints = false
-
+        
         NSLayoutConstraint.activate([
             stack.centerXAnchor.constraint(equalTo: speedContainerView.centerXAnchor),
             stack.centerYAnchor.constraint(equalTo: speedContainerView.centerYAnchor),
             stack.widthAnchor.constraint(equalTo: speedContainerView.widthAnchor, constant: 0)
         ])
     }
-
+    
     
     @objc private func backButtonTapped() {
         print("back tapped")
-        NotificationCenter.default.post(name: .highestScoreUpdated, object: nil)
         navigationController?.popViewController(animated: true)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             self.delegate?.contentAnalysisViewControllerDidFinish(self,
                                                                   serveCount: self.detectedServeCount)
-
+            
         }
-
+        
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -303,25 +305,87 @@ class ContentAnalysisViewController: UIViewController,
     
     // MARK: - Private Methods
     
-    /*
-     private var videoFrameRate: Float = 0.0
-     
-     private func extractFrameRate() {
-     guard let videoAsset = recordedVideoSource else {
-     print("No video asset available")
-     return
-     }
-     
-     let tracks = videoAsset.tracks(withMediaType: .video)
-     guard let videoTrack = tracks.first else {
-     print("No video track found")
-     return
-     }
-     
-     videoFrameRate = videoTrack.nominalFrameRate
-     print("Video frame rate: \(videoFrameRate) fps")
-     }
-     */
+    @objc private func openRecordingSetup() {
+        let vc = UIHostingController(rootView: RecordingSetupView(isPresented: .constant(true)
+        ))
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    
+    private func showMotionWarning(errormessage: String) {
+        guard motionWarningView == nil else { return }
+        
+        let card = UIView()
+        card.backgroundColor = UIColor.systemGray6.withAlphaComponent(0.95)
+        card.layer.cornerRadius = 20
+        card.layer.shadowColor = UIColor.black.cgColor
+        card.layer.shadowOpacity = 0.15
+        card.layer.shadowRadius = 10
+        card.layer.shadowOffset = CGSize(width: 0, height: 4)
+        card.isUserInteractionEnabled = true
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(openRecordingSetup))
+        card.addGestureRecognizer(tap)
+        
+        let icon = UIImageView()
+        icon.image = UIImage(systemName: "video.slash")
+        icon.tintColor = .systemRed
+        icon.contentMode = .scaleAspectFit
+        
+        let titleLabel = UILabel()
+        titleLabel.text = errormessage
+        titleLabel.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        titleLabel.textColor = .label
+        titleLabel.textAlignment = .center
+        
+        let subtitleLabel = UILabel()
+        subtitleLabel.text = "Tap to see how to set up your camera"
+        subtitleLabel.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        subtitleLabel.textColor = .secondaryLabel
+        subtitleLabel.numberOfLines = 2
+        subtitleLabel.textAlignment = .center
+        
+        let stack = UIStackView(arrangedSubviews: [icon, titleLabel, subtitleLabel])
+        stack.axis = .vertical
+        stack.alignment = .center
+        stack.spacing = 10
+        
+        card.addSubview(stack)
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        icon.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            icon.heightAnchor.constraint(equalToConstant: 60),
+            icon.widthAnchor.constraint(equalToConstant: 60),
+            
+            stack.topAnchor.constraint(equalTo: card.topAnchor, constant: 16),
+            stack.bottomAnchor.constraint(equalTo: card.bottomAnchor, constant: -16),
+            stack.leadingAnchor.constraint(equalTo: card.leadingAnchor, constant: 16),
+            stack.trailingAnchor.constraint(equalTo: card.trailingAnchor, constant: -16)
+        ])
+        
+        view.addSubview(card)
+        motionWarningView = card
+        
+        card.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            card.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            card.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            card.widthAnchor.constraint(equalToConstant: 300),
+            card.heightAnchor.constraint(equalToConstant: 200)
+        ])
+    }
+    
+    
+    
+    
+    
+    private func hideMotionWarning() {
+        motionWarningView?.removeFromSuperview()
+        motionWarningView = nil
+    }
+    
+    
     
     
     private func processTrajectoryObservation(results: [VNTrajectoryObservation]) {
@@ -502,11 +566,15 @@ extension ContentAnalysisViewController: CameraViewControllerOutputDelegate {
             
             try visionHandler.perform([detectTrajectoryRequest])
             checkForTrajectoryCompletion()
-        } catch {
-            print("Failed to perform the trajectory request: \(error.localizedDescription)")
+        }  catch {
+            let message = error.localizedDescription.lowercased()
+            if message.contains("too many moving objects") || message.contains("noise detected") {
+                DispatchQueue.main.async { [weak self] in
+                    self?.showMotionWarning(errormessage: "Recording too unstable")
+                }
+            }
             return
         }
-        
     }
     
 }

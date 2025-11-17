@@ -1,9 +1,6 @@
 //
 //  OnboardingView.swift
-//  VisionTrajectoryDemo
-//
-//  Created by Christian on 12.11.2025.
-//  Copyright © 2025 Apple. All rights reserved.
+//  Instruction pages meant for first time users
 //
 
 import Foundation
@@ -24,7 +21,7 @@ struct OnboardingView: View {
                         name: "onboarding",
                         isSystemImage: false,
                         title: "Welcome to Clay",
-                        description: "Your personal AI serve coach — powered by the newest AI technology",
+                        description: "Your iPhone serve speed radar powered by the newest AI technology",
                         cornerRadius: 30
                     )
                     .tag(0)

@@ -1,10 +1,6 @@
 //
 //  RecordingSetupView.swift
-//  VisionTrajectoryDemo
-//
-//  Created by Christian on 16.11.2025.
-//  Copyright © 2025 Apple. All rights reserved.
-//
+//  Instruction pages on how to set up the recording
 
 import Foundation
 
@@ -17,10 +13,9 @@ import AVFoundation
 struct RecordingSetupView: View {
     @Binding var isPresented: Bool
     @State private var currentPage = 0
+    @State private var isCameraErrorSource = false
+    @Environment(\.dismiss) private var dismiss
     private let totalPages = 3
-
-    private let placeholder =
-        "https://gostanford.com/imgproxy/Pfw3Gktmf2EAVTLYtpVERtWC7HYZUTMcp6JxVItTKog/rs:fit:1980:0:0:0/g:ce:0:0/q:90/aHR0cHM6Ly9zdG9yYWdlLmdvb2dsZWFwaXMuY29tL3N0YW5mb3JkLXByb2QvMjAyNS8xMS8xMS82MEdiQ2Y3NnlPNmZUZU1vYlN3VlFhRFlIcVR6ZkxoWjFnbHZJRjlFLmpwZw.jpg"
 
     var body: some View {
         GeometryReader { geo in
@@ -98,13 +93,16 @@ struct RecordingSetupView: View {
                                 .animation(.easeInOut(duration: 0.2), value: currentPage)
                         }
                     }
-                    .padding(.bottom, currentPage == totalPages - 1 ? 20 : 60)
+                    .padding(.bottom,
+                             (currentPage == totalPages - 1 ? 10 : -20)
+                             )
 
 
                     // CLOSE BUTTON
                     if currentPage == totalPages - 1 {
                         Button {
                             isPresented = false
+                            dismiss()
                         } label: {
                             Text("Done")
                                 .fontWeight(.bold)
@@ -114,7 +112,7 @@ struct RecordingSetupView: View {
                                 .foregroundColor(Color(uiColor: .systemBackground))
                                 .cornerRadius(12)
                                 .padding(.horizontal, 40)
-                                .padding(.bottom, 40)
+                                .padding(.bottom, 0)
                         }
                         .transition(.opacity)
                     }

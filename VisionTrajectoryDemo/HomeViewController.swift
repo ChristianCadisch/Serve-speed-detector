@@ -173,11 +173,6 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
 
 
-
-
-
-
-
     private func replaceSwiftUIView(with newView: AnyView) {
         feedView?.willMove(toParent: nil)
         feedView?.view.removeFromSuperview()
@@ -255,8 +250,6 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
                 let key = "ServeCount_\(filename)"
                 UserDefaults.standard.set(serveCount, forKey: key)
 
-                NotificationCenter.default.post(name: .highestScoreUpdated, object: nil)
-                NotificationCenter.default.post(name: .fastestSpeedUpdated, object: nil)
             }
         }
     }
@@ -296,7 +289,5 @@ extension HomeViewController: PHPickerViewControllerDelegate {
 
 
 extension Notification.Name {
-    static let fastestSpeedUpdated = Notification.Name("fastestSpeedUpdated")
-    static let highestScoreUpdated = Notification.Name("highestScoreUpdated")
     static let newVideoAdded = Notification.Name("newVideoAdded")
 }

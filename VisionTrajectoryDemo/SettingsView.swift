@@ -1,10 +1,7 @@
 //
 //  Settings.swift
-//  VisionTrajectoryDemo
-//
-//  Created by Christian on 12.11.2025.
-//  Copyright © 2025 Apple. All rights reserved.
-//
+//  Settings view, where the user can re-view the onboarding, a detailed camera setup, give feedback and share the app
+
 
 import SwiftUI
 
@@ -38,14 +35,14 @@ struct SettingsView: View {
                         Text("Welcome to Clay")
                             .font(.title3.bold())
 
-                        Text("Analyze and improve your serve with AI-powered feedback.")
+                        Text("Analyze your serve with AI")
                             .font(.subheadline)
                             .multilineTextAlignment(.center)
                             .foregroundColor(.secondary)
                             .padding(.horizontal, 28)
 
                         Button(action: { showOnboarding = true }) {
-                            Text("View Full Onboarding")
+                            Text("View Onboarding")
                                 .font(.subheadline.weight(.semibold))
                                 .padding(.horizontal, 22)
                                 .padding(.vertical, 10)
@@ -55,17 +52,15 @@ struct SettingsView: View {
                         }
                         .padding(.top, 4)
                     }
-                    .padding(.top, 40)     // moves content higher
+                    .padding(.top, 40)     
                     .padding(.bottom, 28)
                 }
-                .frame(height: 360)        // slightly reduced card height
+                .frame(height: 360)
                 .padding(.horizontal)
                 .padding(.top)
                 .padding(.bottom, 24)
 
-                
-                // Form content (visually consistent, full bottom area)
-                VStack(spacing: 24) {
+                                VStack(spacing: 24) {
                     VStack(alignment: .leading) {
                         Text("Support")
                             .font(.headline)
@@ -111,12 +106,12 @@ struct SettingsView: View {
                             Text("Clay v1.0")
                                 .font(.subheadline)
 
-                            Text("Built to help you analyze and improve your tennis serve. Developed independently in Switzerland")
+                            Text("Built to help you analyze and improve your tennis serve")
                                 .font(.footnote)
                                 .foregroundColor(.secondary)
                         }
                         .padding()
-                        .frame(maxWidth: .infinity, alignment: .leading)   // 🔥 ensures same width as Support card
+                        .frame(maxWidth: .infinity, alignment: .leading)
                         .background(Color(.secondarySystemBackground))
                         .cornerRadius(16)
                     }

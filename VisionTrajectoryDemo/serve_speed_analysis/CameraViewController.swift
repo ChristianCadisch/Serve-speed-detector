@@ -2,7 +2,7 @@
 See LICENSE folder for this sample’s licensing information.
 
 Abstract:
-The app's live-capture view controller.
+The app's video playing view controller.
 */
 
 import UIKit
@@ -25,21 +25,20 @@ class CameraViewController: UIViewController {
                                                      attributes: [],
                                                      autoreleaseFrequency: .workItem)
     
-    private var cameraFeedView: CameraFeedView!
-    private var cameraFeedSession: AVCaptureSession?
     private var videoRenderView: VideoRenderView!
     private var videoFileReader: AVAssetReader?
     private let videoFileReadingQueue = DispatchQueue(label: "VideoFileReading", qos: .userInteractive)
+    private var isCancelled = false
+
     
     // MARK: - Life Cycle
     
     override func viewDidDisappear(_ animated: Bool) {
         
         super.viewDidDisappear(animated)
+        isCancelled = true
         let backgroundQueue = DispatchQueue(label: "background_queue", qos: .background)
         backgroundQueue.async { [weak self] in
-            // Stop the capture session.
-            self?.cameraFeedSession?.stopRunning()
             // Stop the video reader.
             self?.videoFileReader?.cancelReading()
         }
@@ -55,13 +54,9 @@ class CameraViewController: UIViewController {
         let flipVertical = CGAffineTransform(scaleX: 1, y: -1).translatedBy(x: 0, y: -1)
         let flippedRect = visionRect.applying(flipVertical)
         let viewRect: CGRect
-        if cameraFeedSession != nil {
-            viewRect = cameraFeedView.viewRectConverted(fromNormalizedContentsRect: flippedRect)
-        } else {
-            viewRect = videoRenderView.viewRectConverted(fromNormalizedContentsRect: flippedRect)
-        }
-        return viewRect
+        viewRect = videoRenderView.viewRectConverted(fromNormalizedContentsRect: flippedRect)
         
+        return viewRect
     }
     
     func setupVideoOutputView(_ videoOutputView: UIView) {
@@ -79,7 +74,6 @@ class CameraViewController: UIViewController {
     }
     
     func startReadingAsset(_ asset: AVAsset) {
-        
         videoRenderView = VideoRenderView(frame: view.bounds)
         setupVideoOutputView(videoRenderView)
         videoFileReadingQueue.async { [weak self] in
@@ -122,7 +116,7 @@ class CameraViewController: UIViewController {
                 var lastTimestamp = CMTime(value: 0, timescale: 600)
                 let ciCtx = CIContext()
                 
-                while reader.status == .reading {
+                while reader.status == .reading && !(self?.isCancelled ?? true){
                     autoreleasepool {
                         guard let strongSelf = self else {
                             return
