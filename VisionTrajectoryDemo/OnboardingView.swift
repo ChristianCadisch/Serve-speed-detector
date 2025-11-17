@@ -11,7 +11,7 @@ import SwiftUI
 struct OnboardingView: View {
     @Binding var hasSeenOnboarding: Bool
     @State private var currentPage = 0
-    private let totalPages = 5
+    private let totalPages = 4
     
     var body: some View {
         GeometryReader { geo in
@@ -21,39 +21,37 @@ struct OnboardingView: View {
                 
                 TabView(selection: $currentPage) {
                     OnboardingPage(
-                        image: "onboarding",
+                        name: "onboarding",
+                        isSystemImage: false,
                         title: "Welcome to Clay",
-                        description: "Your personal AI serve coach — powered by the newest AI technology"
+                        description: "Your personal AI serve coach — powered by the newest AI technology",
+                        cornerRadius: 30
                     )
                     .tag(0)
                     
                     OnboardingPage(
-                        image: "camera",
+                        name: "camera",
                         title: "Keep the Camera Steady",
-                        description: "For accurate ball tracking, keep the camera completely still — handheld videos don’t work. Just lean your phone against a bottle or bag behind the court"
+                        description: "Record with your phone on the floor and use slow motion settings for the most precise results"
                     )
                     .tag(1)
-                    
+
                     OnboardingPage(
-                        image: "timelapse",
-                        title: "Record in Slow Motion",
-                        description: "Use slow-motion mode (120 – 240 fps) for the most precise tracking"
+                        name: "setup",
+                        isSystemImage: false,
+                        title: "Capture the Whole Serve",
+                        description: "Make sure the full serve is visible: the toss, contact point, trajectory, and landing on the opposite side",
+                        size: CGSize(width: 300, height: 3000),
+                        cornerRadius: 30
                     )
                     .tag(2)
                     
                     OnboardingPage(
-                        image: "viewfinder.circle",
-                        title: "Capture the Whole Serve",
-                        description: "Ensure the entire serve is visible — from your toss and contact point to the ball landing on the other side of the net"
-                    )
-                    .tag(3)
-                    
-                    OnboardingPage(
-                        image: "chart.bar.fill",
+                        name: "chart.bar.fill",
                         title: "Let’s Get Started",
                         description: "Upload or record your first serve"
                     )
-                    .tag(4)
+                    .tag(3)
                 }
                 .tabViewStyle(.page(indexDisplayMode: .never))
                 .ignoresSafeArea()
@@ -125,44 +123,55 @@ struct OnboardingView: View {
 }
 
 struct OnboardingPage: View {
-    let image: String
+    let name: String
+    var isSystemImage: Bool = true
     let title: String
     let description: String
-    
+    var size: CGSize = .init(width: 200, height: 200)
+    var cornerRadius: CGFloat? = nil
+
     var body: some View {
         VStack(spacing: 30) {
             Spacer()
-            if image == "onboarding" {
-                            // Case 1: Custom Asset ("onboarding")
-                            Image(image)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 200, height: 200) // Larger size
-                        } else {
-                            // Case 2: SF Symbol (any other name, like "timelapse")
-                            Image(systemName: image)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 80, height: 80) // Smaller size
-                                .foregroundColor(.accentColor)
-                        }
+            
+            Group {
+                if isSystemImage {
+                    Image(systemName: name)
+                        .resizable()
+                        .scaledToFit()
+                        .foregroundColor(.accentColor)
+                } else {
+                    Image(name)
+                        .resizable()
+                        .scaledToFit()
+                }
+            }
+            .frame(maxWidth: size.width)                    // ← use maxWidth ONLY
+            .clipShape(
+                cornerRadius == nil
+                    ? AnyShape(Rectangle())
+                    : AnyShape(RoundedRectangle(cornerRadius: cornerRadius!))
+            )
+
+
             Text(title)
                 .font(.largeTitle)
                 .bold()
-                .foregroundColor(Color.primary)
-            
+                .foregroundColor(.primary)
+
             Text(description)
                 .font(.body)
                 .multilineTextAlignment(.center)
-                .foregroundColor(Color.secondary)
+                .foregroundColor(.secondary)
                 .padding(.horizontal, 40)
+
             Spacer()
         }
         .padding()
         .background(Color(uiColor: .systemBackground))
     }
-    
 }
+
 
 
 #Preview {

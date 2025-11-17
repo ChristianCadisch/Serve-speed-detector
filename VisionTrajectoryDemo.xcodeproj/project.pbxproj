@@ -23,8 +23,10 @@
 		AA28018E2C633FE70042F187 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AA28018D2C633FE70042F187 /* GoogleService-Info.plist */; };
 		AA3D55C22EC4A6DD0017CD7B /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3D55C12EC4A6DD0017CD7B /* OnboardingView.swift */; };
 		AA3D55C62EC4BB400017CD7B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3D55C52EC4BB400017CD7B /* SettingsView.swift */; };
+		AA58BEC72ECA4D500032B602 /* RecordingSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA58BEC62ECA4D500032B602 /* RecordingSetupView.swift */; };
 		AA6D37BF2D627F3F00325808 /* ThumbnailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA6D37BE2D627F3F00325808 /* ThumbnailView.swift */; };
 		AA71D1AE2C5353A800E66284 /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA71D1AD2C5353A800E66284 /* FeedView.swift */; };
+		AADF48FE2ECB3E9B0003ED95 /* example_serve.mov in Resources */ = {isa = PBXBuildFile; fileRef = AADF48FD2ECB3E9B0003ED95 /* example_serve.mov */; };
 		F01230A629140F8600AE811B /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F01230A529140F8600AE811B /* README.md */; };
 		F0C8C1FB2919915B00CF6186 /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C8C1FA2919915B00CF6186 /* AppError.swift */; };
 		F0C8C1FD2919A5C600CF6186 /* CameraFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C8C1FC2919A5C600CF6186 /* CameraFeedView.swift */; };
@@ -52,8 +54,10 @@
 		AA28018D2C633FE70042F187 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		AA3D55C12EC4A6DD0017CD7B /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		AA3D55C52EC4BB400017CD7B /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		AA58BEC62ECA4D500032B602 /* RecordingSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingSetupView.swift; sourceTree = "<group>"; };
 		AA6D37BE2D627F3F00325808 /* ThumbnailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailView.swift; sourceTree = "<group>"; };
 		AA71D1AD2C5353A800E66284 /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
+		AADF48FD2ECB3E9B0003ED95 /* example_serve.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = example_serve.mov; sourceTree = "<group>"; };
 		F01230A529140F8600AE811B /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		F0C8C1FA2919915B00CF6186 /* AppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
 		F0C8C1FC2919A5C600CF6186 /* CameraFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraFeedView.swift; sourceTree = "<group>"; };
@@ -112,6 +116,7 @@
 				AA3D55C52EC4BB400017CD7B /* SettingsView.swift */,
 				AA71D1AD2C5353A800E66284 /* FeedView.swift */,
 				AA3D55C12EC4A6DD0017CD7B /* OnboardingView.swift */,
+				AA58BEC62ECA4D500032B602 /* RecordingSetupView.swift */,
 				AA6D37BE2D627F3F00325808 /* ThumbnailView.swift */,
 				956B52AE26B2CEE300F7E865 /* CameraViewController.swift */,
 				956B529826B2ACA400F7E865 /* AppDelegate.swift */,
@@ -147,6 +152,7 @@
 			children = (
 				956B52BB26B4070000F7E865 /* FireBall2.sks */,
 				956B52A126B2ACA500F7E865 /* Assets.xcassets */,
+				AADF48FD2ECB3E9B0003ED95 /* example_serve.mov */,
 				956B52A626B2ACA500F7E865 /* Info.plist */,
 			);
 			path = Resources;
@@ -248,6 +254,7 @@
 			files = (
 				F01230A629140F8600AE811B /* README.md in Resources */,
 				956B52A526B2ACA500F7E865 /* LaunchScreen.storyboard in Resources */,
+				AADF48FE2ECB3E9B0003ED95 /* example_serve.mov in Resources */,
 				956B52A226B2ACA500F7E865 /* Assets.xcassets in Resources */,
 				956B52BC26B4070000F7E865 /* FireBall2.sks in Resources */,
 				956B52A026B2ACA400F7E865 /* Main.storyboard in Resources */,
@@ -274,6 +281,7 @@
 				AA3D55C62EC4BB400017CD7B /* SettingsView.swift in Sources */,
 				956B529B26B2ACA400F7E865 /* SceneDelegate.swift in Sources */,
 				F0C8C1FB2919915B00CF6186 /* AppError.swift in Sources */,
+				AA58BEC72ECA4D500032B602 /* RecordingSetupView.swift in Sources */,
 				F0C8C1FD2919A5C600CF6186 /* CameraFeedView.swift in Sources */,
 				F0C8C2012919A69B00CF6186 /* BallScene.swift in Sources */,
 				AA3D55C22EC4A6DD0017CD7B /* OnboardingView.swift in Sources */,

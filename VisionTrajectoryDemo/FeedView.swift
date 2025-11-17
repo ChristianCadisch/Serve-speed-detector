@@ -47,6 +47,42 @@ struct FeedView: View {
             .background(Color(.systemBackground))
             
             // Feed List
+            if analyzedVideos.isEmpty {
+                VStack(spacing: 24) {
+                    Image(systemName: "plus.app")
+                        .font(.system(size: 60))
+                        .foregroundColor(.accentColor)
+                        .symbolRenderingMode(.hierarchical)
+
+                    Text("No Serves Yet")
+                        .font(.title3)
+                        .bold()
+                        .foregroundColor(.primary)
+
+                    Text("Add your first video to start analyzing your serves.")
+                        .font(.body)
+                        .foregroundColor(.secondary)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 40)
+
+                    Button(action: { onAddTapped() }) {
+                        Text("Add Your First Video")
+                            .font(.headline)
+                            .bold()
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.accentColor)
+                            .foregroundColor(.white)
+                            .cornerRadius(14)
+                            .shadow(color: .black.opacity(0.08), radius: 6, y: 3)
+                    }
+                    .padding(.horizontal, 40)
+                    .padding(.top, 8)
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .padding(.bottom, 80)
+                .transition(.opacity)
+            }
             List {
                 // Featured serve
                 if let featuredVideoURL = getFeaturedVideoURL(),
@@ -98,10 +134,10 @@ struct FeedView: View {
                 // Other serves
                 if analyzedVideos.count > 1 {
                     Section(header:
-                                Text("Other Serves")
+                        Text("Other Serves")
                         .font(.headline)
                         .foregroundStyle(.primary)
-                        .padding(.leading, 16)
+                        //.padding(.leading, 16)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .textCase(nil)
                     ) {
@@ -128,7 +164,7 @@ struct FeedView: View {
                                         .fontWeight(.bold)
                                     HStack(spacing: 6) {
                                         Image(systemName: "tennisball")
-                                        Text("\(serveCounts[videoURL, default: 1]) serve\(serveCounts[videoURL, default: 1] == 1 ? "" : "s") recorded")
+                                        Text("\(serveCounts[videoURL, default: 1]) Serve\(serveCounts[videoURL, default: 1] == 1 ? "" : "s") recorded")
                                             .font(.footnote)
                                             .foregroundColor(.secondary)
 

@@ -11,6 +11,8 @@ import SwiftUI
 struct SettingsView: View {
     @Binding var hasSeenOnboarding: Bool
     @State private var showOnboarding = false
+    @State private var showRecordingSetup = false
+
     
     var body: some View {
         ScrollView {
@@ -69,7 +71,9 @@ struct SettingsView: View {
                             .font(.headline)
                             .foregroundColor(.secondary)
                         Group {
-                            Button("Troubleshooting") { }
+                            Button("Recording setup guide") {
+                                showRecordingSetup = true
+                            }
                             Divider()
                             Button("Give Feedback") { if let url = URL(string: "mailto:christian.cadisch@gmail.com") {
                                 UIApplication.shared.open(url)
@@ -96,22 +100,29 @@ struct SettingsView: View {
                     
                     
                     
-                    VStack(alignment: .leading) {
+                    VStack(alignment: .leading, spacing: 12) {
+                        
                         Text("About")
                             .font(.headline)
                             .foregroundColor(.secondary)
+                            .padding(.horizontal, 16) 
+
                         VStack(alignment: .leading, spacing: 4) {
-                            Text("Clay v1.0").font(.subheadline)
+                            Text("Clay v1.0")
+                                .font(.subheadline)
+
                             Text("Built to help you analyze and improve your tennis serve. Developed independently in Switzerland")
                                 .font(.footnote)
                                 .foregroundColor(.secondary)
                         }
                         .padding()
+                        .frame(maxWidth: .infinity, alignment: .leading)   // 🔥 ensures same width as Support card
                         .background(Color(.secondarySystemBackground))
                         .cornerRadius(16)
                     }
                     .padding(.horizontal)
-                    .padding(.bottom, 40) // ✅ ensures visible bottom space
+                    .padding(.bottom, 40)
+
                 }
             }
         }
@@ -123,6 +134,11 @@ struct SettingsView: View {
                     if newValue { showOnboarding = false }
                 }
         }
+        
+        .fullScreenCover(isPresented: $showRecordingSetup) {
+            RecordingSetupView(isPresented: $showRecordingSetup)
+        }
+
     }
 }
 
