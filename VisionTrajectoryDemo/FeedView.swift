@@ -134,12 +134,12 @@ struct FeedView: View {
                         Text("Other Serves")
                         .font(.headline)
                         .foregroundStyle(.primary)
-                        //.padding(.leading, 16)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .textCase(nil)
                     ) {
                         ForEach(analyzedVideos.filter { $0 != getFeaturedVideoURL() }.reversed(), id: \.self) { videoURL in
                             let speed = fastestSpeeds[videoURL] ?? 0
+                            let servecount = serveCounts[videoURL] ?? 0
                             
                             HStack(spacing: 0) {
                                 if let thumbnail = videoThumbnails[videoURL] {
@@ -161,7 +161,7 @@ struct FeedView: View {
                                         .fontWeight(.bold)
                                     HStack(spacing: 6) {
                                         Image(systemName: "tennisball")
-                                        Text("\(serveCounts[videoURL, default: 1]) Serve\(serveCounts[videoURL, default: 1] == 1 ? "" : "s") recorded")
+                                        Text("\(servecount) Serve\(servecount == 1 ? "" : "s") recorded")
                                             .font(.footnote)
                                             .foregroundColor(.secondary)
 
@@ -244,6 +244,7 @@ struct FeedView: View {
 
         analyzedVideos.removeAll { $0 == videoURL }
         fastestSpeeds.removeValue(forKey: videoURL)
+        serveCounts.removeValue(forKey: videoURL)
         videoThumbnails.removeValue(forKey: videoURL)
 
         // Refresh featured thumbnail immediately
@@ -308,6 +309,8 @@ struct FeedView: View {
             fastestSpeeds[url] = UserDefaults.standard.double(forKey: key)
         }
     }
+    
+    
     
     private func loadThumbnails() {
         for url in analyzedVideos {

@@ -13,6 +13,8 @@ import AVFoundation
 import UniformTypeIdentifiers
 
 class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, ContentAnalysisViewControllerDelegate {
+    
+    
 
     private var feedView: UIHostingController<AnyView>!
     var recordedVideoURL: URL?
@@ -200,6 +202,10 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         controller.recordedVideoSource = AVAsset(url: videoURL)
         controller.delegate = self
         navigationController?.pushViewController(controller, animated: true)
+    }
+    
+    func contentAnalysisViewControllerDidFinish(_ controller: ContentAnalysisViewController) {
+        
     }
 
 

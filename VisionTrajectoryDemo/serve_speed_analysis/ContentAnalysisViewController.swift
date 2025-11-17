@@ -10,8 +10,7 @@ import AVFoundation
 import Vision
 
 protocol ContentAnalysisViewControllerDelegate: AnyObject {
-    func contentAnalysisViewControllerDidFinish(_ controller: ContentAnalysisViewController,
-                                                serveCount: Int)
+    func contentAnalysisViewControllerDidFinish(_ controller: ContentAnalysisViewController)
     
 }
 
@@ -34,8 +33,7 @@ class ContentAnalysisViewController: UIViewController,
         print("close tapped")
         navigationController?.popViewController(animated: true)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            self.delegate?.contentAnalysisViewControllerDidFinish(self,
-                                                                  serveCount: self.detectedServeCount)
+            self.delegate?.contentAnalysisViewControllerDidFinish(self)
         }
     }
     
@@ -65,6 +63,7 @@ class ContentAnalysisViewController: UIViewController,
     override func viewDidLoad() {
         super.viewDidLoad()
         resetFastestSpeedForCurrentVideo()
+        resetServeCountForCurrentVideo()
         configureView()
         setupButtonsAndLabels()
         
@@ -89,6 +88,17 @@ class ContentAnalysisViewController: UIViewController,
         
         UserDefaults.standard.set(0, forKey: key)
         print("Reset fastest speed for this video.")
+    }
+    
+    private func resetServeCountForCurrentVideo() {
+        guard let videoAsset = recordedVideoSource,
+              let urlString = (videoAsset as? AVURLAsset)?.url.absoluteString else { return }
+        
+        let filename = URL(string: urlString)?.lastPathComponent ?? urlString
+        let key = "ServeCount_\(filename)"
+        
+        UserDefaults.standard.set(0, forKey: key)
+        print("Reset serve count for this video.")
     }
     
     
@@ -169,6 +179,10 @@ class ContentAnalysisViewController: UIViewController,
                             UserDefaults.standard.set(speed, forKey: key)
                             print("new fastest speed overall is \(speed)")
                         }
+                        
+                        // also update serve count
+                        let count_key = "ServeCount_\(filename)"
+                        UserDefaults.standard.set(self.detectedServeCount, forKey: count_key)
                     }
                     
                 }
@@ -176,9 +190,6 @@ class ContentAnalysisViewController: UIViewController,
             
             lastObservedTrajectory = nil
             framesWithoutUpdate = 0
-            
-            
-            
         }
     }
     
@@ -258,8 +269,7 @@ class ContentAnalysisViewController: UIViewController,
         print("back tapped")
         navigationController?.popViewController(animated: true)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            self.delegate?.contentAnalysisViewControllerDidFinish(self,
-                                                                  serveCount: self.detectedServeCount)
+            self.delegate?.contentAnalysisViewControllerDidFinish(self)
             
         }
         
