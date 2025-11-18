@@ -52,7 +52,7 @@ class ContentAnalysisViewController: UIViewController,
     
     private var framesWithoutUpdate = 0
     private var lastObservedTrajectory: VNTrajectoryObservation?
-    private let updateThreshold = 4 // Number of frames to wait before considering trajectory complete
+    private let updateThreshold = 8 // Number of frames to wait before considering trajectory complete
     
     // A dictionary that stores all trajectories.
     private var trajectoryDictionary: [String: [VNPoint]] = [:]
