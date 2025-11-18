@@ -227,7 +227,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         controller.dismiss(animated: true) {
 
             if let url = self.recordedVideoURL {
-                let key = "ServeCount_\(url.lastPathComponent)"
+                let key = "ServeCount_\(url.absoluteString)"
                 UserDefaults.standard.set(serveCount, forKey: key)
             }
 
@@ -253,7 +253,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
                 savedURLs.append(url.absoluteString)
                 UserDefaults.standard.set(savedURLs, forKey: "AnalyzedVideos")
 
-                let key = "ServeCount_\(filename)"
+                let key = "ServeCount_\(url.absoluteString)"
                 UserDefaults.standard.set(serveCount, forKey: key)
 
             }

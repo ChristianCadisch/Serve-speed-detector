@@ -83,8 +83,7 @@ class ContentAnalysisViewController: UIViewController,
         guard let videoAsset = recordedVideoSource,
               let urlString = (videoAsset as? AVURLAsset)?.url.absoluteString else { return }
         
-        let filename = URL(string: urlString)?.lastPathComponent ?? urlString
-        let key = "FastestSpeed_\(filename)"
+        let key = "FastestSpeed_\(urlString)"
         
         UserDefaults.standard.set(0, forKey: key)
         print("Reset fastest speed for this video.")
@@ -94,8 +93,7 @@ class ContentAnalysisViewController: UIViewController,
         guard let videoAsset = recordedVideoSource,
               let urlString = (videoAsset as? AVURLAsset)?.url.absoluteString else { return }
         
-        let filename = URL(string: urlString)?.lastPathComponent ?? urlString
-        let key = "ServeCount_\(filename)"
+        let key = "ServeCount_\(urlString)"
         
         UserDefaults.standard.set(0, forKey: key)
         print("Reset serve count for this video.")
@@ -111,13 +109,12 @@ class ContentAnalysisViewController: UIViewController,
             print("saveFastestSpeed: Unable to get URL string")
             return
         }
-        let filename = URL(string: urlString)?.lastPathComponent ?? urlString
-        let key = "FastestSpeed_\(filename)"
+        let key = "FastestSpeed_\(urlString)"
         DispatchQueue.main.async {
             let currentFastestSpeed = UserDefaults.standard.double(forKey: key)
-            print("Current fastest speed for \(filename): \(currentFastestSpeed)")
+            print("Current fastest speed : \(currentFastestSpeed)")
             if speed > currentFastestSpeed {
-                print("New fastest speed for \(filename): \(speed)")
+                print("New fastest speed : \(speed)")
                 UserDefaults.standard.set(speed, forKey: key)
 
                 print("Posted fastestSpeedUpdated notification")
@@ -170,8 +167,7 @@ class ContentAnalysisViewController: UIViewController,
                     if let videoAsset = self.recordedVideoSource,
                        let urlString = (videoAsset as? AVURLAsset)?.url.absoluteString {
                         
-                        let filename = URL(string: urlString)?.lastPathComponent ?? urlString
-                        let key = "FastestSpeed_\(filename)"
+                        let key = "FastestSpeed_\(urlString)"
                         
                         let previousVideoFastest = UserDefaults.standard.double(forKey: key)
                         
@@ -181,7 +177,7 @@ class ContentAnalysisViewController: UIViewController,
                         }
                         
                         // also update serve count
-                        let count_key = "ServeCount_\(filename)"
+                        let count_key = "ServeCount_\(urlString)"
                         UserDefaults.standard.set(self.detectedServeCount, forKey: count_key)
                     }
                     

@@ -297,7 +297,7 @@ struct FeedView: View {
 
     private func loadServeCounts() {
         for url in analyzedVideos {
-            let key = "ServeCount_\(url.lastPathComponent)"
+            let key = "ServeCount_\(url.absoluteString)"
             serveCounts[url] = UserDefaults.standard.integer(forKey: key)
         }
     }
@@ -305,7 +305,7 @@ struct FeedView: View {
     
     private func loadFastestSpeeds() {
         for url in analyzedVideos {
-            let key = "FastestSpeed_\(url.lastPathComponent)"
+            let key = "FastestSpeed_\(url.absoluteString)"
             fastestSpeeds[url] = UserDefaults.standard.double(forKey: key)
         }
     }
