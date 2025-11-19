@@ -52,6 +52,7 @@
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		AADF48FF2ECB62350003ED95 /* serve_speed_analysis */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = serve_speed_analysis; sourceTree = "<group>"; };
+		AADF49122ECE0F370003ED95 /* Technique */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Technique; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +106,7 @@
 				956B529826B2ACA400F7E865 /* AppDelegate.swift */,
 				956B529A26B2ACA400F7E865 /* SceneDelegate.swift */,
 				F0C8C1FA2919915B00CF6186 /* AppError.swift */,
+				AADF49122ECE0F370003ED95 /* Technique */,
 				AADF48FF2ECB62350003ED95 /* serve_speed_analysis */,
 				F0C8C2052919A72E00CF6186 /* SpriteKit Views */,
 				F01230A8291411B500AE811B /* Storyboards */,
@@ -175,6 +177,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				AADF48FF2ECB62350003ED95 /* serve_speed_analysis */,
+				AADF49122ECE0F370003ED95 /* Technique */,
 			);
 			name = "Clay Tennis";
 			packageProductDependencies = (

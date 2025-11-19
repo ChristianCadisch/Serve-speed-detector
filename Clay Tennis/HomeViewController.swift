@@ -27,6 +27,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     private enum ActiveTab {
         case feed
         case settings
+        case theory
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -69,6 +70,14 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         let hosting = UIHostingController(rootView: AnyView(settingsView))
         replaceRoot(with: hosting, title: "Settings")
     }
+    
+    
+    private func showTheoryView() {
+        let theoryView = NavigationView { TheoryView() }
+        let hosting = UIHostingController(rootView: AnyView(theoryView))
+        replaceRoot(with: hosting, title: "Technique Coach")
+    }
+
 
     private func replaceRoot(with controller: UIHostingController<AnyView>, title: String) {
         // Remove old SwiftUI controller
@@ -156,6 +165,15 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         ) { [weak self] in
             self?.openGallery()
         }
+        
+        let theoryButton = createButton(
+            systemName: "brain.head.profile",
+            isActive: activeTab == .theory
+        ) { [weak self] in
+            self?.activeTab = .theory
+            self?.showTheoryView()
+        }
+
 
         let settingsButton = createButton(
             systemName: "gearshape",
@@ -167,6 +185,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
 
         bar.addArrangedSubview(feedButton)
         bar.addArrangedSubview(addButton)
+        bar.addArrangedSubview(theoryButton)
         bar.addArrangedSubview(settingsButton)
 
         bar.heightAnchor.constraint(equalToConstant: 70).isActive = true
@@ -295,4 +314,18 @@ extension HomeViewController: PHPickerViewControllerDelegate {
 
 extension Notification.Name {
     static let newVideoAdded = Notification.Name("newVideoAdded")
+}
+
+
+
+// PREVIEW STUFF
+struct HomeVCPreview: UIViewControllerRepresentable {
+    func makeUIViewController(context: Context) -> HomeViewController {
+        return HomeViewController()
+    }
+
+    func updateUIViewController(_ uiViewController: HomeViewController, context: Context) {}
+}
+#Preview {
+    HomeVCPreview()
 }
