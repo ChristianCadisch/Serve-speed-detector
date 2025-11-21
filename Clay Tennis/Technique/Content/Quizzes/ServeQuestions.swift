@@ -33,7 +33,7 @@ let serveQuestions: [QuizQuestion] = [
     ),
 
     // MARK: - Grip & Stance
-
+/*
     QuizQuestion(
         text: "Welcher Griff ist die Grundlage für alle Aufschlagvarianten?",
         type: .single,
@@ -208,5 +208,5 @@ let serveQuestions: [QuizQuestion] = [
             QuizAnswer(text: "Zu viel Einsatz der Hüfte", isCorrect: false)
         ]
     )
-
+*/
 ]
