@@ -41,7 +41,8 @@ struct TheoryView: View {
     @Environment(\.dismiss) var dismiss
     @State private var showQuiz = false
     @State private var highScores: [Int] = Array(repeating: 0, count: QuizIdentifier.allCases.count)
-    
+    private var featuredQuiz: QuizIdentifier = .serve
+
     
     private func quizKey(for quiz: QuizIdentifier) -> String {
         "QuizHighScore_\(quiz.rawValue)"
@@ -124,10 +125,11 @@ struct TheoryView: View {
                         VStack(spacing: 14) {
                             
                             QuizProgressCardBar(
-                                quiz: .tactics,
-                                highScore: highScores[QuizIdentifier.tactics.rawValue],
-                                total: tacticsQuestions.count
+                                quiz: featuredQuiz,
+                                highScore: highScores[featuredQuiz.rawValue],
+                                total: serveQuestions.count
                             )
+
                             .padding(.horizontal, 28)
                             .padding(.top, 4)
                             
@@ -169,7 +171,7 @@ struct TheoryView: View {
                 }
                 .sheet(isPresented: $showQuiz) {
                     QuizView(
-                        vm: QuizViewModel(questions: tacticsQuestions),
+                        vm: QuizViewModel(questions: serveQuestions),
                         quizID: .serve,
                         onQuizFinished: { quiz, score in
                             updateHighScore(for: quiz, newScore: score)
@@ -182,8 +184,6 @@ struct TheoryView: View {
                 .onAppear {
                     loadHighScores()
                 }
-
-
 
 
                 
