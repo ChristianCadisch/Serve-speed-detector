@@ -21,7 +21,19 @@ enum QuizIdentifier: Int, CaseIterable {
     case backhand
     case volley
     case legwork
+
+    var title: String {
+        switch self {
+        case .tactics: return "Tactics"
+        case .serve: return "Serve"
+        case .forehand: return "Forehand"
+        case .backhand: return "Backhand"
+        case .volley: return "Volley"
+        case .legwork: return "Leg Work"
+        }
+    }
 }
+
 
 
 struct TheoryView: View {
@@ -40,6 +52,12 @@ struct TheoryView: View {
             highScores[quiz.rawValue] = saved
         }
     }
+    
+    private func quizProgress(for quiz: QuizIdentifier, totalQuestions: Int) -> Double {
+        let highScore = highScores[quiz.rawValue]
+        return totalQuestions == 0 ? 0 : Double(highScore) / Double(totalQuestions)
+    }
+
 
 
 
@@ -102,6 +120,15 @@ struct TheoryView: View {
                         .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
 
                         VStack(spacing: 14) {
+                            
+                            QuizProgressCardBar(
+                                quiz: .tactics,
+                                highScore: highScores[QuizIdentifier.tactics.rawValue],
+                                total: tacticsQuestions.count
+                            )
+                            .padding(.horizontal, 28)
+                            .padding(.top, 4)
+                            
                             Image(systemName: "lightbulb")
                                 .font(.system(size: 60))
                                 .foregroundColor(.yellow)
@@ -117,6 +144,9 @@ struct TheoryView: View {
                                 .multilineTextAlignment(.center)
                                 .foregroundColor(.secondary)
                                 .padding(.horizontal, 28)
+                            
+                            
+
 
                             Text("Start Tactics Quiz")
                                 .font(.subheadline.weight(.semibold))
@@ -207,6 +237,55 @@ struct TheoryView: View {
             TechniqueStoryView(stories: legworkStories)
         default:
             TheoryPageView(title: title)
+        }
+    }
+}
+
+
+struct QuizProgressCardBar: View {
+    let quiz: QuizIdentifier
+    let highScore: Int
+    let total: Int
+
+    private var progress: Double {
+        total == 0 ? 0 : Double(highScore) / Double(total)
+    }
+
+    var body: some View {
+        VStack(spacing: 8) {
+
+            GeometryReader { geo in
+                ZStack(alignment: .leading) {
+                    Capsule()
+                        .fill(Color(.systemGray5))
+
+                    Capsule()
+                        .fill(
+                            LinearGradient(
+                                colors: progress >= 0.8 ? [.green, .mint] : [.blue, .cyan],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
+                        )
+                        .frame(width: geo.size.width * progress)
+                        .animation(.easeOut(duration: 0.4), value: progress)
+                }
+            }
+            .frame(height: 8)
+
+            HStack {
+                Text("Solved \(highScore)/\(total)")
+                    .font(.caption.weight(.semibold))
+                    .foregroundColor(.secondary)
+
+                Spacer()
+
+                if progress >= 1.0 {
+                    Image(systemName: "crown.fill")
+                        .foregroundColor(.yellow)
+                        .font(.caption)
+                }
+            }
         }
     }
 }
