@@ -73,10 +73,13 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     
     private func showTheoryView() {
-        let theoryView = NavigationView { TheoryView() }
-        let hosting = UIHostingController(rootView: AnyView(theoryView))
+        let theoryView = TheoryView()    // <- no NavigationView here
+        let hosting = UIHostingController(rootView: AnyView(
+            NavigationView { theoryView }  // <- NavigationView lives at top level
+        ))
         replaceRoot(with: hosting, title: "Technique Coach")
     }
+
 
 
     private func replaceRoot(with controller: UIHostingController<AnyView>, title: String) {

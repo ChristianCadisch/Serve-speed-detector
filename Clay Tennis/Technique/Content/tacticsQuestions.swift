@@ -32,9 +32,6 @@ let tacticsQuestions: [QuizQuestion] = [
         ]
     ),
     
-    
-    
-    /*
 
     // MARK: - Tennisspielen ist Handeln
     QuizQuestion(
@@ -139,7 +136,7 @@ let tacticsQuestions: [QuizQuestion] = [
         ]
     )
     
-    */
+    
 ]
 
 
@@ -148,7 +145,10 @@ import SwiftUI
 
 struct TacticsQuestions_Preview: PreviewProvider {
     static var previews: some View {
-        QuizView(vm: QuizViewModel(questions: tacticsQuestions))
+        QuizView(
+            vm: QuizViewModel(questions: tacticsQuestions),
+            onFinish: { }
+        )
     }
 }
 

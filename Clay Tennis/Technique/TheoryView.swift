@@ -8,20 +8,39 @@
 
 import SwiftUI
 
+extension View {
+    func mirroredHorizontally(_ shouldMirror: Bool) -> some View {
+        self.scaleEffect(x: shouldMirror ? -1 : 1, y: 1, anchor: .center)
+    }
+}
+
+
 struct TheoryView: View {
+    
+    @Environment(\.dismiss) var dismiss
+    @State private var showQuiz = false
+
 
     private struct Item: Identifiable {
         let id = UUID()
         let title: String
         let icon: String
+        let isMirrored: Bool
+
+        init(title: String, icon: String, isMirrored: Bool = false) {
+            self.title = title
+            self.icon = icon
+            self.isMirrored = isMirrored
+        }
     }
 
+
     private let items: [Item] = [
-        Item(title: "Leg Work", icon: "figure.walk"),
+        Item(title: "Leg Work", icon: "figure.run"),
         Item(title: "Forehand", icon: "tennis.racket"),
-        Item(title: "Backhand", icon: "tennis.racket"),
-        Item(title: "Serve", icon: "bolt.circle"),
-        Item(title: "Volley", icon: "hand.raised"),
+        Item(title: "Backhand", icon: "tennis.racket", isMirrored: true),
+        Item(title: "Serve", icon: "figure.tennis"),
+        Item(title: "Volley", icon: "arrow.forward.circle"),
         Item(title: "Tactics", icon: "lightbulb")
     ]
 
@@ -30,8 +49,8 @@ struct TheoryView: View {
             VStack(spacing: 22) {
                 
                 // MARK: - Tactics Quiz Card
-                NavigationLink {
-                    QuizView(vm: QuizViewModel(questions: tacticsQuestions))
+                Button {
+                    showQuiz = true
                 } label: {
                     ZStack {
                         LinearGradient(
@@ -48,7 +67,7 @@ struct TheoryView: View {
                                 .foregroundColor(.yellow)
                                 .frame(width: 120, height: 120)
                                 .background(Color.yellow.opacity(0.15))
-                                .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                                .clipShape(RoundedRectangle(cornerRadius: 20))
 
                             Text("Tactics Quiz")
                                 .font(.title3.bold())
@@ -65,7 +84,7 @@ struct TheoryView: View {
                                 .padding(.vertical, 10)
                                 .background(Color.blue.opacity(0.1))
                                 .foregroundColor(.blue)
-                                .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                                .clipShape(RoundedRectangle(cornerRadius: 12))
                                 .padding(.top, 4)
                         }
                         .padding(.top, 40)
@@ -76,6 +95,15 @@ struct TheoryView: View {
                     .padding(.top)
                     .padding(.bottom, 10)
                 }
+                .sheet(isPresented: $showQuiz) {
+                    QuizView(
+                        vm: QuizViewModel(questions: tacticsQuestions),
+                        onFinish: {
+                            showQuiz = false     // ← closes quiz completely
+                        }
+                    )
+                }
+
 
                 
                 // MARK: - Lessons
@@ -89,6 +117,7 @@ struct TheoryView: View {
                                 .font(.system(size: 26))
                                 .foregroundColor(.accentColor)
                                 .frame(width: 40, height: 40)
+                                .mirroredHorizontally(item.isMirrored)
 
                             Text(item.title)
                                 .font(.headline)
@@ -109,7 +138,6 @@ struct TheoryView: View {
             }
             .padding(.top, 16)
         }
-        //.navigationTitle("Technique Coach")
         .navigationBarTitleDisplayMode(.inline)
     }
     
@@ -118,11 +146,20 @@ struct TheoryView: View {
         switch title {
         case "Tactics":
             TechniqueStoryView(stories: tacticsStories)
+        case "Serve":
+            TechniqueStoryView(stories: serveStories)
+        case "Forehand":
+            TechniqueStoryView(stories: forehandStories)
+        case "Backhand":
+            TechniqueStoryView(stories: backhandStories)
+        case "Volley":
+            TechniqueStoryView(stories: volleyStories)
+        case "Leg Work":
+            TechniqueStoryView(stories: legworkStories)
         default:
             TheoryPageView(title: title)
         }
     }
-
 }
 
 

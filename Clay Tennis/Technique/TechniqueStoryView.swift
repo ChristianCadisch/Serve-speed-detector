@@ -98,23 +98,50 @@ struct TechniqueStoryView: View {
     // MARK: - TAP ZONES
 
     private func tapZones(width: CGFloat) -> some View {
-        HStack {
-            Rectangle()
-                .fill(Color.clear)
-                .contentShape(Rectangle())
-                .onTapGesture { previousStory() }
+        ZStack {
+            HStack {
+                Rectangle()
+                    .fill(Color.clear)
+                    .contentShape(Rectangle())
+                    .onTapGesture { previousStory() }
 
-            Rectangle()
-                .fill(Color.clear)
-                .contentShape(Rectangle())
-                .onTapGesture { nextStory() }
+                Rectangle()
+                    .fill(Color.clear)
+                    .contentShape(Rectangle())
+                    .onTapGesture { nextStory() }
+            }
         }
-        .simultaneousGesture(
-            LongPressGesture(minimumDuration: 0.15)
-                .onChanged { _ in pauseStory() }
-                .onEnded { _ in resumeStory() }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .contentShape(Rectangle())
+
+        // 1. Swipe gesture
+        .gesture(
+            DragGesture(minimumDistance: 20)
+                .onEnded { value in
+                    if value.translation.width < -40 {
+                        nextStory()
+                    } else if value.translation.width > 40 {
+                        previousStory()
+                    }
+                }
+        )
+
+        // 2. Tap + hold pause gesture (Instagram style)
+        .onLongPressGesture(
+            minimumDuration: 0.15,
+            maximumDistance: 10,
+            pressing: { pressing in
+                if pressing {
+                    pauseStory()
+                } else {
+                    resumeStory()
+                }
+            },
+            perform: {}
         )
     }
+
+
 
     // MARK: - TIMER
 

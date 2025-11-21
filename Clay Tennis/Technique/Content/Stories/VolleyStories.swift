@@ -146,7 +146,7 @@ let volleyStories: [Story] = [
     Story(
         title: "One Key Takeaway",
         subtitle: "Compact and forward",
-        text: "A strong volley is not about power, but about compact movement, forward momentum and clean control.',
+        text: "A strong volley is not about power, but about compact movement, forward momentum and clean control.",
         background: .primary
     )
 ]
