@@ -374,20 +374,42 @@ struct LockableLessonRow: View {
     let quiz: QuizIdentifier
     let state: LessonState
     let action: () -> Void
+    
+    @State private var showLockedAlert = false
+
 
     var body: some View {
-        Group {
-            if state == .locked {
-                rowContent
-            } else {
-                NavigationLink {
-                    destinationView
-                } label: {
+            Group {
+                if state == .locked {
                     rowContent
+                        .onTapGesture {
+                            showLockedAlert = true
+                        }
+                } else {
+                    NavigationLink {
+                        destinationView
+                    } label: {
+                        rowContent
+                    }
                 }
             }
+            .alert("Locked Training", isPresented: $showLockedAlert) {
+                Button("Got it", role: .cancel) { }
+            } message: {
+                Text(lockReasonText)
+            }
+        }
+    
+    private var lockReasonText: String {
+        if let index = QuizIdentifier.progression.firstIndex(of: quiz),
+           index > 0 {
+            let previous = QuizIdentifier.progression[index - 1]
+            return "Complete the \(previous.title) quiz to unlock \(quiz.title)."
+        } else {
+            return "Complete the required quiz to unlock this lesson."
         }
     }
+
 
     private var destinationView: some View {
         switch quiz {
