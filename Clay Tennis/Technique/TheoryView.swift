@@ -76,13 +76,15 @@ struct TheoryView: View {
 
 
     private let items: [Item] = [
-        Item(title: "Leg Work", icon: "figure.run"),
+        Item(title: "Serve", icon: "figure.tennis"),
+        Item(title: "Tactics", icon: "lightbulb"),
         Item(title: "Forehand", icon: "tennis.racket"),
         Item(title: "Backhand", icon: "tennis.racket", isMirrored: true),
-        Item(title: "Serve", icon: "figure.tennis"),
         Item(title: "Volley", icon: "arrow.forward.circle"),
-        Item(title: "Tactics", icon: "lightbulb")
+        Item(title: "Leg Work", icon: "figure.run")
+
     ]
+
     
     private func updateHighScore(for quiz: QuizIdentifier, newScore: Int) {
         let index = quiz.rawValue
@@ -136,10 +138,10 @@ struct TheoryView: View {
                                 .background(Color.yellow.opacity(0.15))
                                 .clipShape(RoundedRectangle(cornerRadius: 20))
 
-                            Text("Tactics Quiz")
+                            Text("Serve Quiz")
                                 .font(.title3.bold())
 
-                            Text("Test your understanding of the core tactical principles.")
+                            Text("Test your understanding of the serve technique.")
                                 .font(.subheadline)
                                 .multilineTextAlignment(.center)
                                 .foregroundColor(.secondary)
@@ -148,7 +150,7 @@ struct TheoryView: View {
                             
 
 
-                            Text("Start Tactics Quiz")
+                            Text("Start Serve Quiz")
                                 .font(.subheadline.weight(.semibold))
                                 .padding(.horizontal, 22)
                                 .padding(.vertical, 10)
@@ -168,7 +170,7 @@ struct TheoryView: View {
                 .sheet(isPresented: $showQuiz) {
                     QuizView(
                         vm: QuizViewModel(questions: tacticsQuestions),
-                        quizID: .tactics,
+                        quizID: .serve,
                         onQuizFinished: { quiz, score in
                             updateHighScore(for: quiz, newScore: score)
                         },
