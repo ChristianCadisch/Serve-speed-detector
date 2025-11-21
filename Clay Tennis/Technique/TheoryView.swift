@@ -14,11 +14,33 @@ extension View {
     }
 }
 
+enum QuizIdentifier: Int, CaseIterable {
+    case tactics
+    case serve
+    case forehand
+    case backhand
+    case volley
+    case legwork
+}
+
 
 struct TheoryView: View {
     
     @Environment(\.dismiss) var dismiss
     @State private var showQuiz = false
+    @State private var highScores: [Int] = Array(repeating: 0, count: QuizIdentifier.allCases.count)
+    
+    
+    private func quizKey(for quiz: QuizIdentifier) -> String {
+        "QuizHighScore_\(quiz.rawValue)"
+    }
+    private func loadHighScores() {
+        for quiz in QuizIdentifier.allCases {
+            let saved = UserDefaults.standard.integer(forKey: quizKey(for: quiz))
+            highScores[quiz.rawValue] = saved
+        }
+    }
+
 
 
     private struct Item: Identifiable {
@@ -43,6 +65,24 @@ struct TheoryView: View {
         Item(title: "Volley", icon: "arrow.forward.circle"),
         Item(title: "Tactics", icon: "lightbulb")
     ]
+    
+    private func updateHighScore(for quiz: QuizIdentifier, newScore: Int) {
+        let index = quiz.rawValue
+        let current = highScores[index]
+
+        if newScore > current {
+            highScores[index] = newScore
+            
+            let key = quizKey(for: quiz)
+            UserDefaults.standard.set(newScore, forKey: key)
+
+            print("✅ New high score for \(quiz): \(newScore)")
+        } else {
+            print("ℹ️ Score \(newScore) did not beat high score \(current) for \(quiz)")
+        }
+    }
+
+
 
     var body: some View {
         ScrollView {
@@ -98,11 +138,20 @@ struct TheoryView: View {
                 .sheet(isPresented: $showQuiz) {
                     QuizView(
                         vm: QuizViewModel(questions: tacticsQuestions),
+                        quizID: .tactics,
+                        onQuizFinished: { quiz, score in
+                            updateHighScore(for: quiz, newScore: score)
+                        },
                         onFinish: {
-                            showQuiz = false     // ← closes quiz completely
+                            showQuiz = false
                         }
                     )
                 }
+                .onAppear {
+                    loadHighScores()
+                }
+
+
 
 
                 

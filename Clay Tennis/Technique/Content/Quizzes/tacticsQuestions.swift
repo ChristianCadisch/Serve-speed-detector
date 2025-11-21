@@ -2,7 +2,6 @@
 //  TacticsQuestions.swift
 //  Clay Tennis
 //
-//  Generated from: Player Development – Grundlagen Taktik und Technik (Swiss Tennis)
 //
 
 import Foundation
@@ -44,7 +43,7 @@ let tacticsQuestions: [QuizQuestion] = [
             QuizAnswer(text: "Schlagtechnik ist wichtiger als Entscheidung", isCorrect: false)
         ]
     ),
-
+    /*
     QuizQuestion(
         text: "Woran kann es liegen, wenn ein Spieler viele kurze Bälle ins Aus spielt?",
         type: .single,
@@ -135,20 +134,20 @@ let tacticsQuestions: [QuizQuestion] = [
             QuizAnswer(text: "In Richtung Winkelhalbierende laufen", isCorrect: false)
         ]
     )
-    
+    */
     
 ]
 
 
 
 import SwiftUI
-
 struct TacticsQuestions_Preview: PreviewProvider {
     static var previews: some View {
         QuizView(
             vm: QuizViewModel(questions: tacticsQuestions),
+            quizID: .tactics,
+            onQuizFinished: { _, _ in },
             onFinish: { }
         )
     }
 }
-

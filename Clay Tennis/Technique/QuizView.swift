@@ -15,6 +15,8 @@ struct QuizView: View {
     @State private var hasEntered = false
     @State private var showContinue = false
     @State private var showResults = false
+    let quizID: QuizIdentifier
+    let onQuizFinished: (QuizIdentifier, Int) -> Void
     let onFinish: () -> Void
 
 
@@ -73,10 +75,12 @@ struct QuizView: View {
 
                 } else if showContinue {
                     Button {
-                        vm.submit()
-                        progress = 0
-                        hasEntered = false
-                        showContinue = false
+                        let isLastQuestion = vm.currentIndex == vm.questions.count - 1
+
+                            vm.submit()
+                            if isLastQuestion {
+                                onQuizFinished(quizID, vm.score)
+                            }
                     } label: {
                         Text("Continue")
                             .font(.headline)
@@ -104,19 +108,27 @@ struct QuizView: View {
                 showResults = true
             }
         }
+        .onChange(of: vm.currentIndex) { _ in
+            progress = 0
+            hasEntered = false
+            showContinue = false
+        }
+
         .sheet(isPresented: $showResults) {
             QuizResultView(
                 score: vm.score,
                 total: vm.questions.count,
                 onDone: {
+                    onQuizFinished(quizID, vm.score)
                     onFinish()
-                    vm.finished = false      // reset state
-                    showResults = false      // dismiss sheet
-                    vm.currentIndex = 0      // optional: restart quiz
-                    vm.score = 0             // optional
+                    vm.finished = false
+                    showResults = false
+                    vm.currentIndex = 0
+                    vm.score = 0
                 }
             )
         }
+
     }
     
     private func quizProgressBars(count: Int, index: Int, progress: CGFloat) -> some View {
