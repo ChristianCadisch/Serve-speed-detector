@@ -347,3 +347,125 @@ struct QuizResultView_Previews: PreviewProvider {
         .previewLayout(.sizeThatFits)
     }
 }
+
+
+// UPDATED QuizIdentifier: remove questions/totalQuestions, replace with per-difficulty access
+enum QuizIdentifier: Int, CaseIterable, Hashable {
+    case serve
+    case tactics
+    case forehand
+    case backhand
+    case volley
+    case legwork
+
+    static let progression: [QuizIdentifier] = [
+        .serve, .tactics, .forehand, .backhand, .volley, .legwork
+    ]
+
+    var title: String {
+        switch self {
+        case .serve: return "Serve"
+        case .tactics: return "Tactics"
+        case .forehand: return "Forehand"
+        case .backhand: return "Backhand"
+        case .volley: return "Volley"
+        case .legwork: return "Leg Work"
+        }
+    }
+
+    var iconName: String {
+        switch self {
+        case .serve: return "figure.tennis"
+        case .tactics: return "lightbulb"
+        case .forehand, .backhand: return "tennis.racket"
+        case .volley: return "arrow.forward.circle"
+        case .legwork: return "figure.run"
+        }
+    }
+
+    var isMirrored: Bool { self == .backhand }
+
+    var stories: [Story] {
+        switch self {
+        case .serve: return serveStories
+        case .tactics: return tacticsStories
+        case .forehand: return forehandStories
+        case .backhand: return backhandStories
+        case .volley: return volleyStories
+        case .legwork: return legworkStories
+        }
+    }
+
+    var progressionIndex: Int {
+        Self.progression.firstIndex(of: self) ?? rawValue
+    }
+
+    // NEW: per-difficulty question sets
+    func questions(for difficulty: QuizDifficulty) -> [QuizQuestion] {
+        switch (self, difficulty) {
+
+        // TODO: swap these to your real arrays, e.g. serveEasyQuestions, serveMediumQuestions, serveHardQuestions
+        case (.serve, .easy): return serveQuestions
+        case (.serve, .medium): return serveQuestions
+        case (.serve, .hard): return serveQuestions
+
+        case (.tactics, .easy): return tacticsQuestions
+        case (.tactics, .medium): return tacticsQuestions
+        case (.tactics, .hard): return tacticsQuestions
+
+        case (.forehand, .easy): return forehandQuestions
+        case (.forehand, .medium): return forehandQuestions
+        case (.forehand, .hard): return forehandQuestions
+
+        case (.backhand, .easy): return backhandQuestions
+        case (.backhand, .medium): return backhandQuestions
+        case (.backhand, .hard): return backhandQuestions
+
+        case (.volley, .easy): return volleyQuestions
+        case (.volley, .medium): return volleyQuestions
+        case (.volley, .hard): return volleyQuestions
+
+        case (.legwork, .easy): return legworkQuestions
+        case (.legwork, .medium): return legworkQuestions
+        case (.legwork, .hard): return legworkQuestions
+        }
+    }
+
+    func totalQuestions(for difficulty: QuizDifficulty) -> Int {
+        questions(for: difficulty).count
+    }
+}
+
+
+
+enum LessonState {
+    case locked
+    case unlocked
+    case completed
+}
+
+// NEW: difficulty + per-difficulty quiz key
+enum QuizDifficulty: Int, CaseIterable, Hashable {
+    case easy
+    case medium
+    case hard
+
+    var title: String {
+        switch self {
+        case .easy: return "Easy"
+        case .medium: return "Medium"
+        case .hard: return "Hard"
+        }
+    }
+
+    var orderIndex: Int { rawValue }
+}
+
+struct LessonQuizID: Hashable {
+    let topic: QuizIdentifier
+    let difficulty: QuizDifficulty
+
+    var userDefaultsKey: String {
+        "QuizHighScore_\(topic.progressionIndex)_\(difficulty.orderIndex)"
+    }
+}

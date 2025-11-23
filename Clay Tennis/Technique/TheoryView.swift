@@ -8,115 +8,12 @@
 
 import SwiftUI
 
-extension View {
-    func mirroredHorizontally(_ shouldMirror: Bool) -> some View {
-        self.scaleEffect(x: shouldMirror ? -1 : 1, y: 1, anchor: .center)
-    }
-}
-
-enum QuizIdentifier: Int, CaseIterable, Hashable {
-    case serve
-    case tactics
-    case forehand
-    case backhand
-    case volley
-    case legwork
-
-    static let progression: [QuizIdentifier] = [
-        .serve, .tactics, .forehand, .backhand, .volley, .legwork
-    ]
-
-    var title: String {
-        switch self {
-        case .serve: return "Serve"
-        case .tactics: return "Tactics"
-        case .forehand: return "Forehand"
-        case .backhand: return "Backhand"
-        case .volley: return "Volley"
-        case .legwork: return "Leg Work"
-        }
-    }
-
-    var iconName: String {
-        switch self {
-        case .serve: return "figure.tennis"
-        case .tactics: return "lightbulb"
-        case .forehand, .backhand: return "tennis.racket"
-        case .volley: return "arrow.forward.circle"
-        case .legwork: return "figure.run"
-        }
-    }
-
-    var isMirrored: Bool {
-        self == .backhand
-    }
-
-    var questions: [QuizQuestion] {
-        switch self {
-        case .serve: return serveQuestions
-        case .tactics: return tacticsQuestions
-        case .forehand: return forehandQuestions
-        case .backhand: return backhandQuestions
-        case .volley: return volleyQuestions
-        case .legwork: return legworkQuestions
-        }
-    }
-
-    var stories: [Story] {
-        switch self {
-        case .serve: return serveStories
-        case .tactics: return tacticsStories
-        case .forehand: return forehandStories
-        case .backhand: return backhandStories
-        case .volley: return volleyStories
-        case .legwork: return legworkStories
-        }
-    }
-
-    var totalQuestions: Int {
-        questions.count
-    }
-
-    var progressionIndex: Int {
-        Self.progression.firstIndex(of: self) ?? 0
-    }
-
-    var userDefaultsKey: String {
-        "QuizHighScore_\(progressionIndex)"
-    }
-
-    func state(highScores: [QuizIdentifier: Int]) -> LessonState {
-        let index = self.progressionIndex
-
-        if index == 0 {
-            let score = highScores[self, default: 0]
-            return score >= totalQuestions ? .completed : .unlocked
-        }
-
-        let previousQuiz = Self.progression[index - 1]
-        let previousScore = highScores[previousQuiz, default: 0]
-
-        if previousScore < previousQuiz.totalQuestions {
-            return .locked
-        }
-
-        let score = highScores[self, default: 0]
-        return score >= totalQuestions ? .completed : .unlocked
-    }
-}
-
-enum LessonState {
-    case locked
-    case unlocked
-    case completed
-}
-
 struct TheoryView: View {
 
     @Environment(\.dismiss) var dismiss
-    @State private var highScores: [QuizIdentifier: Int] = [:]
+    @State private var highScores: [LessonQuizID: Int] = [:]
 
-    private let quizzes = QuizIdentifier.progression
+    private let topics = QuizIdentifier.progression
 
     var body: some View {
         NavigationStack {
@@ -126,37 +23,62 @@ struct TheoryView: View {
                     featuredCard
 
                     VStack(spacing: 14) {
-                        ForEach(quizzes, id: \.self) { quiz in
-                            let state = quiz.state(highScores: highScores)
-
-                            LockableLessonRow(
-                                quiz: quiz,
-                                state: state
-                            )
+                        ForEach(topics, id: \.self) { topic in
+                            NavigationLink {
+                                LessonDetailView(
+                                    topic: topic,
+                                    highScores: highScores,
+                                    onHighScoreUpdated: updateHighScore(for:newScore:)
+                                )
+                            } label: {
+                                LessonRow(
+                                    topic: topic,
+                                    highScores: highScores
+                                )
+                            }
+                            .buttonStyle(.plain)
                         }
                     }
                 }
                 .padding(.top, 16)
             }
             .navigationTitle("Technique")
-            .onAppear {
-                loadHighScores()
-            }
+            .onAppear { loadHighScores() }
         }
     }
 
-    private var featuredQuiz: QuizIdentifier {
-        quizzes.first { quizProgress(for: $0) < 1.0 } ?? quizzes.last!
+    private var featuredLessonQuiz: LessonQuizID {
+        for topic in topics {
+            for difficulty in QuizDifficulty.allCases {
+                let id = LessonQuizID(topic: topic, difficulty: difficulty)
+                let score = highScores[id, default: 0]
+                let total = topic.totalQuestions(for: difficulty)
+                if total == 0 || score < total {
+                    return id
+                }
+            }
+        }
+        return LessonQuizID(topic: topics.last!, difficulty: .hard)
     }
 
     private var featuredCard: some View {
-        VStack(alignment: .leading, spacing: 16) {
+        let id = featuredLessonQuiz
+        let topic = id.topic
+        let difficulty = id.difficulty
+        let score = highScores[id, default: 0]
+        let total = topic.totalQuestions(for: difficulty)
+
+        return VStack(alignment: .leading, spacing: 16) {
             Text("Recommended")
                 .font(.headline)
                 .padding(.horizontal)
 
             NavigationLink {
-                TechniqueStoryView(stories: featuredQuiz.stories)
+                LessonDetailView(
+                    topic: topic,
+                    highScores: highScores,
+                    onHighScoreUpdated: updateHighScore(for:newScore:)
+                )
             } label: {
                 VStack(spacing: 18) {
                     HStack(spacing: 16) {
@@ -165,17 +87,17 @@ struct TheoryView: View {
                                 .fill(Color.blue.opacity(0.15))
                                 .frame(width: 56, height: 56)
 
-                            Image(systemName: featuredQuiz.iconName)
+                            Image(systemName: topic.iconName)
                                 .font(.system(size: 28))
                                 .foregroundColor(.blue)
-                                .mirroredHorizontally(featuredQuiz.isMirrored)
+                                .mirroredHorizontally(topic.isMirrored)
                         }
 
                         VStack(alignment: .leading, spacing: 6) {
-                            Text(featuredQuiz.title)
+                            Text(topic.title)
                                 .font(.title3.bold())
 
-                            Text("Continue your progress")
+                            Text("\(difficulty.title) quiz up next")
                                 .font(.caption)
                                 .foregroundColor(.secondary)
                         }
@@ -184,9 +106,9 @@ struct TheoryView: View {
                     }
 
                     QuizProgressCardBar(
-                        quiz: featuredQuiz,
-                        highScore: highScores[featuredQuiz, default: 0],
-                        total: featuredQuiz.totalQuestions
+                        quizTitle: "\(topic.title) · \(difficulty.title)",
+                        highScore: score,
+                        total: total
                     )
                 }
                 .padding()
@@ -200,148 +122,109 @@ struct TheoryView: View {
         }
     }
 
-    private func quizProgress(for quiz: QuizIdentifier) -> Double {
-        let score = highScores[quiz, default: 0]
-        guard quiz.totalQuestions > 0 else { return 0 }
-        return Double(score) / Double(quiz.totalQuestions)
-    }
-
     private func loadHighScores() {
-        var loaded: [QuizIdentifier: Int] = [:]
+        var loaded: [LessonQuizID: Int] = [:]
 
-        for quiz in QuizIdentifier.allCases {
-            let score = UserDefaults.standard.integer(forKey: quiz.userDefaultsKey)
-            loaded[quiz] = score
+        for topic in QuizIdentifier.allCases {
+            for difficulty in QuizDifficulty.allCases {
+                let id = LessonQuizID(topic: topic, difficulty: difficulty)
+                loaded[id] = UserDefaults.standard.integer(forKey: id.userDefaultsKey)
+            }
         }
 
         highScores = loaded
 
         print("📥 Loaded high scores:")
-        for quiz in QuizIdentifier.progression {
-            let score = loaded[quiz, default: 0]
-            let total = quiz.totalQuestions
-            let progress = total == 0 ? 0 : Double(score) / Double(total)
-            print("• \(quiz.title): \(score)/\(total) → \(progress)")
+        for topic in topics {
+            for difficulty in QuizDifficulty.allCases {
+                let id = LessonQuizID(topic: topic, difficulty: difficulty)
+                let score = loaded[id, default: 0]
+                let total = topic.totalQuestions(for: difficulty)
+                let progress = total == 0 ? 0 : Double(score) / Double(total)
+                print("• \(topic.title) \(difficulty.title): \(score)/\(total) → \(progress)")
+            }
         }
     }
 
-    func updateHighScore(for quiz: QuizIdentifier, newScore: Int) {
-        let current = highScores[quiz, default: 0]
+    func updateHighScore(for id: LessonQuizID, newScore: Int) {
+        let current = highScores[id, default: 0]
+        guard newScore > current else { return }
 
-        guard newScore > current else {
-            print("ℹ️ Score \(newScore) did not beat high score \(current)")
-            return
-        }
+        highScores[id] = newScore
+        UserDefaults.standard.set(newScore, forKey: id.userDefaultsKey)
 
-        highScores[quiz] = newScore
-        UserDefaults.standard.set(newScore, forKey: quiz.userDefaultsKey)
-
-        print("✅ New high score for \(quiz.title): \(newScore)")
+        print("✅ New high score for \(id.topic.title) \(id.difficulty.title): \(newScore)")
     }
 }
 
-struct LockableLessonRow: View {
-    let quiz: QuizIdentifier
-    let state: LessonState
 
-    @State private var showLockedAlert = false
+// UPDATED LessonRow to show overall topic completion
+struct LessonRow: View {
+    let topic: QuizIdentifier
+    let highScores: [LessonQuizID: Int]
+
+    private func score(for difficulty: QuizDifficulty) -> Int {
+        highScores[LessonQuizID(topic: topic, difficulty: difficulty), default: 0]
+    }
+
+    private func total(for difficulty: QuizDifficulty) -> Int {
+        topic.totalQuestions(for: difficulty)
+    }
+
+    private var isTopicCompleted: Bool {
+        QuizDifficulty.allCases.allSatisfy { d in
+            let t = total(for: d)
+            return t == 0 || score(for: d) >= t
+        }
+    }
 
     var body: some View {
-        Group {
-            if state == .locked {
-                rowContent
-                    .onTapGesture {
-                        showLockedAlert = true
-                    }
-            } else {
-                NavigationLink {
-                    TechniqueStoryView(stories: quiz.stories)
-                } label: {
-                    rowContent
-                }
-            }
-        }
-        .alert("Training Locked", isPresented: $showLockedAlert) {
-            Button("Got it", role: .cancel) { }
-        } message: {
-            Text(lockReasonText)
-        }
-    }
-
-    private var lockReasonText: String {
-        if let index = QuizIdentifier.progression.firstIndex(of: quiz),
-           index > 0 {
-            let previous = QuizIdentifier.progression[index - 1]
-            return "Complete the \(previous.title) quiz to unlock \(quiz.title)."
-        } else {
-            return "This training is currently locked."
-        }
-    }
-
-    private var rowContent: some View {
         HStack(spacing: 14) {
             ZStack {
                 Circle()
-                    .fill(state == .locked ? Color.gray.opacity(0.15) : Color.blue.opacity(0.12))
+                    .fill(Color.blue.opacity(0.12))
                     .frame(width: 44, height: 44)
 
-                Image(systemName: quiz.iconName)
+                Image(systemName: topic.iconName)
                     .font(.system(size: 22))
-                    .foregroundColor(state == .locked ? .gray : .blue)
-                    .mirroredHorizontally(quiz.isMirrored)
+                    .foregroundColor(.blue)
+                    .mirroredHorizontally(topic.isMirrored)
             }
 
             VStack(alignment: .leading, spacing: 4) {
-                Text(quiz.title)
+                Text(topic.title)
                     .font(.headline)
-                    .foregroundColor(state == .locked ? .gray : .primary)
 
-                Text(statusText)
+                Text(isTopicCompleted ? "Completed" : "Tap to open")
                     .font(.caption)
                     .foregroundColor(.secondary)
             }
 
             Spacer()
 
-            indicator
+            Image(systemName: isTopicCompleted ? "checkmark.seal.fill" : "chevron.right")
+                .foregroundColor(isTopicCompleted ? .green : .secondary)
         }
         .padding()
         .background(
             RoundedRectangle(cornerRadius: 16)
                 .fill(Color(.systemGray6))
         )
-        .opacity(state == .locked ? 0.6 : 1)
         .padding(.horizontal)
-    }
-
-    private var statusText: String {
-        switch state {
-        case .locked: return "Locked"
-        case .unlocked: return "Unlocked"
-        case .completed: return "Completed"
-        }
-    }
-
-    @ViewBuilder
-    private var indicator: some View {
-        switch state {
-        case .locked:
-            Image(systemName: "lock.fill")
-                .foregroundColor(.gray)
-
-        case .unlocked:
-            Image(systemName: "chevron.right")
-                .foregroundColor(.secondary)
-
-        case .completed:
-            Image(systemName: "checkmark.seal.fill")
-                .foregroundColor(.green)
-        }
     }
 }
 
+
+// NEW: per-difficulty state inside a topic
+enum DifficultyState {
+    case locked
+    case unlocked
+    case completed
+}
+
+
 struct QuizProgressCardBar: View {
-    let quiz: QuizIdentifier
+    let quizTitle: String
     let highScore: Int
     let total: Int
 
@@ -371,7 +254,7 @@ struct QuizProgressCardBar: View {
             .frame(height: 8)
 
             HStack {
-                Text("Solved \(highScore)/\(total)")
+                Text("\(quizTitle) · \(highScore)/\(total)")
                     .font(.caption.weight(.semibold))
                     .foregroundColor(.secondary)
 
@@ -387,3 +270,13 @@ struct QuizProgressCardBar: View {
     }
 }
 
+
+
+
+
+
+extension View {
+    func mirroredHorizontally(_ shouldMirror: Bool) -> some View {
+        self.scaleEffect(x: shouldMirror ? -1 : 1, y: 1, anchor: .center)
+    }
+}
