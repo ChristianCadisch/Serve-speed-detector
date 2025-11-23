@@ -280,3 +280,27 @@ extension View {
         self.scaleEffect(x: shouldMirror ? -1 : 1, y: 1, anchor: .center)
     }
 }
+
+#Preview {
+    let mockTopic: QuizIdentifier = .serve
+
+    let mockScores: [LessonQuizID: Int] = [
+        LessonQuizID(topic: .serve, difficulty: .easy): 5,
+        LessonQuizID(topic: .serve, difficulty: .medium): 2,
+        LessonQuizID(topic: .serve, difficulty: .hard): 0,
+
+        LessonQuizID(topic: .tactics, difficulty: .easy): 3,
+        LessonQuizID(topic: .tactics, difficulty: .medium): 0,
+        LessonQuizID(topic: .tactics, difficulty: .hard): 0
+    ]
+
+    return NavigationStack {
+        TheoryView()
+            .onAppear {
+                // Inject mock data by writing to UserDefaults for Preview
+                for (id, score) in mockScores {
+                    UserDefaults.standard.set(score, forKey: id.userDefaultsKey)
+                }
+            }
+    }
+}

@@ -9,6 +9,10 @@
 import Foundation
 import SwiftUI
 
+import SwiftUI
+
+// MARK: - LessonDetailView (Enhanced Design)
+
 struct LessonDetailView: View {
     let topic: QuizIdentifier
     let highScores: [LessonQuizID: Int]
@@ -43,17 +47,21 @@ struct LessonDetailView: View {
         }
     }
 
+    private var totalCompletedLevels: Int {
+        QuizDifficulty.allCases.filter { state($0) == .completed }.count
+    }
+
     var body: some View {
         ScrollView {
-            VStack(spacing: 18) {
+            VStack(spacing: 22) {
 
-                header
+                headerSection
 
                 storiesCard
 
-                VStack(spacing: 12) {
+                VStack(spacing: 14) {
                     ForEach(QuizDifficulty.allCases, id: \.self) { difficulty in
-                        DifficultyQuizCard(
+                        DifficultyLevelCard(
                             topic: topic,
                             difficulty: difficulty,
                             state: state(difficulty),
@@ -65,78 +73,103 @@ struct LessonDetailView: View {
                 }
                 .padding(.top, 4)
 
-                Spacer(minLength: 24)
+                Spacer(minLength: 40)
             }
             .padding(.top, 12)
         }
         .navigationTitle(topic.title)
         .navigationBarTitleDisplayMode(.inline)
-        .background(Color.black.opacity(0.02))
+        .background(
+            LinearGradient(
+                colors: [
+                    Color.blue.opacity(0.06),
+                    Color(.systemBackground)
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+        )
     }
 
-    private var header: some View {
-        HStack(spacing: 14) {
-            ZStack {
-                Circle()
-                    .fill(Color.blue.opacity(0.15))
-                    .frame(width: 64, height: 64)
+    // MARK: - Header with Progress Ring
+    private var headerSection: some View {
+        HStack(spacing: 18) {
 
-                Image(systemName: topic.iconName)
-                    .font(.system(size: 30))
-                    .foregroundColor(.blue)
-                    .mirroredHorizontally(topic.isMirrored)
-            }
+            ProgressRing(
+                completed: totalCompletedLevels,
+                total: QuizDifficulty.allCases.count
+            )
+            .frame(width: 80, height: 80)
 
             VStack(alignment: .leading, spacing: 6) {
                 Text(topic.title)
                     .font(.title2.bold())
 
-                Text("Stories + 3 quizzes")
+                Text("\(totalCompletedLevels) of 3 quizzes completed")
                     .font(.subheadline)
+                    .foregroundColor(.secondary)
+
+                Text("Stories + 3 quizzes")
+                    .font(.caption)
                     .foregroundColor(.secondary)
             }
 
             Spacer()
         }
         .padding(.horizontal)
+        .padding(.vertical, 6)
     }
 
+    // MARK: - Stories Card with Thumbnail
     private var storiesCard: some View {
         NavigationLink {
             TechniqueStoryView(stories: topic.stories)
         } label: {
-            HStack(spacing: 14) {
-                Image(systemName: "play.rectangle.fill")
-                    .font(.system(size: 28))
-                    .foregroundColor(.blue)
+            ZStack {
+                Image("onboarding")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(height: 250)
+                    .clipped()
+                    .cornerRadius(20)
 
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("Theory Stories")
-                        .font(.headline)
+                LinearGradient(
+                    colors: [.black.opacity(0.55), .clear],
+                    startPoint: .bottom,
+                    endPoint: .top
+                )
+                .cornerRadius(20)
 
-                    Text("\(topic.stories.count) stories")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
+                HStack {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Theory Stories")
+                            .font(.headline)
+                            .foregroundColor(.white)
+
+                        Text("\(topic.stories.count) stories")
+                            .font(.caption)
+                            .foregroundColor(.white.opacity(0.9))
+                    }
+
+                    Spacer()
+
+                    Image(systemName: "play.circle.fill")
+                        .font(.system(size: 32))
+                        .foregroundColor(.white)
                 }
-
-                Spacer()
-
-                Image(systemName: "chevron.right")
-                    .foregroundColor(.secondary)
+                .padding()
             }
-            .padding()
-            .background(
-                RoundedRectangle(cornerRadius: 16)
-                    .fill(Color(.systemGray6))
-            )
             .padding(.horizontal)
         }
         .buttonStyle(.plain)
     }
 }
 
+// MARK: - Level Card
 
-struct DifficultyQuizCard: View {
+// MARK: - Animated Difficulty Level Card
+
+struct DifficultyLevelCard: View {
     let topic: QuizIdentifier
     let difficulty: QuizDifficulty
     let state: DifficultyState
@@ -145,6 +178,19 @@ struct DifficultyQuizCard: View {
     let onHighScoreUpdated: (LessonQuizID, Int) -> Void
 
     @State private var showLockedAlert = false
+    @State private var animatedProgress: Double = 0.0
+
+    private var targetProgress: Double {
+        total == 0 ? 0 : Double(highScore) / Double(total)
+    }
+
+    private var color: Color {
+        switch difficulty {
+        case .easy: return .green
+        case .medium: return .blue
+        case .hard: return .purple
+        }
+    }
 
     var body: some View {
         Group {
@@ -170,6 +216,14 @@ struct DifficultyQuizCard: View {
                 .buttonStyle(.plain)
             }
         }
+        .onAppear {
+            animatedProgress = 0
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                withAnimation(.easeOut(duration: 0.8)) {
+                    animatedProgress = targetProgress
+                }
+            }
+        }
         .alert("Quiz Locked", isPresented: $showLockedAlert) {
             Button("Got it", role: .cancel) { }
         } message: {
@@ -186,44 +240,125 @@ struct DifficultyQuizCard: View {
     }
 
     private var cardContent: some View {
-        HStack(spacing: 14) {
-            ZStack {
-                Circle()
-                    .fill(state == .locked ? Color.gray.opacity(0.15) : Color.blue.opacity(0.12))
-                    .frame(width: 44, height: 44)
+        VStack(spacing: 10) {
+            HStack(spacing: 14) {
+                ZStack {
+                    Circle()
+                        .fill(color.opacity(0.15))
+                        .frame(width: 44, height: 44)
 
-                Image(systemName: "checklist.checked")
-                    .font(.system(size: 22))
-                    .foregroundColor(state == .locked ? .gray : .blue)
+                    Image(systemName: "checklist.checked")
+                        .font(.system(size: 20))
+                        .foregroundColor(state == .locked ? .gray : color)
+                }
+
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("\(difficulty.title) Level")
+                        .font(.headline)
+                        .foregroundColor(state == .locked ? .gray : .primary)
+
+                    Text(total == 0 ? "No questions" : "Solved \(highScore)/\(total)")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+
+                Spacer()
+
+                switch state {
+                case .locked:
+                    Image(systemName: "lock.fill").foregroundColor(.gray)
+                case .unlocked:
+                    Image(systemName: "chevron.right").foregroundColor(.secondary)
+                case .completed:
+                    Image(systemName: "checkmark.seal.fill").foregroundColor(color)
+                }
             }
 
-            VStack(alignment: .leading, spacing: 4) {
-                Text("\(difficulty.title) Quiz")
-                    .font(.headline)
-                    .foregroundColor(state == .locked ? .gray : .primary)
+            GeometryReader { geo in
+                ZStack(alignment: .leading) {
+                    Capsule()
+                        .fill(Color(.systemGray5))
 
-                Text(total == 0 ? "No questions" : "Solved \(highScore)/\(total)")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
+                    Capsule()
+                        .fill(color)
+                        .frame(width: geo.size.width * animatedProgress)
+                }
             }
-
-            Spacer()
-
-            switch state {
-            case .locked:
-                Image(systemName: "lock.fill").foregroundColor(.gray)
-            case .unlocked:
-                Image(systemName: "chevron.right").foregroundColor(.secondary)
-            case .completed:
-                Image(systemName: "checkmark.seal.fill").foregroundColor(.green)
-            }
+            .frame(height: 6)
         }
         .padding()
         .background(
-            RoundedRectangle(cornerRadius: 16)
+            RoundedRectangle(cornerRadius: 18)
                 .fill(Color(.systemGray6))
         )
         .opacity(state == .locked ? 0.6 : 1)
         .padding(.horizontal)
+    }
+}
+
+
+// MARK: - Progress Ring
+
+struct ProgressRing: View {
+    let completed: Int
+    let total: Int
+
+    @State private var animatedProgress: Double = 0.0
+
+    private var progress: Double {
+        total == 0 ? 0 : Double(completed) / Double(total)
+    }
+
+    var body: some View {
+        ZStack {
+            Circle()
+                .stroke(Color(.systemGray5), lineWidth: 10)
+
+            Circle()
+                .trim(from: 0.018, to: animatedProgress)
+                .stroke(
+                    AngularGradient(
+                        gradient: Gradient(colors: [.green, .blue, .purple]),
+                        center: .center
+                    ),
+                    style: StrokeStyle(lineWidth: 10, lineCap: .round)
+                )
+                .rotationEffect(.degrees(-90))
+
+            Text("\(completed)/\(total)")
+                .font(.caption.bold())
+        }
+        .onAppear {
+            animatedProgress = 0
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                withAnimation(.easeOut(duration: 0.9)) {
+                    animatedProgress = progress
+                }
+            }
+        }
+        .onChange(of: progress) { newValue in
+            withAnimation(.easeOut(duration: 0.6)) {
+                animatedProgress = newValue
+            }
+        }
+    }
+}
+
+
+#Preview {
+    let topic: QuizIdentifier = .serve
+
+    let mockScores: [LessonQuizID: Int] = [
+        LessonQuizID(topic: topic, difficulty: .easy): 5,
+        LessonQuizID(topic: topic, difficulty: .medium): 2,
+        LessonQuizID(topic: topic, difficulty: .hard): 0
+    ]
+
+    return NavigationStack {
+        LessonDetailView(
+            topic: topic,
+            highScores: mockScores,
+            onHighScoreUpdated: { _, _ in }
+        )
     }
 }
