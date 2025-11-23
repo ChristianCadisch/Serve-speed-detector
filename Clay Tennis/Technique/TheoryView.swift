@@ -18,9 +18,14 @@ struct TheoryView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(spacing: 24) {
+                VStack(spacing: 22) {
 
                     featuredCard
+
+                    Text("All Topics")
+                        .font(.headline)
+                        .padding(.horizontal)
+                        .frame(maxWidth: .infinity, alignment: .leading)
 
                     VStack(spacing: 14) {
                         ForEach(topics, id: \.self) { topic in
@@ -36,14 +41,134 @@ struct TheoryView: View {
                                     highScores: highScores
                                 )
                             }
-                            .buttonStyle(.plain)
+                            .buttonStyle(PressableCardButtonStyle())
                         }
                     }
                 }
-                .padding(.top, 16)
+                .padding(.top, 12)
             }
-            .navigationTitle("Technique")
+            //.navigationTitle("Technique")
             .onAppear { loadHighScores() }
+            .background(
+                LinearGradient(
+                    colors: [
+                        Color.blue.opacity(0.05),
+                        Color(.systemBackground)
+                    ],
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+            )
+        }
+    }
+    
+    private var featuredCard: some View {
+        let id = featuredLessonQuiz
+        let topic = id.topic
+        let difficulty = id.difficulty
+        let score = highScores[id, default: 0]
+        let total = topic.totalQuestions(for: difficulty)
+        let progress = total == 0 ? 0 : Double(score) / Double(total)
+
+        return VStack(alignment: .leading, spacing: 12) {
+            Text("Recommended")
+                .font(.headline)
+                .padding(.horizontal)
+                .frame(maxWidth: .infinity, alignment: .leading)
+
+            NavigationLink {
+                LessonDetailView(
+                    topic: topic,
+                    highScores: highScores,
+                    onHighScoreUpdated: updateHighScore(for:newScore:)
+                )
+            } label: {
+                ZStack(alignment: .bottomLeading) {
+
+                    Image("onboarding")
+                        .resizable()
+                        .scaledToFill()
+                        .frame(height: 305)
+                        .clipped()
+                        .cornerRadius(24)
+
+                    LinearGradient(
+                        colors: [
+                            Color.black.opacity(0.55),
+                            Color.black.opacity(0.05)
+                        ],
+                        startPoint: .bottom,
+                        endPoint: .top
+                    )
+                    .cornerRadius(24)
+
+                    VStack(alignment: .leading, spacing: 12) {
+                        HStack(spacing: 14) {
+                            ZStack {
+                                Circle()
+                                    .fill(topic.tintColor.opacity(0.22))
+                                    .frame(width: 58, height: 58)
+
+                                Image(systemName: topic.iconName)
+                                    .font(.system(size: 28))
+                                    .foregroundColor(.white)
+                                    .mirroredHorizontally(topic.isMirrored)
+                            }
+
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(topic.title)
+                                    .font(.title3.bold())
+                                    .foregroundColor(.white)
+
+                                Text("Next up: \(difficulty.title)")
+                                    .font(.caption.weight(.semibold))
+                                    .foregroundColor(.white.opacity(0.9))
+                            }
+
+                            Spacer()
+
+                            Image(systemName: "chevron.right.circle.fill")
+                                .font(.system(size: 22))
+                                .foregroundColor(.white.opacity(0.9))
+                        }
+
+                        heroProgressBar(
+                            progress: progress,
+                            label: "\(score)/\(total) solved"
+                        )
+                    }
+                    .padding()
+                }
+                .padding(.horizontal)
+            }
+            .buttonStyle(PressableCardButtonStyle())
+        }
+    }
+
+    private func heroProgressBar(progress: Double, label: String) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            GeometryReader { geo in
+                ZStack(alignment: .leading) {
+                    Capsule()
+                        .fill(Color.white.opacity(0.25))
+
+                    Capsule()
+                        .fill(
+                            LinearGradient(
+                                colors: progress >= 0.8 ? [.green, .mint] : [.white, .cyan],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
+                        )
+                        .frame(width: geo.size.width * progress)
+                        .animation(.easeOut(duration: 0.6), value: progress)
+                }
+            }
+            .frame(height: 8)
+
+            Text(label)
+                .font(.caption.weight(.semibold))
+                .foregroundColor(.white.opacity(0.9))
         }
     }
 
@@ -61,66 +186,7 @@ struct TheoryView: View {
         return LessonQuizID(topic: topics.last!, difficulty: .hard)
     }
 
-    private var featuredCard: some View {
-        let id = featuredLessonQuiz
-        let topic = id.topic
-        let difficulty = id.difficulty
-        let score = highScores[id, default: 0]
-        let total = topic.totalQuestions(for: difficulty)
-
-        return VStack(alignment: .leading, spacing: 16) {
-            Text("Recommended")
-                .font(.headline)
-                .padding(.horizontal)
-
-            NavigationLink {
-                LessonDetailView(
-                    topic: topic,
-                    highScores: highScores,
-                    onHighScoreUpdated: updateHighScore(for:newScore:)
-                )
-            } label: {
-                VStack(spacing: 18) {
-                    HStack(spacing: 16) {
-                        ZStack {
-                            Circle()
-                                .fill(Color.blue.opacity(0.15))
-                                .frame(width: 56, height: 56)
-
-                            Image(systemName: topic.iconName)
-                                .font(.system(size: 28))
-                                .foregroundColor(.blue)
-                                .mirroredHorizontally(topic.isMirrored)
-                        }
-
-                        VStack(alignment: .leading, spacing: 6) {
-                            Text(topic.title)
-                                .font(.title3.bold())
-
-                            Text("\(difficulty.title) quiz up next")
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                        }
-
-                        Spacer()
-                    }
-
-                    QuizProgressCardBar(
-                        quizTitle: "\(topic.title) · \(difficulty.title)",
-                        highScore: score,
-                        total: total
-                    )
-                }
-                .padding()
-                .background(
-                    RoundedRectangle(cornerRadius: 20)
-                        .fill(Color(.systemGray6))
-                )
-                .padding(.horizontal)
-            }
-            .buttonStyle(.plain)
-        }
-    }
+   
 
     private func loadHighScores() {
         var loaded: [LessonQuizID: Int] = [:]
@@ -158,7 +224,8 @@ struct TheoryView: View {
 }
 
 
-// UPDATED LessonRow to show overall topic completion
+// MARK: - UPDATED LessonRow (tiny dots + per-topic tint + nicer copy)
+
 struct LessonRow: View {
     let topic: QuizIdentifier
     let highScores: [LessonQuizID: Int]
@@ -171,6 +238,23 @@ struct LessonRow: View {
         topic.totalQuestions(for: difficulty)
     }
 
+    private func dotState(_ d: QuizDifficulty) -> DifficultyState {
+        let s = score(for: d)
+        let t = total(for: d)
+        if t > 0 && s >= t { return .completed }
+
+        switch d {
+        case .easy:
+            return .unlocked
+        case .medium:
+            let easyDone = total(for: .easy) == 0 || score(for: .easy) >= total(for: .easy)
+            return easyDone ? .unlocked : .locked
+        case .hard:
+            let mediumDone = total(for: .medium) == 0 || score(for: .medium) >= total(for: .medium)
+            return mediumDone ? .unlocked : .locked
+        }
+    }
+
     private var isTopicCompleted: Bool {
         QuizDifficulty.allCases.allSatisfy { d in
             let t = total(for: d)
@@ -178,16 +262,25 @@ struct LessonRow: View {
         }
     }
 
+    private var nextDifficultyText: String {
+        for d in QuizDifficulty.allCases {
+            if dotState(d) != .completed {
+                return "Continue \(d.title)"
+            }
+        }
+        return "Mastered"
+    }
+
     var body: some View {
         HStack(spacing: 14) {
             ZStack {
                 Circle()
-                    .fill(Color.blue.opacity(0.12))
-                    .frame(width: 44, height: 44)
+                    .fill(topic.tintColor.opacity(0.14))
+                    .frame(width: 46, height: 46)
 
                 Image(systemName: topic.iconName)
                     .font(.system(size: 22))
-                    .foregroundColor(.blue)
+                    .foregroundColor(topic.tintColor)
                     .mirroredHorizontally(topic.isMirrored)
             }
 
@@ -195,24 +288,56 @@ struct LessonRow: View {
                 Text(topic.title)
                     .font(.headline)
 
-                Text(isTopicCompleted ? "Completed" : "Tap to open")
+                Text(isTopicCompleted ? "All levels completed" : nextDifficultyText)
                     .font(.caption)
                     .foregroundColor(.secondary)
             }
 
             Spacer()
 
-            Image(systemName: isTopicCompleted ? "checkmark.seal.fill" : "chevron.right")
-                .foregroundColor(isTopicCompleted ? .green : .secondary)
+            HStack(spacing: 6) {
+                difficultyDot(.easy)
+                difficultyDot(.medium)
+                difficultyDot(.hard)
+            }
+
+            Image(systemName: "chevron.right")
+                .foregroundColor(.secondary)
+                .padding(.leading, 4)
         }
         .padding()
         .background(
-            RoundedRectangle(cornerRadius: 16)
+            RoundedRectangle(cornerRadius: 18)
                 .fill(Color(.systemGray6))
         )
         .padding(.horizontal)
     }
+
+    @ViewBuilder
+    private func difficultyDot(_ d: QuizDifficulty) -> some View {
+        let st = dotState(d)
+        let c: Color = {
+            switch d {
+            case .easy: return .green
+            case .medium: return .blue
+            case .hard: return .purple
+            }
+        }()
+
+        Circle()
+            .fill(st == .completed ? c : Color.clear)
+            .overlay(
+                Circle()
+                    .stroke(
+                        st == .locked ? Color.gray.opacity(0.5) : c.opacity(0.9),
+                        lineWidth: 1.5
+                    )
+            )
+            .frame(width: 9, height: 9)
+            .opacity(st == .locked ? 0.6 : 1.0)
+    }
 }
+
 
 
 // NEW: per-difficulty state inside a topic
@@ -270,7 +395,27 @@ struct QuizProgressCardBar: View {
     }
 }
 
+extension QuizIdentifier {
+    var tintColor: Color {
+        switch self {
+        case .serve: return .blue
+        case .tactics: return .orange
+        case .forehand: return .green
+        case .backhand: return .purple
+        case .volley: return .teal
+        case .legwork: return .mint
+        }
+    }
+}
 
+struct PressableCardButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .scaleEffect(configuration.isPressed ? 0.98 : 1.0)
+            .opacity(configuration.isPressed ? 0.92 : 1.0)
+            .animation(.spring(response: 0.26, dampingFraction: 0.85), value: configuration.isPressed)
+    }
+}
 
 
 
