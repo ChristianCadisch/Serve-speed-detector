@@ -85,7 +85,7 @@ struct TheoryView: View {
             } label: {
                 ZStack(alignment: .bottomLeading) {
 
-                    Image("onboarding")
+                    Image(topic.thumbnailImageName)
                         .resizable()
                         .scaledToFill()
                         .frame(height: 305)
@@ -406,6 +406,17 @@ extension QuizIdentifier {
         case .legwork: return .mint
         }
     }
+    
+    var thumbnailImageName: String {
+            switch self {
+            case .serve: return "serve"
+            case .tactics: return "tactics"
+            case .forehand: return "forehand"
+            case .backhand: return "backhand"
+            case .volley: return "volley"
+            case .legwork: return "legworks"
+            }
+        }
 }
 
 struct PressableCardButtonStyle: ButtonStyle {

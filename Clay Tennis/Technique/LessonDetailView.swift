@@ -126,7 +126,7 @@ struct LessonDetailView: View {
             TechniqueStoryView(stories: topic.stories)
         } label: {
             ZStack {
-                Image("onboarding")
+                Image(topic.thumbnailImageName)
                     .resizable()
                     .scaledToFill()
                     .frame(height: 250)
@@ -142,13 +142,11 @@ struct LessonDetailView: View {
 
                 HStack {
                     VStack(alignment: .leading, spacing: 4) {
-                        Text("Theory Stories")
+                        Text("\(topic.title) Theory")
                             .font(.headline)
                             .foregroundColor(.white)
 
-                        Text("\(topic.stories.count) stories")
-                            .font(.caption)
-                            .foregroundColor(.white.opacity(0.9))
+
                     }
 
                     Spacer()
@@ -253,7 +251,7 @@ struct DifficultyLevelCard: View {
                 }
 
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("\(difficulty.title) Level")
+                    Text("\(difficulty.title) Quiz")
                         .font(.headline)
                         .foregroundColor(state == .locked ? .gray : .primary)
 
