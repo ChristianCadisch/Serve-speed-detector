@@ -78,9 +78,7 @@ struct LessonDetailView: View {
             }
             .padding(.top, 12)
         }
-        .navigationTitle("Lesson overview")
-        .navigationBarTitleDisplayMode(.inline)
-
+        
     }
 
     // MARK: - Header with Progress Ring

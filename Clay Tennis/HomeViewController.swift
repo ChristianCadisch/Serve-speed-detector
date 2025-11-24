@@ -57,12 +57,9 @@ class HomeViewController: UIViewController,
             navigationDelegate: self
         )
 
-        let hosting = UIHostingController(
-            rootView: AnyView(detailView)
-        )
-        navigationController?.pushViewController(hosting, animated: true)
-
+        showLessonDetailView(detailView)
     }
+
 
     func popToTheoryView() {
         showTheoryView()
@@ -93,6 +90,7 @@ class HomeViewController: UIViewController,
 
         let hosting = UIHostingController(rootView: AnyView(feedView))
         replaceRoot(with: hosting, title: "")
+        navigationItem.leftBarButtonItem = nil
 
         navigationController?.setNavigationBarHidden(false, animated: false)
     }
@@ -102,6 +100,7 @@ class HomeViewController: UIViewController,
         let settingsView = SettingsView(hasSeenOnboarding: .constant(true))
         let hosting = UIHostingController(rootView: AnyView(settingsView))
         replaceRoot(with: hosting, title: "Settings")
+        navigationItem.leftBarButtonItem = nil
 
         navigationController?.setNavigationBarHidden(false, animated: false)
     }
@@ -116,6 +115,7 @@ class HomeViewController: UIViewController,
         )
 
         replaceRoot(with: hosting, title: "Technique Coach")
+        navigationItem.leftBarButtonItem = nil
 
         navigationController?.setNavigationBarHidden(false, animated: false)
     }
@@ -160,8 +160,26 @@ class HomeViewController: UIViewController,
         navigationItem.title = title
         currentHostingController = controller
     }
-
     
+    private func showLessonDetailView(_ view: LessonDetailView) {
+        let hosting = UIHostingController(rootView: AnyView(view))
+        replaceRoot(with: hosting, title: "Lesson overview")
+
+        navigationController?.setNavigationBarHidden(false, animated: false)
+
+        // ✅ Custom back chevron in UIKit nav bar
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            image: UIImage(systemName: "chevron.left"),
+            style: .plain,
+            target: self,
+            action: #selector(handleBackToTheory)
+        )
+    }
+    @objc private func handleBackToTheory() {
+        popToTheoryView()
+    }
+
+
     
     
     private func makeBottomTabBar() -> UIView {
