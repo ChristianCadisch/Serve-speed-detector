@@ -68,7 +68,8 @@ struct LessonDetailView: View {
                             state: state(difficulty),
                             highScore: score(difficulty),
                             total: total(difficulty),
-                            onHighScoreUpdated: onHighScoreUpdated
+                            onHighScoreUpdated: onHighScoreUpdated,
+                            navigationDelegate: navigationDelegate
                         )
                     }
                 }
@@ -168,6 +169,7 @@ struct DifficultyLevelCard: View {
     let highScore: Int
     let total: Int
     let onHighScoreUpdated: (LessonQuizID, Int) -> Void
+    weak var navigationDelegate: HomeNavigationDelegate?
 
     @State private var showLockedAlert = false
     @State private var animatedProgress: Double = 0.0
@@ -200,7 +202,9 @@ struct DifficultyLevelCard: View {
                                 score
                             )
                         },
-                        onFinish: { }
+                        onFinish: {
+                            navigationDelegate?.popToLessonView()
+                        }
                     )
                 } label: {
                     cardContent

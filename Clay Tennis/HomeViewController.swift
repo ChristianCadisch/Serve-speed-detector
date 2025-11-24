@@ -286,6 +286,11 @@ class HomeViewController: UIViewController,
     }
 
 
+    func popToLessonView() {
+        navigationController?.popViewController(animated: true)
+    }
+
+    
     private func replaceSwiftUIView(with newView: AnyView) {
         feedView?.willMove(toParent: nil)
         feedView?.view.removeFromSuperview()
@@ -416,6 +421,7 @@ protocol HomeNavigationDelegate: AnyObject {
                           onHighScoreUpdated: @escaping (LessonQuizID, Int) -> Void)
 
     func popToTheoryView()
+    func popToLessonView()
 }
 
 

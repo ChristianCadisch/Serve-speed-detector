@@ -14,7 +14,6 @@ struct QuizView: View {
     @State private var progress: CGFloat = 0
     @State private var hasEntered = false
     @State private var showContinue = false
-    @State private var showResults = false
     @State private var animateIn = false
     @State private var buttonPressed = false
 
@@ -42,116 +41,111 @@ struct QuizView: View {
                 endPoint: .bottom
             )
             .ignoresSafeArea()
+            
+            if vm.finished {
 
-            VStack(spacing: 28) {
-
-                // Progress + counter
-                VStack(spacing: 8) {
-                    quizProgressBars(
-                        count: vm.questions.count,
-                        index: vm.currentIndex,
-                        progress: progress
-                    )
-                    .padding(.horizontal, 18)
-
-                    Text("Question \(vm.currentIndex + 1) of \(vm.questions.count)")
-                        .font(.caption.weight(.medium))
-                        .foregroundColor(.secondary)
+                QuizResultView(
+                    score: vm.score,
+                    total: vm.questions.count,
+                    quizID: quizID
+                ) {
+                    onQuizFinished(quizID, vm.score)
+                    onFinish()   // ← this should navigate back to the lesson view
                 }
-                .padding(.top, 12)
 
-                let question = vm.questions[vm.currentIndex]
+            }
+ else {
 
-                // Question card
-                Text(question.text)
-                    .font(.title3.weight(.semibold))
-                    .foregroundColor(.primary)
-                    .multilineTextAlignment(.leading)
-                    .padding(22)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .background(
-                        RoundedRectangle(cornerRadius: 22)
-                            .fill(Color(.secondarySystemBackground))
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 22)
-                                    .stroke(topicAccent.opacity(0.08), lineWidth: 1)
-                            )
-                    )
-                    .shadow(
-                        color: Color.black.opacity(0.04),
-                        radius: 6,
-                        x: 0,
-                        y: 2
-                    )
-                    .padding(.horizontal, 20)
+                    quizContent
 
-                // Answers
-                VStack(spacing: 14) {
-                    ForEach(question.answers) { answer in
-                        QuizOptionView(
-                            answer: answer,
-                            isSelected: vm.selectedAnswers.contains(answer.id),
-                            revealed: hasEntered
+                }
+        }
+        
+    }
+    
+    private var quizContent: some View {
+        VStack(spacing: 28) {
+
+            // Progress + counter
+            VStack(spacing: 8) {
+                quizProgressBars(
+                    count: vm.questions.count,
+                    index: vm.currentIndex,
+                    progress: progress
+                )
+                .padding(.horizontal, 18)
+
+                Text("Question \(vm.currentIndex + 1) of \(vm.questions.count)")
+                    .font(.caption.weight(.medium))
+                    .foregroundColor(.secondary)
+            }
+            .padding(.top, 12)
+
+            let question = vm.questions[vm.currentIndex]
+
+            // Question card
+            Text(question.text)
+                .font(.title3.weight(.semibold))
+                .foregroundColor(.primary)
+                .multilineTextAlignment(.leading)
+                .padding(22)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(
+                    RoundedRectangle(cornerRadius: 22)
+                        .fill(Color(.secondarySystemBackground))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 22)
+                                .stroke(topicAccent.opacity(0.08), lineWidth: 1)
                         )
-                        .onTapGesture {
-                            if !hasEntered {
-                                withAnimation(.easeOut(duration: 0.15)) {
-                                    vm.toggleAnswer(answer.id, type: question.type)
-                                }
+                )
+                .shadow(
+                    color: Color.black.opacity(0.04),
+                    radius: 6,
+                    x: 0,
+                    y: 2
+                )
+                .padding(.horizontal, 20)
+
+            // Answers
+            VStack(spacing: 14) {
+                ForEach(question.answers) { answer in
+                    QuizOptionView(
+                        answer: answer,
+                        isSelected: vm.selectedAnswers.contains(answer.id),
+                        revealed: hasEntered
+                    )
+                    .onTapGesture {
+                        if !hasEntered {
+                            withAnimation(.easeOut(duration: 0.15)) {
+                                vm.toggleAnswer(answer.id, type: question.type)
                             }
                         }
                     }
                 }
-                .padding(.horizontal)
+            }
+            .padding(.horizontal)
 
-                Spacer()
+            Spacer()
 
-                // Action Button
-                if !hasEntered {
-                    actionButton(title: "Enter") {
-                        withAnimation(.easeOut(duration: 0.15)) {
-                            hasEntered = true
-                            showContinue = true
-                        }
-                    }
-                } else if showContinue {
-                    actionButton(title: "Continue") {
-                        let isLastQuestion = vm.currentIndex == vm.questions.count - 1
-                        vm.submit()
-
-                        if isLastQuestion {
-                            onQuizFinished(quizID, vm.score)
-                        }
+            // Action button
+            if !hasEntered {
+                actionButton(title: "Enter") {
+                    withAnimation(.easeOut(duration: 0.15)) {
+                        hasEntered = true
+                        showContinue = true
                     }
                 }
-            }
-            .padding(.bottom, 22)
-        }
-        .onAppear {
-            resetState()
-        }
-        .onChange(of: vm.currentIndex) { _ in
-            resetState()
-        }
-        .onChange(of: vm.finished) { finished in
-            if finished {
-                showResults = true
+            } else if showContinue {
+                actionButton(title: "Continue") {
+                    vm.submit()
+                    
+                    onQuizFinished(quizID, vm.score)
+                }
             }
         }
-        .sheet(isPresented: $showResults) {
-            QuizResultView(
-                score: vm.score,
-                total: vm.questions.count,
-                quizID: quizID
-            ) {
-                onQuizFinished(quizID, vm.score)
-                onFinish()
-                vm.finished = false
-                showResults = false
-                vm.currentIndex = 0
-                vm.score = 0
-            }
-        }
+        .padding(.bottom, 22)
+        .onAppear { resetState() }
+        .onChange(of: vm.currentIndex) { _ in resetState() }
     }
 
     // MARK: - Action Button
