@@ -78,28 +78,9 @@ struct LessonDetailView: View {
             }
             .padding(.top, 12)
         }
-        .navigationTitle("Technique coach")
+        .navigationTitle("Lesson overview")
         .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button {
-                    navigationDelegate?.popToTheoryView()
-                } label: {
-                    Image(systemName: "chevron.left")
-                        .font(.system(size: 16, weight: .semibold))
-                }
-            }
-        }
-        .background(
-            LinearGradient(
-                colors: [
-                    Color.blue.opacity(0.06),
-                    Color(.systemBackground)
-                ],
-                startPoint: .top,
-                endPoint: .bottom
-            )
-        )
+
     }
 
     // MARK: - Header with Progress Ring

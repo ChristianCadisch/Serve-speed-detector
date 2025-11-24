@@ -58,17 +58,10 @@ class HomeViewController: UIViewController,
         )
 
         let hosting = UIHostingController(
-            rootView: AnyView(
-                NavigationStack {
-                    detailView
-                }
-            )
+            rootView: AnyView(detailView)
         )
+        navigationController?.pushViewController(hosting, animated: true)
 
-        replaceRoot(with: hosting, title: "")
-
-        // ✅ IMPORTANT: show the nav bar again
-        navigationController?.setNavigationBarHidden(false, animated: false)
     }
 
     func popToTheoryView() {
@@ -122,7 +115,7 @@ class HomeViewController: UIViewController,
             rootView: AnyView(theoryView)
         )
 
-        replaceRoot(with: hosting, title: "")
+        replaceRoot(with: hosting, title: "Technique Coach")
 
         navigationController?.setNavigationBarHidden(false, animated: false)
     }
