@@ -91,6 +91,7 @@ class HomeViewController: UIViewController,
         let hosting = UIHostingController(rootView: AnyView(feedView))
         replaceRoot(with: hosting, title: "")
         navigationItem.leftBarButtonItem = nil
+        disableLessonSwipeBack()
 
         navigationController?.setNavigationBarHidden(false, animated: false)
     }
@@ -101,9 +102,33 @@ class HomeViewController: UIViewController,
         let hosting = UIHostingController(rootView: AnyView(settingsView))
         replaceRoot(with: hosting, title: "Settings")
         navigationItem.leftBarButtonItem = nil
+        disableLessonSwipeBack()
 
         navigationController?.setNavigationBarHidden(false, animated: false)
     }
+    
+    private func enableLessonSwipeBack() {
+        let edgeSwipe = UIScreenEdgePanGestureRecognizer(
+            target: self,
+            action: #selector(handleSwipeBack(_:))
+        )
+
+        edgeSwipe.edges = .left
+        view.addGestureRecognizer(edgeSwipe)
+    }
+
+    private func disableLessonSwipeBack() {
+        view.gestureRecognizers?
+            .filter { $0 is UIScreenEdgePanGestureRecognizer }
+            .forEach { view.removeGestureRecognizer($0) }
+    }
+
+    @objc private func handleSwipeBack(_ gesture: UIScreenEdgePanGestureRecognizer) {
+        if gesture.state == .ended {
+            popToTheoryView()
+        }
+    }
+
 
     
     
@@ -116,6 +141,7 @@ class HomeViewController: UIViewController,
 
         replaceRoot(with: hosting, title: "Technique Coach")
         navigationItem.leftBarButtonItem = nil
+        disableLessonSwipeBack()
 
         navigationController?.setNavigationBarHidden(false, animated: false)
     }
@@ -167,14 +193,18 @@ class HomeViewController: UIViewController,
 
         navigationController?.setNavigationBarHidden(false, animated: false)
 
-        // ✅ Custom back chevron in UIKit nav bar
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             image: UIImage(systemName: "chevron.left"),
             style: .plain,
             target: self,
             action: #selector(handleBackToTheory)
         )
+
+        enableLessonSwipeBack()
     }
+
+    
+    
     @objc private func handleBackToTheory() {
         popToTheoryView()
     }
