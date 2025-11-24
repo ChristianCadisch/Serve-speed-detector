@@ -11,12 +11,16 @@ import SwiftUI
 struct QuizResultView: View {
     let score: Int
     let total: Int
+    let quizID: QuizIdentifier
     let onDone: () -> Void
 
-    
     @State private var appear = false
+    @State private var showConfetti = false
 
-    
+    private var topicAccent: Color {
+        quizID.tintColor
+    }
+
     private var performanceText: String {
         let ratio = Double(score) / Double(total)
         switch ratio {
@@ -25,64 +29,91 @@ struct QuizResultView: View {
         default: return "Keep Practicing!"
         }
     }
-    
+
     var body: some View {
         ZStack {
+
+            // Confetti overlay
+            if showConfetti {
+                ConfettiView(colors: [
+                    topicAccent,
+                    topicAccent.opacity(0.7),
+                    .white,
+                    Color.primary
+                ])
+                .ignoresSafeArea()
+                .allowsHitTesting(false)
+            }
+
+            // Background gradient
             LinearGradient(
-                colors: [.secondary, .gray.opacity(0.4)],
+                colors: [
+                    topicAccent.opacity(0.10),
+                    Color(.systemBackground)
+                ],
                 startPoint: .top,
                 endPoint: .bottom
             )
             .ignoresSafeArea()
-            
+
             VStack(spacing: 32) {
-                
+
                 VStack(spacing: 12) {
                     Text("Quiz Complete")
                         .font(.largeTitle.bold())
                         .foregroundColor(.primary)
                         .opacity(appear ? 1 : 0)
                         .offset(y: appear ? 0 : 10)
-                    
+
                     Text(performanceText)
                         .font(.title2.weight(.semibold))
-                        .foregroundColor(.primary.opacity(0.85))
+                        .foregroundColor(.secondary)
                         .opacity(appear ? 1 : 0)
                         .offset(y: appear ? 0 : 10)
                 }
-                
+
                 ZStack {
                     Circle()
-                        .fill(Color.primary.opacity(0.1))
+                        .fill(Color(.secondarySystemBackground))
                         .frame(width: 140, height: 140)
-                    
+                        .overlay(
+                            Circle()
+                                .stroke(topicAccent.opacity(0.15), lineWidth: 2)
+                        )
+
                     VStack(spacing: 4) {
                         Text("\(score)")
                             .font(.system(size: 52, weight: .bold))
                             .foregroundColor(.primary)
-                        
+
                         Text("out of \(total)")
                             .font(.headline)
-                            .foregroundColor(.primary.opacity(0.7))
+                            .foregroundColor(.secondary)
                     }
                 }
-                .scaleEffect(appear ? 1 : 0.8)
+                .scaleEffect(appear ? 1 : 0.86)
                 .animation(.spring(response: 0.5, dampingFraction: 0.8), value: appear)
-                
-                Spacer()
-                
-                Text("Done")
-                    .font(.headline)
-                    .foregroundColor(.secondary)
-                    .padding()
-                    .frame(maxWidth: .infinity)
-                    .background(Color.primary)
-                    .cornerRadius(14)
-                    .padding(.horizontal, 24)
-                    .onTapGesture {
-                        onDone()
-                    }
 
+                Spacer()
+
+                Button {
+                    onDone()
+                } label: {
+                    Text("Done")
+                        .font(.headline)
+                        .foregroundColor(Color(.systemBackground))
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 16)
+                        .background(Color.primary)
+                        .cornerRadius(16)
+                        .shadow(
+                            color: Color.black.opacity(0.08),
+                            radius: 6,
+                            x: 0,
+                            y: 3
+                        )
+                }
+                .padding(.horizontal, 24)
             }
             .padding(.top, 80)
         }
@@ -90,9 +121,79 @@ struct QuizResultView: View {
             withAnimation(.easeOut(duration: 0.6)) {
                 appear = true
             }
+
+            showConfetti = true
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+                showConfetti = false
+            }
         }
     }
 }
+
+// MARK: - Confetti System
+
+struct ConfettiView: View {
+    let colors: [Color]
+
+    @State private var confetti: [ConfettiParticle] = []
+
+    var body: some View {
+        GeometryReader { geo in
+            ZStack {
+                ForEach(confetti) { particle in
+                    Rectangle()
+                        .fill(particle.color)
+                        .frame(width: particle.size, height: particle.size * 1.6)
+                        .position(particle.position)
+                        .rotationEffect(particle.rotation)
+                        .opacity(particle.opacity)
+                }
+            }
+            .onAppear {
+                generateConfetti(size: geo.size)
+                animateConfetti(height: geo.size.height)
+            }
+        }
+    }
+
+    private func generateConfetti(size: CGSize) {
+        confetti = (0..<180).map { _ in
+            ConfettiParticle(
+                position: CGPoint(
+                    x: CGFloat.random(in: 0...size.width),
+                    y: -CGFloat.random(in: 0...300)
+                ),
+                color: colors.randomElement() ?? .white,
+                size: CGFloat.random(in: 6...12),
+                speed: CGFloat.random(in: 2...6),
+                rotation: .degrees(Double.random(in: 0...360)),
+                opacity: 1
+            )
+        }
+    }
+
+    private func animateConfetti(height: CGFloat) {
+        withAnimation(.linear(duration: 4)) {
+            for i in confetti.indices {
+                confetti[i].position.y = height + 200
+                confetti[i].rotation = .degrees(Double.random(in: 720...1440))
+                confetti[i].opacity = 0
+            }
+        }
+    }
+}
+
+struct ConfettiParticle: Identifiable {
+    let id = UUID()
+    var position: CGPoint
+    let color: Color
+    let size: CGFloat
+    let speed: CGFloat
+    var rotation: Angle
+    var opacity: Double
+}
+
 
 
 enum QuizQuestionType {
@@ -380,4 +481,14 @@ struct LessonQuizID: Hashable {
     var userDefaultsKey: String {
         "QuizHighScore_\(topic.progressionIndex)_\(difficulty.orderIndex)"
     }
+}
+
+#Preview {
+    QuizResultView(
+        score: 7,
+        total: 10,
+        quizID: .backhand,
+        onDone: {}
+    )
+    .preferredColorScheme(.dark)
 }

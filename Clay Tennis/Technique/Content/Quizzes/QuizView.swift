@@ -141,7 +141,8 @@ struct QuizView: View {
         .sheet(isPresented: $showResults) {
             QuizResultView(
                 score: vm.score,
-                total: vm.questions.count
+                total: vm.questions.count,
+                quizID: quizID
             ) {
                 onQuizFinished(quizID, vm.score)
                 onFinish()
