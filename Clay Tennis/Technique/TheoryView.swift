@@ -14,9 +14,10 @@ struct TheoryView: View {
     @State private var highScores: [LessonQuizID: Int] = [:]
 
     private let topics = QuizIdentifier.progression
+    weak var navigationDelegate: HomeNavigationDelegate?
 
     var body: some View {
-        NavigationStack {
+        
             ScrollView {
                 VStack(spacing: 22) {
 
@@ -29,8 +30,8 @@ struct TheoryView: View {
 
                     VStack(spacing: 14) {
                         ForEach(topics, id: \.self) { topic in
-                            NavigationLink {
-                                LessonDetailView(
+                            Button {
+                                navigationDelegate?.showLessonDetail(
                                     topic: topic,
                                     highScores: highScores,
                                     onHighScoreUpdated: updateHighScore(for:newScore:)
@@ -42,12 +43,14 @@ struct TheoryView: View {
                                 )
                             }
                             .buttonStyle(PressableCardButtonStyle())
+
                         }
                     }
                 }
                 .padding(.top, 12)
             }
-            //.navigationTitle("Technique")
+            .navigationTitle("Technique Coach")
+            .navigationBarTitleDisplayMode(.inline)
             .onAppear { loadHighScores() }
             .background(
                 LinearGradient(
@@ -59,7 +62,7 @@ struct TheoryView: View {
                     endPoint: .bottom
                 )
             )
-        }
+        
     }
     
     private var featuredCard: some View {
@@ -71,18 +74,19 @@ struct TheoryView: View {
         let progress = total == 0 ? 0 : Double(score) / Double(total)
 
         return VStack(alignment: .leading, spacing: 12) {
-            Text("Recommended")
+            Text("Recommended Lesson")
                 .font(.headline)
                 .padding(.horizontal)
                 .frame(maxWidth: .infinity, alignment: .leading)
 
-            NavigationLink {
-                LessonDetailView(
+            Button {
+                navigationDelegate?.showLessonDetail(
                     topic: topic,
                     highScores: highScores,
                     onHighScoreUpdated: updateHighScore(for:newScore:)
                 )
             } label: {
+
                 ZStack(alignment: .bottomLeading) {
 
                     Image(topic.thumbnailImageName)

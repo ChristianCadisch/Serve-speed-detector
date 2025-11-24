@@ -12,7 +12,12 @@ import SwiftUI
 import AVFoundation
 import UniformTypeIdentifiers
 
-class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, ContentAnalysisViewControllerDelegate {
+class HomeViewController: UIViewController,
+                          UIImagePickerControllerDelegate,
+                          UINavigationControllerDelegate,
+                          ContentAnalysisViewControllerDelegate,
+                          HomeNavigationDelegate {
+
     
     
 
@@ -39,6 +44,38 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             present(hosting, animated: false)
         }
     }
+    
+    
+    func showLessonDetail(topic: QuizIdentifier,
+                          highScores: [LessonQuizID: Int],
+                          onHighScoreUpdated: @escaping (LessonQuizID, Int) -> Void) {
+
+        let detailView = LessonDetailView(
+            topic: topic,
+            highScores: highScores,
+            onHighScoreUpdated: onHighScoreUpdated,
+            navigationDelegate: self
+        )
+
+        let hosting = UIHostingController(
+            rootView: AnyView(
+                NavigationStack {
+                    detailView
+                }
+            )
+        )
+
+        replaceRoot(with: hosting, title: "")
+
+        // ✅ IMPORTANT: show the nav bar again
+        navigationController?.setNavigationBarHidden(false, animated: false)
+    }
+
+    func popToTheoryView() {
+        showTheoryView()
+    }
+
+
 
 
 
@@ -63,22 +100,33 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
 
         let hosting = UIHostingController(rootView: AnyView(feedView))
         replaceRoot(with: hosting, title: "")
+
+        navigationController?.setNavigationBarHidden(false, animated: false)
     }
+
 
     private func showSettingsView() {
         let settingsView = SettingsView(hasSeenOnboarding: .constant(true))
         let hosting = UIHostingController(rootView: AnyView(settingsView))
         replaceRoot(with: hosting, title: "Settings")
+
+        navigationController?.setNavigationBarHidden(false, animated: false)
     }
+
     
     
     private func showTheoryView() {
-        let theoryView = TheoryView()    // <- no NavigationView here
-        let hosting = UIHostingController(rootView: AnyView(
-            NavigationView { theoryView }  // <- NavigationView lives at top level
-        ))
-        replaceRoot(with: hosting, title: "Technique Coach")
+        let theoryView = TheoryView(navigationDelegate: self)
+
+        let hosting = UIHostingController(
+            rootView: AnyView(theoryView)
+        )
+
+        replaceRoot(with: hosting, title: "")
+
+        navigationController?.setNavigationBarHidden(false, animated: false)
     }
+
 
 
 
@@ -319,6 +367,15 @@ extension Notification.Name {
     static let newVideoAdded = Notification.Name("newVideoAdded")
 }
 
+
+
+protocol HomeNavigationDelegate: AnyObject {
+    func showLessonDetail(topic: QuizIdentifier,
+                          highScores: [LessonQuizID: Int],
+                          onHighScoreUpdated: @escaping (LessonQuizID, Int) -> Void)
+
+    func popToTheoryView()
+}
 
 
 // PREVIEW STUFF

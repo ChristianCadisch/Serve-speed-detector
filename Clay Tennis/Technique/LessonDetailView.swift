@@ -17,6 +17,7 @@ struct LessonDetailView: View {
     let topic: QuizIdentifier
     let highScores: [LessonQuizID: Int]
     let onHighScoreUpdated: (LessonQuizID, Int) -> Void
+    weak var navigationDelegate: HomeNavigationDelegate?
 
     private func id(_ d: QuizDifficulty) -> LessonQuizID {
         LessonQuizID(topic: topic, difficulty: d)
@@ -77,8 +78,18 @@ struct LessonDetailView: View {
             }
             .padding(.top, 12)
         }
-        .navigationTitle(topic.title)
+        .navigationTitle("Technique coach")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button {
+                    navigationDelegate?.popToTheoryView()
+                } label: {
+                    Image(systemName: "chevron.left")
+                        .font(.system(size: 16, weight: .semibold))
+                }
+            }
+        }
         .background(
             LinearGradient(
                 colors: [
@@ -93,31 +104,35 @@ struct LessonDetailView: View {
 
     // MARK: - Header with Progress Ring
     private var headerSection: some View {
-        HStack(spacing: 18) {
+        VStack(spacing: 10) {
 
-            ProgressRing(
-                completed: totalCompletedLevels,
-                total: QuizDifficulty.allCases.count
-            )
-            .frame(width: 80, height: 80)
 
-            VStack(alignment: .leading, spacing: 6) {
-                Text(topic.title)
-                    .font(.title2.bold())
+            // Existing header content
+            HStack(spacing: 18) {
+                ProgressRing(
+                    completed: totalCompletedLevels,
+                    total: QuizDifficulty.allCases.count
+                )
+                .frame(width: 80, height: 80)
 
-                Text("\(totalCompletedLevels) of 3 quizzes completed")
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
+                VStack(alignment: .leading, spacing: 6) {
+                    Text(topic.title)
+                        .font(.title2.bold())
 
-                Text("Stories + 3 quizzes")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
+                    Text("\(totalCompletedLevels) of 3 quizzes completed")
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+
+                    Text("Stories + 3 quizzes")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+
+                Spacer()
             }
-
-            Spacer()
+            .padding(.horizontal)
+            .padding(.vertical, 6)
         }
-        .padding(.horizontal)
-        .padding(.vertical, 6)
     }
 
     // MARK: - Stories Card with Thumbnail
@@ -347,7 +362,7 @@ struct ProgressRing: View {
     let topic: QuizIdentifier = .serve
 
     let mockScores: [LessonQuizID: Int] = [
-        LessonQuizID(topic: topic, difficulty: .easy): 5,
+        LessonQuizID(topic: topic, difficulty: .easy): 2,
         LessonQuizID(topic: topic, difficulty: .medium): 2,
         LessonQuizID(topic: topic, difficulty: .hard): 0
     ]
