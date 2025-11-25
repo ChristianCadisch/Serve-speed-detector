@@ -240,15 +240,16 @@ class QuizViewModel: ObservableObject {
     }
     
     
-    
-    func submit() {
+    func evaluateCurrentQuestion() {
         let current = questions[currentIndex]
         let correctSet = Set(current.answers.filter { $0.isCorrect }.map { $0.id })
 
         if correctSet == selectedAnswers {
             score += 1
         }
+    }
 
+    func submit() {
         selectedAnswers.removeAll()
 
         if currentIndex < questions.count - 1 {
@@ -257,6 +258,7 @@ class QuizViewModel: ObservableObject {
             finished = true
         }
     }
+
 }
 
 

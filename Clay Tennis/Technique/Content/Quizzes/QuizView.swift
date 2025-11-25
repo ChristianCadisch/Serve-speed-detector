@@ -130,12 +130,17 @@ struct QuizView: View {
             // Action button
             if !hasEntered {
                 actionButton(title: "Enter") {
+                    vm.evaluateCurrentQuestion()
+
                     withAnimation(.easeOut(duration: 0.15)) {
                         hasEntered = true
                         showContinue = true
                     }
+
+                    onQuizFinished(quizID, vm.score)
                 }
-            } else if showContinue {
+            }
+            else if showContinue {
                 actionButton(title: "Continue") {
                     vm.submit()
                     
