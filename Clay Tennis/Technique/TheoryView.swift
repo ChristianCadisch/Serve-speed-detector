@@ -144,7 +144,7 @@ struct TheoryView: View {
                                 .foregroundColor(.white.opacity(0.9))
                         }
 
-                        heroProgressBar(
+                        HeroProgressBar(
                             progress: progress,
                             label: "\(score)/\(total) solved"
                         )
@@ -234,6 +234,43 @@ struct TheoryView: View {
         print("✅ New high score for \(id.topic.title) \(id.difficulty.title): \(newScore)")
     }
 }
+
+
+
+struct HeroProgressBar: View {
+    let progress: Double
+    let label: String
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            GeometryReader { geo in
+                ZStack(alignment: .leading) {
+                    Capsule()
+                        .fill(Color.white.opacity(0.25))
+
+                    Capsule()
+                        .fill(
+                            LinearGradient(
+                                colors: progress >= 0.8
+                                    ? [.green, .mint]
+                                    : [.white, .cyan],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
+                        )
+                        .frame(width: geo.size.width * progress)
+                        .animation(.easeOut(duration: 0.6), value: progress)
+                }
+            }
+            .frame(height: 8)
+
+            Text(label)
+                .font(.caption.weight(.semibold))
+                .foregroundColor(.white.opacity(0.9))
+        }
+    }
+}
+
 
 
 // MARK: - UPDATED LessonRow (tiny dots + per-topic tint + nicer copy)

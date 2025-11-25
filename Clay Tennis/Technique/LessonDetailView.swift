@@ -34,8 +34,9 @@ struct LessonDetailView: View {
     private func state(_ d: QuizDifficulty) -> DifficultyState {
         let s = score(d)
         let t = total(d)
-        if t > 0 && s >= t { return .completed }
-
+        if t > 0 && Double(s) / Double(t) >= 0.8 {
+            return .completed
+        }
         switch d {
         case .easy:
             return .unlocked

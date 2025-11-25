@@ -174,7 +174,7 @@ class HomeViewController: UIViewController,
         // --- Bottom bar ---
         let tabBar = makeBottomTabBar()
         container.addArrangedSubview(tabBar)
-        tabBar.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        tabBar.heightAnchor.constraint(equalToConstant: 70).isActive = true
 
         // Replace everything in view
         view.subviews.forEach { $0.removeFromSuperview() }
@@ -238,8 +238,6 @@ class HomeViewController: UIViewController,
             button.addAction(UIAction { _ in action() }, for: .touchUpInside)
 
             button.translatesAutoresizingMaskIntoConstraints = false
-            button.widthAnchor.constraint(equalToConstant: 50).isActive = true
-            button.heightAnchor.constraint(equalToConstant: 50).isActive = true
 
             button.imageView?.contentMode = .scaleAspectFit
             button.contentHorizontalAlignment = .center
@@ -284,7 +282,7 @@ class HomeViewController: UIViewController,
         bar.addArrangedSubview(theoryButton)
         bar.addArrangedSubview(settingsButton)
 
-        bar.heightAnchor.constraint(equalToConstant: 70).isActive = true
+        //bar.heightAnchor.constraint(equalToConstant: 70).isActive = true
 
         return bar
     }

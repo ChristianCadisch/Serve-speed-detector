@@ -11,6 +11,7 @@ import SwiftUI
 
 struct TechniqueStoryView: View {
     let stories: [Story]
+    @Environment(\.dismiss) private var dismiss
 
     @State private var currentIndex: Int = 0
     @State private var progress: CGFloat = 0
@@ -118,6 +119,12 @@ struct TechniqueStoryView: View {
         .gesture(
             DragGesture(minimumDistance: 20)
                 .onEnded { value in
+                    if value.translation.height > 80 {
+                        timer?.invalidate()
+                        dismiss()
+                        return
+                    }
+
                     if value.translation.width < -40 {
                         nextStory()
                     } else if value.translation.width > 40 {
@@ -125,6 +132,7 @@ struct TechniqueStoryView: View {
                     }
                 }
         )
+
 
         // 2. Tap + hold pause gesture (Instagram style)
         .onLongPressGesture(
@@ -169,8 +177,10 @@ struct TechniqueStoryView: View {
             startTimer()
         } else {
             timer?.invalidate()
+            dismiss()
         }
     }
+
 
     private func previousStory() {
         if currentIndex > 0 {

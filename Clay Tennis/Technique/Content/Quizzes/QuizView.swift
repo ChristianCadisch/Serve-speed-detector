@@ -51,6 +51,10 @@ struct QuizView: View {
                 ) {
                     onQuizFinished(quizID, vm.score)
                     onFinish()   // ← this should navigate back to the lesson view
+                } newQuizAction: { id in
+                    print("➡️ Received nextQuizAction in QuizView")
+                    onQuizFinished(id.topic, 0)
+                    onFinish()
                 }
 
             }
