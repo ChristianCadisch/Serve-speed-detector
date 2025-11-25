@@ -16,24 +16,24 @@ struct QuizView: View {
     @State private var showContinue = false
     @State private var animateIn = false
     @State private var buttonPressed = false
-
-
+    
+    
     let quizID: QuizIdentifier
     let onQuizFinished: (QuizIdentifier, Int) -> Void
     let onFinish: () -> Void
     let navigationDelegate: HomeNavigationDelegate?
-
-
+    
+    
     private let barStepDuration: TimeInterval = 0.02
     private let barFullDuration: TimeInterval = 4.0
-
+    
     private var topicAccent: Color {
         quizID.tintColor
     }
-
+    
     var body: some View {
         ZStack(alignment: .top) {
-
+            
             // Background
             LinearGradient(
                 colors: [
@@ -46,7 +46,7 @@ struct QuizView: View {
             .ignoresSafeArea()
             
             if vm.finished {
-
+                
                 QuizResultView(
                     score: vm.score,
                     total: vm.questions.count,
@@ -56,9 +56,9 @@ struct QuizView: View {
                         print("navigationDelegate is nil?", navigationDelegate == nil)
                         
                         
-
+                        
                         onQuizFinished(quizID, vm.score)
-
+                        
                         DispatchQueue.main.async {
                             navigationDelegate?.showQuiz(
                                 topic: id.topic,
@@ -66,23 +66,23 @@ struct QuizView: View {
                             )
                         }
                     }
-
+                    
                 )
-
+                
             }
-
- else {
-
-                    quizContent
-
-                }
+            
+            else {
+                
+                quizContent
+                
+            }
         }
         
     }
     
     private var quizContent: some View {
         VStack(spacing: 28) {
-
+            
             // Progress + counter
             VStack(spacing: 8) {
                 quizProgressBars(
@@ -91,15 +91,15 @@ struct QuizView: View {
                     progress: progress
                 )
                 .padding(.horizontal, 18)
-
+                
                 Text("Question \(vm.currentIndex + 1) of \(vm.questions.count)")
                     .font(.caption.weight(.medium))
                     .foregroundColor(.secondary)
             }
             .padding(.top, 12)
-
+            
             let question = vm.questions[vm.currentIndex]
-
+            
             // Question card
             Text(question.text)
                 .font(.title3.weight(.semibold))
@@ -122,7 +122,7 @@ struct QuizView: View {
                     y: 2
                 )
                 .padding(.horizontal, 20)
-
+            
             // Answers
             VStack(spacing: 14) {
                 ForEach(question.answers) { answer in
@@ -141,19 +141,19 @@ struct QuizView: View {
                 }
             }
             .padding(.horizontal)
-
+            
             Spacer()
-
+            
             // Action button
             if !hasEntered {
                 actionButton(title: "Enter") {
                     vm.evaluateCurrentQuestion()
-
+                    
                     withAnimation(.easeOut(duration: 0.15)) {
                         hasEntered = true
                         showContinue = true
                     }
-
+                    
                     onQuizFinished(quizID, vm.score)
                 }
             }
@@ -169,9 +169,9 @@ struct QuizView: View {
         .onAppear { resetState() }
         .onChange(of: vm.currentIndex) { _ in resetState() }
     }
-
+    
     // MARK: - Action Button
-
+    
     private func actionButton(title: String, action: @escaping () -> Void) -> some View {
         Button {
             action()
@@ -207,18 +207,18 @@ struct QuizView: View {
                 }
         )
     }
-
+    
     // MARK: - Progress Bars
-
+    
     private func quizProgressBars(count: Int, index: Int, progress: CGFloat) -> some View {
         HStack(spacing: 6) {
             ForEach(0..<count, id: \.self) { i in
                 GeometryReader { geo in
                     ZStack(alignment: .leading) {
-
+                        
                         Capsule()
                             .fill(Color(.systemGray5))
-
+                        
                         Capsule()
                             .fill(
                                 LinearGradient(
@@ -233,7 +233,7 @@ struct QuizView: View {
                             .frame(
                                 width: geo.size.width *
                                 (i < index ? 1 :
-                                 i == index ? progress : 0)
+                                    i == index ? progress : 0)
                             )
                     }
                 }
@@ -241,15 +241,15 @@ struct QuizView: View {
             }
         }
     }
-
+    
     // MARK: - State Reset
-
+    
     private func resetState() {
         progress = 0
         hasEntered = false
         showContinue = false
         animateIn = false
-
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
             withAnimation(.easeOut(duration: 0.25)) {
                 animateIn = true
@@ -259,7 +259,14 @@ struct QuizView: View {
 }
 
 
-
-
-
-
+#Preview {
+    QuizView(
+        vm: QuizViewModel(
+            questions: QuizIdentifier.serve.questions(for: .easy)
+        ),
+        quizID: .serve,
+        onQuizFinished: { _, _ in },
+        onFinish: { },
+        navigationDelegate: nil
+    )
+}

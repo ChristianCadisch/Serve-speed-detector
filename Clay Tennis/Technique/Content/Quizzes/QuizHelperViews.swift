@@ -323,12 +323,32 @@ struct QuizAnswer: Identifiable {
     let isCorrect: Bool
 }
 
+enum QuestionDifficulty: Int, CaseIterable, Hashable {
+    case easy
+    case medium
+    case hard
+}
+
 struct QuizQuestion: Identifiable {
     let id = UUID()
     let text: String
     let type: QuizQuestionType
     let answers: [QuizAnswer]
+    let difficulty: QuestionDifficulty
+
+    init(
+        text: String,
+        type: QuizQuestionType,
+        answers: [QuizAnswer],
+        difficulty: QuestionDifficulty = .easy
+    ) {
+        self.text = text
+        self.type = type
+        self.answers = answers
+        self.difficulty = difficulty
+    }
 }
+
 
 
 class QuizViewModel: ObservableObject {
@@ -535,34 +555,22 @@ enum QuizIdentifier: Int, CaseIterable, Hashable {
     
     // NEW: per-difficulty question sets
     func questions(for difficulty: QuizDifficulty) -> [QuizQuestion] {
-        switch (self, difficulty) {
-            
-            // TODO: swap these to your real arrays, e.g. serveEasyQuestions, serveMediumQuestions, serveHardQuestions
-        case (.serve, .easy): return serveQuestions
-        case (.serve, .medium): return serveQuestions
-        case (.serve, .hard): return serveQuestions
-            
-        case (.tactics, .easy): return tacticsQuestions
-        case (.tactics, .medium): return tacticsQuestions
-        case (.tactics, .hard): return tacticsQuestions
-            
-        case (.forehand, .easy): return forehandQuestions
-        case (.forehand, .medium): return forehandQuestions
-        case (.forehand, .hard): return forehandQuestions
-            
-        case (.backhand, .easy): return backhandQuestions
-        case (.backhand, .medium): return backhandQuestions
-        case (.backhand, .hard): return backhandQuestions
-            
-        case (.volley, .easy): return volleyQuestions
-        case (.volley, .medium): return volleyQuestions
-        case (.volley, .hard): return volleyQuestions
-            
-        case (.legwork, .easy): return legworkQuestions
-        case (.legwork, .medium): return legworkQuestions
-        case (.legwork, .hard): return legworkQuestions
+        let allQuestions: [QuizQuestion]
+
+        switch self {
+        case .serve:    allQuestions = serveQuestions
+        case .tactics:  allQuestions = tacticsQuestions
+        case .forehand: allQuestions = forehandQuestions
+        case .backhand: allQuestions = backhandQuestions
+        case .volley:   allQuestions = volleyQuestions
+        case .legwork:  allQuestions = legworkQuestions
+        }
+
+        return allQuestions.filter { question in
+            question.difficulty.rawValue <= difficulty.rawValue
         }
     }
+
     
     func totalQuestions(for difficulty: QuizDifficulty) -> Int {
         questions(for: difficulty).count

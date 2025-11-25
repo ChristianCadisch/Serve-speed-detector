@@ -8,205 +8,206 @@ import Foundation
 
 let serveQuestions: [QuizQuestion] = [
 
-    // MARK: - Serve Fundamentals
-
+    
     QuizQuestion(
-        text: "Warum ist das Service einzigartig im Tennis?",
+        text: "In the 'Trophy Position' phase of the serve, what is the correct orientation for the non-hitting hand?",
         type: .single,
         answers: [
-            QuizAnswer(text: "Weil es der einzige Schlag ist, den du zu 100% kontrollierst", isCorrect: true),
-            QuizAnswer(text: "Weil er immer mit maximaler Geschwindigkeit gespielt wird", isCorrect: false),
-            QuizAnswer(text: "Weil nur Profispieler ihn richtig ausführen können", isCorrect: false),
-            QuizAnswer(text: "Weil er keinen Einfluss auf den Punktverlauf hat", isCorrect: false)
-        ]
+            QuizAnswer(text: "Resting on the opposite hip", isCorrect: false),
+            QuizAnswer(text: "Pointing towards the ball", isCorrect: true),
+            QuizAnswer(text: "Reaching back towards the fence", isCorrect: false),
+        ],
+        difficulty: .easy
     ),
-
+    
     QuizQuestion(
-        text: "Welche Aussage beschreibt das Prinzip der kinematischen Kette im Service korrekt?",
+        text: "A common error for tennis players who struggle with the ball toss is throwing the ball too high, which tends to cause what issue?",
         type: .single,
         answers: [
-            QuizAnswer(text: "Die Bewegung beginnt im Arm und endet in den Beinen", isCorrect: false),
-            QuizAnswer(text: "Die Bewegung läuft von unten nach oben: Beine → Hüfte → Rumpf → Schulter → Arm", isCorrect: true),
-            QuizAnswer(text: "Nur der Arm ist für Geschwindigkeit verantwortlich", isCorrect: false),
-            QuizAnswer(text: "Die Hüfte spielt beim Service keine Rolle", isCorrect: false)
-        ]
+            QuizAnswer(text: "It ensures the racket drops fully behind the back", isCorrect: false),
+            QuizAnswer(text: "It causes the ball to go all over the place", isCorrect: true),
+            QuizAnswer(text: "It allows players to achieve full extension naturally", isCorrect: false),
+        ],
+        difficulty: .easy
     ),
-
-    // MARK: - Grip & Stance
-/*
+    
     QuizQuestion(
-        text: "Welcher Griff ist die Grundlage für alle Aufschlagvarianten?",
+        text: "Where should the racket ultimately finish in a natural, relaxed follow-through of the serve?",
         type: .single,
         answers: [
-            QuizAnswer(text: "Eastern Vorhandgriff", isCorrect: false),
-            QuizAnswer(text: "Semi-Western Griff", isCorrect: false),
-            QuizAnswer(text: "Kontinentalgriff", isCorrect: true),
-            QuizAnswer(text: "Western Griff", isCorrect: false)
-        ]
+            QuizAnswer(text: "Around the opposite shoulder", isCorrect: false),
+            QuizAnswer(text: "All the way to the left hip (for a right-handed player)", isCorrect: true),
+            QuizAnswer(text: "Stopping abruptly at waist height", isCorrect: false),
+        ],
+        difficulty: .easy
     ),
-
+    
+    
     QuizQuestion(
-        text: "Warum ist der Kontinentalgriff beim Service so wichtig?",
-        type: .multiple,
-        answers: [
-            QuizAnswer(text: "Er erlaubt Flat-, Slice- und Kick-Services ohne Griffwechsel", isCorrect: true),
-            QuizAnswer(text: "Er verhindert jegliche Pronation", isCorrect: false),
-            QuizAnswer(text: "Er ermöglicht effiziente Pronation", isCorrect: true),
-            QuizAnswer(text: "Er ist nur für Anfänger gedacht", isCorrect: false)
-        ]
-    ),
-
-    QuizQuestion(
-        text: "Wie sollte die Grundstellung beim Aufschlag sein?",
+        text: "What grip do the majority of professional players use for the serve, often referred to as the chopper grip?",
         type: .single,
         answers: [
-            QuizAnswer(text: "Frontal zum Netz", isCorrect: false),
-            QuizAnswer(text: "Seitlich zum Netz mit schulterbreitem Stand", isCorrect: true),
-            QuizAnswer(text: "Beide Füße parallel zur Grundlinie", isCorrect: false),
-            QuizAnswer(text: "Auf den Zehenspitzen stehend", isCorrect: false)
-        ]
+            QuizAnswer(text: "Western Forehand Grip", isCorrect: false),
+            QuizAnswer(text: "Eastern Backhand Grip", isCorrect: false),
+            QuizAnswer(text: "Continental Grip", isCorrect: true),
+        ],
+        difficulty: .easy
     ),
 
-    // MARK: - Ball Toss & Preparation
-
     QuizQuestion(
-        text: "Wo sollte sich der Ballwurf für ein flaches Service befinden?",
+        text: "What is a primary problem caused by using a typical forehand grip when serving?",
         type: .single,
         answers: [
-            QuizAnswer(text: "Hinter dem Kopf", isCorrect: false),
-            QuizAnswer(text: "Zwischen 12 und 13 Uhr leicht vor dem Körper", isCorrect: true),
-            QuizAnswer(text: "Weit links vom Kopf", isCorrect: false),
-            QuizAnswer(text: "Direkt über der Grundlinie", isCorrect: false)
-        ]
+            QuizAnswer(text: "It increases net clearance excessively", isCorrect: false),
+            QuizAnswer(text: "It makes generating spin and maintaining accuracy very difficult", isCorrect: true),
+            QuizAnswer(text: "It causes the server to land on their back foot", isCorrect: false),
+        ],
+        difficulty: .easy
     ),
 
     QuizQuestion(
-        text: "Warum ist ein konstanter Ballwurf wichtiger als ein sehr hoher Ballwurf?",
+        text: "During the serve motion, what specific action initiates the uncoiling of the shoulders and trunk from the trophy position, contributing to rotational power?",
         type: .single,
         answers: [
-            QuizAnswer(text: "Weil Höhe beim Service keine Rolle spielt", isCorrect: false),
-            QuizAnswer(text: "Weil ein konstanter Wurf die Kontrolle und den Rhythmus verbessert", isCorrect: true),
-            QuizAnswer(text: "Weil Profis den Ball extra tief werfen", isCorrect: false),
-            QuizAnswer(text: "Weil ein hoher Wurf automatisch mehr Geschwindigkeit erzeugt", isCorrect: false)
-        ]
-    ),
-
-    // MARK: - Trophy Position & Racket Drop
-
-    QuizQuestion(
-        text: "Was kennzeichnet die optimale Trophy Position?",
-        type: .multiple,
-        answers: [
-            QuizAnswer(text: "Wurfarm ist vollständig gestreckt", isCorrect: true),
-            QuizAnswer(text: "Schlagarm-Ellenbogen zeigt nach oben", isCorrect: true),
-            QuizAnswer(text: "Der Schläger ist bereits vor dem Körper", isCorrect: false),
-            QuizAnswer(text: "Der Oberkörper ist aktiv gekippt", isCorrect: true)
-        ]
+            QuizAnswer(text: "The racket dropping fully behind the back", isCorrect: false),
+            QuizAnswer(text: "The hitting elbow moving forward toward the ball", isCorrect: false),
+            QuizAnswer(text: "The tossing hand pulling down and away from the contact point", isCorrect: true),
+        ],
+        difficulty: .medium
     ),
 
     QuizQuestion(
-        text: "Warum ist der Racket Drop (Back Scratch Position) so wichtig?",
+        text: "A key feature of a good trophy position is having the hitting shoulder perform which action?",
         type: .single,
         answers: [
-            QuizAnswer(text: "Er reduziert die Schwunglänge", isCorrect: false),
-            QuizAnswer(text: "Er verkürzt die Beschleunigungsphase", isCorrect: false),
-            QuizAnswer(text: "Er vergrößert den Beschleunigungsweg für maximale Geschwindigkeit", isCorrect: true),
-            QuizAnswer(text: "Er dient nur der Show", isCorrect: false)
-        ]
+            QuizAnswer(text: "The right shoulder (for a right-hander) dropped back and down", isCorrect: true),
+            QuizAnswer(text: "The hitting shoulder squared directly toward the net", isCorrect: false),
+            QuizAnswer(text: "The left shoulder pushed forward towards the ball", isCorrect: false),
+        ],
+        difficulty: .medium
     ),
 
-    // MARK: - Pronation & Contact
-
     QuizQuestion(
-        text: "Was versteht man unter Pronation im Service?",
+        text: "If pronation is executed correctly, the movement continues past contact to the point of full pronation where the palm and strings face which side of the court?",
         type: .single,
         answers: [
-            QuizAnswer(text: "Eine Beugung der Knie vor dem Absprung", isCorrect: false),
-            QuizAnswer(text: "Eine Drehbewegung des Unterarms kurz vor dem Treffpunkt", isCorrect: true),
-            QuizAnswer(text: "Ein seitliches Abkippen des Oberkörpers", isCorrect: false),
-            QuizAnswer(text: "Eine Verlangsamung des Schlages", isCorrect: false)
-        ]
+            QuizAnswer(text: "The left side of the court", isCorrect: false),
+            QuizAnswer(text: "The right side of the court", isCorrect: true),
+            QuizAnswer(text: "The back of the court", isCorrect: false),
+        ],
+        difficulty: .medium
     ),
 
     QuizQuestion(
-        text: "Warum ist die Pronation im Service entscheidend?",
-        type: .multiple,
-        answers: [
-            QuizAnswer(text: "Sie erhöht Schlägerkopfgeschwindigkeit", isCorrect: true),
-            QuizAnswer(text: "Sie ermöglicht präzisere Ballkontrolle", isCorrect: true),
-            QuizAnswer(text: "Sie verhindert jeglichen Spin", isCorrect: false),
-            QuizAnswer(text: "Sie reduziert die Belastung für Schulter und Ellbogen", isCorrect: true)
-        ]
-    ),
-
-    QuizQuestion(
-        text: "Wo sollte der Treffpunkt beim Service idealerweise liegen?",
+        text: "In the follow-through, why should the elbow be bent instead of straight when finishing the serve?",
         type: .single,
         answers: [
-            QuizAnswer(text: "Auf Hüfthöhe", isCorrect: false),
-            QuizAnswer(text: "Leicht vor dem Körper und auf maximaler Streckung", isCorrect: true),
-            QuizAnswer(text: "Hinter dem Kopf", isCorrect: false),
-            QuizAnswer(text: "Direkt vor dem Gesicht", isCorrect: false)
-        ]
+            QuizAnswer(text: "A straight arm places a great deal of stress on the shoulder joint", isCorrect: true),
+            QuizAnswer(text: "A straight arm reduces the overall arc of the swing", isCorrect: false),
+            QuizAnswer(text: "A straight arm prevents the body from rotating correctly", isCorrect: false),
+        ],
+        difficulty: .medium
     ),
 
-    // MARK: - Serve Variants
-
     QuizQuestion(
-        text: "Wodurch unterscheidet sich der Kick-Aufschlag vom Slice-Aufschlag?",
+        text: "What location is specified for the ball toss when a right-handed player executes a Kick Service (Topspin Serve)?",
         type: .single,
         answers: [
-            QuizAnswer(text: "Durch den Griffwechsel", isCorrect: false),
-            QuizAnswer(text: "Durch den Ballwurf hinter dem Kopf und stärkeren Topspin", isCorrect: true),
-            QuizAnswer(text: "Durch geringere Beinarbeit", isCorrect: false),
-            QuizAnswer(text: "Durch fehlende Pronation", isCorrect: false)
-        ]
+            QuizAnswer(text: "In front and to the right (1-2 o’clock)", isCorrect: false),
+            QuizAnswer(text: "Slightly behind the head (approximately 11 o’clock)", isCorrect: true),
+            QuizAnswer(text: "Directly above the head (12 o’clock)", isCorrect: false),
+        ],
+        difficulty: .medium
     ),
 
     QuizQuestion(
-        text: "Welche Aussagen zum Slice-Service sind korrekt?",
-        type: .multiple,
-        answers: [
-            QuizAnswer(text: "Der Ballwurf ist leicht nach rechts (bei Rechtshändern)", isCorrect: true),
-            QuizAnswer(text: "Der Schläger streicht seitlich über den Ball", isCorrect: true),
-            QuizAnswer(text: "Der Ball springt besonders hoch ab", isCorrect: false),
-            QuizAnswer(text: "Er ist besonders effektiv auf der Einstandsseite", isCorrect: true)
-        ]
-    ),
-
-    QuizQuestion(
-        text: "Welches Ziel verfolgen Topspieler mit identischen Servicebewegungen für verschiedene Aufschläge?",
+        text: "If a player pauses or breaks the swing, for example in the trophy position or racket drop position, what is the consequence concerning serve power?",
         type: .single,
         answers: [
-            QuizAnswer(text: "Sie wollen den Gegner verwirren und Täuschung erzeugen", isCorrect: true),
-            QuizAnswer(text: "Sie sparen Energie", isCorrect: false),
-            QuizAnswer(text: "Sie vermeiden Rotation im Oberkörper", isCorrect: false),
-            QuizAnswer(text: "Sie wechseln den Griff im letzten Moment", isCorrect: false)
-        ]
+            QuizAnswer(text: "It allows for greater wrist snap", isCorrect: false),
+            QuizAnswer(text: "It helps in achieving the highest contact point", isCorrect: false),
+            QuizAnswer(text: "Any momentum created up to that point is lost", isCorrect: true),
+        ],
+        difficulty: .medium
     ),
 
-    // MARK: - Stability & Errors
+
 
     QuizQuestion(
-        text: "Was ist für das Gleichgewicht im Moment des Treffpunkts besonders wichtig?",
-        type: .multiple,
-        answers: [
-            QuizAnswer(text: "Ruhige Kopfposition", isCorrect: true),
-            QuizAnswer(text: "Aufrechter Oberkörper", isCorrect: true),
-            QuizAnswer(text: "Extremes Vorlehnen", isCorrect: false),
-            QuizAnswer(text: "Breite Standposition", isCorrect: true)
-        ]
-    ),
-
-    QuizQuestion(
-        text: "Welcher Fehler tritt häufig bei ineffizientem Service auf?",
+        text: "When utilizing the Continental grip, how should the forearm ideally move *prior* to contact (during supination) to allow the maximum 'whip' through the contact zone?",
         type: .single,
         answers: [
-            QuizAnswer(text: "Zu frühe Pronation", isCorrect: false),
-            QuizAnswer(text: "Zu spätes Einsetzen der Beine in die Bewegung", isCorrect: true),
-            QuizAnswer(text: "Zu ruhiger Kopf", isCorrect: false),
-            QuizAnswer(text: "Zu viel Einsatz der Hüfte", isCorrect: false)
-        ]
+            QuizAnswer(text: "The palm and strings face the left side of the court", isCorrect: true),
+            QuizAnswer(text: "The palm faces the target", isCorrect: false),
+            QuizAnswer(text: "The palm and strings face the right side of the court", isCorrect: false),
+        ],
+        difficulty: .hard
+    ),
+
+    QuizQuestion(
+        text: "What major biomechanical consequence results if a segment impulse is transferred prematurely or too late to the next link in the kinematic chain of the serve?",
+        type: .single,
+        answers: [
+            QuizAnswer(text: "The server is forced into a hybrid stance", isCorrect: false),
+            QuizAnswer(text: "It leads to a coordinated disturbance, resulting in shots without quality or effect", isCorrect: true),
+            QuizAnswer(text: "It causes the player to release the toss too early", isCorrect: false),
+        ],
+        difficulty: .hard
+    ),
+
+    QuizQuestion(
+        text: "For a straight (flat) serve, what are the two subsequent actions involving the forearm and hand/wrist just before the moment of impact?",
+        type: .single,
+        answers: [
+            QuizAnswer(text: "A flexing of the elbow and upward pull of the wrist", isCorrect: false),
+            QuizAnswer(text: "A stretching of the arm and backward rotation of the shoulder", isCorrect: false),
+            QuizAnswer(text: "The forearm pronates (ausdrehen) followed by a tilting (abkippen) of the wrist/hand", isCorrect: true),
+        ],
+        difficulty: .hard
+    ),
+
+    QuizQuestion(
+        text: "To ensure maximum relaxation and help the body avoid stiffening up during the powerful upswing phase, when is it recommended to start exhaling?",
+        type: .single,
+        answers: [
+            QuizAnswer(text: "At the moment of contact", isCorrect: false),
+            QuizAnswer(text: "Just before the player starts the motion", isCorrect: false),
+            QuizAnswer(text: "When reaching (passing through) the trophy position", isCorrect: true),
+        ],
+        difficulty: .hard
+    ),
+
+    QuizQuestion(
+        text: "What service preparation footwork sequence is listed for weight transfer (Gewichtsverlagerung) during the Ausholbewegung (backswing) phase of a straight serve (for a right-hander)?",
+        type: .single,
+        answers: [
+            QuizAnswer(text: "Right foot to left foot to right foot", isCorrect: false),
+            QuizAnswer(text: "Left foot to right foot to left foot", isCorrect: true),
+            QuizAnswer(text: "Both feet simultaneously lift off the ground", isCorrect: false),
+        ],
+        difficulty: .hard
+    ),
+
+    QuizQuestion(
+        text: "A common cause of breakdown and potential injury when swinging the racket at high speed through the contact zone is:",
+        type: .single,
+        answers: [
+            QuizAnswer(text: "Failing to drop the right shoulder down and back", isCorrect: false),
+            QuizAnswer(text: "Tossing the ball too low, forcing a hurried motion", isCorrect: false),
+            QuizAnswer(text: "Suddenly stopping the swing or finishing in the wrong way", isCorrect: true),
+        ],
+        difficulty: .hard
+    ),
+
+    QuizQuestion(
+        text: "What specific technique did Pete Sampras occasionally use during the lifting phase of his service motion to ensure his grip pressure remained relaxed?",
+        type: .single,
+        answers: [
+            QuizAnswer(text: "He rapidly squeezed and released the grip before tossing the ball", isCorrect: false),
+            QuizAnswer(text: "He rotated his wrist sharply inward just before contact", isCorrect: false),
+            QuizAnswer(text: "He released his pinky, ring, and middle fingers", isCorrect: true),
+        ],
+        difficulty: .hard
     )
-*/
+
 ]
