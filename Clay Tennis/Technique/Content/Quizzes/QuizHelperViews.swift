@@ -239,6 +239,8 @@ class QuizViewModel: ObservableObject {
         }
     }
     
+    
+    
     func submit() {
         let current = questions[currentIndex]
         let correctSet = Set(current.answers.filter { $0.isCorrect }.map { $0.id })

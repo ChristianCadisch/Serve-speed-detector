@@ -26,6 +26,7 @@ class HomeViewController: UIViewController,
     @State private var analyzedVideos: [URL] = []
     private var activeTab: ActiveTab = .feed
     private var currentHostingController: UIHostingController<AnyView>?
+    private var theoryHostingController: UIHostingController<AnyView>?
 
 
     
@@ -46,10 +47,11 @@ class HomeViewController: UIViewController,
     }
     
     
-    func showLessonDetail(topic: QuizIdentifier,
-                          highScores: [LessonQuizID: Int],
-                          onHighScoreUpdated: @escaping (LessonQuizID, Int) -> Void) {
-
+    func showLessonDetail(
+        topic: QuizIdentifier,
+        highScores: Binding<[LessonQuizID: Int]>,
+        onHighScoreUpdated: @escaping (LessonQuizID, Int) -> Void
+    ){
         let detailView = LessonDetailView(
             topic: topic,
             highScores: highScores,
@@ -134,10 +136,12 @@ class HomeViewController: UIViewController,
     
     private func showTheoryView() {
         let theoryView = TheoryView(navigationDelegate: self)
-
         let hosting = UIHostingController(
             rootView: AnyView(theoryView)
         )
+
+        self.theoryHostingController = hosting
+
 
         replaceRoot(with: hosting, title: "Technique Coach")
         navigationItem.leftBarButtonItem = nil
@@ -286,8 +290,17 @@ class HomeViewController: UIViewController,
     }
 
 
-    func popToLessonView() {
-        navigationController?.popViewController(animated: true)
+    func popToLessonView(refresh: Bool) {
+
+        if refresh,
+           let hosting = theoryHostingController,
+           var rootView = hosting.rootView as? TheoryView {
+
+            rootView.forceRefresh()
+            hosting.rootView = AnyView(rootView)
+        }
+
+        popToTheoryView()
     }
 
     
@@ -416,13 +429,16 @@ extension Notification.Name {
 
 
 protocol HomeNavigationDelegate: AnyObject {
-    func showLessonDetail(topic: QuizIdentifier,
-                          highScores: [LessonQuizID: Int],
-                          onHighScoreUpdated: @escaping (LessonQuizID, Int) -> Void)
+    func showLessonDetail(
+        topic: QuizIdentifier,
+        highScores: Binding<[LessonQuizID: Int]>,
+        onHighScoreUpdated: @escaping (LessonQuizID, Int) -> Void
+    )
 
     func popToTheoryView()
-    func popToLessonView()
+    func popToLessonView(refresh: Bool)
 }
+
 
 
 // PREVIEW STUFF

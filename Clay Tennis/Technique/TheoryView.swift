@@ -12,6 +12,8 @@ struct TheoryView: View {
 
     @Environment(\.dismiss) var dismiss
     @State private var highScores: [LessonQuizID: Int] = [:]
+    @State private var refreshToken = UUID()
+
 
     private let topics = QuizIdentifier.progression
     weak var navigationDelegate: HomeNavigationDelegate?
@@ -33,7 +35,7 @@ struct TheoryView: View {
                             Button {
                                 navigationDelegate?.showLessonDetail(
                                     topic: topic,
-                                    highScores: highScores,
+                                    highScores: $highScores,
                                     onHighScoreUpdated: updateHighScore(for:newScore:)
                                 )
                             } label: {
@@ -49,6 +51,7 @@ struct TheoryView: View {
                 }
                 .padding(.top, 12)
             }
+            .id(refreshToken)
             .navigationTitle("Technique Coach")
             .navigationBarTitleDisplayMode(.inline)
             .onAppear { loadHighScores() }
@@ -64,6 +67,11 @@ struct TheoryView: View {
             )
         
     }
+    
+    func forceRefresh() {
+        refreshToken = UUID()
+    }
+
     
     private var featuredCard: some View {
         let id = featuredLessonQuiz
@@ -82,7 +90,7 @@ struct TheoryView: View {
             Button {
                 navigationDelegate?.showLessonDetail(
                     topic: topic,
-                    highScores: highScores,
+                    highScores: $highScores,
                     onHighScoreUpdated: updateHighScore(for:newScore:)
                 )
             } label: {

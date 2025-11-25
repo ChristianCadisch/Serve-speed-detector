@@ -15,7 +15,7 @@ import SwiftUI
 
 struct LessonDetailView: View {
     let topic: QuizIdentifier
-    let highScores: [LessonQuizID: Int]
+    @Binding var highScores: [LessonQuizID: Int]
     let onHighScoreUpdated: (LessonQuizID, Int) -> Void
     weak var navigationDelegate: HomeNavigationDelegate?
 
@@ -203,7 +203,7 @@ struct DifficultyLevelCard: View {
                             )
                         },
                         onFinish: {
-                            navigationDelegate?.popToLessonView()
+                            navigationDelegate?.popToLessonView(refresh: true)
                         }
                     )
                 } label: {
@@ -340,7 +340,7 @@ struct ProgressRing: View {
     }
 }
 
-
+/*
 #Preview {
     let topic: QuizIdentifier = .serve
 
@@ -358,3 +358,4 @@ struct ProgressRing: View {
         )
     }
 }
+*/
