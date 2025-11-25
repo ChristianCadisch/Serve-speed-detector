@@ -193,21 +193,8 @@ struct DifficultyLevelCard: View {
                 cardContent
                     .onTapGesture { showLockedAlert = true }
             } else {
-                NavigationLink {
-                    QuizView(
-                        vm: QuizViewModel(questions: topic.questions(for: difficulty)),
-                        quizID: topic,
-                        onQuizFinished: { _, score in
-                            onHighScoreUpdated(
-                                LessonQuizID(topic: topic, difficulty: difficulty),
-                                score
-                            )
-                        },
-                        onFinish: {
-                            navigationDelegate?.popToLessonView(refresh: true)
-                        },
-                        navigationDelegate: navigationDelegate
-                    )
+                Button {
+                    navigationDelegate?.showQuiz(topic: topic, difficulty: difficulty)
                 } label: {
                     cardContent
                 }
