@@ -140,14 +140,3 @@ let tacticsQuestions: [QuizQuestion] = [
 
 
 
-import SwiftUI
-struct TacticsQuestions_Preview: PreviewProvider {
-    static var previews: some View {
-        QuizView(
-            vm: QuizViewModel(questions: tacticsQuestions),
-            quizID: .tactics,
-            onQuizFinished: { _, _ in },
-            onFinish: { }
-        )
-    }
-}

@@ -17,9 +17,12 @@ struct QuizView: View {
     @State private var animateIn = false
     @State private var buttonPressed = false
 
+
     let quizID: QuizIdentifier
     let onQuizFinished: (QuizIdentifier, Int) -> Void
     let onFinish: () -> Void
+    let navigationDelegate: HomeNavigationDelegate?
+
 
     private let barStepDuration: TimeInterval = 0.02
     private let barFullDuration: TimeInterval = 4.0
@@ -47,17 +50,27 @@ struct QuizView: View {
                 QuizResultView(
                     score: vm.score,
                     total: vm.questions.count,
-                    quizID: quizID
-                ) {
-                    onQuizFinished(quizID, vm.score)
-                    onFinish()   // ← this should navigate back to the lesson view
-                } newQuizAction: { id in
-                    print("➡️ Received nextQuizAction in QuizView")
-                    onQuizFinished(id.topic, 0)
-                    onFinish()
-                }
+                    quizID: quizID,
+                    onNextQuiz: { id in
+                        print("➡️ Received nextQuizAction in QuizView")
+                        print("navigationDelegate is nil?", navigationDelegate == nil)
+                        
+                        
+
+                        onQuizFinished(quizID, vm.score)
+
+                        DispatchQueue.main.async {
+                            navigationDelegate?.showQuiz(
+                                topic: id.topic,
+                                difficulty: id.difficulty
+                            )
+                        }
+                    }
+
+                )
 
             }
+
  else {
 
                     quizContent
@@ -248,16 +261,5 @@ struct QuizView: View {
 
 
 
-struct QuizView_Previews: PreviewProvider {
-    static var previews: some View {
-        QuizView(
-            vm: QuizViewModel(questions: serveQuestions),
-            quizID: .backhand,
-            onQuizFinished: { _, _ in },
-            onFinish: { }
-        )
-        .previewLayout(.sizeThatFits)
-    }
-}
 
 

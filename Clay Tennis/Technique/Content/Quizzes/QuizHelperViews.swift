@@ -12,7 +12,7 @@ struct QuizResultView: View {
     let score: Int
     let total: Int
     let quizID: QuizIdentifier
-    let onDone: () -> Void
+    let onNextQuiz: (LessonQuizID) -> Void
     
     @State private var nextLesson: LessonQuizID?
     @State private var appear = false
@@ -147,7 +147,7 @@ struct QuizResultView: View {
             print("➡️ NextQuizBar tapped")
             print("   id.topic:", id.topic.title)
             print("   id.difficulty:", id.difficulty.title)
-            newQuizAction?(id)
+            onNextQuiz(nextLessonID)
         } label: {
             VStack(spacing: 14) {
                 
@@ -200,7 +200,6 @@ struct QuizResultView: View {
     
     // MARK: - Add parameter to QuizResultView
     
-    let newQuizAction: ((LessonQuizID) -> Void)?
     
     private var headerSection: some View {
         VStack(spacing: 12) {
@@ -604,13 +603,3 @@ struct LessonQuizID: Hashable {
     }
 }
 
-#Preview {
-    QuizResultView(
-        score: 7,
-        total: 10,
-        quizID: .backhand,
-        onDone: {},
-        newQuizAction: { _ in }
-    )
-    .preferredColorScheme(.dark)
-}

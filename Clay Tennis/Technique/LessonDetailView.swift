@@ -205,7 +205,8 @@ struct DifficultyLevelCard: View {
                         },
                         onFinish: {
                             navigationDelegate?.popToLessonView(refresh: true)
-                        }
+                        },
+                        navigationDelegate: navigationDelegate
                     )
                 } label: {
                     cardContent

@@ -64,8 +64,16 @@ class HomeViewController: UIViewController,
 
 
     func popToTheoryView() {
-        showTheoryView()
+        if let hosting = theoryHostingController {
+            replaceRoot(with: hosting, title: "Technique Coach")
+            navigationItem.leftBarButtonItem = nil
+            disableLessonSwipeBack()
+            navigationController?.setNavigationBarHidden(false, animated: false)
+        } else {
+            showTheoryView()
+        }
     }
+
 
 
 
@@ -302,6 +310,45 @@ class HomeViewController: UIViewController,
     }
 
     
+    func showQuiz(topic: QuizIdentifier, difficulty: QuizDifficulty) {
+        print("📍 showQuiz called for:", topic.title, difficulty.title)
+
+        let quizView = QuizView(
+            vm: QuizViewModel(questions: topic.questions(for: difficulty)),
+            quizID: topic,
+            onQuizFinished: { _, score in
+                let id = LessonQuizID(topic: topic, difficulty: difficulty)
+                let current = UserDefaults.standard.integer(forKey: id.userDefaultsKey)
+                if score > current {
+                    UserDefaults.standard.set(score, forKey: id.userDefaultsKey)
+                }
+            },
+            onFinish: { [weak self] in
+                self?.popToLessonView(refresh: true)
+            },
+            navigationDelegate: self
+        )
+
+        let hosting = UIHostingController(
+            rootView: AnyView(
+                quizView
+                    .id("quiz_\(topic.rawValue)_\(difficulty.rawValue)")   // ✅ force new instance
+            )
+        )
+        self.currentHostingController = hosting
+        replaceRoot(with: hosting, title: "\(topic.title) Quiz")
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            image: UIImage(systemName: "chevron.left"),
+            style: .plain,
+            target: self,
+            action: #selector(handleBackToTheory)
+        )
+
+        enableLessonSwipeBack()
+    }
+
+
+    
     private func replaceSwiftUIView(with newView: AnyView) {
         feedView?.willMove(toParent: nil)
         feedView?.view.removeFromSuperview()
@@ -435,6 +482,8 @@ protocol HomeNavigationDelegate: AnyObject {
 
     func popToTheoryView()
     func popToLessonView(refresh: Bool)
+    func showQuiz(topic: QuizIdentifier, difficulty: QuizDifficulty)
+
 }
 
 
