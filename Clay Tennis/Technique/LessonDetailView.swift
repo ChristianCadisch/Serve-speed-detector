@@ -119,7 +119,8 @@ struct LessonDetailView: View {
     // MARK: - Stories Card with Thumbnail
     private var storiesCard: some View {
         NavigationLink {
-            TechniqueStoryView(stories: topic.stories)
+            TechniqueStoryView(stories: topic.stories,
+            topic: topic)
         } label: {
             ZStack {
                 Image(topic.thumbnailImageName)
