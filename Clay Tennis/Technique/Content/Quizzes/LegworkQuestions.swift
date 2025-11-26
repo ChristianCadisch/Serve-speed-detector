@@ -8,244 +8,28 @@ import Foundation
 
 let legworkQuestions: [QuizQuestion] = [
 
-    // MARK: - Fundamentals
+    QuizQuestion( text: "What is the primary function of the Split-Step in tennis footwork?", type: .single, answers: [ QuizAnswer(text: "To ensure a closed stance for stability", isCorrect: false, explanation: "The Split-Step is for immediate strike preparation and quick direction change"), QuizAnswer(text: "To activate leg musculature for a quick start in any direction", isCorrect: true, explanation: "The goal of the dynamic Split-Step is the activation of the leg muscles for a fast start"), QuizAnswer(text: "To initiate the body coil for groundstroke power", isCorrect: false, explanation: "The unit turn initiates the coil"), ], difficulty: .easy ),
+    QuizQuestion( text: "Which of the following is NOT listed as one of the three main stances used to maximize ground force on the tennis serve?", type: .single, answers: [ QuizAnswer(text: "Platform Stance", isCorrect: false, explanation: "The Platform Stance is one of the three main stances"), QuizAnswer(text: "Continental Stance", isCorrect: true, explanation: "The three main stances are the Platform Stance, the Pinpoint Stance, and the Hybrid Stance"), QuizAnswer(text: "Pinpoint Stance", isCorrect: false, explanation: "The Pinpoint Stance is one of the three main stances"), ], difficulty: .easy ),
+    QuizQuestion( text: "When preparing for a volley, how should a player adjust their center of gravity (COG) compared to their baseline ready position?", type: .single, answers: [ QuizAnswer(text: "The COG should be slightly higher to increase reach", isCorrect: false, explanation: "A high COG would make the player less explosive"), QuizAnswer(text: "The COG should be the same as the baseline ready position", isCorrect: false, explanation: "The COG should be adjusted for the net"), QuizAnswer(text: "The COG should be lower to allow for a more explosive push-off", isCorrect: true, explanation: "For volleys, the center of gravity (COG) should be lower than when on the baseline, allowing the player to push off more explosively"), ], difficulty: .easy ),
+    QuizQuestion( text: "What fundamental element is identified as the key to achieving optimal positioning for the contact point of a tennis stroke?", type: .single, answers: [ QuizAnswer(text: "The grip used", isCorrect: false, explanation: "Grip influences technique, but not positioning"), QuizAnswer(text: "Tennis-specific footwork (Beinarbeit)", isCorrect: true, explanation: "Footwork is the key to optimal positioning/distance from the racket and body to the contact point"), QuizAnswer(text: "The type of racket used", isCorrect: false, explanation: "This affects power and feel, not positioning"), ], difficulty: .easy ),
+    QuizQuestion( text: "What is a main advantage of using an open striking stance in tennis?", type: .single, answers: [ QuizAnswer(text: "It guarantees a stable position for precise attack balls", isCorrect: false, explanation: "This is a benefit of the closed stance"), QuizAnswer(text: "It allows the player to immediately bring the body weight forward into the court", isCorrect: false, explanation: "This is typically associated with the closed stance or Schlagschritt"), QuizAnswer(text: "It allows the player to be ready for the stroke immediately under time pressure and recover quickly", isCorrect: true, explanation: "A main advantage of the open stance is being ready for the stroke immediately under time pressure and quickly returning to the starting position"), ], difficulty: .easy ),
+    QuizQuestion( text: "Why is it recommended to use normal running steps to reach the ball rather than only side steps during the unit turn phase of the backhand?", type: .single, answers: [ QuizAnswer(text: "Running steps allow the player to maintain a closed stance longer", isCorrect: false, explanation: "Running steps maximize time and energy efficiency"), QuizAnswer(text: "Side steps take too much time and tire the player out", isCorrect: true, explanation: "A common error is moving to the ball with side steps, which takes too much time and tires the player out. Turning early allows the use of normal running or sprinting steps"), QuizAnswer(text: "Side steps are only used when attacking the net", isCorrect: false, explanation: "Side steps can and should be used when recovering back to the center"), ], difficulty: .easy ),
+    QuizQuestion( text: "What defines the Schlagschritt (strike step) in tennis footwork?", type: .single, answers: [ QuizAnswer(text: "The first explosive step from the split-step position", isCorrect: false, explanation: "The first explosive step initiates movement"), QuizAnswer(text: "The large step used to cross over the body quickly back to the center", isCorrect: false, explanation: "This describes the Kreuzschritt"), QuizAnswer(text: "The last large step taken to the ball to achieve a stable position", isCorrect: true, explanation: "The Schlagschritt is the last large step to the ball, used to achieve a stable position and ensure the COG is between the feet"), ], difficulty: .easy ),
 
-    QuizQuestion(
-        text: "Warum ist die Beinarbeit im Tennis so entscheidend?",
-        type: .single,
-        answers: [
-            QuizAnswer(text: "Weil sie hauptsächlich für schöne Fotos sorgt", isCorrect: false),
-            QuizAnswer(text: "Weil sie den optimalen Treffpunkt und die richtige Distanz zum Ball ermöglicht", isCorrect: true),
-            QuizAnswer(text: "Weil sie die Schlagtechnik ersetzt", isCorrect: false),
-            QuizAnswer(text: "Weil sie nur für Profis relevant ist", isCorrect: false)
-        ]
-    ),
+    QuizQuestion( text: "According to the power sources section for the serve, how is Ground Force maximized to generate explosive power?", type: .single, answers: [ QuizAnswer(text: "By holding the stance for at least two seconds before initiating the motion", isCorrect: false, explanation: "This would lose momentum"), QuizAnswer(text: "By accelerating the tossing hand away from the contact point quickly", isCorrect: false, explanation: "This maximizes rotational power"), QuizAnswer(text: "By using an explosive down and up action on the leg drive", isCorrect: true, explanation: "The player maximizes ground force using an explosive down and up action on their leg drive. The faster this motion, the more explosive power is generated"), ], difficulty: .medium ),
+    QuizQuestion( text: "For a right-handed player executing the two-step footwork pattern on a wide backhand volley, what is the correct sequence of leg movements?", type: .single, answers: [ QuizAnswer(text: "Right leg first, then step into the volley with the left leg", isCorrect: false, explanation: "This sequence is for the forehand volley"), QuizAnswer(text: "Left leg first (outwards/forwards), then step into the volley with the right leg", isCorrect: true, explanation: "The two-step footwork pattern for a backhand volley (right-hander) starts with the left leg, followed by stepping into the volley with the right leg"), QuizAnswer(text: "The steps should always be sideways (shuffle steps) to cover the net", isCorrect: false, explanation: "Sideways steps are generally too slow for covering wide balls"), ], difficulty: .medium ),
+    QuizQuestion( text: "The closed striking stance is particularly advantageous for which specific groundstroke, and why?", type: .single, answers: [ QuizAnswer(text: "The forehand, because it utilizes maximal upper body rotation", isCorrect: false, explanation: "The closed stance is typically used for precise balls and stability"), QuizAnswer(text: "The two-handed backhand, because it minimizes space required for the swing", isCorrect: false, explanation: "The closed stance is often used for the one-handed backhand"), QuizAnswer(text: "The one-handed backhand, because it provides good stability", isCorrect: true, explanation: "The closed stance is advantageous especially for the one-handed backhand, as it results in good stability"), ], difficulty: .medium ),
+    QuizQuestion( text: "When resolving the striking phase of a groundstroke, in which direction does the impulse transfer through the kinematic chain primarily occur?", type: .single, answers: [ QuizAnswer(text: "From the top (shoulder/arm) downwards to the hips", isCorrect: false, explanation: "This is the sequence for the preparatory phase"), QuizAnswer(text: "From the center (trunk/hip) outwards to the limbs simultaneously", isCorrect: false, explanation: "The impulse transmission follows a chain reaction"), QuizAnswer(text: "From the bottom (ankles/legs) upwards towards the striking arm", isCorrect: true, explanation: "The resolution of the striking phase runs from bottom to top, starting at the ankle, leading over the legs, hip, trunk, shoulder, forearm, and wrist"), ], difficulty: .medium ),
+    QuizQuestion( text: "On a clay court, what mechanical action must a player execute to stop the sliding phase effectively?", type: .single, answers: [ QuizAnswer(text: "The player must fully straighten the rear leg", isCorrect: false, explanation: "The rear leg usually slides along bent at the tip of the foot"), QuizAnswer(text: "Bring the body's center of gravity (KSP) over the knee to increase resistance and pressure on the foot", isCorrect: true, explanation: "The slide can be stopped by bringing the body’s center of gravity (KSP) over the knee, increasing resistance and pressure on the foot so the shoe sole and clay interlock"), QuizAnswer(text: "Immediately lift both feet simultaneously off the ground", isCorrect: false, explanation: "Lifting both feet would stop movement, but not efficiently"), ], difficulty: .medium ),
+    QuizQuestion( text: "When a right-handed player executes a forehand volley using the one-step footwork pattern, which leg steps into the contact point, and what movement is recommended for stability?", type: .single, answers: [ QuizAnswer(text: "The right leg steps in, followed by a slight jump", isCorrect: false, explanation: "The left leg steps in for a forehand"), QuizAnswer(text: "The left leg steps into contact, similar to a half lunge for balance", isCorrect: true, explanation: "The right-handed player steps into the forehand volley with the left leg. Imagining a half lunge helps maintain balance and transfers body weight"), QuizAnswer(text: "The left leg steps in, keeping the knee fully straight", isCorrect: false, explanation: "Bending the knee is essential for stability"), ], difficulty: .medium ),
+    QuizQuestion( text: "What specific footwork instruction is provided for the Server's Partner in doubles if the return goes past them cross-court?", type: .single, answers: [ QuizAnswer(text: "They should immediately run to the net to cover the middle", isCorrect: false, explanation: "This would abandon the defensive position"), QuizAnswer(text: "They should quickly change their grip for a potential passing shot", isCorrect: false, explanation: "The instruction relates to court positioning"), QuizAnswer(text: "They must 'release back' two steps", isCorrect: true, explanation: "If the return goes past the server’s partner cross-court, they should 'release back' two steps"), ], difficulty: .medium ),
 
-    QuizQuestion(
-        text: "Was beschreibt der Satz: \"Position creates quality\"?",
-        type: .single,
-        answers: [
-            QuizAnswer(text: "Die Schlagqualität hängt fast nur vom Schläger ab", isCorrect: false),
-            QuizAnswer(text: "Die Schlagqualität hängt stark von der Positionierung zum Ball ab", isCorrect: true),
-            QuizAnswer(text: "Nur der Griff bestimmt die Schlagqualität", isCorrect: false),
-            QuizAnswer(text: "Position spielt nur beim Service eine Rolle", isCorrect: false)
-        ]
-    ),
-
-    // MARK: - Split Step
-
-    QuizQuestion(
-        text: "Welche Aussage zum Split-Step ist korrekt?",
-        type: .multiple,
-        answers: [
-            QuizAnswer(text: "Er ist breit und dynamisch", isCorrect: true),
-            QuizAnswer(text: "Er findet genau in dem Moment statt, in dem der Gegner den Ball trifft", isCorrect: true),
-            QuizAnswer(text: "Er dient der Aktivierung der Beinmuskulatur für schnelle Starts", isCorrect: true),
-            QuizAnswer(text: "Er ist nur beim Return wichtig", isCorrect: false)
-        ]
-    ),
-
-    QuizQuestion(
-        text: "Was passiert, wenn der Split-Step zu früh oder zu spät ausgeführt wird?",
-        type: .single,
-        answers: [
-            QuizAnswer(text: "Die Reaktionsfähigkeit in alle Richtungen nimmt ab", isCorrect: true),
-            QuizAnswer(text: "Der Spieler springt höher", isCorrect: false),
-            QuizAnswer(text: "Die Schlagtechnik wird automatisch besser", isCorrect: false),
-            QuizAnswer(text: "Es hat keinen Einfluss auf das Spiel", isCorrect: false)
-        ]
-    ),
-
-    // MARK: - Step Size & Last Step
-
-    QuizQuestion(
-        text: "Wie sollte die Schrittlänge an die Laufdistanz angepasst werden?",
-        type: .single,
-        answers: [
-            QuizAnswer(text: "Immer nur kleine Schritte", isCorrect: false),
-            QuizAnswer(text: "Immer nur grosse Schritte", isCorrect: false),
-            QuizAnswer(text: "Kleine Distanz → kleine Schritte, grosse Distanz → grosse Schritte", isCorrect: true),
-            QuizAnswer(text: "Schrittlänge ist egal, Hauptsache schnell", isCorrect: false)
-        ]
-    ),
-
-    QuizQuestion(
-        text: "Was ist die Hauptaufgabe des letzten Schrittes vor dem Schlag (Schlagschritt)?",
-        type: .single,
-        answers: [
-            QuizAnswer(text: "Er dient dem Abbremsen von Läufen ohne Einfluss auf die Stabilität", isCorrect: false),
-            QuizAnswer(text: "Er sorgt für eine stabile Schlagposition und Gleichgewicht", isCorrect: true),
-            QuizAnswer(text: "Er ist nur auf Sandplätzen notwendig", isCorrect: false),
-            QuizAnswer(text: "Er dient dazu, näher am Netz zu stehen", isCorrect: false)
-        ]
-    ),
-
-    // MARK: - Stance & Center of Mass
-
-    QuizQuestion(
-        text: "Welche Vorteile hat eine tiefe Position des Körperschwerpunkts?",
-        type: .multiple,
-        answers: [
-            QuizAnswer(text: "Besseres Gleichgewicht", isCorrect: true),
-            QuizAnswer(text: "Mehr Stabilität im Treffpunkt", isCorrect: true),
-            QuizAnswer(text: "Schlechtere Beweglichkeit", isCorrect: false),
-            QuizAnswer(text: "Mehr Kontrolle über aggressive Schläge", isCorrect: true)
-        ]
-    ),
-
-    QuizQuestion(
-        text: "Welche Aussage zu offener und geschlossener Schlagstellung trifft zu?",
-        type: .single,
-        answers: [
-            QuizAnswer(text: "Nur die offene Schlagstellung ist modern und richtig", isCorrect: false),
-            QuizAnswer(text: "Beide Schlagstellungen müssen situativ beherrscht werden", isCorrect: true),
-            QuizAnswer(text: "Die geschlossene Stellung ist nur im Training erlaubt", isCorrect: false),
-            QuizAnswer(text: "Die Stellung hat keinen Einfluss auf Balance und Präzision", isCorrect: false)
-        ]
-    ),
-
-    // MARK: - Crossover Step & Recovery
-
-    QuizQuestion(
-        text: "Was ist der Hauptzweck des Kreuzschritts (Crossover Step)?",
-        type: .single,
-        answers: [
-            QuizAnswer(text: "Dekoration für schöne Laufwege", isCorrect: false),
-            QuizAnswer(text: "Die schnellste Rückkehr in die Platzmitte", isCorrect: true),
-            QuizAnswer(text: "Er ersetzt den Split-Step", isCorrect: false),
-            QuizAnswer(text: "Er wird nur im Doppel verwendet", isCorrect: false)
-        ]
-    ),
-
-    QuizQuestion(
-        text: "Welche Merkmale kennzeichnen einen effizienten Kreuzschritt?",
-        type: .multiple,
-        answers: [
-            QuizAnswer(text: "Explosives Abdrücken vom äusseren Bein", isCorrect: true),
-            QuizAnswer(text: "Das innere Bein kreuzt vor dem Körper", isCorrect: true),
-            QuizAnswer(text: "Ruhiger Oberkörper und tiefer Körperschwerpunkt", isCorrect: true),
-            QuizAnswer(text: "Starke Hüftrotation während des Kreuzschritts", isCorrect: false)
-        ]
-    ),
-
-    QuizQuestion(
-        text: "Was sollte direkt nach einem Kreuzschritt folgen?",
-        type: .single,
-        answers: [
-            QuizAnswer(text: "Ein weiterer grosser Schritt ohne Split-Step", isCorrect: false),
-            QuizAnswer(text: "Ein Split-Step, um für die nächste Richtungsänderung bereit zu sein", isCorrect: true),
-            QuizAnswer(text: "Ein Schlag ohne Vorbereitung", isCorrect: false),
-            QuizAnswer(text: "Ein Stopp in der Platzmitte", isCorrect: false)
-        ]
-    ),
-
-    // MARK: - Movement Economy & Stability
-
-    QuizQuestion(
-        text: "Was bedeutet Bewegungsökonomie im Tennis?",
-        type: .single,
-        answers: [
-            QuizAnswer(text: "Möglichst laut und kraftvoll laufen", isCorrect: false),
-            QuizAnswer(text: "Leichtes, rhythmisches Bewegen mit minimalem Energieaufwand", isCorrect: true),
-            QuizAnswer(text: "Nur gerade Linien laufen", isCorrect: false),
-            QuizAnswer(text: "So wenig wie möglich zu laufen", isCorrect: false)
-        ]
-    ),
-
-    QuizQuestion(
-        text: "Welche Aussagen zur Stabilität des Oberkörpers während des Schlages sind korrekt?",
-        type: .multiple,
-        answers: [
-            QuizAnswer(text: "Der Oberkörper soll möglichst ruhig bleiben", isCorrect: true),
-            QuizAnswer(text: "Die Beine schaffen die Basis für diese Stabilität", isCorrect: true),
-            QuizAnswer(text: "Starke Oberkörperbewegungen verbessern die Kontrolle", isCorrect: false),
-            QuizAnswer(text: "Ruhige Kopf- und Oberkörperposition unterstützen Präzision", isCorrect: true)
-        ]
-    ),
-
-    // MARK: - First Step & Anticipation
-
-    QuizQuestion(
-        text: "Woran orientiert sich der erste Schritt zurück zur Mitte nach dem Schlag?",
-        type: .single,
-        answers: [
-            QuizAnswer(text: "An der eigenen Lieblingsseite", isCorrect: false),
-            QuizAnswer(text: "An der Richtung, aus der der letzte Ball kam", isCorrect: false),
-            QuizAnswer(text: "An der erwarteten Richtung des nächsten gegnerischen Balls", isCorrect: true),
-            QuizAnswer(text: "Zufällig, um unberechenbar zu sein", isCorrect: false)
-        ]
-    ),
-
-    QuizQuestion(
-        text: "Welche Aussage zur Unterstützung explosiver Starts ist korrekt?",
-        type: .single,
-        answers: [
-            QuizAnswer(text: "Die Arme sollten ruhig bleiben, um Energie zu sparen", isCorrect: false),
-            QuizAnswer(text: "Aktive Armbewegungen unterstützen den explosiven Start", isCorrect: true),
-            QuizAnswer(text: "Der Schläger sollte immer mit beiden Händen gehalten werden", isCorrect: false),
-            QuizAnswer(text: "Armbewegungen stören die Beinarbeit nur", isCorrect: false)
-        ]
-    ),
-
-    // MARK: - Clay Movement & Sliding
-
-    QuizQuestion(
-        text: "Welche Faktoren sind für effizientes Rutschen auf Sandplätzen wichtig?",
-        type: .multiple,
-        answers: [
-            QuizAnswer(text: "Tiefer Körperschwerpunkt", isCorrect: true),
-            QuizAnswer(text: "Aufrechter Oberkörper", isCorrect: true),
-            QuizAnswer(text: "Flacher Fusskontakt mit dem Boden während der Rutschphase", isCorrect: true),
-            QuizAnswer(text: "Lange, unkontrollierte Rutschphasen", isCorrect: false)
-        ]
-    ),
-
-    QuizQuestion(
-        text: "Was zeigt an, dass ein Spieler das Rutschen ineffizient nutzt?",
-        type: .single,
-        answers: [
-            QuizAnswer(text: "Er rutscht nur selten", isCorrect: false),
-            QuizAnswer(text: "Er rutscht zu lange und verliert dadurch Zeit und Dynamik", isCorrect: true),
-            QuizAnswer(text: "Er stoppt die Rutschphase früh und kontrolliert", isCorrect: false),
-            QuizAnswer(text: "Er rutscht nur in eine Richtung", isCorrect: false)
-        ]
-    ),
-
-    // MARK: - Braking & Restart
-
-    QuizQuestion(
-        text: "Wie kann die Rutschphase kontrolliert beendet werden?",
-        type: .single,
-        answers: [
-            QuizAnswer(text: "Indem der Oberkörper stark nach vorne kippt", isCorrect: false),
-            QuizAnswer(text: "Indem der Körperschwerpunkt über das Knie gebracht wird, um Widerstand aufzubauen", isCorrect: true),
-            QuizAnswer(text: "Indem man einfach aus der Rutschphase herausspringt", isCorrect: false),
-            QuizAnswer(text: "Indem man den Oberkörper zur Seite dreht", isCorrect: false)
-        ]
-    ),
-
-    QuizQuestion(
-        text: "Was ist notwendig, bevor man nach einer Rutschphase explosiv starten kann?",
-        type: .single,
-        answers: [
-            QuizAnswer(text: "Keine Vorbereitung – einfach loslaufen", isCorrect: false),
-            QuizAnswer(text: "Zuerst muss zwischen Schuh und Boden Reibung/Widerstand aufgebaut werden", isCorrect: true),
-            QuizAnswer(text: "Der Spieler muss zwei zusätzliche Split-Steps machen", isCorrect: false),
-            QuizAnswer(text: "Der Spieler sollte zuerst stehen bleiben und dann langsam anlaufen", isCorrect: false)
-        ]
-    ),
-
-    // MARK: - Common Errors
-
-    QuizQuestion(
-        text: "Welche Faktoren führen typischerweise zu schlechter Beinarbeit?",
-        type: .multiple,
-        answers: [
-            QuizAnswer(text: "Zu spätes Ausführen des Split-Steps", isCorrect: true),
-            QuizAnswer(text: "Zu viele unnötige Schritte", isCorrect: true),
-            QuizAnswer(text: "Schlechter Gleichgewichtssinn und instabile Körperhaltung", isCorrect: true),
-            QuizAnswer(text: "Konsequente Anpassung der Schrittgrösse an die Distanz", isCorrect: false)
-        ]
-    )
+    QuizQuestion( text: "In the Principle of Impulse Conservation (Gleichgewicht), what combination of leg positioning and movement is crucial for maintaining optimal stability during the contact point?", type: .single, answers: [ QuizAnswer(text: "Having the feet in a narrow stance and extending the knees to maximize reach", isCorrect: false, explanation: "This would destabilize the player"), QuizAnswer(text: "Having feet in a wide position and bending the knees to bring the center of gravity closer to the support surface", isCorrect: true, explanation: "The feet should be in a wide position (breite Stützfläche). Bending the knees brings the center of gravity (KSP) closer to this support surface, which is vital for staying in optimal balance"), QuizAnswer(text: "Keeping the body upright and maintaining forward momentum through the stroke", isCorrect: false, explanation: "While upright posture is important, it doesn't describe the leg mechanics for stability"), ], difficulty: .hard ),
+    QuizQuestion( text: "Which set of instructions accurately describes the crucial sequence and technique for executing the Kreuzschritt (crossover step) for optimal movement efficiency?", type: .single, answers: [ QuizAnswer(text: "Starting with a large jump, crossing the arms, and avoiding the Split-Step afterward", isCorrect: false, explanation: "A Split-Step should follow the Kreuzschritt"), QuizAnswer(text: "Explosive push-off from the outer leg that crosses the inner leg, followed by a Split-Step to prepare for the next direction change", isCorrect: true, explanation: "The Kreuzschritt involves explosively pushing off the outer leg, which crosses the inner leg, and a Split-Step follows immediately after to be ready for the next change of direction"), QuizAnswer(text: "Moving with a low COG in short, fast side steps across the baseline", isCorrect: false, explanation: "This describes small running steps, not the Kreuzschritt"), ], difficulty: .hard ),
+    QuizQuestion( text: "When facing a Runner/Pusher who excels at chasing down shots, what specific strategy involving court position and finishing is recommended to prevent getting drawn into a marathon match?", type: .single, answers: [ QuizAnswer(text: "Stay behind the baseline to maximize court space and rely on hitting deep angles", isCorrect: false, explanation: "This plays into the pusher's hands"), QuizAnswer(text: "Hit to the middle of the court consistently to reduce their angles", isCorrect: false, explanation: "While a tactic, it doesn't focus on finishing the point"), QuizAnswer(text: "Look for opportunities to get to the net and finish the point to keep from getting drawn into a marathon match", isCorrect: true, explanation: "One tactic against the Runner/Pusher is to look for opportunities to get to the net and finish the point, keeping the player from getting drawn into a marathon match"), ], difficulty: .hard ),
+    QuizQuestion( text: "What mistake related to footwork timing on clay courts indicates that a player is generally too late to the ball and is unlikely to win the point?", type: .single, answers: [ QuizAnswer(text: "Failing to build up tension (Körperspannung) before starting the slide", isCorrect: false, explanation: "This is a failure to start powerfully"), QuizAnswer(text: "Sliding after, instead of before, the execution of the stroke", isCorrect: true, explanation: "A player who slides after (instead of before) the stroke is fundamentally too late to the ball and has little chance of winning the rally"), QuizAnswer(text: "Using short slides instead of long sliding tracks", isCorrect: false, explanation: "Efficiency of the slide is important, but not necessarily a sign of being late"), ], difficulty: .hard ),
+    QuizQuestion( text: "What combination of footwork adjustments is recommended when returning a serve from a Big Server?", type: .single, answers: [ QuizAnswer(text: "Standing back a step or two to gain time, increasing footwork rituals, and maintaining a stance that allows movement forward into the return", isCorrect: true, explanation: "Stand back a step or two to have time to swing, increase footwork rituals, and avoid 'falling back,' instead positioning to move forward into the return"), QuizAnswer(text: "Taking the return early by moving way in and using a maximal backswing", isCorrect: false, explanation: "A shorter backswing is advised, not a maximal one"), QuizAnswer(text: "Minimizing footwork rituals to reduce the chance of freezing", isCorrect: false, explanation: "The sources advise increasing footwork rituals"), ], difficulty: .hard ),
+    QuizQuestion( text: "Which action, relating to court position and offensive shot selection, is listed in the 'Top Ten Fastest Ways to Lose a Match'?", type: .single, answers: [ QuizAnswer(text: "Hitting groundstrokes into the net when you are at the baseline", isCorrect: false, explanation: "While a mistake, the fastest way listed is more aggressive"), QuizAnswer(text: "Attempting to hit winners when you are behind the baseline", isCorrect: true, explanation: "Attempting to hit winners when behind the baseline is listed as the number one fastest way to lose a match"), QuizAnswer(text: "Failing to serve and volley enough against a Steady Baseliner", isCorrect: false, explanation: "This relates to strategy, not quick losing actions"), ], difficulty: .hard ),
+    QuizQuestion( text: "What characterizes the proper leg stability and pressure application during the execution of a tennis stroke, according to the notes on economical tennis-specific footwork?", type: .single, answers: [ QuizAnswer(text: "The player should be jumping or airborne at the point of contact to increase vertical force", isCorrect: false, explanation: "Many shots are played while jumping, but the core principle emphasizes stability"), QuizAnswer(text: "The legs should be fully extended to ensure maximal reach", isCorrect: false, explanation: "Knees should be bent to lower the COG"), QuizAnswer(text: "The body posture must be calm, the legs stand stably on the ground, and pressure remains constant on the standing foot", isCorrect: true, explanation: "During the stroke, the body posture is calm, the legs stand stably on the ground, and pressure remains constant on the standing foot (Schlag aus dem Stand)"), ], difficulty: .hard ),
 
 ]

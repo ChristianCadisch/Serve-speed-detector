@@ -8,133 +8,29 @@ import Foundation
 
 let tacticsQuestions: [QuizQuestion] = [
 
-    // MARK: - 5 Basis-Spielsituationen
-    QuizQuestion(
-        text: "Welche der folgenden Optionen gehört NICHT zu den 5 Basis-Spielsituationen?",
-        type: .single,
-        answers: [
-            QuizAnswer(text: "Returnieren", isCorrect: false),
-            QuizAnswer(text: "Angreifen", isCorrect: false),
-            QuizAnswer(text: "Passieren", isCorrect: false),
-            QuizAnswer(text: "Serve & Volley", isCorrect: true)
-        ]
-    ),
+    QuizQuestion( text: "What is the primary objective of the 'Golden Tactic' for winning singles matches?", type: .single, answers: [ QuizAnswer(text: "Attack the net at every opportunity", isCorrect: false, explanation: "This relates to the 'Controlling Time' tactic"), QuizAnswer(text: "Hit every shot with maximum speed and power", isCorrect: false, explanation: "This increases the risk of errors"), QuizAnswer(text: "Be more consistent than your opponent and force them to break down first", isCorrect: true, explanation: "It is a mindset focused on consistency; out-rally the opponent and force them to break down first"), ], difficulty: .easy ),
+    QuizQuestion( text: "Which player style is considered the most difficult to face because they can play effectively from anywhere on the court?", type: .single, answers: [ QuizAnswer(text: "The Huge Forehand", isCorrect: false, explanation: "This player has a major weapon, but also a definable weakness"), QuizAnswer(text: "The All-Courter", isCorrect: true, explanation: "The All-Courter is the most difficult player style because they are comfortable playing from anywhere"), QuizAnswer(text: "The Aggressive Baseliner", isCorrect: false, explanation: "This player prefers to stay back and bang the ball"), ], difficulty: .easy ),
+    QuizQuestion( text: "Which grip is recommended for all volleys at the net?", type: .single, answers: [ QuizAnswer(text: "Eastern Backhand Grip", isCorrect: false, explanation: "Used primarily for the one-handed backhand topspin drive"), QuizAnswer(text: "Continental Grip (Hammergriff / Semikontinentalgriff)", isCorrect: true, explanation: "The Continental Grip (Hammergriff) allows you to hit forehand/backhand volleys and the smash without changing grips"), QuizAnswer(text: "Semi-Western Forehand Grip", isCorrect: false, explanation: "Used for aggressive topspin forehands"), ], difficulty: .easy ),
+    QuizQuestion( text: "Against a Wimpy Server, what should you avoid doing on the return?", type: .single, answers: [ QuizAnswer(text: "Treating the return as an approach shot", isCorrect: false, explanation: "This is a recommended tactic against this player type"), QuizAnswer(text: "Getting lured into trying for winners", isCorrect: true, explanation: "Avoid being lured into trying for winners, as this is the easiest way to make errors, which the Wimpy Server expects"), QuizAnswer(text: "Using the matching method (returning the same speed)", isCorrect: false, explanation: "This is a recommended tactic for avoiding over-hitting"), ], difficulty: .easy ),
+    QuizQuestion( text: "What footwork action must be executed the moment the opponent hits the ball to enable a quick start?", type: .single, answers: [ QuizAnswer(text: "The Cross-Step (Kreuzschritt)", isCorrect: false, explanation: "This is used for rapid recovery back to the center of the court"), QuizAnswer(text: "The Sliding Step (rutschen)", isCorrect: false, explanation: "This is a technique used specifically on clay courts"), QuizAnswer(text: "The Split-Step", isCorrect: true, explanation: "The Split-Step is wide and dynamic, activating leg muscles for a quick start in any direction when the opponent contacts the ball"), ], difficulty: .easy ),
+    QuizQuestion( text: "Against a Slicer/Hacker, what should you avoid doing when the ball is very low to the ground?", type: .single, answers: [ QuizAnswer(text: "Getting to the net more often", isCorrect: false, explanation: "Getting to the net is recommended to take their shots out of the air"), QuizAnswer(text: "Ripping topspin groundstrokes", isCorrect: true, explanation: "Avoid ripping topspin groundstrokes on balls below the knees, as this is a classic mistake often leading to hitting the ball into the net"), QuizAnswer(text: "Playing moonballs from the baseline", isCorrect: false, explanation: "Moonballs are recommended because a slice is harder to hit when it is out of the strike zone"), ], difficulty: .easy ),
+    QuizQuestion( text: "Against a Runner/Pusher, how many shots should you aim to hit before attempting a winner?", type: .single, answers: [ QuizAnswer(text: "At least 1 shot", isCorrect: false, explanation: "This player banks on opponents rushing and missing early"), QuizAnswer(text: "At least 4 shots", isCorrect: true, explanation: "You should 'work the point' and make at least four shots over the net before trying for a winner, prioritizing patience"), QuizAnswer(text: "At least 8 shots", isCorrect: false, explanation: "The tactic recommends at least four shots before attempting a winner"), ], difficulty: .easy ),
 
-    QuizQuestion(
-        text: "Wozu dienen die 5 Basis-Spielsituationen?",
-        type: .multiple,
-        answers: [
-            QuizAnswer(text: "Zur Bewertung der Aktionen eines Spielers", isCorrect: true),
-            QuizAnswer(text: "Zur technischen Analyse isolierter Bewegungen", isCorrect: false),
-            QuizAnswer(text: "Zur Beschreibung der Spielsituation statt einzelner Schläge", isCorrect: true),
-            QuizAnswer(text: "Zum Festlegen von Griffhaltungen", isCorrect: false)
-        ]
-    ),
-    
+    QuizQuestion( text: "What question should you ask yourself to determine if a tactic in a strategy booklet is truly 'usable' for a competitive match?", type: .single, answers: [ QuizAnswer(text: "If your coach approves the tactic", isCorrect: false, explanation: "Coaches know what skills are usable, but the test involves match pressure"), QuizAnswer(text: "If you successfully executed it in practice 10 times in a row", isCorrect: false, explanation: "Success in practice is not the specific 'usable' test defined"), QuizAnswer(text: "If you would be likely to try that skill if the score was 4-all in the third set", isCorrect: true, explanation: "If you would be likely to try that skill if the score was 4-all in the third set; if yes, the tactic is usable"), ], difficulty: .medium ),
+    QuizQuestion( text: "When at the net against a Counter-Puncher, why should you close in tight instead of 'over-protecting' the lob?", type: .single, answers: [ QuizAnswer(text: "They prefer to pass you rather than lob you", isCorrect: true, explanation: "They prefer to pass you rather than lob you, so closing tight pressures them into hitting the pass"), QuizAnswer(text: "They often miss the lob if you move closer", isCorrect: false, explanation: "The reason is their preference for aggressive shots, not inaccuracy"), QuizAnswer(text: "Closing in tight minimizes their target area", isCorrect: false, explanation: "The main reason is their tactical preference (passing vs. lobbing)"), ], difficulty: .medium ),
+    QuizQuestion( text: "How should you exploit the weak side of a player with a 'Huge Forehand'?", type: .single, answers: [ QuizAnswer(text: "Attack their backhand from the middle of the court", isCorrect: false, explanation: "These players make a living hitting winners from the middle or slight backhand side"), QuizAnswer(text: "Hit wide balls to their forehand side", isCorrect: true, explanation: "Hit wide to their forehand side, which opens up their weaker backhand side"), QuizAnswer(text: "Play low slices to their forehand side", isCorrect: false, explanation: "While low slices are recommended, the goal is opening the backhand"), ], difficulty: .medium ),
+    QuizQuestion( text: "Against a Serve and Volleyer, what type of spin should you increase on your return to force a low volley?", type: .single, answers: [ QuizAnswer(text: "Heavy backspin/slice", isCorrect: false, explanation: "Hard slices tend to float and stay up high, making them easy to volley"), QuizAnswer(text: "Increased topspin", isCorrect: true, explanation: "Use increased topspin on the return to make the ball dip and force them to volley from below the net level"), QuizAnswer(text: "Flat spin (no spin)", isCorrect: false, explanation: "Flat returns often stay high and are easy to volley"), ], difficulty: .medium ),
+    QuizQuestion( text: "What type of high-arching shot should be used against a Drop Shot - Lobber to deny them pace for their drop shot?", type: .single, answers: [ QuizAnswer(text: "Hard, flat groundstrokes", isCorrect: false, explanation: "Hitting hard is advised, but moonballs are specifically mentioned for denying pace"), QuizAnswer(text: "Low, skidding slices", isCorrect: false, explanation: "Slices might land too short and invite a response"), QuizAnswer(text: "Moonballs (high loopy groundstrokes)", isCorrect: true, explanation: "Moonballs (high loopy groundstrokes) deny them pace or power, making it difficult to execute a drop shot"), ], difficulty: .medium ),
+    QuizQuestion( text: "What doubles formation is the 'dream situation' for a 'Rush & Crush' team and should be avoided?", type: .single, answers: [ QuizAnswer(text: "Australian formation", isCorrect: false, explanation: "The Australian formation is a strategy used by the serving team"), QuizAnswer(text: "Defense Mode (both back)", isCorrect: false, explanation: "This is a recommended tactic against Rush & Crush teams"), QuizAnswer(text: "One up and one back formation", isCorrect: true, explanation: "The One up and one back formation is the ideal setup for 'Rush & Crush' teams and should never be used"), ], difficulty: .medium ),
+    QuizQuestion( text: "What is the main danger of playing the Moonballer's low-risk style of tennis?", type: .single, answers: [ QuizAnswer(text: "It forces you to use shots you haven't mastered", isCorrect: false, explanation: "This is a consequence, but not the primary danger of playing their game"), QuizAnswer(text: "It plays into the one thing they do better than you, nullifying your other advantages", isCorrect: true, explanation: "It plays into the one thing they do better than you, nullifying your superior arsenal of skills"), QuizAnswer(text: "It makes you lose momentum and consistency", isCorrect: false, explanation: "This is a result of frustration, not the core tactical flaw"), ], difficulty: .medium ),
 
-    // MARK: - Tennisspielen ist Handeln
-    QuizQuestion(
-        text: "Was zeigt das Prinzip 'Tennisspielen ist handeln'?",
-        type: .multiple,
-        answers: [
-            QuizAnswer(text: "Fehler entstehen oft durch schlechte Wahrnehmung oder falsche Schlagwahl", isCorrect: true),
-            QuizAnswer(text: "Technik ist immer der Hauptgrund für Fehler", isCorrect: false),
-            QuizAnswer(text: "Analyse umfasst Aufnehmen – Verarbeiten – Umsetzen – Auswerten", isCorrect: true),
-            QuizAnswer(text: "Schlagtechnik ist wichtiger als Entscheidung", isCorrect: false)
-        ]
-    ),
-    /*
-    QuizQuestion(
-        text: "Woran kann es liegen, wenn ein Spieler viele kurze Bälle ins Aus spielt?",
-        type: .single,
-        answers: [
-            QuizAnswer(text: "Schlechte Wahrnehmung oder falsche Flugbahneinschätzung", isCorrect: true),
-            QuizAnswer(text: "Immer ein technischer Fehler im Schwung", isCorrect: false),
-            QuizAnswer(text: "Eine unpassende Griffhaltung", isCorrect: false),
-            QuizAnswer(text: "Zu viel Topspin", isCorrect: false)
-        ]
-    ),
-
-    // MARK: - Flugbahnen und erreichbare Zonen
-    QuizQuestion(
-        text: "Wovon sind Flugbahnen im Tennis abhängig?",
-        type: .multiple,
-        answers: [
-            QuizAnswer(text: "Bodenbeschaffenheit", isCorrect: true),
-            QuizAnswer(text: "Höhe über Meer", isCorrect: true),
-            QuizAnswer(text: "Rotation und Geschwindigkeit des Balles", isCorrect: true),
-            QuizAnswer(text: "Schlägerfarbe", isCorrect: false)
-        ]
-    ),
-
-    QuizQuestion(
-        text: "Ein Spieler steht auf Position 1 und möchte Ziel E anspielen. Was muss stimmen?",
-        type: .single,
-        answers: [
-            QuizAnswer(text: "Die Flugbahn braucht eine ausreichende Höhe", isCorrect: true),
-            QuizAnswer(text: "Der Spieler muss immer longline spielen", isCorrect: false),
-            QuizAnswer(text: "Der Schlag muss ohne Drall erfolgen", isCorrect: false),
-            QuizAnswer(text: "Die Schlaggeschwindigkeit ist unwichtig", isCorrect: false)
-        ]
-    ),
-
-    // MARK: - Prinzip der Winkelhalbierenden
-    QuizQuestion(
-        text: "Was sagt das Prinzip der Winkelhalbierenden aus?",
-        type: .single,
-        answers: [
-            QuizAnswer(text: "Man sollte sich auf der Winkelhalbierenden möglicher gegnerischer Flugbahnen positionieren", isCorrect: true),
-            QuizAnswer(text: "Man sollte den Ball immer cross spielen", isCorrect: false),
-            QuizAnswer(text: "Die Laufwege sind unwichtig", isCorrect: false),
-            QuizAnswer(text: "Man sollte nach jedem Schlag an die Grundlinie zurücklaufen", isCorrect: false)
-        ]
-    ),
-
-    QuizQuestion(
-        text: "Welche Aktion ist ein Beispiel für die Anwendung der Winkelhalbierenden?",
-        type: .multiple,
-        answers: [
-            QuizAnswer(text: "Nach einer FH longline leicht über das Mittelzeichen hinaus rücken", isCorrect: true),
-            QuizAnswer(text: "Nach einem Angriffsschlag dem Ball hinterherlaufen", isCorrect: true),
-            QuizAnswer(text: "Nach jedem Schlag automatisch die Platzmitte ansteuern", isCorrect: false),
-            QuizAnswer(text: "Immer in der Nähe der Seitenlinie stehen bleiben", isCorrect: false)
-        ]
-    ),
-
-    // MARK: - Ampelprinzip Rot–Gelb–Grün
-    QuizQuestion(
-        text: "Was kennzeichnet die rote Situation im Ampelprinzip?",
-        type: .single,
-        answers: [
-            QuizAnswer(text: "Der Spieler ist unter Druck und spielt defensiv zurück", isCorrect: true),
-            QuizAnswer(text: "Der Spieler ist in guter Position für einen Winner", isCorrect: false),
-            QuizAnswer(text: "Der Spieler versucht aktiv Druck aufzubauen", isCorrect: false),
-            QuizAnswer(text: "Der Spieler hat viel Zeit und Raum", isCorrect: false)
-        ]
-    ),
-
-    QuizQuestion(
-        text: "Welche Aussagen zum Ampelprinzip treffen zu?",
-        type: .multiple,
-        answers: [
-            QuizAnswer(text: "Gelb bedeutet, dass der Spieler versucht eine grüne Situation zu schaffen", isCorrect: true),
-            QuizAnswer(text: "Grün ist die Situation zum Punktabschluss", isCorrect: true),
-            QuizAnswer(text: "Rot bedeutet: Offensive mit vollem Risiko", isCorrect: false),
-            QuizAnswer(text: "Die Einschätzung hängt von eigenen Fähigkeiten und Gegner ab", isCorrect: true)
-        ]
-    ),
-
-    QuizQuestion(
-        text: "Was wäre ein typischer Fehler in einer roten Situation?",
-        type: .single,
-        answers: [
-            QuizAnswer(text: "Aus einer defensiven Position einen Winner versuchen", isCorrect: true),
-            QuizAnswer(text: "Einen hohen langen Ball cross spielen, um Zeit zu gewinnen", isCorrect: false),
-            QuizAnswer(text: "Den Ball sicher tief zurückspielen", isCorrect: false),
-            QuizAnswer(text: "In Richtung Winkelhalbierende laufen", isCorrect: false)
-        ]
-    )
-    */
+    QuizQuestion( text: "The kinematic chain resolves the striking phase of a groundstroke by transferring force in which directional sequence?", type: .single, answers: [ QuizAnswer(text: "Shoulder, Trunk, Hip, Legs", isCorrect: false, explanation: "The force transfer starts from the ground up, not the shoulder down"), QuizAnswer(text: "From the ground up: Ankles/Knees/Legs, up through the Hip, Trunk, Shoulder, Forearm, and Wrist", isCorrect: true, explanation: "The impulse transmission follows this path, starting at the ankle and transferring through each successive link (kinematische Kette)"), QuizAnswer(text: "From the Hand/Wrist, down to the Ground", isCorrect: false, explanation: "This sequence is incorrect for generating power"), ], difficulty: .hard ),
+    QuizQuestion( text: "When both opponents are at the net, what is the strategic benefit of passing the ball down the center of the court?", type: .single, answers: [ QuizAnswer(text: "It forces the opponents to hit a difficult overhead smash", isCorrect: false, explanation: "It doesn't necessarily force a smash"), QuizAnswer(text: "It offers the most margin for error and often causes confusion between the opponents", isCorrect: true, explanation: "It offers the most margin for error and often confuses opponents, causing late reactions or leaving the ball"), QuizAnswer(text: "It ensures the net player cannot poach effectively", isCorrect: false, explanation: "Poaching is addressed by lobbing or hitting at them, not necessarily down the middle"), ], difficulty: .hard ),
+    QuizQuestion( text: "According to the principle of optimal acceleration, what is the most important part of the entire shot for maximizing precision and end velocity?", type: .single, answers: [ QuizAnswer(text: "The Ausholbewegung (takeback)", isCorrect: false, explanation: "If the takeback is too large, it can lead to timing issues"), QuizAnswer(text: "The Treffpunkt (contact point)", isCorrect: true, explanation: "The Treffpunkt (contact point) is critical, where the racket head must be optimally accelerated to achieve maximum precision"), QuizAnswer(text: "The Ausswchwungphase (follow through)", isCorrect: false, explanation: "The follow through is for safely slowing the motion, not determining maximum precision"), ], difficulty: .hard ),
+    QuizQuestion( text: "Which footwork pattern, often taking two explosive steps, is the quickest way to return immediately to the center of the court?", type: .single, answers: [ QuizAnswer(text: "The Cross-Step (Kreuzschritt)", isCorrect: true, explanation: "The Cross-Step (Kreuzschritt) involves an explosive push off the outer leg to rapidly reach the center in two steps"), QuizAnswer(text: "The Split-Step", isCorrect: false, explanation: "The Split-Step is for initiating movement, not covering distance"), QuizAnswer(text: "The Schlagschritt (striking step)", isCorrect: false, explanation: "This step is the large final step taken toward the ball to stabilize the position"), ], difficulty: .hard ),
+    QuizQuestion( text: "What classic return tactic is used to confuse opponents and force switching when facing the Australian formation?", type: .single, answers: [ QuizAnswer(text: "Hitting the return down the line", isCorrect: false, explanation: "The Australian formation is designed to force this lower-percentage shot"), QuizAnswer(text: "Lob the return cross-court", isCorrect: true, explanation: "Lob the return cross-court, which can cause confusion and force opponents to switch positions"), QuizAnswer(text: "Attempting a drop shot return", isCorrect: false, explanation: "The classic response is lobbing cross-court"), ], difficulty: .hard ),
+    QuizQuestion( text: "To maximize power on the serve, how high should the ball be tossed, and how fast should the motion be?", type: .single, answers: [ QuizAnswer(text: "Toss the ball very high to achieve maximum height", isCorrect: false, explanation: "Tossing the ball too high causes inconsistency and breaks momentum"), QuizAnswer(text: "Toss the ball no higher than 6 inches above contact, forcing a quick, continuous motion (typically around one second)", isCorrect: true, explanation: "Toss the ball no higher than 6 inches above contact, forcing a quick, continuous motion (typically around one second)"), QuizAnswer(text: "Toss the ball low and flat, using a slower, deliberate motion", isCorrect: false, explanation: "The motion should be continuous and fast to build momentum"), ], difficulty: .hard ),
+    QuizQuestion( text: "In the 'Red' (emergency) tactical situation, what type of shot is recommended to gain time and recover position?", type: .single, answers: [ QuizAnswer(text: "A low, flat passing shot down the line", isCorrect: false, explanation: "Flat shots do not guarantee time gain, and attempting a winner from 'Red' increases risk"), QuizAnswer(text: "A high, long ball (preferably cross-court) to gain time and return to a safer position", isCorrect: true, explanation: "A high, long ball (preferably cross-court) is recommended to gain time and return to a safer position"), QuizAnswer(text: "A quick drop shot", isCorrect: false, explanation: "Drop shots require control and are often too short for recovery time"), ], difficulty: .hard ),
     
 ]
 

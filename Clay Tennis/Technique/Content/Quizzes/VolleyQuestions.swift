@@ -8,232 +8,29 @@ import Foundation
 
 let volleyQuestions: [QuizQuestion] = [
 
-    // MARK: - Volley Fundamentals
+    QuizQuestion( text: "What grip is recommended for hitting both the forehand and backhand volleys, as well as the overhead smash, without needing to change grips?", type: .single, answers: [ QuizAnswer(text: "Semi-Western Forehand Grip", isCorrect: false, explanation: "This grip is primarily used for forehands"), QuizAnswer(text: "Eastern Backhand Grip", isCorrect: false, explanation: "This grip is used for the aggressive one-handed backhand"), QuizAnswer(text: "Continental Grip (Hammergriff)", isCorrect: true, explanation: "The Continental grip, also known as the chopper grip or Hammergriff/Semikontinentalgriff, is used for all volleys, slices, and the smash because it provides stability and saves time by eliminating the need to change grips"), ], difficulty: .easy ),
+    QuizQuestion( text: "In the ready position at the net, how should the racket head generally be positioned relative to the grip?", type: .single, answers: [ QuizAnswer(text: "The racket head should be pointing down towards the ground", isCorrect: false, explanation: "This position makes it difficult to achieve the necessary 'L' shape for stability"), QuizAnswer(text: "The racket head should be above the grip, creating an L shape", isCorrect: true, explanation: "The ready position requires the racket head to be above the grip, creating an L shape, to give stability and leverage on your volleys"), QuizAnswer(text: "The racket head should be behind the body to prepare for the backswing", isCorrect: false, explanation: "The racket should be kept in front of the upper body, between waist and chest height, for an optimal ready position"), ], difficulty: .easy ),
+    QuizQuestion( text: "When facing a fast incoming ball, which type of volley swing is recommended to minimize error by redirecting the opponent’s pace?", type: .single, answers: [ QuizAnswer(text: "Power Volley", isCorrect: false, explanation: "The Power Volley is used on slower, floating balls when you have time"), QuizAnswer(text: "Topspin Volley", isCorrect: false, explanation: "The Topspin Volley is used aggressively when the player has time to accelerate the racket"), QuizAnswer(text: "Block Volley", isCorrect: true, explanation: "The Block Volley involves a minimal swing, where the player blocks the ball, redirecting the volley using the power already on the opponent's shot"), ], difficulty: .easy ),
+    QuizQuestion( text: "For a right-handed player executing a close forehand volley using a one-step pattern, which leg steps into the contact point?", type: .single, answers: [ QuizAnswer(text: "The right leg", isCorrect: false, explanation: "Stepping with the right leg on the forehand volley is the initial move for wider balls in the two-step pattern, but not the final step-in for close balls"), QuizAnswer(text: "The left leg", isCorrect: true, explanation: "On the forehand volley, a right-handed player steps into the contact point with the left leg, often resembling a half lunge, to transfer body weight"), QuizAnswer(text: "Neither leg, as the player should remain stationary", isCorrect: false, explanation: "Stepping into the volley helps transfer body weight, making the shot more powerful and stable"), ], difficulty: .easy ),
+    QuizQuestion( text: "For a right-handed player executing a close backhand volley using a one-step pattern, which leg steps into the contact point?", type: .single, answers: [ QuizAnswer(text: "The right leg", isCorrect: true, explanation: "For a right-handed player hitting a backhand volley, stepping into contact should be done with the right leg to get body weight behind the volley"), QuizAnswer(text: "The left leg", isCorrect: false, explanation: "Stepping with the left leg on the backhand volley is the initial move for wider balls in the two-step pattern"), QuizAnswer(text: "Both feet simultaneously (jump step)", isCorrect: false, explanation: "Footwork should generally involve stepping into the ball to provide stability and power"), ], difficulty: .easy ),
+    QuizQuestion( text: "Against an opponent who relies heavily on speed and hustling (Runner/Pusher), what is a key strategic opportunity involving the volley?", type: .single, answers: [ QuizAnswer(text: "To hit soft slices from the baseline to draw them forward", isCorrect: false, explanation: "While drop shots draw them forward, this question asks for a volley opportunity"), QuizAnswer(text: "To hit high moonballs deep into the court", isCorrect: false, explanation: "This is a groundstroke tactic, not a volley tactic"), QuizAnswer(text: "To look for opportunities to get to the net and finish the point", isCorrect: true, explanation: "Against a Runner/Pusher, look for chances to get to the net and finish the point to avoid a marathon match"), ], difficulty: .easy ),
+    QuizQuestion( text: "What type of spin is most crucial for executing a Standard Volley effectively to keep the ball low after the bounce?", type: .single, answers: [ QuizAnswer(text: "Topspin", isCorrect: false, explanation: "Topspin volleys are used in aggressive situations but are not the standard approach"), QuizAnswer(text: "Flat", isCorrect: false, explanation: "A flat volley will sit up, giving the opponent an easier ball to hit at waist height"), QuizAnswer(text: "Underspin (Slice)", isCorrect: true, explanation: "The key to many standard volleys is using underspin (slice). This controls the ball and keeps it low, forcing the opponent to hit below knee height"), ], difficulty: .easy ),
 
-    QuizQuestion(
-        text: "Wozu dient der Volley im modernen Tennis hauptsächlich?",
-        type: .single,
-        answers: [
-            QuizAnswer(text: "Um Zeit zu gewinnen", isCorrect: false),
-            QuizAnswer(text: "Um dem Gegner Zeit zu nehmen und den Punkt abzuschliessen", isCorrect: true),
-            QuizAnswer(text: "Um defensive Bälle abzuwehren", isCorrect: false),
-            QuizAnswer(text: "Um den Gegner in lange Rallys zu zwingen", isCorrect: false)
-        ]
-    ),
+    QuizQuestion( text: "What is the recommended two-step footwork pattern for a right-handed player attempting to reach a wide backhand volley or closing down on the net?", type: .single, answers: [ QuizAnswer(text: "Left step, then right step", isCorrect: true, explanation: "For a right-handed player on the backhand volley, the first step is with the left leg (the outside leg), followed by the right leg stepping into contact"), QuizAnswer(text: "Right step, then left step", isCorrect: false, explanation: "This pattern is used for the wide forehand volley"), QuizAnswer(text: "Three quick side steps", isCorrect: false, explanation: "The two-step footwork pattern is designed to cover wider balls efficiently"), ], difficulty: .medium ),
+    QuizQuestion( text: "What is the recommended two-step footwork pattern for a right-handed player attempting to reach a wide forehand volley or closing down on the net?", type: .single, answers: [ QuizAnswer(text: "Left step, then right step", isCorrect: false, explanation: "This pattern is used for the wide backhand volley"), QuizAnswer(text: "Right step, then left step", isCorrect: true, explanation: "For a right-handed player on the forehand volley, the initial step is with the right leg (the outside leg), followed by the left leg stepping into contact"), QuizAnswer(text: "A quick jump and lunge", isCorrect: false, explanation: "The goal is to master the standard two-step footwork pattern for stability and coverage"), ], difficulty: .medium ),
+    QuizQuestion( text: "When playing against a Counter-Puncher, which volley traits should be emphasized to prevent them from successfully passing you?", type: .single, answers: [ QuizAnswer(text: "High pace and flat contact, aiming for the corners", isCorrect: false, explanation: "Counter-Punchers prefer pace to work with and are good at running down shots in the corners"), QuizAnswer(text: "Angles and touch, while closing in tight to the net", isCorrect: true, explanation: "Against a Counter-Puncher, you should close in tight to the net and use more angles and touch on your volleys, as they prefer to pass rather than lob"), QuizAnswer(text: "Deep, powerful volleys that land near the baseline", isCorrect: false, explanation: "Deep volleys might give them a better chance to set up a passing shot or lob"), ], difficulty: .medium ),
+    QuizQuestion( text: "What is the primary technical method used to create underspin (slice) on a standard tennis volley?", type: .single, answers: [ QuizAnswer(text: "Hitting the ball with heavy wrist pronation just prior to contact", isCorrect: false, explanation: "Pronation is described primarily in the context of the serve"), QuizAnswer(text: "Keeping the strings flat and hitting down aggressively", isCorrect: false, explanation: "A flat volley tends to sit up high"), QuizAnswer(text: "Opening the strings towards the sky as you make contact", isCorrect: true, explanation: "To create underspin (slice) on the volley, you should simply open the strings towards the sky as you make contact, helping you hit under the ball"), ], difficulty: .medium ),
+    
+    QuizQuestion( text: "When using the block volley technique, what is the motion of the racket compared to the act of catching a ball?", type: .single, answers: [ QuizAnswer(text: "The racket swings backwards before accelerating forward", isCorrect: false, explanation: "A true backswing is avoided in the block volley"), QuizAnswer(text: "The racket is simply placed at the point of contact out in front of the body", isCorrect: true, explanation: "The swing is minimal; you are simply placing the racket at the contact point, similar to placing your hand out to catch a ball without swinging backwards"), QuizAnswer(text: "The racket rotates significantly to impart heavy sidespin", isCorrect: false, explanation: "The block volley focuses on redirection, not heavy spin generation"), ], difficulty: .medium ),
+    
+    QuizQuestion( text: "Against an Aggressive Baseliner, why is coming to the net recommended as a tactical move?", type: .single, answers: [ QuizAnswer(text: "They are accustomed to short points and get frustrated by net play", isCorrect: false, explanation: "Aggressive Baseliners like short points but usually only come to the net after hitting a winner"), QuizAnswer(text: "They tend to hit their passing shots with a lot of pace, often keeping the ball high for easy volleys", isCorrect: true, explanation: "Aggressive Baseliners often hit passing shots with pace, which tends to keep the ball high, giving the net player easy volleys"), QuizAnswer(text: "They have a high error rate when forced to hit groundstrokes while retreating", isCorrect: false, explanation: "They are generally steady and reliable"), ], difficulty: .medium ),
+    QuizQuestion( text: "When playing doubles against a team that uses signals and poaches frequently, what unconventional return tactic is advised specifically to disrupt the net player?", type: .single, answers: [ QuizAnswer(text: "Hit the return with a sharp slice right at the baseline player’s feet", isCorrect: false, explanation: "Hitting at the baseline player doesn't target the poacher directly"), QuizAnswer(text: "Hit the return softly and high over the net player’s head (moonball)", isCorrect: false, explanation: "Lobbing the return is recommended, but not necessarily a moonball"), QuizAnswer(text: "Hit the return directly at the net player", isCorrect: true, explanation: "Hitting the return directly at the net player makes them play the volley on the returner’s terms and often causes an error, as good poachers prefer to be on the move when they volley"), ], difficulty: .medium ),
 
-    QuizQuestion(
-        text: "Warum unterscheidet sich der Volley technisch stark vom Grundlinienschlag?",
-        type: .single,
-        answers: [
-            QuizAnswer(text: "Weil er nur mit viel Topspin gespielt wird", isCorrect: false),
-            QuizAnswer(text: "Weil kaum Zeit für eine grosse Ausholbewegung bleibt", isCorrect: true),
-            QuizAnswer(text: "Weil er nur aus dem Handgelenk ausgeführt wird", isCorrect: false),
-            QuizAnswer(text: "Weil er nur mit Rückhandgriff gespielt wird", isCorrect: false)
-        ]
-    ),
-
-    // MARK: - Grip & Ready Position
-
-    QuizQuestion(
-        text: "Welcher Griff ist die Basis für Vorhand- und Rückhandvolley?",
-        type: .single,
-        answers: [
-            QuizAnswer(text: "Eastern-Griff", isCorrect: false),
-            QuizAnswer(text: "Semi-Western-Griff", isCorrect: false),
-            QuizAnswer(text: "Kontinentalgriff", isCorrect: true),
-            QuizAnswer(text: "Western-Griff", isCorrect: false)
-        ]
-    ),
-
-    QuizQuestion(
-        text: "Was kennzeichnet die optimale Ready Position am Netz?",
-        type: .multiple,
-        answers: [
-            QuizAnswer(text: "Schlägerkopf vor dem Körper auf Brusthöhe", isCorrect: true),
-            QuizAnswer(text: "Leicht gebeugte Knie und dynamische Haltung", isCorrect: true),
-            QuizAnswer(text: "Gewicht auf den Fersen", isCorrect: false),
-            QuizAnswer(text: "Schläger hinter dem Körper", isCorrect: false)
-        ]
-    ),
-
-    // MARK: - Preparation & Movement
-
-    QuizQuestion(
-        text: "Wie sollte die Ausholbewegung beim Volley aussehen?",
-        type: .single,
-        answers: [
-            QuizAnswer(text: "Lang und flüssig wie bei Grundschlägen", isCorrect: false),
-            QuizAnswer(text: "Sehr kurz und kompakt", isCorrect: true),
-            QuizAnswer(text: "Über dem Kopf beginnend", isCorrect: false),
-            QuizAnswer(text: "Mit grossem Rückschwung", isCorrect: false)
-        ]
-    ),
-
-    QuizQuestion(
-        text: "Welche Rolle spielt die Schulterrotation beim Volley?",
-        type: .single,
-        answers: [
-            QuizAnswer(text: "Sie ersetzt die Beinarbeit", isCorrect: false),
-            QuizAnswer(text: "Sie unterstützt die kurze Führbewegung des Schlägers", isCorrect: true),
-            QuizAnswer(text: "Sie ist nicht notwendig", isCorrect: false),
-            QuizAnswer(text: "Sie erzeugt hauptsächlich Topspin", isCorrect: false)
-        ]
-    ),
-
-    // MARK: - Contact Point & Racket Position
-
-    QuizQuestion(
-        text: "Wo sollte der Treffpunkt beim Volley idealerweise sein?",
-        type: .single,
-        answers: [
-            QuizAnswer(text: "Hinter dem Körper", isCorrect: false),
-            QuizAnswer(text: "Direkt neben dem Körper", isCorrect: false),
-            QuizAnswer(text: "Weit vor dem Körper", isCorrect: true),
-            QuizAnswer(text: "Über Kopfhöhe", isCorrect: false)
-        ]
-    ),
-
-    QuizQuestion(
-        text: "Warum ist ein hoher Schlägerkopf beim Volley wichtig?",
-        type: .multiple,
-        answers: [
-            QuizAnswer(text: "Er erleichtert das Spielen von niedrigen Volleys", isCorrect: false),
-            QuizAnswer(text: "Er ermöglicht kontrolliertes Blocken von oben nach unten", isCorrect: true),
-            QuizAnswer(text: "Er verkürzt die Reaktionszeit", isCorrect: true),
-            QuizAnswer(text: "Er erhöht automatisch die Schlaggeschwindigkeit", isCorrect: false)
-        ]
-    ),
-
-    // MARK: - Footwork & Forward Movement
-
-    QuizQuestion(
-        text: "Warum ist eine Vorwärtsbewegung beim Volley entscheidend?",
-        type: .single,
-        answers: [
-            QuizAnswer(text: "Sie erhöht den Rückschlag des Gegners", isCorrect: false),
-            QuizAnswer(text: "Sie verbessert Stabilität und Kontrolle beim Treffpunkt", isCorrect: true),
-            QuizAnswer(text: "Sie verlangsamt die Reaktionszeit", isCorrect: false),
-            QuizAnswer(text: "Sie ist nur bei Schmetterbällen relevant", isCorrect: false)
-        ]
-    ),
-
-    QuizQuestion(
-        text: "Was ist das Ziel des Schritts in den Volley hinein?",
-        type: .single,
-        answers: [
-            QuizAnswer(text: "Nähe zum Netz aufbauen", isCorrect: false),
-            QuizAnswer(text: "Kraft aus dem Körper in den Ball übertragen", isCorrect: true),
-            QuizAnswer(text: "Zeit für einen längeren Schwung gewinnen", isCorrect: false),
-            QuizAnswer(text: "Den Gegner überraschen", isCorrect: false)
-        ]
-    ),
-
-    // MARK: - Forehand vs Backhand Volley
-
-    QuizQuestion(
-        text: "Was unterscheidet den Rückhandvolley vom Vorhandvolley technisch?",
-        type: .multiple,
-        answers: [
-            QuizAnswer(text: "Die linke Hand unterstützt die Stabilität bei der Vorbereitung", isCorrect: true),
-            QuizAnswer(text: "Der Rückhandvolley benötigt einen anderen Griff", isCorrect: false),
-            QuizAnswer(text: "Die Schulterachse bleibt besonders stabil", isCorrect: true),
-            QuizAnswer(text: "Der Schläger muss stärker schwingen", isCorrect: false)
-        ]
-    ),
-
-    // MARK: - Wrist & Control
-
-    QuizQuestion(
-        text: "Welche Rolle spielt das Handgelenk beim Volley?",
-        type: .single,
-        answers: [
-            QuizAnswer(text: "Es bleibt komplett locker während des Schlages", isCorrect: false),
-            QuizAnswer(text: "Es wird kurz vor dem Treffpunkt stabilisiert", isCorrect: true),
-            QuizAnswer(text: "Es erzeugt den Hauptteil der Schlagkraft", isCorrect: false),
-            QuizAnswer(text: "Es sollte stark abgeknickt werden", isCorrect: false)
-        ]
-    ),
-
-    QuizQuestion(
-        text: "Warum ist ein fester Schlägerwinkel beim Volley entscheidend?",
-        type: .single,
-        answers: [
-            QuizAnswer(text: "Damit der Ball mehr Topspin erhält", isCorrect: false),
-            QuizAnswer(text: "Damit die Richtung über den Schlägerkopf und nicht über einen grossen Schwung gesteuert wird", isCorrect: true),
-            QuizAnswer(text: "Damit der Ball höher abspringt", isCorrect: false),
-            QuizAnswer(text: "Damit der Gegner weniger Reaktionszeit hat", isCorrect: false)
-        ]
-    ),
-
-    // MARK: - Touch & Defensive Volleys
-
-    QuizQuestion(
-        text: "Was ist für einen erfolgreichen Stopp-Volley entscheidend?",
-        type: .multiple,
-        answers: [
-            QuizAnswer(text: "Reduzierter Griffdruck", isCorrect: true),
-            QuizAnswer(text: "Geschwindigkeitsabsorption mit weicher Hand", isCorrect: true),
-            QuizAnswer(text: "Maximaler Schwung", isCorrect: false),
-            QuizAnswer(text: "Hoher Treffpunkt", isCorrect: false)
-        ]
-    ),
-
-    QuizQuestion(
-        text: "Wie soll ein defensiver Volley in einer Drucksituation gespielt werden?",
-        type: .single,
-        answers: [
-            QuizAnswer(text: "Kurz und ohne Richtung", isCorrect: false),
-            QuizAnswer(text: "Tief und lang zurück, um Zeit zu gewinnen", isCorrect: true),
-            QuizAnswer(text: "Mit maximalem Topspin", isCorrect: false),
-            QuizAnswer(text: "Immer parallel zur Seitenlinie", isCorrect: false)
-        ]
-    ),
-
-    // MARK: - Advanced Concepts
-
-    QuizQuestion(
-        text: "Wann kann ein Topspin-Volley sinnvoll eingesetzt werden?",
-        type: .single,
-        answers: [
-            QuizAnswer(text: "Bei sehr flachen, schnellen Bällen", isCorrect: false),
-            QuizAnswer(text: "Bei höheren Bällen für zusätzliche Kontrolle", isCorrect: true),
-            QuizAnswer(text: "Nur beim Return", isCorrect: false),
-            QuizAnswer(text: "Nur im Doppel", isCorrect: false)
-        ]
-    ),
-
-    QuizQuestion(
-        text: "Was ist die Hauptfunktion eines gut gespielten Volleys im Spielaufbau?",
-        type: .single,
-        answers: [
-            QuizAnswer(text: "Den Gegner hinter die Grundlinie zwingen", isCorrect: false),
-            QuizAnswer(text: "Den Punkt schnell und kontrolliert beenden", isCorrect: true),
-            QuizAnswer(text: "Zeit für eine Erholungspause schaffen", isCorrect: false),
-            QuizAnswer(text: "Den Gegner in die Defensive locken und dann abzuwarten", isCorrect: false)
-        ]
-    ),
-
-    // MARK: - Common Errors
-
-    QuizQuestion(
-        text: "Welcher Fehler tritt häufig bei fehlerhaften Volleys auf?",
-        type: .multiple,
-        answers: [
-            QuizAnswer(text: "Zu grosse Ausholbewegung", isCorrect: true),
-            QuizAnswer(text: "Zu tiefer Schlägerkopf vor dem Treffpunkt", isCorrect: true),
-            QuizAnswer(text: "Zu aktives Handgelenk", isCorrect: true),
-            QuizAnswer(text: "Ruhiger Oberkörper", isCorrect: false)
-        ]
-    ),
-
-    QuizQuestion(
-        text: "Welche Massnahme hilft bei unsicheren Volleys am meisten?",
-        type: .single,
-        answers: [
-            QuizAnswer(text: "Mehr Armkraft einsetzen", isCorrect: false),
-            QuizAnswer(text: "Früheres Positionieren und kompaktere Bewegung", isCorrect: true),
-            QuizAnswer(text: "Längere Ausholbewegung verwenden", isCorrect: false),
-            QuizAnswer(text: "Den Ball näher am Körper treffen", isCorrect: false)
-        ]
-    )
+    QuizQuestion( text: "In the context of the Power Volley (used on slower, floating balls), what mechanism is used to generate racket head speed through the contact point?", type: .single, answers: [ QuizAnswer(text: "Initiating a large wrist snap immediately after making contact", isCorrect: false, explanation: "The wrist must be fixed at contact to maintain stability"), QuizAnswer(text: "Using arm acceleration while keeping the body stationary", isCorrect: false, explanation: "The Power Volley relies heavily on body use"), QuizAnswer(text: "Coiling the upper body during preparation and opening up the shoulders during contact", isCorrect: true, explanation: "The key to the Power Volley is using the body to generate swing by coiling the upper body; opening the shoulders creates racket head speed through contact"), ], difficulty: .hard ),
+    QuizQuestion( text: "Against a Serve and Volleyer, which type of return should be avoided because it tends to stay up high and offer an easy target?", type: .single, answers: [ QuizAnswer(text: "Lobs off the return", isCorrect: false, explanation: "Lob returns are suggested as a tactic, especially on second serves"), QuizAnswer(text: "Returns that are chipped and charged", isCorrect: false, explanation: "Chip and charge is recommended to take away the Serve and Volleyer's game plan"), QuizAnswer(text: "Hard slices and hard returns that smash through the court", isCorrect: true, explanation: "Avoid using a lot of hard slices, as they tend to float and stay up in the strike-zone for an easy volley. Also, smashing hard returns tends to keep the ball high above the net, making it easy to volley"), ], difficulty: .hard ),
+    QuizQuestion( text: "What specific instruction is given for volleying against a player who utilizes the high arcing shots of a Moonballer?", type: .single, answers: [ QuizAnswer(text: "Do not close too aggressively to the net", isCorrect: true, explanation: "When serving and volleying against a Moonballer, be prepared to hit a lot of overheads and specifically 'do not “close” too aggressively'"), QuizAnswer(text: "Stay back and only use drop volleys", isCorrect: false, explanation: "Serving and volleying more than usual is recommended"), QuizAnswer(text: "Approach the net only on soft, low shots to their feet", isCorrect: false, explanation: "You can sneak in and pick off volleys easily because their shots take longer to develop"), ], difficulty: .hard ),
+    QuizQuestion( text: "What technical adjustment should be made to the forehand and backhand volley swing paths when attempting to impart slice (underspin)?", type: .single, answers: [ QuizAnswer(text: "The racket should be moved from below the ball straight up", isCorrect: false, explanation: "This path creates topspin, which is not the goal for a standard slice volley"), QuizAnswer(text: "The racket should move horizontally across the body", isCorrect: false, explanation: "Horizontal movement imparts sidespin"), QuizAnswer(text: "The racket is moved from above/top down and forward to the contact point", isCorrect: true, explanation: "The forehand volley moves the racket head from above/top down and forward to create Rückwärtsdrall (backspin); the backhand volley follows a similar path"), ], difficulty: .hard ),
+    QuizQuestion( text: "Which technical detail regarding the shoulders is explicitly mentioned for maintaining stability and control during the backhand volley execution?", type: .single, answers: [ QuizAnswer(text: "The shoulders should follow the racket head forward", isCorrect: false, explanation: "Following the racket too much can lead to instability"), QuizAnswer(text: "The shoulder axis should remain parallel to the stroke direction", isCorrect: true, explanation: "For the backhand volley, the shoulder axis remains parallel to the stroke direction, which serves for strike control and stability"), QuizAnswer(text: "The hitting shoulder should drop significantly upon contact", isCorrect: false, explanation: "The goal is to maintain a stable, solid position"), ], difficulty: .hard ),
+    QuizQuestion( text: "What critical strategic error at the net is known as swinging on 'Sucker Balls'?", type: .single, answers: [ QuizAnswer(text: "Trying a drop shot from behind the baseline", isCorrect: false, explanation: "This is a tactical error, but not specifically the 'Sucker Ball'"), QuizAnswer(text: "Swinging aggressively on high floating volleys", isCorrect: true, explanation: "One of the 'Top Ten Fastest Ways to Lose a Match' is swinging on high floating volleys, referred to as 'Sucker Balls'"), QuizAnswer(text: "Attempting to hit winners when behind the baseline", isCorrect: false, explanation: "This is a common error, but not the volley-specific 'Sucker Ball'"), ], difficulty: .hard ),
+    QuizQuestion( text: "Why is hitting a Topspin Volley—as opposed to a standard volley—recommended to be played with more topspin than a normal groundstroke?", type: .single, answers: [ QuizAnswer(text: "To ensure the ball dips quickly and forces the opponent into a low return", isCorrect: false, explanation: "The focus is on control and placement since the player is close to the net"), QuizAnswer(text: "To gain better control and placement since the volley is hit directly inside the service boxes", isCorrect: true, explanation: "Because the Topspin Volley is played directly in the court, it is recommended to be played with more topspin for better control than a normal groundstroke"), QuizAnswer(text: "Because the racket needs to be accelerated horizontally across the ball", isCorrect: false, explanation: "The racket is accelerated from hip height forward and upward"), ], difficulty: .hard ),
 ]

@@ -8,205 +8,30 @@ import Foundation
 
 let forehandQuestions: [QuizQuestion] = [
 
-    // MARK: - Forehand Fundamentals
+    QuizQuestion( text: "Which grip is recommended for a versatile forehand, allowing for aggressive topspin and flat shots?", type: .single, answers: [ QuizAnswer(text: "Continental Grip", isCorrect: false, explanation: "Used for serves and slices"), QuizAnswer(text: "Semi-Western Forehand Grip (Mittlerer VH Griff)", isCorrect: true, explanation: "Recommended as it allows topspin while also enabling the player to flatten out the shot"), QuizAnswer(text: "Eastern Backhand Grip", isCorrect: false, explanation: "Used for the one-handed backhand"), ], difficulty: .easy ),
+    QuizQuestion( text: "In the ready position, where should the racket head be relative to the grip?", type: .single, answers: [ QuizAnswer(text: "Lower than the grip level", isCorrect: false, explanation: "A poor position that costs time"), QuizAnswer(text: "Parallel to the ground", isCorrect: false, explanation: "The head should be higher than the grip"), QuizAnswer(text: "Higher than the grip level", isCorrect: true, explanation: "Having the racket head higher than the grip creates leverage for the stroke"), ], difficulty: .easy ),
+    QuizQuestion( text: "What is the name for the initial rotation of the upper body sideways to the net?", type: .single, answers: [ QuizAnswer(text: "The Split Step", isCorrect: false, explanation: "A hop for initiation and preparation"), QuizAnswer(text: "The Power Position", isCorrect: false, explanation: "The coiled position reached after preparation"), QuizAnswer(text: "The Unit Turn", isCorrect: true, explanation: "The rotation of the upper body that kicks off preparation and stores energy"), ], difficulty: .easy ),
+    QuizQuestion( text: "What is the most common finish location for the hitting elbow on the ATP forehand?", type: .single, answers: [ QuizAnswer(text: "Near the hip", isCorrect: false, explanation: "This is not the common follow-through finish"), QuizAnswer(text: "Across the chest", isCorrect: true, explanation: "The most commonly used forehand finish on the ATP tour pulls the elbow into the body"), QuizAnswer(text: "Behind the back", isCorrect: false, explanation: "This finish is generally avoided"), ], difficulty: .easy ),
+    QuizQuestion( text: "Where should the contact point (Treffpunkt) ideally be located?", type: .single, answers: [ QuizAnswer(text: "Directly alongside the body", isCorrect: false, explanation: "Contact must be made out in front"), QuizAnswer(text: "Behind the body", isCorrect: false, explanation: "A late contact destroys the shot"), QuizAnswer(text: "Laterally in front, between hip and shoulder height", isCorrect: true, explanation: "The contact point should be laterally in front, between the hip and shoulder"), ], difficulty: .easy ),
+    QuizQuestion( text: "The Unit Turn stores energy in which muscle group?", type: .single, answers: [ QuizAnswer(text: "Quadriceps and hamstrings", isCorrect: false, explanation: "Legs are used for ground force"), QuizAnswer(text: "Trunk muscles, especially the obliques", isCorrect: true, explanation: "Rotating the upper body stores energy in the trunk muscles (obliques)"), QuizAnswer(text: "Forearm and wrist flexors", isCorrect: false, explanation: "These are critical for final acceleration"), ], difficulty: .easy ),
+    QuizQuestion( text: "What is the primary action in a quickly hit forehand (German term)?", type: .single, answers: [ QuizAnswer(text: "Fixing the wrist position (Handgelenk fixieren)", isCorrect: false, explanation: "This occurs right at contact"), QuizAnswer(text: "Accelerating the racket head maximally von unten nach vorne oben", isCorrect: true, explanation: "The primary action is maximally accelerating the racket head from below to front above"), QuizAnswer(text: "Minimizing the overall swing path (Schleife anpassen)", isCorrect: false, explanation: "This is a preparatory action"), ], difficulty: .easy ),
 
-    QuizQuestion(
-        text: "Warum gilt die Vorhand als Hauptangriffsschlag?",
-        type: .single,
-        answers: [
-            QuizAnswer(text: "Sie ist technisch am einfachsten", isCorrect: false),
-            QuizAnswer(text: "Sie bestimmt Tempo, Druck und Punktaufbau", isCorrect: true),
-            QuizAnswer(text: "Sie wird nur defensiv gespielt", isCorrect: false),
-            QuizAnswer(text: "Sie wird nur im Doppel eingesetzt", isCorrect: false)
-        ]
-    ),
+    
+    QuizQuestion( text: "What key advantage does 'Racket Lag' provide in the forehand?", type: .single, answers: [ QuizAnswer(text: "It shortens the swing path", isCorrect: false, explanation: "It doesn't necessarily shorten the path"), QuizAnswer(text: "It prevents wrist extension", isCorrect: false, explanation: "Lag usually involves wrist extension"), QuizAnswer(text: "It provides leverage over the ball for power and control", isCorrect: true, explanation: "Racket lag, where the head trails the grip, provides leverage for extra power and control"), ], difficulty: .medium ),
+    QuizQuestion( text: "Where should the non-hitting hand be in the Power Position?", type: .single, answers: [ QuizAnswer(text: "Tucked behind the back", isCorrect: false, explanation: "It should be held across the body"), QuizAnswer(text: "Holding the grip near the hitting hip", isCorrect: false, explanation: "It should be across the front of the body"), QuizAnswer(text: "Across the body, balancing and tracking the ball", isCorrect: true, explanation: "The non-hitting hand helps balance the upper body and track the ball"), ], difficulty: .medium ),
+    QuizQuestion( text: "Why is the Extreme Forehand Grip (Westerngriff) limiting for long-term performance?", type: .single, answers: [ QuizAnswer(text: "It makes generating topspin difficult", isCorrect: false, explanation: "It is suitable for balls with a lot of topspin"), QuizAnswer(text: "It is unsuitable for flat, fast balls and deep slices", isCorrect: true, explanation: "This grip limits shot variability and is unsuitable for flat/fast balls and deep slice balls"), QuizAnswer(text: "It requires a closed stance for every shot", isCorrect: false, explanation: "The source discusses shot type limitation"), ], difficulty: .medium ),
+    QuizQuestion( text: "What biomechanical principle (German term) involving the wrist optimizes forehand acceleration?", type: .single, answers: [ QuizAnswer(text: "Principle of Counteraction (Gegenwirkung)", isCorrect: false, explanation: "This applies to balance and ground force"), QuizAnswer(text: "The Stretch-Shortening Cycle (Dehnung Verkürzungszyklus)", isCorrect: true, explanation: "The stretch-shortening cycle involving the wrist is key for acceleration during the swing"), QuizAnswer(text: "Principle of Optimal Acceleration Path (Optimalen Beschleunigungsweges)", isCorrect: false, explanation: "This is a general biomechanical concept"), ], difficulty: .medium ),
+    QuizQuestion( text: "Which ball height do most 'Huge Forehand' players prefer to hit?", type: .single, answers: [ QuizAnswer(text: "Ankle height (low)", isCorrect: false, explanation: "Players like deep slices to low corners against them"), QuizAnswer(text: "Waist high (strike zone)", isCorrect: true, explanation: "Most Huge Forehanders prefer the ball waist high"), QuizAnswer(text: "Shoulder height (high)", isCorrect: false, explanation: "High looping shots are a common tactic against them"), ], difficulty: .medium ),
+    QuizQuestion( text: "If the arms are passive during the Unit Turn, the racket moves from 12 o’clock to what clock position?", type: .single, answers: [ QuizAnswer(text: "9 o'clock (left side)", isCorrect: false, explanation: "This describes the backhand turn"), QuizAnswer(text: "6 o'clock (down)", isCorrect: false, explanation: "This is part of the racket drop"), QuizAnswer(text: "3 o'clock (right side)", isCorrect: true, explanation: "The racket moves from 12 o’clock (net) to 3 o’clock (right side)"), ], difficulty: .medium ),
+    QuizQuestion( text: "The lighter Eastern Forehand Grip is especially suitable for what type of ball?", type: .single, answers: [ QuizAnswer(text: "High topspin balls", isCorrect: false, explanation: "The Western grip is better for heavy topspin"), QuizAnswer(text: "Fast forehand balls with little rotation", isCorrect: true, explanation: "The lighter Eastern Forehand Grip is suited for fast forehand balls with little rotation"), QuizAnswer(text: "Drop shots and slices", isCorrect: false, explanation: "The Hammer/Continental grip is used for slices"), ], difficulty: .medium ),
 
-    QuizQuestion(
-        text: "Warum ist die Vorhand eine Ganzkörperbewegung?",
-        type: .single,
-        answers: [
-            QuizAnswer(text: "Weil nur die Beine Kraft erzeugen", isCorrect: false),
-            QuizAnswer(text: "Weil nur das Handgelenk entscheidend ist", isCorrect: false),
-            QuizAnswer(text: "Weil die Kraft über die kinematische Kette vom Boden bis zum Schläger übertragen wird", isCorrect: true),
-            QuizAnswer(text: "Weil der Oberkörper sich nicht bewegen darf", isCorrect: false)
-        ]
-    ),
-
-    // MARK: - Grip & Stance
-
-    QuizQuestion(
-        text: "Welche Griffarten werden am häufigsten für die Vorhand verwendet?",
-        type: .multiple,
-        answers: [
-            QuizAnswer(text: "Eastern Griff", isCorrect: true),
-            QuizAnswer(text: "Semi-Western Griff", isCorrect: true),
-            QuizAnswer(text: "Kontinentalgriff", isCorrect: false),
-            QuizAnswer(text: "Extreme Western Griff", isCorrect: false)
-        ]
-    ),
-
-    QuizQuestion(
-        text: "Warum können extreme Vorhandgriffe problematisch sein?",
-        type: .single,
-        answers: [
-            QuizAnswer(text: "Sie sind zu einfach zu erlernen", isCorrect: false),
-            QuizAnswer(text: "Sie erschweren flache Schläge und Anpassungsfähigkeit", isCorrect: true),
-            QuizAnswer(text: "Sie erzeugen zu wenig Topspin", isCorrect: false),
-            QuizAnswer(text: "Sie verbessern die Schlaggenauigkeit", isCorrect: false)
-        ]
-    ),
-
-    QuizQuestion(
-        text: "Welche Aussage zu den Schlagstellungen bei der Vorhand trifft zu?",
-        type: .single,
-        answers: [
-            QuizAnswer(text: "Die geschlossene Stellung ist immer falsch", isCorrect: false),
-            QuizAnswer(text: "Offene Stellung hilft besonders unter Zeitdruck", isCorrect: true),
-            QuizAnswer(text: "Man darf nur halb-offen spielen", isCorrect: false),
-            QuizAnswer(text: "Die Stellung beeinflusst den Schlag nicht", isCorrect: false)
-        ]
-    ),
-
-    // MARK: - Preparation & Loop
-
-    QuizQuestion(
-        text: "Warum ist eine frühe Schulterrotation in der Vorbereitung wichtig?",
-        type: .single,
-        answers: [
-            QuizAnswer(text: "Sie verzögert den Schlag", isCorrect: false),
-            QuizAnswer(text: "Sie erzeugt Vorspannung und speichert Energie", isCorrect: true),
-            QuizAnswer(text: "Sie reduziert die Schlägerkopfgeschwindigkeit", isCorrect: false),
-            QuizAnswer(text: "Sie hat keinen Einfluss auf den Treffpunkt", isCorrect: false)
-        ]
-    ),
-
-    QuizQuestion(
-        text: "Was beschreibt die Schleifenbewegung (Loop) bei der Vorhand?",
-        type: .single,
-        answers: [
-            QuizAnswer(text: "Ein Rückwärtsziehen des Schlägers nach dem Treffpunkt", isCorrect: false),
-            QuizAnswer(text: "Ein Absenken des Schlägers unter den Ball vor der Beschleunigung", isCorrect: true),
-            QuizAnswer(text: "Ein seitliches Schwenken des Schlägers", isCorrect: false),
-            QuizAnswer(text: "Ein Stoppen des Schlages vor dem Kontakt", isCorrect: false)
-        ]
-    ),
-
-    QuizQuestion(
-        text: "Welchen Zweck erfüllt die Schleife bei der Vorhand?",
-        type: .multiple,
-        answers: [
-            QuizAnswer(text: "Sie verlängert den Beschleunigungsweg", isCorrect: true),
-            QuizAnswer(text: "Sie ermöglicht mehr Topspin", isCorrect: true),
-            QuizAnswer(text: "Sie vermindert die Kontrolle", isCorrect: false),
-            QuizAnswer(text: "Sie verbessert die Schlägerkopfbeschleunigung", isCorrect: true)
-        ]
-    ),
-
-    // MARK: - Kinematic Chain & Leg Drive
-
-    QuizQuestion(
-        text: "In welcher Reihenfolge arbeitet die kinematische Kette bei der Vorhand?",
-        type: .single,
-        answers: [
-            QuizAnswer(text: "Arm → Schulter → Beine", isCorrect: false),
-            QuizAnswer(text: "Beine → Hüfte → Rumpf → Schulter → Arm → Handgelenk", isCorrect: true),
-            QuizAnswer(text: "Schulter → Handgelenk → Beine", isCorrect: false),
-            QuizAnswer(text: "Nur der Arm ist beteiligt", isCorrect: false)
-        ]
-    ),
-
-    QuizQuestion(
-        text: "Warum ist der Beinantrieb für die Vorhand entscheidend?",
-        type: .multiple,
-        answers: [
-            QuizAnswer(text: "Er sorgt für Stabilität im Treffpunkt", isCorrect: true),
-            QuizAnswer(text: "Er erhöht die Schlägerkopfgeschwindigkeit", isCorrect: true),
-            QuizAnswer(text: "Er verhindert jegliche Rotation", isCorrect: false),
-            QuizAnswer(text: "Er unterstützt die Energieübertragung nach oben", isCorrect: true)
-        ]
-    ),
-
-    // MARK: - Contact Point & Swing Path
-
-    QuizQuestion(
-        text: "Wo liegt der ideale Treffpunkt bei der Vorhand?",
-        type: .single,
-        answers: [
-            QuizAnswer(text: "Direkt neben dem Körper", isCorrect: false),
-            QuizAnswer(text: "Hinter dem Körper", isCorrect: false),
-            QuizAnswer(text: "Vor dem Körper zwischen Hüfte und Schulterhöhe", isCorrect: true),
-            QuizAnswer(text: "Über dem Kopf", isCorrect: false)
-        ]
-    ),
-
-    QuizQuestion(
-        text: "Warum führt ein zu später Treffpunkt zu Problemen?",
-        type: .multiple,
-        answers: [
-            QuizAnswer(text: "Er verringert Kontrolle", isCorrect: true),
-            QuizAnswer(text: "Er reduziert Schlagkraft", isCorrect: true),
-            QuizAnswer(text: "Er erhöht automatisch den Topspin", isCorrect: false),
-            QuizAnswer(text: "Er erschwert die Richtungssteuerung", isCorrect: true)
-        ]
-    ),
-
-    QuizQuestion(
-        text: "Was bedeutet das Prinzip 'low to high' bei der Vorhand?",
-        type: .single,
-        answers: [
-            QuizAnswer(text: "Der Schläger bewegt sich von oben nach unten", isCorrect: false),
-            QuizAnswer(text: "Der Schläger beschleunigt von unterhalb des Balles nach oben durch den Treffpunkt", isCorrect: true),
-            QuizAnswer(text: "Der Ball wird möglichst flach gespielt", isCorrect: false),
-            QuizAnswer(text: "Nur für Slice relevant", isCorrect: false)
-        ]
-    ),
-
-    // MARK: - Stability & Follow Through
-
-    QuizQuestion(
-        text: "Warum ist eine stabile Kopfhaltung während der Vorhand wichtig?",
-        type: .single,
-        answers: [
-            QuizAnswer(text: "Sie erhöht automatisch die Schlagkraft", isCorrect: false),
-            QuizAnswer(text: "Sie verbessert Gleichgewicht, Timing und Präzision", isCorrect: true),
-            QuizAnswer(text: "Sie hat nur mentale Bedeutung", isCorrect: false),
-            QuizAnswer(text: "Sie beeinflusst nur den Rückhandschlag", isCorrect: false)
-        ]
-    ),
-
-    QuizQuestion(
-        text: "Was ist die Funktion des Ausschwungs bei der Vorhand?",
-        type: .multiple,
-        answers: [
-            QuizAnswer(text: "Sanfte Abbremsung der Bewegung", isCorrect: true),
-            QuizAnswer(text: "Unterstützung der Richtungssteuerung", isCorrect: true),
-            QuizAnswer(text: "Verkürzung der Schlagbewegung", isCorrect: false),
-            QuizAnswer(text: "Stabilisierung des Körpers nach dem Treffpunkt", isCorrect: true)
-        ]
-    ),
-
-    // MARK: - Errors & Training
-
-    QuizQuestion(
-        text: "Welcher Fehler tritt häufig bei einer schlechten Vorhand auf?",
-        type: .single,
-        answers: [
-            QuizAnswer(text: "Zu frühes Treffen des Balles", isCorrect: false),
-            QuizAnswer(text: "Steifer Arm ohne ausreichende Körperrotation", isCorrect: true),
-            QuizAnswer(text: "Zu ruhiger Kopf", isCorrect: false),
-            QuizAnswer(text: "Zu aktive Beinbewegung", isCorrect: false)
-        ]
-    ),
-
-    QuizQuestion(
-        text: "Was ist laut den Technikprinzipien besonders wichtig beim Trainieren der Vorhand?",
-        type: .single,
-        answers: [
-            QuizAnswer(text: "Nur isolierte Armbewegungen üben", isCorrect: false),
-            QuizAnswer(text: "Die Vorhand ohne Spielkontext trainieren", isCorrect: false),
-            QuizAnswer(text: "Vorhand in Spielsituationen trainieren (defensiv, neutral, offensiv)", isCorrect: true),
-            QuizAnswer(text: "Nur Topspin-Vorhände schlagen", isCorrect: false)
-        ]
-    )
+    
+    QuizQuestion( text: "What drop shot tactic forces a 'Huge Forehand' opponent into a conservative return?", type: .single, answers: [ QuizAnswer(text: "Drop shots to their forehand side", isCorrect: false, explanation: "The goal is to play to their weaker backhand"), QuizAnswer(text: "Drop shots to their backhand side", isCorrect: true, explanation: "This forces them to run up and over, making a forehand difficult and forcing a conservative shot"), QuizAnswer(text: "Repeated drop shots to the center", isCorrect: false, explanation: "This does not exploit their weakness"), ], difficulty: .hard ),
+    QuizQuestion( text: "What is the top-down sequence of the body parts initiating the forehand 'Vordehnungsprozess' (pre-stretching)?", type: .single, answers: [ QuizAnswer(text: "Shoulder axis, Rumpf, Thigh, Shin, Ankle", isCorrect: true, explanation: "The sequence starts with the shoulder axis and continues down the kinematic chain to the ankle"), QuizAnswer(text: "Ankle, Shin, Thigh, Rumpf, Shoulder axis", isCorrect: false, explanation: "This is the release/uncoil sequence"), QuizAnswer(text: "Hips, Shoulder, Elbow, Wrist", isCorrect: false, explanation: "This misses key lower body parts"), ], difficulty: .hard ),
+    QuizQuestion( text: "To reduce shoulder stress in the 'across the chest' finish, what position must the hitting elbow be in?", type: .single, answers: [ QuizAnswer(text: "Straight and fully extended", isCorrect: false, explanation: "A straight arm places great stress on the shoulder joint"), QuizAnswer(text: "Bent, pulling the racket into the body/chest", isCorrect: true, explanation: "The elbow should be bent when finishing to take stress off the shoulder"), QuizAnswer(text: "Pointing toward the net post", isCorrect: false, explanation: "The finish should wrap around the body"), ], difficulty: .hard ),
+    QuizQuestion( text: "Why do young players often develop the extreme forehand grip?", type: .single, answers: [ QuizAnswer(text: "To maximize ability to hit flat, fast balls", isCorrect: false, explanation: "The grip is unsuitable for flat, fast balls"), QuizAnswer(text: "They must frequently hit balls above shoulder height due to early transition to normal balls and height", isCorrect: true, explanation: "The extreme grip helps them return balls frequently above shoulder height"), QuizAnswer(text: "They are mimicking professional players who use this grip exclusively", isCorrect: false, explanation: "This grip limits variability and is performance-limiting"), ], difficulty: .hard ),
+    QuizQuestion( text: "Which is less forgivable: Bad Strategy or Bad Execution?", type: .single, answers: [ QuizAnswer(text: "Bad Execution", isCorrect: false, explanation: "Bad execution (physical mistakes) is forgivable"), QuizAnswer(text: "Bad Strategy", isCorrect: true, explanation: "Bad strategy is less forgivable because choosing tactics is 100% within the player’s control"), QuizAnswer(text: "Both are equally forgivable", isCorrect: false, explanation: "The sources distinguish between them"), ], difficulty: .hard ),
+    QuizQuestion( text: "If you loop a shot to a 'Huge Forehand' player's backhand, what should you immediately do?", type: .single, answers: [ QuizAnswer(text: "Wait at the baseline", isCorrect: false, explanation: "Waiting gives them time to recover"), QuizAnswer(text: "Retreat behind the baseline", isCorrect: false, explanation: "This cedes court position"), QuizAnswer(text: "Sneak in behind them to volley the next shot", isCorrect: true, explanation: "This follow-up action gives you an open court if they run around their backhand"), ], difficulty: .hard ),
+    QuizQuestion( text: "What is the approximate contact time between the ball and racket in seconds?", type: .single, answers: [ QuizAnswer(text: "0.1 to 0.5 seconds", isCorrect: false, explanation: "This duration is too long"), QuizAnswer(text: "0.003 – 0.005 seconds", isCorrect: true, explanation: "The contact time is very brief, only 0.003 to 0.005 seconds"), QuizAnswer(text: "Less than 0.001 seconds", isCorrect: false, explanation: "This duration is too short"), ], difficulty: .hard )
 
 ]
