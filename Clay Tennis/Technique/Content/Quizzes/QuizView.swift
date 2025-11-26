@@ -105,6 +105,9 @@ struct QuizView: View {
                 .font(.title3.weight(.semibold))
                 .foregroundColor(.primary)
                 .multilineTextAlignment(.leading)
+                .lineLimit(nil)
+                .minimumScaleFactor(0.7)   // ✅ allows shrinking instead of truncating
+                .allowsTightening(true)
                 .padding(22)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .background(
@@ -122,6 +125,7 @@ struct QuizView: View {
                     y: 2
                 )
                 .padding(.horizontal, 20)
+
             
             // Answers
             VStack(spacing: 14) {

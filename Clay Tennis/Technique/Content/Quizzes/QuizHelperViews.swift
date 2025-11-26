@@ -318,10 +318,19 @@ enum QuizQuestionType {
 }
 
 struct QuizAnswer: Identifiable {
-    let id = UUID()
+    let id: UUID
     let text: String
     let isCorrect: Bool
+    let explanation: String
+
+    init(text: String, isCorrect: Bool, explanation: String = "placeholder") {
+        self.id = UUID()
+        self.text = text
+        self.isCorrect = isCorrect
+        self.explanation = explanation
+    }
 }
+
 
 enum QuestionDifficulty: Int, CaseIterable, Hashable {
     case easy
@@ -406,37 +415,62 @@ struct QuizOptionView: View {
     @State private var hasAnimatedCorrect = false
     @State private var checkScale: CGFloat = 1.0
     @State private var glowOpacity: Double = 0
+    @Environment(\.colorScheme) private var colorScheme
     
     var body: some View {
-        HStack {
-            Text(answer.text)
-                .foregroundColor(.primary)
-                .font(.body)
-                .multilineTextAlignment(.leading)
-                .fixedSize(horizontal: false, vertical: true)
-                .lineLimit(nil)
-            
-            Spacer()
-            
+        VStack(alignment: .leading, spacing: 8) {
+
+            // Existing answer row
+            HStack {
+                Text(answer.text)
+                    .foregroundColor(.primary)
+                    .font(.body)
+                    .multilineTextAlignment(.leading)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .lineLimit(nil)
+
+                Spacer()
+
+                if revealed {
+                    if answer.isCorrect {
+                        Image(systemName: "checkmark.circle.fill")
+                            .foregroundColor(.green)
+                            .scaleEffect(checkScale)
+                            .onChange(of: revealed) { _ in tryAnimateCorrect() }
+                            .onChange(of: isSelected) { _ in tryAnimateCorrect() }
+                    } else if isSelected {
+                        Image(systemName: "xmark.circle.fill")
+                            .foregroundColor(.red)
+                    }
+                } else if isSelected {
+                    Image(systemName: "circle.fill")
+                        .foregroundColor(.primary)
+                }
+            }
+
+            // NEW: Explanation text
             if revealed {
                 if answer.isCorrect {
-                    Image(systemName: "checkmark.circle.fill")
-                        .foregroundColor(.green)
-                        .scaleEffect(checkScale)
-                        .onChange(of: revealed) { _ in
-                            tryAnimateCorrect()
-                        }
-                        .onChange(of: isSelected) { _ in
-                            tryAnimateCorrect()
-                        }
+                    Text(answer.explanation)
+                        .font(.footnote)
+                        .foregroundColor(
+                            colorScheme == .light
+                            ? Color(red: 0.0, green: 0.45, blue: 0.15)   // darker for light mode
+                            : .green.opacity(0.9)                       // original for dark mode
+                        )
+                        .transition(.opacity.combined(with: .move(edge: .top)))
+                        .lineLimit(nil)
+                        .fixedSize(horizontal: false, vertical: true)
                 } else if isSelected {
-                    Image(systemName: "xmark.circle.fill")
-                        .foregroundColor(.red)
+                    Text(answer.explanation)
+                        .font(.footnote)
+                        .foregroundColor(.red.opacity(0.9))
+                        .transition(.opacity.combined(with: .move(edge: .top)))
+                        .lineLimit(nil)
+                        .fixedSize(horizontal: false, vertical: true)
                 }
-            } else if isSelected {
-                Image(systemName: "circle.fill")
-                    .foregroundColor(.primary)
             }
+
         }
         .padding()
         .background(backgroundStyle)
