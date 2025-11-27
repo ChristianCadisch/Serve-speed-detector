@@ -7,7 +7,7 @@
 import Foundation
 
 let backhandQuestions: [QuizQuestion] = [
-
+    /*
     QuizQuestion(
         text: "What grip is recommended for hitting an aggressive topspin one-handed backhand, as used by players like Roger Federer and Stan Wawrinka?",
         type: .single,
@@ -241,5 +241,6 @@ let backhandQuestions: [QuizQuestion] = [
     )
 
 
-
+*/
 ]
+

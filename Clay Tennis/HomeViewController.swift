@@ -311,7 +311,6 @@ class HomeViewController: UIViewController,
 
     
     func showQuiz(topic: QuizIdentifier, difficulty: QuizDifficulty) {
-        print("📍 showQuiz called for:", topic.title, difficulty.title)
 
         let quizView = QuizView(
             vm: QuizViewModel(questions: topic.questions(for: difficulty)),

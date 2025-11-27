@@ -32,95 +32,106 @@ struct QuizResultView: View {
     }
     
     var body: some View {
-        ZStack {
-            
-            // Confetti overlay
-            if showConfetti {
-                ConfettiView(colors: [
-                    topicAccent,
-                    topicAccent.opacity(0.7),
-                    .white,
-                    Color.primary
-                ])
-                .ignoresSafeArea()
-                
-            }
-            
-            // Background gradient
-            LinearGradient(
-                colors: [
-                    topicAccent.opacity(0.10),
-                    Color(.systemBackground)
-                ],
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .ignoresSafeArea()
-            .allowsHitTesting(false)
-            
-            VStack(spacing: 32) {
-                
-                VStack(spacing: 12) {
-                    Text("Quiz Complete")
-                        .font(.largeTitle.bold())
-                        .foregroundColor(.primary)
-                        .opacity(appear ? 1 : 0)
-                        .offset(y: appear ? 0 : 10)
-                    
-                    Text(performanceText)
-                        .font(.title2.weight(.semibold))
-                        .foregroundColor(.secondary)
-                        .opacity(appear ? 1 : 0)
-                        .offset(y: appear ? 0 : 10)
+            ZStack {
+
+                if showConfetti {
+                    ConfettiView(colors: [
+                        topicAccent,
+                        topicAccent.opacity(0.7),
+                        .white,
+                        Color.primary
+                    ])
+                    .ignoresSafeArea()
                 }
-                
-                ZStack {
-                    Circle()
-                        .fill(Color(.secondarySystemBackground))
-                        .frame(width: 140, height: 140)
-                        .overlay(
-                            Circle()
-                                .stroke(topicAccent.opacity(0.15), lineWidth: 2)
-                        )
-                    
-                    VStack(spacing: 4) {
-                        Text("\(score)")
-                            .font(.system(size: 52, weight: .bold))
-                            .foregroundColor(.primary)
-                        
-                        Text("out of \(total)")
-                            .font(.headline)
+
+                LinearGradient(
+                    colors: [
+                        topicAccent.opacity(0.10),
+                        Color(.systemBackground)
+                    ],
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+                .ignoresSafeArea()
+                .allowsHitTesting(false)
+
+                VStack(spacing: 32) {
+
+                    VStack(spacing: 12) {
+                        Text(LocalizedStringKey("quiz_complete_title"), tableName: "Quiz")
+                            .font(.largeTitle.bold())
+
+                        Text(LocalizedStringKey(performanceTextKey), tableName: "Quiz")
+                            .font(.title2.weight(.semibold))
                             .foregroundColor(.secondary)
                     }
+                    .opacity(appear ? 1 : 0)
+                    .offset(y: appear ? 0 : 10)
+
+                    ZStack {
+                        Circle()
+                            .fill(Color(.secondarySystemBackground))
+                            .frame(width: 140, height: 140)
+                            .overlay(
+                                Circle()
+                                    .stroke(topicAccent.opacity(0.15), lineWidth: 2)
+                            )
+
+                        VStack(spacing: 4) {
+                            Text("\(score)")
+                                .font(.system(size: 52, weight: .bold))
+
+                            Text(
+                                String(
+                                    format: NSLocalizedString(
+                                        "correct_out_of_format",
+                                        tableName: "Quiz",
+                                        bundle: .main,
+                                        comment: ""
+                                    ),
+                                    total
+                                )
+                            )
+
+                            .font(.headline)
+                            .foregroundColor(.secondary)
+
+                        }
+                    }
+
+                    Spacer()
+
+                    nextQuizBar
+                        .padding(.horizontal, 20)
+                        .padding(.bottom, 12)
                 }
-                .scaleEffect(appear ? 1 : 0.86)
-                .animation(.spring(response: 0.5, dampingFraction: 0.8), value: appear)
-                
-                Spacer()
-                
-                
-                
-                nextQuizBar
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 12)
-                
+                .padding(.top, 80)
             }
-            .padding(.top, 80)
+            .onAppear {
+                withAnimation(.easeOut(duration: 0.6)) {
+                    appear = true
+                }
+
+                showConfetti = true
+
+                DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+                    showConfetti = false
+                }
+            }
         }
-        .onAppear {
-            withAnimation(.easeOut(duration: 0.6)) {
-                appear = true
-            }
-            
-            showConfetti = true
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
-                showConfetti = false
-            }
+    
+    private var performanceTextKey: String {
+        let ratio = Double(score) / Double(max(total, 1))
+
+        switch ratio {
+        case 0.8...:
+            return "quiz_result_excellent"
+        case 0.5...:
+            return "quiz_result_good"
+        default:
+            return "quiz_result_keep_practicing"
         }
     }
-    
-    
     
     private var nextLessonID: LessonQuizID {
         let topic = quizID
@@ -144,9 +155,6 @@ struct QuizResultView: View {
         let progress = total == 0 ? 0 : Double(solved) / Double(total)
         
         return Button {
-            print("➡️ NextQuizBar tapped")
-            print("   id.topic:", id.topic.title)
-            print("   id.difficulty:", id.difficulty.title)
             onNextQuiz(nextLessonID)
         } label: {
             VStack(spacing: 14) {
@@ -169,7 +177,7 @@ struct QuizResultView: View {
                             .font(.caption.weight(.medium))
                             .foregroundColor(.white.opacity(0.6))
                         
-                        Text("\(topic.title) • \(difficulty.title)")
+                        Text("\(topic.localizedTitle) • \(difficulty.localizedTitle)")
                             .font(.headline.weight(.semibold))
                             .foregroundColor(.white)
                     }
@@ -319,15 +327,15 @@ enum QuizQuestionType {
 
 struct QuizAnswer: Identifiable {
     let id: UUID
-    let text: String
+    let textKey: String
     let isCorrect: Bool
-    let explanation: String
+    let explanationKey: String
 
-    init(text: String, isCorrect: Bool, explanation: String = "placeholder") {
+    init(text: String, isCorrect: Bool, explanationKey: String = "placeholder") {
         self.id = UUID()
-        self.text = text
+        self.textKey = text
         self.isCorrect = isCorrect
-        self.explanation = explanation
+        self.explanationKey = explanationKey
     }
 }
 
@@ -338,24 +346,13 @@ enum QuestionDifficulty: Int, CaseIterable, Hashable {
     case hard
 }
 
+
 struct QuizQuestion: Identifiable {
     let id = UUID()
-    let text: String
+    let textKey: String
     let type: QuizQuestionType
     let answers: [QuizAnswer]
-    let difficulty: QuestionDifficulty
-
-    init(
-        text: String,
-        type: QuizQuestionType,
-        answers: [QuizAnswer],
-        difficulty: QuestionDifficulty = .easy
-    ) {
-        self.text = text
-        self.type = type
-        self.answers = answers
-        self.difficulty = difficulty
-    }
+    let difficulty: QuizDifficulty
 }
 
 
@@ -406,6 +403,13 @@ class QuizViewModel: ObservableObject {
     
 }
 
+extension QuizDifficulty {
+    var localizedTitle: String {
+        NSLocalizedString(self.titleKey, tableName: "Quiz", comment: "")
+    }
+}
+
+
 
 struct QuizOptionView: View {
     let answer: QuizAnswer
@@ -422,7 +426,7 @@ struct QuizOptionView: View {
 
             // Existing answer row
             HStack {
-                Text(answer.text)
+                Text(LocalizedStringKey(answer.textKey), tableName: "Quiz")
                     .foregroundColor(.primary)
                     .font(.body)
                     .multilineTextAlignment(.leading)
@@ -451,7 +455,7 @@ struct QuizOptionView: View {
             // NEW: Explanation text
             if revealed {
                 if answer.isCorrect {
-                    Text(answer.explanation)
+                    Text(LocalizedStringKey(answer.explanationKey), tableName: "Quiz")
                         .font(.footnote)
                         .foregroundColor(
                             colorScheme == .light
@@ -462,7 +466,7 @@ struct QuizOptionView: View {
                         .lineLimit(nil)
                         .fixedSize(horizontal: false, vertical: true)
                 } else if isSelected {
-                    Text(answer.explanation)
+                    Text(LocalizedStringKey(answer.explanationKey), tableName: "Quiz")
                         .font(.footnote)
                         .foregroundColor(.red.opacity(0.9))
                         .transition(.opacity.combined(with: .move(edge: .top)))
@@ -601,7 +605,7 @@ enum QuizIdentifier: Int, CaseIterable, Hashable {
         }
 
         return allQuestions.filter { question in
-            question.difficulty.rawValue <= difficulty.rawValue
+            question.difficulty.rawValue == difficulty.rawValue
         }
     }
 
@@ -624,17 +628,18 @@ enum QuizDifficulty: Int, CaseIterable, Hashable {
     case easy
     case medium
     case hard
-    
-    var title: String {
+
+    var orderIndex: Int { rawValue }
+
+    var titleKey: String {
         switch self {
-        case .easy: return "Easy"
-        case .medium: return "Medium"
-        case .hard: return "Hard"
+        case .easy: return "difficulty_easy"
+        case .medium: return "difficulty_medium"
+        case .hard: return "difficulty_hard"
         }
     }
-    
-    var orderIndex: Int { rawValue }
 }
+
 
 struct LessonQuizID: Hashable {
     let topic: QuizIdentifier

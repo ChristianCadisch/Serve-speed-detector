@@ -132,7 +132,7 @@ struct TheoryView: View {
                                     .font(.title3.bold())
                                     .foregroundColor(.white)
 
-                                Text("Next up: \(difficulty.title)")
+                                Text("Next up: \(difficulty.localizedTitle)")
                                     .font(.caption.weight(.semibold))
                                     .foregroundColor(.white.opacity(0.9))
                             }
@@ -219,7 +219,6 @@ struct TheoryView: View {
                 let score = loaded[id, default: 0]
                 let total = topic.totalQuestions(for: difficulty)
                 let progress = total == 0 ? 0 : Double(score) / Double(total)
-                print("• \(topic.title) \(difficulty.title): \(score)/\(total) → \(progress)")
             }
         }
     }
@@ -231,7 +230,6 @@ struct TheoryView: View {
         highScores[id] = newScore
         UserDefaults.standard.set(newScore, forKey: id.userDefaultsKey)
 
-        print("✅ New high score for \(id.topic.title) \(id.difficulty.title): \(newScore)")
     }
 }
 
@@ -314,7 +312,7 @@ struct LessonRow: View {
     private var nextDifficultyText: String {
         for d in QuizDifficulty.allCases {
             if dotState(d) != .completed {
-                return "Continue \(d.title)"
+                return "Continue \(d.localizedTitle)"
             }
         }
         return "Mastered"
@@ -467,6 +465,25 @@ extension QuizIdentifier {
             }
         }
 }
+
+extension QuizIdentifier {
+
+    var titleKey: String {
+        switch self {
+        case .serve: return "topic_serve"
+        case .tactics: return "topic_tactics"
+        case .forehand: return "topic_forehand"
+        case .backhand: return "topic_backhand"
+        case .volley: return "topic_volley"
+        case .legwork: return "topic_legwork"
+        }
+    }
+
+    var localizedTitle: String {
+        NSLocalizedString(self.titleKey, tableName: "Quiz", comment: "")
+    }
+}
+
 
 struct PressableCardButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {

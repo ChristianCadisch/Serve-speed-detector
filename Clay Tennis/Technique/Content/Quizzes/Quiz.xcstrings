@@ -1,0 +1,1811 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "continue_button" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Weiter"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continue"
+          }
+        }
+      }
+    },
+    "correct_out_of_format" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "%d von %d richtig"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "out of %d"
+          }
+        }
+      }
+    },
+    "difficulty_easy" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leicht"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Easy"
+          }
+        }
+      }
+    },
+    "difficulty_hard" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schwer"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hard"
+          }
+        }
+      }
+    },
+    "difficulty_medium" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mittel"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Medium"
+          }
+        }
+      }
+    },
+    "enter_button" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Antwort prüfen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter"
+          }
+        }
+      }
+    },
+    "next_quiz_label" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nächstes Quiz"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next Quiz"
+          }
+        }
+      }
+    },
+    "out_of_format" : {
+      "comment" : "Score formatting",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "von %d"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "out of %d"
+          }
+        }
+      }
+    },
+    "question_counter_format" : {
+      "comment" : "Format for question counter",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frage %d von %d"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Question %d of %d"
+          }
+        }
+      }
+    },
+    "quiz_complete_title" : {
+      "comment" : "Title of the view that appears when a quiz is completed.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quiz abgeschlossen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quiz Complete"
+          }
+        }
+      }
+    },
+    "quiz_result_excellent" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hervorragend!"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Excellent!"
+          }
+        }
+      }
+    },
+    "quiz_result_good" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gut gemacht!"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Good job!"
+          }
+        }
+      }
+    },
+    "quiz_result_keep_practicing" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Weiter üben!"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep practicing!"
+          }
+        }
+      }
+    },
+    "solved_counter_format" : {
+      "comment" : "Solved questions counter",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d/%d gelöst"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d/%d solved"
+          }
+        }
+      }
+    },
+    "topic_backhand" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rückhand"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Backhand"
+          }
+        }
+      }
+    },
+    "topic_forehand" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vorhand"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Forehand"
+          }
+        }
+      }
+    },
+    "topic_legwork" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beinarbeit"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leg Work"
+          }
+        }
+      }
+    },
+    "topic_serve" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aufschlag"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Serve"
+          }
+        }
+      }
+    },
+    "topic_tactics" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Taktik"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tactics"
+          }
+        }
+      }
+    },
+    "topic_volley" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volley"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volley"
+          }
+        }
+      }
+    },
+
+    "serve_q1_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Welchen Griff verwenden die meisten Spieler beim Tennisaufschlag?"
+      }
+    },
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "What grip do the majority players use for the tennis serve?"
+      }
+    }
+  }
+},
+
+"serve_q1_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Vorhandgriff" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Forehand grip" }}
+  }
+},
+
+"serve_q1_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Begrenzt Spin und Kontrolle" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Limits spin and control" }}
+  }
+},
+
+"serve_q1_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Continental-Griff (Hammergriff)" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Continental grip (Chopper grip)" }}
+  }
+},
+
+"serve_q1_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Am besten für Kraft und Spin" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Best for power and spin" }}
+  }
+},
+
+"serve_q1_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Extremer Western-Griff" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Extreme Western grip" }}
+  }
+},
+
+"serve_q1_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Für den Aufschlag ungeeignet" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Not suitable for serving" }}
+  }
+},
+
+"serve_q2_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated",
+      "value" : "Für einen konstanten Ballwurf sollte der Ball losgelassen werden, wenn die Wurfhand welche Höhe erreicht?"
+    }},
+    "en" : { "stringUnit" : { "state" : "translated",
+      "value" : "To ensure a consistent ball toss on the serve, the ball should be released when the tossing hand reaches what height?"
+    }}
+  }
+},
+
+"serve_q2_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Schulterhöhe" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Shoulder height" }}
+  }
+},
+
+"serve_q2_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Zu niedrig für Konstanz" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Too low for consistency" }}
+  }
+},
+
+"serve_q2_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Kopfhöhe" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Head height" }}
+  }
+},
+
+"serve_q2_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Loslassen auf Kopfhöhe" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Release at head height" }}
+  }
+},
+
+"serve_q2_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Der höchste Punkt des Ballwurfs" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The peak of the toss" }}
+  }
+},
+
+"serve_q2_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Früher loslassen als dieser Punkt" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Release earlier than that" }}
+  }
+},
+
+"serve_q3_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated",
+      "value" : "Wo sollte der Schläger bei einem natürlichen, entspannten Ausschwung eines Rechtshänders enden?"
+    }},
+    "en" : { "stringUnit" : { "state" : "translated",
+      "value" : "Where should the racket typically finish during a natural, relaxed follow-through for a right-handed server?"
+    }}
+  }
+},
+
+"serve_q3_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Über der linken Schulter" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Over the left shoulder" }}
+  }
+},
+
+"serve_q3_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Beim rechten Knie" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "By the right knee" }}
+  }
+},
+
+"serve_q3_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Zur linken Hüfte" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "To the left hip" }}
+  }
+},
+
+"serve_q3_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Ein entspannter Ausschwung endet hier" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "A relaxed finish ends here" }}
+  }
+},
+
+"serve_q4_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated",
+      "value" : "Wohin sollte die nicht schlagende Hand in einer guten Trophäenposition zeigen?"
+    }},
+    "en" : { "stringUnit" : { "state" : "translated",
+      "value" : "When reaching a good trophy position on the serve, what should the non-hitting hand be pointing towards?"
+    }}
+  }
+},
+
+"serve_q4_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Zum Netz" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The net" }}
+  }
+},
+
+"serve_q4_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Sie sollte dem Ballwurf folgen" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "It should track the toss" }}
+  }
+},
+
+"serve_q4_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Zum Ball" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The ball" }}
+  }
+},
+
+"serve_q4_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Hilft bei Ausrichtung und Timing" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Helps alignment and timing" }}
+  }
+},
+
+"serve_q4_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Zum Aufschlagziel des Gegners" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The opponent's serving target" }}
+  }
+},
+
+"serve_q4_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Der Fokus sollte auf dem Ball bleiben" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Focus stays on the ball" }}
+  }
+},
+
+"serve_q5_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated",
+      "value" : "Wie sollte der Ball für einen konstanten Ballwurf gehalten werden?"
+    }},
+    "en" : { "stringUnit" : { "state" : "translated",
+      "value" : "For a consistent ball toss, how should the ball generally be held?"
+    }}
+  }
+},
+
+"serve_q5_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "In der Handfläche" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "In the palm of your hand" }}
+  }
+},
+
+"serve_q5_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Zu instabil" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Too unstable" }}
+  }
+},
+
+"serve_q5_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Nur mit den Fingerspitzen" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Only using the fingertips" }}
+  }
+},
+
+"serve_q5_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Nicht genug Kontrolle" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Not enough control" }}
+  }
+},
+
+"serve_q5_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "In den Fingern (nicht Fingerspitzen)" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "In your fingers (not fingertips)" }}
+  }
+},
+
+"serve_q5_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Gibt bessere Kontrolle" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Gives better control" }}
+  }
+},
+
+"serve_q6_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Wie viel höher als der ideale Treffpunkt sollte der Ball beim Aufschlag geworfen werden?" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "For a consistent ball toss, how much higher than the ideal contact point should the ball be tossed?" }}
+  }
+},
+"serve_q6_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Etwa 10–15 cm höher" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Around 4–6 inches higher" }}
+  }
+},
+"serve_q6_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Etwas oberhalb des Treffpunkts" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Slightly above contact" }}
+  }
+},
+"serve_q6_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "So hoch wie möglich, um mehr Zeit zu haben" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "As high as possible to allow time to wind up" }}
+  }
+},
+"serve_q6_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Zu hoch stört den Rhythmus" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Too high ruins rhythm" }}
+  }
+},
+"serve_q6_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Genau auf Höhe des Treffpunkts" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Exactly at the contact point height" }}
+  }
+},
+"serve_q6_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Braucht etwas zusätzliche Höhe" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Needs extra height" }}
+  }
+},
+
+"serve_q7_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Welche dieser Optionen ist ein erforderlicher Bestandteil einer guten Trophäenposition beim Aufschlag?" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Which of these is a required component of a good Trophy Position on the serve?" }}
+  }
+},
+"serve_q7_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Schlägerkopf zeigt zum Boden" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Racket head facing the ground" }}
+  }
+},
+"serve_q7_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Er sollte nach oben zeigen" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "It points up" }}
+  }
+},
+"serve_q7_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Kräftige Kniebeugung, bereit zum Absprung" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "A strong knee bend, ready to launch the body off the ground" }}
+  }
+},
+"serve_q7_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Die Beine laden die Energie" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Legs load power" }}
+  }
+},
+"serve_q7_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Rechte Schulter hoch Richtung Kopf" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The right shoulder lifted high towards the head" }}
+  }
+},
+"serve_q7_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Die Schulter fällt nach hinten ab" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Shoulder drops back" }}
+  }
+},
+
+"serve_q8_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Supination und Pronation beim Aufschlag sind nur möglich mit welchem Griff?" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Supination and pronation during the serve are only able to occur if the player is utilizing which specific grip?" }}
+  }
+},
+"serve_q8_a1" : { "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Starker Eastern-Griff" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "A strong Eastern grip" }}
+  }
+},
+"serve_q8_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Verhindert vollständige Rotation" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Prevents full rotation" }}
+  }
+},
+"serve_q8_a2" : { "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Continental-Griff" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The Continental grip" }}
+  }
+},
+"serve_q8_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Erlaubt vollständige Rotation" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Allows full rotation" }}
+  }
+},
+"serve_q8_a3" : { "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Vorhandgriff" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "A Forehand grip" }}
+  }
+},
+"serve_q8_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Begrenzt die Spinerzeugung" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Limits spin generation" }}
+  }
+},
+
+"serve_q9_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Wie kann man übermäßige Belastung des Schultergelenks im Ausschwung vermeiden?" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "To avoid placing a great deal of stress on the shoulder joint during the serve follow-through, what action should occur?" }}
+  }
+},
+"serve_q9_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Arm komplett gestreckt lassen" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The arm should remain completely straight throughout the finish" }}
+  }
+},
+"serve_q9_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Belastet die Schulter" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This strains the shoulder" }}
+  }
+},
+"serve_q9_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Ellenbogen im Finish beugen" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The elbow should be bent when finishing" }}
+  }
+},
+"serve_q9_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Reduziert Schulterbelastung" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Reduces shoulder stress" }}
+  }
+},
+"serve_q9_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Schläger extrem fest greifen" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The racket must be gripped tightly throughout the acceleration" }}
+  }
+},
+"serve_q9_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Der Griff sollte locker bleiben" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Grip should stay loose" }}
+  }
+},
+
+"serve_q10_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Warum nutzen große Aufschläger oft eine durchgehende Bewegung?" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "For generating racket head speed, why do the biggest servers often use a continuous motion?" }}
+  }
+},
+"serve_q10_a1" : { "extractionState" : "manual",
+  "localizations" : { "de" : { "stringUnit" : { "state" : "translated", "value" : "Hält den Arm perfekt gestreckt" }},
+                      "en" : { "stringUnit" : { "state" : "translated", "value" : "It ensures a perfectly straight arm at contact" }} }},
+
+"serve_q10_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : { "de" : { "stringUnit" : { "state" : "translated", "value" : "Das ist nicht der Hauptgrund" }},
+                      "en" : { "stringUnit" : { "state" : "translated", "value" : "This isn’t the main reason" }} }
+},
+"serve_q10_a2" : {
+  "extractionState" : "manual",
+  "localizations" : { "de" : { "stringUnit" : { "state" : "translated", "value" : "Erlaubt eine Pause in der Trophäenposition" }},
+                      "en" : { "stringUnit" : { "state" : "translated", "value" : "It allows the server to pause in the trophy position for perfect timing" }} }
+},
+"serve_q10_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : { "de" : { "stringUnit" : { "state" : "translated", "value" : "Pausieren nimmt Geschwindigkeit" }},
+                      "en" : { "stringUnit" : { "state" : "translated", "value" : "Pausing kills speed" }} }
+},
+"serve_q10_a3" : {
+  "extractionState" : "manual",
+  "localizations" : { "de" : { "stringUnit" : { "state" : "translated", "value" : "Erzeugt Schwung, der sonst verloren ginge" }},
+                      "en" : { "stringUnit" : { "state" : "translated", "value" : "It builds momentum that would otherwise be lost if the swing broke or paused" }} }
+},
+"serve_q10_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : { "de" : { "stringUnit" : { "state" : "translated", "value" : "Kontinuierliche Bewegung erhält Geschwindigkeit" }},
+                      "en" : { "stringUnit" : { "state" : "translated", "value" : "Continuous flow keeps speed" }} }
+},
+
+"serve_q11_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Welche Technik nutzte Pete Sampras, um einen lockeren Griff zu behalten?" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "What technique did Pete Sampras famously use during the lifting phase of his serve to ensure relaxed grip pressure?" }}
+  }
+},
+"serve_q11_a1" : {
+  "extractionState" : "manual",
+  "localizations" : { "de" : { "stringUnit" : { "state" : "translated", "value" : "Er drückte den Griff fest zusammen" }},
+                      "en" : { "stringUnit" : { "state" : "translated", "value" : "He squeezed the grip tightly before every toss" }} }
+},
+"serve_q11_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : { "de" : { "stringUnit" : { "state" : "translated", "value" : "Er blieb locker" }},
+                      "en" : { "stringUnit" : { "state" : "translated", "value" : "He stayed loose" }} }
+},
+"serve_q11_a2" : {
+  "extractionState" : "manual",
+  "localizations" : { "de" : { "stringUnit" : { "state" : "translated", "value" : "Er ließ kleine, Ring- und Mittelfinger locker" }},
+                      "en" : { "stringUnit" : { "state" : "translated", "value" : "He released his pinky, ring, and middle fingers during the lift into the trophy position" }} }
+},
+"serve_q11_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : { "de" : { "stringUnit" : { "state" : "translated", "value" : "Lockerte den Griff" }},
+                      "en" : { "stringUnit" : { "state" : "translated", "value" : "This relaxed his grip" }} }
+},
+"serve_q11_a3" : {
+  "extractionState" : "manual",
+  "localizations" : { "de" : { "stringUnit" : { "state" : "translated", "value" : "Er atmete scharf aus" }},
+                      "en" : { "stringUnit" : { "state" : "translated", "value" : "He exhaled sharply as he lifted the racket behind his head" }} }
+},
+"serve_q11_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : { "de" : { "stringUnit" : { "state" : "translated", "value" : "Das diente nur der Atmung" }},
+                      "en" : { "stringUnit" : { "state" : "translated", "value" : "That’s for breathing" }} }
+},
+
+"serve_q12_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated",
+      "value" : "Wenn der Unterarm vor dem Treffpunkt in Supination ist, in welche Richtung sollten Handfläche und Saiten zunächst zeigen?"
+    }},
+    "en" : { "stringUnit" : { "state" : "translated",
+      "value" : "For a right-handed server using the Continental grip, when the forearm is in supination prior to contact, which direction should the palm of the hand and the strings initially face?"
+    }}
+  }
+},
+"serve_q12_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Zum Ziel / Netz" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Towards the target/net" }}
+  }
+},
+"serve_q12_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Das ist erst beim Treffpunkt der Fall" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "That’s at contact" }}
+  }
+},
+"serve_q12_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Zur rechten Spielfeldseite" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Towards the right side of the court" }}
+  }
+},
+"serve_q12_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Das geschieht nach der Pronation" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "That’s after pronation" }}
+  }
+},
+"serve_q12_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Zur linken Spielfeldseite" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Towards the left side of the court" }}
+  }
+},
+"serve_q12_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Das ist vor dem Treffpunkt korrekt" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This is pre-contact" }}
+  }
+},
+
+"serve_q13_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated",
+      "value" : "Wie lange dauert bei den meisten Tennisspielern die Aufschlagbewegung vom Start bis zum Treffpunkt?"
+    }},
+    "en" : { "stringUnit" : { "state" : "translated",
+      "value" : "For the majority of tennis players (club and pro level), what is the typical timing duration from the start of the service motion until the contact point?"
+    }}
+  }
+},
+"serve_q13_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "0,8 – 1,0 Sekunden" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "0.8 – 1.0 seconds" }}
+  }
+},
+"serve_q13_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Für die meisten zu schnell" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Too fast for most" }}
+  }
+},
+"serve_q13_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "1,5 – 2,0 Sekunden" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "1.5 – 2.0 seconds" }}
+  }
+},
+"serve_q13_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Typische Aufschlagdauer" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Typical serve timing" }}
+  }
+},
+"serve_q13_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "2,5 – 3,0 Sekunden" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "2.5 – 3.0 seconds" }}
+  }
+},
+"serve_q13_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Für die meisten zu langsam" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Too slow" }}
+  }
+},
+
+"serve_q14_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated",
+      "value" : "Welche Bewegung startet das Entdrehen des Körpers aus der Trophäenposition und maximiert die Rotationskraft?"
+    }},
+    "en" : { "stringUnit" : { "state" : "translated",
+      "value" : "What specific action initiates the uncoiling of the body from the trophy position, thereby maximizing rotational power?"
+    }}
+  }
+},
+"serve_q14_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Das Beugen der Knie vor dem Absprung" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The bending of the knees prior to the jump" }}
+  }
+},
+"serve_q14_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Das lädt nur Energie" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This loads power only" }}
+  }
+},
+"serve_q14_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Das Abziehen der Wurfhand nach unten und weg vom Treffpunkt" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The tossing hand pulling down and away from the contact point" }}
+  }
+},
+"serve_q14_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Startet die Rotation" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This starts rotation" }}
+  }
+},
+"serve_q14_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Wenn der Schläger seinen tiefsten Punkt erreicht" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The serving arm reaching its furthest racket drop position" }}
+  }
+},
+"serve_q14_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Das passiert später" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "That comes later" }}
+  }
+},
+
+"serve_q15_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated",
+      "value" : "Was passiert bei einem Slice-Aufschlag eines Rechtshänders im Unterarm und Handgelenk beim Treffpunkt?"
+    }},
+    "en" : { "stringUnit" : { "state" : "translated",
+      "value" : "For a right-handed player executing a Slice Service, what occurs regarding the forearm and wrist at contact?"
+    }}
+  }
+},
+"serve_q15_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Ulnarflexion im Handgelenk und Innenrotation im Unterarm" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Ulnar flexion of the wrist and internal rotation of the forearm" }}
+  }
+},
+"serve_q15_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Erzeugt den Slice-Effekt" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This creates slice" }}
+  }
+},
+"serve_q15_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Ulnarflexion und Außenrotation" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Ulnar flexion of the wrist and external rotation of the forearm" }}
+  }
+},
+"serve_q15_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Das ist typisch für den Kickaufschlag" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "That’s for kick" }}
+  }
+},
+"serve_q15_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Radialflexion und Supination" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Radial flexion of the wrist and supination of the forearm" }}
+  }
+},
+"serve_q15_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Falsche Mechanik" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Wrong mechanics" }}
+  }
+},
+
+"serve_q16_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated",
+      "value" : "Welchen Hauptvorteil haben Spieler mit einem niedrigen Ballwurf?"
+    }},
+    "en" : { "stringUnit" : { "state" : "translated",
+      "value" : "A major advantage gained by players who utilize a low ball toss is that it forces them to do what?"
+    }}
+  }
+},
+"serve_q16_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Ihre Bewegung zu verlangsamen" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Slow down their motion to ensure they hit the ball at the apex" }}
+  }
+},
+"serve_q16_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Es bewirkt genau das Gegenteil" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "It does the opposite" }}
+  }
+},
+"serve_q16_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Die Genauigkeit der Pronation zu erhöhen" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Increase the accuracy of their pronation snap" }}
+  }
+},
+"serve_q16_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Das ist nicht der entscheidende Effekt" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "That’s not the key effect" }}
+  }
+},
+"serve_q16_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Ihre Bewegung zu beschleunigen, um auf Idealhöhe zu treffen" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Speed up their motion to make contact at their ideal height" }}
+  }
+},
+"serve_q16_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Ein niedriger Wurf erzwingt Geschwindigkeit" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "A low toss forces speed" }}
+  }
+},
+
+"serve_q17_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated",
+      "value" : "Wann sollte ein Aufschläger mit dem Ausatmen beginnen, um entspannt zu bleiben und maximale Power zu erzeugen?"
+    }},
+    "en" : { "stringUnit" : { "state" : "translated",
+      "value" : "To ensure the body is relaxed and maximize power, when should the server typically start exhaling during the service motion?"
+    }}
+  }
+},
+"serve_q17_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Beim Erreichen der Trophäenposition" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Start the exhale when reaching the trophy position" }}
+  }
+},
+"serve_q17_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Hilft, entspannt zu bleiben" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Helps stay relaxed" }}
+  }
+},
+"serve_q17_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Den Atem bis nach dem Treffpunkt anhalten" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Hold the breath until after the ball contact" }}
+  }
+},
+"serve_q17_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Führt zu Spannung" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Causes tension" }}
+  }
+},
+"serve_q17_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Sofort beim Loslassen des Balls" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Start the exhale at the moment the ball is released from the tossing hand" }}
+  }
+},
+"serve_q17_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Zu früh" }},
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Too early" }}
+  }
+},
+
+"tactics_q1_text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Was ist das Hauptziel der 'Golden Tactic' zum Gewinnen von Einzelmatches?" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "What is the primary objective of the 'Golden Tactic' for winning singles matches?" }}
+      }
+    },
+
+    "tactics_q1_a1" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Bei jeder Gelegenheit ans Netz gehen" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Attack the net at every opportunity" }}
+      }
+    },
+
+    "tactics_q3_text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Welcher Griff wird für alle Volleys am Netz empfohlen?" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Which grip is recommended for all volleys at the net?" }}
+      }
+    },
+
+    "tactics_q3_a1" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Eastern-Backhand-Griff" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Eastern Backhand Grip" }}
+      }
+    },
+    "tactics_q3_a1_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Wird hauptsächlich für einhändige Topspin-Backhands verwendet" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Used primarily for the one-handed backhand topspin drive" }}
+      }
+    },
+
+    "tactics_q3_a2" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Continental-Griff (Hammergriff / Semikontinentalgriff)" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Continental Grip (Hammergriff / Semikontinentalgriff)" }}
+      }
+    },
+    "tactics_q3_a2_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Ermöglicht Vorhand- und Rückhandvolleys sowie den Smash ohne Griffwechsel" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "The Continental Grip allows you to hit forehand/backhand volleys and the smash without changing grips" }}
+      }
+    },
+
+    "tactics_q3_a3" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Semi-Western-Vorhandgriff" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Semi-Western Forehand Grip" }}
+      }
+    },
+    "tactics_q3_a3_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Wird für aggressive Topspin-Vorhände verwendet" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Used for aggressive topspin forehands" }}
+      }
+    },
+
+    "tactics_q4_text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Gegen einen Wimpy Server – was solltest du beim Return vermeiden?" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Against a Wimpy Server, what should you avoid doing on the return?" }}
+      }
+    },
+
+    "tactics_q4_a1" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Den Return als Angriffsball spielen" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Treating the return as an approach shot" }}
+      }
+    },
+    "tactics_q4_a1_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Das ist eigentlich eine empfohlene Taktik gegen diesen Spielertyp" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "This is a recommended tactic against this player type" }}
+      }
+    },
+
+    "tactics_q4_a2" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Sich zu Winners verleiten lassen" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Getting lured into trying for winners" }}
+      }
+    },
+    "tactics_q4_a2_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Führt fast immer zu unnötigen Fehlern" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Avoid being lured into trying for winners, as this is the easiest way to make errors" }}
+      }
+    },
+
+    "tactics_q4_a3" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Mit gleicher Geschwindigkeit zurückspielen" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Using the matching method (returning the same speed)" }}
+      }
+    },
+    "tactics_q4_a3_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Eine empfohlene Methode um Überziehen zu vermeiden" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "This is a recommended tactic for avoiding over-hitting" }}
+      }
+    },
+
+    "tactics_q5_text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Welche Fußarbeit muss genau im Treffmoment des Gegners ausgeführt werden, um schnell starten zu können?" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "What footwork action must be executed the moment the opponent hits the ball to enable a quick start?" }}
+      }
+    },
+
+    "tactics_q5_a1" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Cross-Step (Kreuzschritt)" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "The Cross-Step (Kreuzschritt)" }}
+      }
+    },
+    "tactics_q5_a1_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Wird für schnelle Rückkehr zur Platzmitte verwendet" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "This is used for rapid recovery back to the center of the court" }}
+      }
+    },
+
+    "tactics_q5_a2" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Sliding Step (Rutschen)" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "The Sliding Step (rutschen)" }}
+      }
+    },
+    "tactics_q5_a2_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Wird hauptsächlich auf Sandplätzen verwendet" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "This is a technique used specifically on clay courts" }}
+      }
+    },
+
+    "tactics_q5_a3" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Split-Step" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "The Split-Step" }}
+      }
+    },
+    "tactics_q5_a3_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Aktiviert die Beinmuskulatur für einen explosiven Start in jede Richtung" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "The Split-Step is wide and dynamic, activating leg muscles for a quick start in any direction" }}
+      }
+    },
+
+    "tactics_q6_text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Gegen einen Slicer/Hacker – was solltest du bei sehr tiefen Bällen vermeiden?" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Against a Slicer/Hacker, what should you avoid doing when the ball is very low to the ground?" }}
+      }
+    },
+
+    "tactics_q6_a1" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Häufiger ans Netz gehen" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Getting to the net more often" }}
+      }
+    },
+    "tactics_q6_a1_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Ist eigentlich empfohlen gegen diesen Spielertyp" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Getting to the net is recommended to take their shots out of the air" }}
+      }
+    },
+
+    "tactics_q6_a2" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Topspin-Bälle aus den Knien hochziehen" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Ripping topspin groundstrokes" }}
+      }
+    },
+    "tactics_q6_a2_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Führt häufig dazu, den Ball ins Netz zu schlagen" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Avoid ripping topspin groundstrokes on balls below the knees" }}
+      }
+    },
+
+    "tactics_q6_a3" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Mondbälle von der Grundlinie" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Playing moonballs from the baseline" }}
+      }
+    },
+    "tactics_q6_a3_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Empfohlen, da ein Slice aus dieser Höhe schwerer zu spielen ist" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Moonballs are recommended because a slice is harder to hit when it is out of the strike zone" }}
+      }
+    },
+
+    "tactics_q7_text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Gegen einen Runner/Pusher – wie viele Schläge solltest du spielen, bevor du einen Winner versuchst?" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Against a Runner/Pusher, how many shots should you aim to hit before attempting a winner?" }}
+      }
+    },
+
+    "tactics_q7_a1" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Mindestens 1 Schlag" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "At least 1 shot" }}
+      }
+    },
+    "tactics_q7_a1_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Dieser Spielertyp hofft genau auf solche schnellen Fehler" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "This player banks on opponents rushing and missing early" }}
+      }
+    },
+
+    "tactics_q7_a2" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Mindestens 4 Schläge" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "At least 4 shots" }}
+      }
+    },
+    "tactics_q7_a2_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Geduldig Punkte aufbauen, bevor man angreift" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "You should work the point and make at least four shots before trying for a winner" }}
+      }
+    },
+
+    "tactics_q7_a3" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Mindestens 8 Schläge" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "At least 8 shots" }}
+      }
+    },
+    "tactics_q7_a3_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Nicht notwendig laut Taktik-Empfehlung" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "The tactic recommends at least four shots before attempting a winner" }}
+      }
+    },
+
+    "tactics_q8_text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Welche Frage solltest du dir stellen, um zu prüfen, ob eine Taktik wirklich 'spielbar' ist?" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "What question should you ask yourself to determine if a tactic is truly usable in a competitive match?" }}
+      }
+    },
+
+    "tactics_q8_a1" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Ob dein Trainer die Taktik gut findet" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "If your coach approves the tactic" }}
+      }
+    },
+    "tactics_q8_a1_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Der entscheidende Test ist der Matchdruck" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Coaches know what skills are usable, but the test involves match pressure" }}
+      }
+    },
+
+    "tactics_q8_a2" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Ob du sie im Training 10-mal hintereinander geschafft hast" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "If you successfully executed it in practice 10 times in a row" }}
+      }
+    },
+    "tactics_q8_a2_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Training ist nicht gleich Matchsituation" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Success in practice is not the specific usable test defined" }}
+      }
+    },
+
+    "tactics_q8_a3" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Ob du sie bei 4:4 im dritten Satz spielen würdest" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "If you would try it at 4-all in the third set" }}
+      }
+    },
+    "tactics_q8_a3_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Wenn ja, ist die Taktik wirklich spielbar" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "If yes, the tactic is usable" }}
+      }
+    },
+
+    "tactics_q9_text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Warum solltest du gegen einen Counter-Puncher am Netz eng einrücken?" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "When at the net against a Counter-Puncher, why should you close in tight?" }}
+      }
+    },
+
+    "tactics_q9_a1" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Sie schlagen lieber vorbei als zu lobben" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "They prefer to pass you rather than lob you" }}
+      }
+    },
+    "tactics_q9_a1_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Enges Einrücken zwingt sie zum riskanten Passierschlag" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "They prefer to pass rather than lob, so closing tight pressures them" }}
+      }
+    },
+
+    "tactics_q9_a2" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Sie machen mehr Lob-Fehler" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "They often miss the lob if you move closer" }}
+      }
+    },
+    "tactics_q9_a2_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Der Hauptgrund ist ihre Passier-Vorliebe" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "The reason is their preference for aggressive shots" }}
+      }
+    },
+
+    "tactics_q9_a3" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Du verkleinerst ihre Zielfläche" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Closing in tight minimizes their target area" }}
+      }
+    },
+    "tactics_q9_a3_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Dies ist ein Nebeneffekt, nicht der taktische Hauptgrund" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "The main reason is their tactical preference for passing" }}
+      }
+    },
+
+    "tactics_q10_text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Wenn beide Gegner am Netz stehen, warum ist ein Schlag durch die Mitte so effektiv?" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "When both opponents are at the net, what is the strategic benefit of passing the ball down the center?" }}
+      }
+    },
+
+    "tactics_q10_a2" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Er bietet die größte Fehlertoleranz und verursacht Verwirrung" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "It offers the most margin for error and often causes confusion" }}
+      }
+    },
+    "tactics_q10_a2_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Beide Spieler denken, der andere spielt den Ball" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "It offers margin for error and causes confusion between opponents" }}
+      }
+    },
+
+    "tactics_q11_text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Welche Schussart wird gegen einen Drop Shot–Lob-Spieler empfohlen?" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "What type of high-arching shot should be used against a Drop Shot – Lob player?" }}
+      }
+    },
+
+    "tactics_q11_a3" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Mondball" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Moonball (high loopy groundstroke)" }}
+      }
+    },
+    "tactics_q11_a3_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Nimmt dem Gegner Tempo und Rhythmus" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Moonballs deny them pace or rhythm" }}
+      }
+    },
+
+    "tactics_q12_text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "In welcher Doppelformation fühlt sich ein Rush & Crush Team am wohlsten?" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Which doubles formation is the dream situation for a Rush & Crush team?" }}
+      }
+    },
+
+    "tactics_q12_a3" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Einer vorne, einer hinten" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "One up and one back formation" }}
+      }
+    },
+    "tactics_q12_a3_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Diese Formation sollte gegen Rush & Crush vermieden werden" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "This is the ideal setup for Rush & Crush teams and should be avoided" }}
+      }
+    },
+
+    "tactics_q13_text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Was ist die Hauptgefahr beim Spielen gegen einen Moonballer?" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "What is the main danger of playing a Moonballer?" }}
+      }
+    },
+
+    "tactics_q13_a2" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Du spielst genau sein stärkstes Spiel" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "You play into the one thing they do better than you" }}
+      }
+    },
+    "tactics_q13_a2_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Du neutralisierst damit deine eigenen Stärken" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "It nullifies your better weapons by playing into their strength" }}
+      }
+    },
+
+    "tactics_q14_text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Was beginnt das Aufdrehen des Körpers aus der Trophy Position?" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "What specific action initiates the uncoiling of the body from the trophy position?" }}
+      }
+    },
+
+    "tactics_q14_a2" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Die Wurfhand zieht nach unten" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "The tossing hand pulling down and away" }}
+      }
+    },
+    "tactics_q14_a2_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Dies startet die Rotationsbewegung des Körpers" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "This starts the rotational chain" }}
+      }
+    },
+
+    "tactics_q15_text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Welche Schritttechnik bringt dich am schnellsten zurück zur Platzmitte?" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Which footwork pattern returns you fastest to the center of the court?" }}
+      }
+    },
+
+    "tactics_q15_a1" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Cross-Step (Kreuzschritt)" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "The Cross-Step (Kreuzschritt)" }}
+      }
+    },
+    "tactics_q15_a1_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Explosiver Abdruck mit zwei schnellen Schritten" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Two explosive steps back to center" }}
+      }
+    },
+
+    "tactics_q16_text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Welche Return-Taktik wird gegen die Australian Formation empfohlen?" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "What classic return tactic is used against the Australian formation?" }}
+      }
+    },
+
+    "tactics_q16_a2" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Cross-Court Return lobben" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Lob the return cross-court" }}
+      }
+    },
+    "tactics_q16_a2_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Dies erzeugt Verwirrung und zwingt zum Positionswechsel" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "This causes confusion and forces opponents to switch positions" }}
+      }
+    },
+
+    "tactics_q17_text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Was ist im 'Red'-Notfallmodus die empfohlene Taktik?" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "In the Red emergency situation, what shot is recommended?" }}
+      }
+    },
+
+    "tactics_q17_a2" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Einen hohen, langen Ball cross spielen" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "A high, long cross-court ball" }}
+      }
+    },
+    "tactics_q17_a2_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Gibt dir Zeit zur Erholung und Neu-Positionierung" }},
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Gives you time to recover and reposition" }}
+      }
+    }
+
+
+
+
+
+
+  },
+  "version" : "1.1"
+}

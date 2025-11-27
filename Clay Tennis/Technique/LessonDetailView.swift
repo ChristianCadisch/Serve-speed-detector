@@ -239,7 +239,7 @@ struct DifficultyLevelCard: View {
                 }
 
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("\(difficulty.title) Quiz")
+                    Text("\(difficulty.localizedTitle) Quiz")
                         .font(.headline)
                         .foregroundColor(state == .locked ? .gray : .primary)
 

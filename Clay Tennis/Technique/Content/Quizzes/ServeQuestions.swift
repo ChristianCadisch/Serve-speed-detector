@@ -1,7 +1,62 @@
 import Foundation
 
+import Foundation
+
+func question(
+    _ base: String,
+    difficulty: QuizDifficulty,
+    correctIndex: Int,
+    answerCount: Int,
+    type: QuizQuestionType = .single
+) -> QuizQuestion {
+
+    QuizQuestion(
+        textKey: "\(base)_text",
+        type: type,
+        answers: (1...answerCount).map { index in
+            QuizAnswer(
+                text: "\(base)_a\(index)",
+                isCorrect: index == correctIndex,
+                explanationKey: "\(base)_a\(index)_expl"
+            )
+        },
+        difficulty: difficulty
+    )
+}
+
 let serveQuestions: [QuizQuestion] = [
 
+    // EASY (6)
+    question("serve_q1",  difficulty: .easy,   correctIndex: 2, answerCount: 3),
+    question("serve_q2",  difficulty: .easy,   correctIndex: 2, answerCount: 3),
+    question("serve_q3",  difficulty: .easy,   correctIndex: 3, answerCount: 3),
+    question("serve_q4",  difficulty: .easy,   correctIndex: 2, answerCount: 3),
+    question("serve_q5",  difficulty: .easy,   correctIndex: 3, answerCount: 3),
+    question("serve_q6",  difficulty: .easy,   correctIndex: 1, answerCount: 3),
+
+    // MEDIUM (4)
+    question("serve_q7",  difficulty: .medium, correctIndex: 1, answerCount: 3),
+    question("serve_q8",  difficulty: .medium, correctIndex: 2, answerCount: 3),
+    question("serve_q9",  difficulty: .medium, correctIndex: 2, answerCount: 3),
+    question("serve_q10", difficulty: .medium, correctIndex: 3, answerCount: 3),
+
+    // HARD (7)
+    question("serve_q11", difficulty: .hard,   correctIndex: 2, answerCount: 3),
+    question("serve_q12", difficulty: .hard,   correctIndex: 3, answerCount: 3),
+    question("serve_q13", difficulty: .hard,   correctIndex: 2, answerCount: 3),
+    question("serve_q14", difficulty: .hard,   correctIndex: 2, answerCount: 3),
+    question("serve_q15", difficulty: .hard,   correctIndex: 1, answerCount: 3),
+    question("serve_q16", difficulty: .hard,   correctIndex: 3, answerCount: 3),
+    question("serve_q17", difficulty: .hard,   correctIndex: 1, answerCount: 3)
+    
+]
+
+
+    
+    /*
+     
+    // OLD FORMAT:
+     
     QuizQuestion(
     text: "What grip do the majority players use for the tennis serve?",
     type: .single,
@@ -213,4 +268,4 @@ let serveQuestions: [QuizQuestion] = [
     ],
     difficulty: .hard
     )
-]
+     */
