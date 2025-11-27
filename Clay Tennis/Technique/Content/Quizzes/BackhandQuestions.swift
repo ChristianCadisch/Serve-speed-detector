@@ -6,8 +6,43 @@
 
 import Foundation
 
+
+
+
 let backhandQuestions: [QuizQuestion] = [
-    /*
+
+    // EASY (7)
+    question("backhand_q1",  difficulty: .easy,   correctIndex: 2, answerCount: 3),
+    question("backhand_q2",  difficulty: .easy,   correctIndex: 2, answerCount: 3),
+    question("backhand_q3",  difficulty: .easy,   correctIndex: 2, answerCount: 3),
+    question("backhand_q4",  difficulty: .easy,   correctIndex: 1, answerCount: 3),
+    question("backhand_q5",  difficulty: .easy,   correctIndex: 3, answerCount: 3),
+    question("backhand_q6",  difficulty: .easy,   correctIndex: 1, answerCount: 3),
+    question("backhand_q7",  difficulty: .easy,   correctIndex: 3, answerCount: 3),
+
+    // MEDIUM (7)
+    question("backhand_q8",  difficulty: .medium, correctIndex: 2, answerCount: 3),
+    question("backhand_q9",  difficulty: .medium, correctIndex: 2, answerCount: 3),
+    question("backhand_q10", difficulty: .medium, correctIndex: 2, answerCount: 3),
+    question("backhand_q11", difficulty: .medium, correctIndex: 3, answerCount: 3),
+    question("backhand_q12", difficulty: .medium, correctIndex: 2, answerCount: 3),
+    question("backhand_q13", difficulty: .medium, correctIndex: 2, answerCount: 3),
+    question("backhand_q14", difficulty: .medium, correctIndex: 1, answerCount: 3),
+
+    // HARD (6)
+    question("backhand_q15", difficulty: .hard,   correctIndex: 3, answerCount: 3),
+    question("backhand_q16", difficulty: .hard,   correctIndex: 2, answerCount: 3),
+    question("backhand_q17", difficulty: .hard,   correctIndex: 3, answerCount: 3),
+    question("backhand_q18", difficulty: .hard,   correctIndex: 2, answerCount: 3),
+    question("backhand_q19", difficulty: .hard,   correctIndex: 2, answerCount: 3),
+    question("backhand_q20", difficulty: .hard,   correctIndex: 1, answerCount: 3),
+]
+
+
+
+/*
+let backhandQuestions: [QuizQuestion] = [
+    
     QuizQuestion(
         text: "What grip is recommended for hitting an aggressive topspin one-handed backhand, as used by players like Roger Federer and Stan Wawrinka?",
         type: .single,
@@ -242,5 +277,5 @@ let backhandQuestions: [QuizQuestion] = [
 
 
 */
-]
+
 

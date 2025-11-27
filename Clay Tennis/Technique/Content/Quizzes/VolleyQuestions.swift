@@ -7,7 +7,36 @@
 import Foundation
 
 let volleyQuestions: [QuizQuestion] = [
-    /*
+
+    // EASY (7)
+    question("volley_q1",  difficulty: .easy,   correctIndex: 3, answerCount: 3),
+    question("volley_q2",  difficulty: .easy,   correctIndex: 2, answerCount: 3),
+    question("volley_q3",  difficulty: .easy,   correctIndex: 3, answerCount: 3),
+    question("volley_q4",  difficulty: .easy,   correctIndex: 2, answerCount: 3),
+    question("volley_q5",  difficulty: .easy,   correctIndex: 1, answerCount: 3),
+    question("volley_q6",  difficulty: .easy,   correctIndex: 3, answerCount: 3),
+    question("volley_q7",  difficulty: .easy,   correctIndex: 3, answerCount: 3),
+
+    // MEDIUM (6)
+    question("volley_q8",  difficulty: .medium, correctIndex: 1, answerCount: 3),
+    question("volley_q9",  difficulty: .medium, correctIndex: 2, answerCount: 3),
+    question("volley_q10", difficulty: .medium, correctIndex: 2, answerCount: 3),
+    question("volley_q11", difficulty: .medium, correctIndex: 3, answerCount: 3),
+    question("volley_q12", difficulty: .medium, correctIndex: 2, answerCount: 3),
+    question("volley_q13", difficulty: .medium, correctIndex: 3, answerCount: 3),
+
+    // HARD (7)
+    question("volley_q14", difficulty: .hard,   correctIndex: 3, answerCount: 3),
+    question("volley_q15", difficulty: .hard,   correctIndex: 3, answerCount: 3),
+    question("volley_q16", difficulty: .hard,   correctIndex: 1, answerCount: 3),
+    question("volley_q17", difficulty: .hard,   correctIndex: 3, answerCount: 3),
+    question("volley_q18", difficulty: .hard,   correctIndex: 2, answerCount: 3),
+    question("volley_q19", difficulty: .hard,   correctIndex: 2, answerCount: 3),
+    question("volley_q20", difficulty: .hard,   correctIndex: 2, answerCount: 3),
+]
+
+
+/*
     QuizQuestion( text: "What grip is recommended for hitting both the forehand and backhand volleys, as well as the overhead smash, without needing to change grips?", type: .single, answers: [ QuizAnswer(text: "Semi-Western Forehand Grip", isCorrect: false, explanation: "This grip is primarily used for forehands"), QuizAnswer(text: "Eastern Backhand Grip", isCorrect: false, explanation: "This grip is used for the aggressive one-handed backhand"), QuizAnswer(text: "Continental Grip (Hammergriff)", isCorrect: true, explanation: "The Continental grip, also known as the chopper grip or Hammergriff/Semikontinentalgriff, is used for all volleys, slices, and the smash because it provides stability and saves time by eliminating the need to change grips"), ], difficulty: .easy ),
     QuizQuestion( text: "In the ready position at the net, how should the racket head generally be positioned relative to the grip?", type: .single, answers: [ QuizAnswer(text: "The racket head should be pointing down towards the ground", isCorrect: false, explanation: "This position makes it difficult to achieve the necessary 'L' shape for stability"), QuizAnswer(text: "The racket head should be above the grip, creating an L shape", isCorrect: true, explanation: "The ready position requires the racket head to be above the grip, creating an L shape, to give stability and leverage on your volleys"), QuizAnswer(text: "The racket head should be behind the body to prepare for the backswing", isCorrect: false, explanation: "The racket should be kept in front of the upper body, between waist and chest height, for an optimal ready position"), ], difficulty: .easy ),
     QuizQuestion( text: "When facing a fast incoming ball, which type of volley swing is recommended to minimize error by redirecting the opponent’s pace?", type: .single, answers: [ QuizAnswer(text: "Power Volley", isCorrect: false, explanation: "The Power Volley is used on slower, floating balls when you have time"), QuizAnswer(text: "Topspin Volley", isCorrect: false, explanation: "The Topspin Volley is used aggressively when the player has time to accelerate the racket"), QuizAnswer(text: "Block Volley", isCorrect: true, explanation: "The Block Volley involves a minimal swing, where the player blocks the ball, redirecting the volley using the power already on the opponent's shot"), ], difficulty: .easy ),
@@ -34,4 +63,4 @@ let volleyQuestions: [QuizQuestion] = [
     QuizQuestion( text: "What critical strategic error at the net is known as swinging on 'Sucker Balls'?", type: .single, answers: [ QuizAnswer(text: "Trying a drop shot from behind the baseline", isCorrect: false, explanation: "This is a tactical error, but not specifically the 'Sucker Ball'"), QuizAnswer(text: "Swinging aggressively on high floating volleys", isCorrect: true, explanation: "One of the 'Top Ten Fastest Ways to Lose a Match' is swinging on high floating volleys, referred to as 'Sucker Balls'"), QuizAnswer(text: "Attempting to hit winners when behind the baseline", isCorrect: false, explanation: "This is a common error, but not the volley-specific 'Sucker Ball'"), ], difficulty: .hard ),
     QuizQuestion( text: "Why is hitting a Topspin Volley—as opposed to a standard volley—recommended to be played with more topspin than a normal groundstroke?", type: .single, answers: [ QuizAnswer(text: "To ensure the ball dips quickly and forces the opponent into a low return", isCorrect: false, explanation: "The focus is on control and placement since the player is close to the net"), QuizAnswer(text: "To gain better control and placement since the volley is hit directly inside the service boxes", isCorrect: true, explanation: "Because the Topspin Volley is played directly in the court, it is recommended to be played with more topspin for better control than a normal groundstroke"), QuizAnswer(text: "Because the racket needs to be accelerated horizontally across the ball", isCorrect: false, explanation: "The racket is accelerated from hip height forward and upward"), ], difficulty: .hard ),
      */
-]
+

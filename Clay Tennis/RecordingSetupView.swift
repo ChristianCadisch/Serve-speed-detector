@@ -3,12 +3,9 @@
 //  Instruction pages on how to set up the recording
 
 import Foundation
-
-
 import SwiftUI
 import AVKit
 import AVFoundation
-
 
 struct RecordingSetupView: View {
     @Binding var isPresented: Bool
@@ -29,9 +26,8 @@ struct RecordingSetupView: View {
                     OnboardingPage(
                         name: "phone_on_bottle",
                         isSystemImage: false,
-                        title: "Place Your Phone Securely",
-                        description:
-                        "Lean your phone against a water bottle or your bag. The camera must remain completely still — handheld recordings won't work",
+                        title: NSLocalizedString("recording_page1_title", tableName: "Quiz", comment: ""),
+                        description: NSLocalizedString("recording_page1_desc", tableName: "Quiz", comment: ""),
                         size: CGSize(width: 300, height: 300),
                         cornerRadius: 30
                     )
@@ -41,9 +37,8 @@ struct RecordingSetupView: View {
                     OnboardingPage(
                         name: "setup",
                         isSystemImage: false,
-                        title: "Correct Camera Position",
-                        description:
-                        "Place the phone at the back corner of the court. Make sure the player and landing area are both visible",
+                        title: NSLocalizedString("recording_page2_title", tableName: "Quiz", comment: ""),
+                        description: NSLocalizedString("recording_page2_desc", tableName: "Quiz", comment: ""),
                         size: CGSize(width: 300, height: 300),
                         cornerRadius: 30
                     )
@@ -52,9 +47,8 @@ struct RecordingSetupView: View {
                     // PAGE 3 — GOOD EXAMPLE VIDEO
                     RecordingSetupVideoPage(
                         remoteURL: "example_serve",
-                        title: "Example of a Good Recording",
-                        description:
-                        "Your video should clearly show the full serve: the toss, impact, trajectory, and the landing point on the opposite side"
+                        title: NSLocalizedString("recording_page3_title", tableName: "Quiz", comment: ""),
+                        description: NSLocalizedString("recording_page3_desc", tableName: "Quiz", comment: "")
                     )
                     .tag(2)
                 }
@@ -63,8 +57,9 @@ struct RecordingSetupView: View {
                 .simultaneousGesture(
                     DragGesture(minimumDistance: 0)
                         .onEnded { value in
-                            let isTap = abs(value.translation.width) < 5 &&
-                                        abs(value.translation.height) < 5
+                            let isTap =
+                                abs(value.translation.width) < 5 &&
+                                abs(value.translation.height) < 5
                             guard isTap else { return }
 
                             let midX = geo.size.width / 2
@@ -77,7 +72,6 @@ struct RecordingSetupView: View {
                             }
                         }
                 )
-
 
                 VStack {
                     Spacer()
@@ -95,8 +89,7 @@ struct RecordingSetupView: View {
                     }
                     .padding(.bottom,
                              (currentPage == totalPages - 1 ? 10 : -20)
-                             )
-
+                    )
 
                     // CLOSE BUTTON
                     if currentPage == totalPages - 1 {
@@ -104,7 +97,7 @@ struct RecordingSetupView: View {
                             isPresented = false
                             dismiss()
                         } label: {
-                            Text("Done")
+                            Text(NSLocalizedString("recording_setup_done", tableName: "Quiz", comment: ""))
                                 .fontWeight(.bold)
                                 .frame(maxWidth: .infinity)
                                 .padding()
@@ -122,12 +115,11 @@ struct RecordingSetupView: View {
     }
 }
 
-
 struct RecordingSetupVideoPage: View {
     let remoteURL: String
     let title: String
     let description: String
-    
+
     @State private var player: AVPlayer? = nil
 
     var body: some View {
@@ -137,12 +129,12 @@ struct RecordingSetupVideoPage: View {
             if let player = player {
                 AspectFillVideoPlayer(player: player)
                     .frame(height: 260)
-                    .clipped()               // ensure overflow cropping
+                    .clipped()
                     .cornerRadius(16)
                     .onAppear {
                         player.play()
                         player.actionAtItemEnd = .none
-                        
+
                         NotificationCenter.default.addObserver(
                             forName: .AVPlayerItemDidPlayToEndTime,
                             object: player.currentItem,
@@ -176,9 +168,6 @@ struct RecordingSetupVideoPage: View {
     }
 }
 
-
-
-
 struct AspectFillVideoPlayer: UIViewControllerRepresentable {
     let player: AVPlayer
 
@@ -186,13 +175,12 @@ struct AspectFillVideoPlayer: UIViewControllerRepresentable {
         let controller = AVPlayerViewController()
         controller.player = player
         controller.showsPlaybackControls = false
-        controller.videoGravity = .resizeAspectFill   // ← KEY FIX
+        controller.videoGravity = .resizeAspectFill
         return controller
     }
 
     func updateUIViewController(_ uiViewController: AVPlayerViewController, context: Context) {}
 }
-
 
 
 

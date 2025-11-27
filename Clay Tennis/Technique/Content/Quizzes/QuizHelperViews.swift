@@ -555,14 +555,21 @@ enum QuizIdentifier: Int, CaseIterable, Hashable {
     
     var title: String {
         switch self {
-        case .serve: return "Serve"
-        case .tactics: return "Tactics"
-        case .forehand: return "Forehand"
-        case .backhand: return "Backhand"
-        case .volley: return "Volley"
-        case .legwork: return "Leg Work"
+        case .serve:
+            return NSLocalizedString("topic_serve", tableName: "Quiz", comment: "")
+        case .tactics:
+            return NSLocalizedString("topic_tactics", tableName: "Quiz", comment: "")
+        case .forehand:
+            return NSLocalizedString("topic_forehand", tableName: "Quiz", comment: "")
+        case .backhand:
+            return NSLocalizedString("topic_backhand", tableName: "Quiz", comment: "")
+        case .volley:
+            return NSLocalizedString("topic_volley", tableName: "Quiz", comment: "")
+        case .legwork:
+            return NSLocalizedString("topic_legwork", tableName: "Quiz", comment: "")
         }
     }
+
     
     var iconName: String {
         switch self {

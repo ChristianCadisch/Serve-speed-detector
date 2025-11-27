@@ -25,7 +25,7 @@ struct TheoryView: View {
 
                     featuredCard
 
-                    Text("All Topics")
+                    Text(NSLocalizedString("all_topics", tableName: "Quiz", comment: ""))
                         .font(.headline)
                         .padding(.horizontal)
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -52,7 +52,7 @@ struct TheoryView: View {
                 .padding(.top, 12)
             }
             .id(refreshToken)
-            .navigationTitle("Technique Coach")
+            .navigationTitle(NSLocalizedString("technique_coach_title", tableName: "Quiz", comment: ""))
             .navigationBarTitleDisplayMode(.inline)
             .onAppear { loadHighScores() }
             .background(
@@ -82,7 +82,7 @@ struct TheoryView: View {
         let progress = total == 0 ? 0 : Double(score) / Double(total)
 
         return VStack(alignment: .leading, spacing: 12) {
-            Text("Recommended Lesson")
+            Text(NSLocalizedString("recommended_lesson", tableName: "Quiz", comment: ""))
                 .font(.headline)
                 .padding(.horizontal)
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -132,7 +132,12 @@ struct TheoryView: View {
                                     .font(.title3.bold())
                                     .foregroundColor(.white)
 
-                                Text("Next up: \(difficulty.localizedTitle)")
+                                Text(
+                                    String(
+                                        format: NSLocalizedString("next_up", tableName: "Quiz", comment: ""),
+                                        difficulty.localizedTitle
+                                    )
+                                )
                                     .font(.caption.weight(.semibold))
                                     .foregroundColor(.white.opacity(0.9))
                             }
@@ -146,7 +151,11 @@ struct TheoryView: View {
 
                         HeroProgressBar(
                             progress: progress,
-                            label: "\(score)/\(total) solved"
+                            label: String(
+                                format: NSLocalizedString("solved_counter_format", tableName: "Quiz", comment: ""),
+                                score,
+                                total
+                            )
                         )
                     }
                     .padding()
@@ -312,7 +321,10 @@ struct LessonRow: View {
     private var nextDifficultyText: String {
         for d in QuizDifficulty.allCases {
             if dotState(d) != .completed {
-                return "Continue \(d.localizedTitle)"
+                return String(
+                    format: NSLocalizedString("next_up", tableName: "Quiz", comment: ""),
+                    d.localizedTitle
+                )
             }
         }
         return "Mastered"
@@ -335,7 +347,11 @@ struct LessonRow: View {
                 Text(topic.title)
                     .font(.headline)
 
-                Text(isTopicCompleted ? "All levels completed" : nextDifficultyText)
+                Text(
+                    isTopicCompleted
+                    ? NSLocalizedString("all_levels_completed", tableName: "Quiz", comment: "")
+                    : nextDifficultyText
+                )
                     .font(.caption)
                     .foregroundColor(.secondary)
             }

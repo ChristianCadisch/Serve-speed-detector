@@ -7,6 +7,34 @@
 import Foundation
 
 let forehandQuestions: [QuizQuestion] = [
+
+    // EASY (7)
+    question("forehand_q1",  difficulty: .easy,   correctIndex: 2, answerCount: 3),
+    question("forehand_q2",  difficulty: .easy,   correctIndex: 3, answerCount: 3),
+    question("forehand_q3",  difficulty: .easy,   correctIndex: 3, answerCount: 3),
+    question("forehand_q4",  difficulty: .easy,   correctIndex: 2, answerCount: 3),
+    question("forehand_q5",  difficulty: .easy,   correctIndex: 3, answerCount: 3),
+    question("forehand_q6",  difficulty: .easy,   correctIndex: 2, answerCount: 3),
+    question("forehand_q7",  difficulty: .easy,   correctIndex: 2, answerCount: 3),
+
+    // MEDIUM (7)
+    question("forehand_q8",  difficulty: .medium, correctIndex: 3, answerCount: 3),
+    question("forehand_q9",  difficulty: .medium, correctIndex: 3, answerCount: 3),
+    question("forehand_q10", difficulty: .medium, correctIndex: 2, answerCount: 3),
+    question("forehand_q11", difficulty: .medium, correctIndex: 2, answerCount: 3),
+    question("forehand_q12", difficulty: .medium, correctIndex: 2, answerCount: 3),
+    question("forehand_q13", difficulty: .medium, correctIndex: 3, answerCount: 3),
+    question("forehand_q14", difficulty: .medium, correctIndex: 2, answerCount: 3),
+
+    // HARD (7)
+    question("forehand_q15", difficulty: .hard,   correctIndex: 2, answerCount: 3),
+    question("forehand_q16", difficulty: .hard,   correctIndex: 1, answerCount: 3),
+    question("forehand_q17", difficulty: .hard,   correctIndex: 2, answerCount: 3),
+    question("forehand_q18", difficulty: .hard,   correctIndex: 2, answerCount: 3),
+    question("forehand_q19", difficulty: .hard,   correctIndex: 3, answerCount: 3),
+    question("forehand_q20", difficulty: .hard,   correctIndex: 3, answerCount: 3),
+    question("forehand_q21", difficulty: .hard,   correctIndex: 2, answerCount: 3),
+]
     /*
     QuizQuestion( text: "Which grip is recommended for a versatile forehand, allowing for aggressive topspin and flat shots?", type: .single, answers: [ QuizAnswer(text: "Continental Grip", isCorrect: false, explanation: "Used for serves and slices"), QuizAnswer(text: "Semi-Western Forehand Grip (Mittlerer VH Griff)", isCorrect: true, explanation: "Recommended as it allows topspin while also enabling the player to flatten out the shot"), QuizAnswer(text: "Eastern Backhand Grip", isCorrect: false, explanation: "Used for the one-handed backhand"), ], difficulty: .easy ),
     QuizQuestion( text: "In the ready position, where should the racket head be relative to the grip?", type: .single, answers: [ QuizAnswer(text: "Lower than the grip level", isCorrect: false, explanation: "A poor position that costs time"), QuizAnswer(text: "Parallel to the ground", isCorrect: false, explanation: "The head should be higher than the grip"), QuizAnswer(text: "Higher than the grip level", isCorrect: true, explanation: "Having the racket head higher than the grip creates leverage for the stroke"), ], difficulty: .easy ),
@@ -34,4 +62,4 @@ let forehandQuestions: [QuizQuestion] = [
     QuizQuestion( text: "If you loop a shot to a 'Huge Forehand' player's backhand, what should you immediately do?", type: .single, answers: [ QuizAnswer(text: "Wait at the baseline", isCorrect: false, explanation: "Waiting gives them time to recover"), QuizAnswer(text: "Retreat behind the baseline", isCorrect: false, explanation: "This cedes court position"), QuizAnswer(text: "Sneak in behind them to volley the next shot", isCorrect: true, explanation: "This follow-up action gives you an open court if they run around their backhand"), ], difficulty: .hard ),
     QuizQuestion( text: "What is the approximate contact time between the ball and racket in seconds?", type: .single, answers: [ QuizAnswer(text: "0.1 to 0.5 seconds", isCorrect: false, explanation: "This duration is too long"), QuizAnswer(text: "0.003 – 0.005 seconds", isCorrect: true, explanation: "The contact time is very brief, only 0.003 to 0.005 seconds"), QuizAnswer(text: "Less than 0.001 seconds", isCorrect: false, explanation: "This duration is too short"), ], difficulty: .hard )
 */
-]
+

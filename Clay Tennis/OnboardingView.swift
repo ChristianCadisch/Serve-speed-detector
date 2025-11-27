@@ -5,48 +5,49 @@
 
 import Foundation
 import SwiftUI
+
 struct OnboardingView: View {
     @Binding var hasSeenOnboarding: Bool
     @State private var currentPage = 0
     private let totalPages = 4
-    
+
     var body: some View {
         GeometryReader { geo in
             ZStack {
                 Color(uiColor: .systemBackground)
                     .ignoresSafeArea()
-                
+
                 TabView(selection: $currentPage) {
                     OnboardingPage(
                         name: "onboarding",
                         isSystemImage: false,
-                        title: "Welcome to Clay",
-                        description: "Your iPhone serve speed radar powered by the newest AI technology",
+                        title: NSLocalizedString("onboarding_page1_title", tableName: "Quiz", comment: ""),
+                        description: NSLocalizedString("onboarding_page1_desc", tableName: "Quiz", comment: ""),
                         cornerRadius: 30
                     )
                     .tag(0)
-                    
+
                     OnboardingPage(
                         name: "camera",
-                        title: "Keep the Camera Steady",
-                        description: "Record with your phone on the floor and use slow motion settings for the most precise results"
+                        title: NSLocalizedString("onboarding_page2_title", tableName: "Quiz", comment: ""),
+                        description: NSLocalizedString("onboarding_page2_desc", tableName: "Quiz", comment: "")
                     )
                     .tag(1)
 
                     OnboardingPage(
                         name: "setup",
                         isSystemImage: false,
-                        title: "Capture the Whole Serve",
-                        description: "Make sure the full serve is visible: the toss, contact point, trajectory, and landing on the opposite side",
+                        title: NSLocalizedString("onboarding_page3_title", tableName: "Quiz", comment: ""),
+                        description: NSLocalizedString("onboarding_page3_desc", tableName: "Quiz", comment: ""),
                         size: CGSize(width: 300, height: 3000),
                         cornerRadius: 30
                     )
                     .tag(2)
-                    
+
                     OnboardingPage(
                         name: "chart.bar.fill",
-                        title: "Let’s Get Started",
-                        description: "Upload or record your first serve"
+                        title: NSLocalizedString("onboarding_page4_title", tableName: "Quiz", comment: ""),
+                        description: NSLocalizedString("onboarding_page4_desc", tableName: "Quiz", comment: "")
                     )
                     .tag(3)
                 }
@@ -57,10 +58,10 @@ struct OnboardingView: View {
                     DragGesture(minimumDistance: 0)
                         .onEnded { value in
                             let isTap =
-                            abs(value.translation.width) < 5 &&
-                            abs(value.translation.height) < 5
+                                abs(value.translation.width) < 5 &&
+                                abs(value.translation.height) < 5
                             guard isTap else { return }
-                            
+
                             let midX = geo.size.width / 2
                             if value.startLocation.x >= midX {
                                 if currentPage < totalPages - 1 {
@@ -74,10 +75,10 @@ struct OnboardingView: View {
                             }
                         }
                 )
-                
+
                 VStack {
                     Spacer()
-                    
+
                     HStack(spacing: 8) {
                         ForEach(0..<totalPages, id: \.self) { index in
                             Capsule()
@@ -90,7 +91,7 @@ struct OnboardingView: View {
                     }
                     .padding(.bottom, 60)
                     .allowsHitTesting(false)
-                    
+
                     if currentPage == totalPages - 1 {
                         Button {
                             hasSeenOnboarding = true
@@ -101,7 +102,7 @@ struct OnboardingView: View {
                                 .rootViewController?
                                 .dismiss(animated: true)
                         } label: {
-                            Text("Get Started")
+                            Text(NSLocalizedString("onboarding_get_started", tableName: "Quiz", comment: ""))
                                 .fontWeight(.bold)
                                 .frame(maxWidth: .infinity)
                                 .padding()
@@ -130,7 +131,7 @@ struct OnboardingPage: View {
     var body: some View {
         VStack(spacing: 30) {
             Spacer()
-            
+
             Group {
                 if isSystemImage {
                     Image(systemName: name)
@@ -143,13 +144,12 @@ struct OnboardingPage: View {
                         .scaledToFit()
                 }
             }
-            .frame(maxWidth: size.width)                    // ← use maxWidth ONLY
+            .frame(maxWidth: size.width)
             .clipShape(
                 cornerRadius == nil
                     ? AnyShape(Rectangle())
                     : AnyShape(RoundedRectangle(cornerRadius: cornerRadius!))
             )
-
 
             Text(title)
                 .font(.largeTitle)
@@ -168,6 +168,7 @@ struct OnboardingPage: View {
         .background(Color(uiColor: .systemBackground))
     }
 }
+
 
 
 

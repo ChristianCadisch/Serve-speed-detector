@@ -7,6 +7,45 @@
 import Foundation
 
 let tacticsQuestions: [QuizQuestion] = [
+
+    // =======================
+    // EASY
+    // =======================
+
+    question("tactics_q1", difficulty: .easy, correctIndex: 3, answerCount: 3),
+    question("tactics_q2", difficulty: .easy, correctIndex: 2, answerCount: 3),
+    question("tactics_q3", difficulty: .easy, correctIndex: 2, answerCount: 3),
+    question("tactics_q4", difficulty: .easy, correctIndex: 2, answerCount: 3),
+    question("tactics_q5", difficulty: .easy, correctIndex: 3, answerCount: 3),
+    question("tactics_q6", difficulty: .easy, correctIndex: 2, answerCount: 3),
+    question("tactics_q7", difficulty: .easy, correctIndex: 2, answerCount: 3),
+
+    // =======================
+    // MEDIUM
+    // =======================
+
+    question("tactics_q8", difficulty: .medium, correctIndex: 3, answerCount: 3),
+    question("tactics_q9", difficulty: .medium, correctIndex: 1, answerCount: 3),
+    question("tactics_q10", difficulty: .medium, correctIndex: 2, answerCount: 3),
+    question("tactics_q11", difficulty: .medium, correctIndex: 2, answerCount: 3),
+    question("tactics_q12", difficulty: .medium, correctIndex: 3, answerCount: 3),
+    question("tactics_q13", difficulty: .medium, correctIndex: 2, answerCount: 3),
+
+    // =======================
+    // HARD
+    // =======================
+
+    question("tactics_q14", difficulty: .hard, correctIndex: 2, answerCount: 3),
+    question("tactics_q15", difficulty: .hard, correctIndex: 2, answerCount: 3),
+    question("tactics_q16", difficulty: .hard, correctIndex: 1, answerCount: 3),
+    question("tactics_q17", difficulty: .hard, correctIndex: 2, answerCount: 3),
+    question("tactics_q18", difficulty: .hard, correctIndex: 1, answerCount: 3),
+    question("tactics_q19", difficulty: .hard, correctIndex: 2, answerCount: 3),
+    question("tactics_q20", difficulty: .hard, correctIndex: 2, answerCount: 3)
+]
+
+
+
     /*
     QuizQuestion( text: "What is the primary objective of the 'Golden Tactic' for winning singles matches?", type: .single, answers: [ QuizAnswer(text: "Attack the net at every opportunity", isCorrect: false, explanation: "This relates to the 'Controlling Time' tactic"), QuizAnswer(text: "Hit every shot with maximum speed and power", isCorrect: false, explanation: "This increases the risk of errors"), QuizAnswer(text: "Be more consistent than your opponent and force them to break down first", isCorrect: true, explanation: "It is a mindset focused on consistency; out-rally the opponent and force them to break down first"), ], difficulty: .easy ),
     QuizQuestion( text: "Which player style is considered the most difficult to face because they can play effectively from anywhere on the court?", type: .single, answers: [ QuizAnswer(text: "The Huge Forehand", isCorrect: false, explanation: "This player has a major weapon, but also a definable weakness"), QuizAnswer(text: "The All-Courter", isCorrect: true, explanation: "The All-Courter is the most difficult player style because they are comfortable playing from anywhere"), QuizAnswer(text: "The Aggressive Baseliner", isCorrect: false, explanation: "This player prefers to stay back and bang the ball"), ], difficulty: .easy ),
@@ -31,8 +70,9 @@ let tacticsQuestions: [QuizQuestion] = [
     QuizQuestion( text: "What classic return tactic is used to confuse opponents and force switching when facing the Australian formation?", type: .single, answers: [ QuizAnswer(text: "Hitting the return down the line", isCorrect: false, explanation: "The Australian formation is designed to force this lower-percentage shot"), QuizAnswer(text: "Lob the return cross-court", isCorrect: true, explanation: "Lob the return cross-court, which can cause confusion and force opponents to switch positions"), QuizAnswer(text: "Attempting a drop shot return", isCorrect: false, explanation: "The classic response is lobbing cross-court"), ], difficulty: .hard ),
     QuizQuestion( text: "To maximize power on the serve, how high should the ball be tossed, and how fast should the motion be?", type: .single, answers: [ QuizAnswer(text: "Toss the ball very high to achieve maximum height", isCorrect: false, explanation: "Tossing the ball too high causes inconsistency and breaks momentum"), QuizAnswer(text: "Toss the ball no higher than 6 inches above contact, forcing a quick, continuous motion (typically around one second)", isCorrect: true, explanation: "Toss the ball no higher than 6 inches above contact, forcing a quick, continuous motion (typically around one second)"), QuizAnswer(text: "Toss the ball low and flat, using a slower, deliberate motion", isCorrect: false, explanation: "The motion should be continuous and fast to build momentum"), ], difficulty: .hard ),
     QuizQuestion( text: "In the 'Red' (emergency) tactical situation, what type of shot is recommended to gain time and recover position?", type: .single, answers: [ QuizAnswer(text: "A low, flat passing shot down the line", isCorrect: false, explanation: "Flat shots do not guarantee time gain, and attempting a winner from 'Red' increases risk"), QuizAnswer(text: "A high, long ball (preferably cross-court) to gain time and return to a safer position", isCorrect: true, explanation: "A high, long ball (preferably cross-court) is recommended to gain time and return to a safer position"), QuizAnswer(text: "A quick drop shot", isCorrect: false, explanation: "Drop shots require control and are often too short for recovery time"), ], difficulty: .hard ),
-   */
+ 
 ]
 
+     */
 
 

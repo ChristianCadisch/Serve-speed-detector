@@ -15,34 +15,37 @@ struct FeedView: View {
     @State private var assetURLMap: [String: URL] = [:]
     @State private var serveCounts: [URL: Int] = [:]
 
-
-
     var onAddTapped: () -> Void
     var onSettingsTapped: () -> Void
     var onVideoSelected: (URL) -> Void
 
     var body: some View {
         VStack(spacing: 0) {
-            
+
             // Top Bar
             HStack {
-                Text("Clay")
+                Text(NSLocalizedString("feed_title", tableName: "Quiz", comment: ""))
                     .font(.title3)
                     .fontWeight(.bold)
-                
+
                 Spacer()
-                
+
                 HStack(spacing: 6) {
                     Image(systemName: "tennisball")
-                    Text("\(serveCounts.values.reduce(0, +)) Serve\(serveCounts.values.reduce(0, +) == 1 ? "" : "s")")
-                        .font(.subheadline)
+                    Text(
+                        String(
+                            format: NSLocalizedString("feed_serve_counter_format", tableName: "Quiz", comment: ""),
+                            serveCounts.values.reduce(0, +)
+                        )
+                    )
+                    .font(.subheadline)
                 }
             }
             .padding(.horizontal)
             .padding(.top, -45)
             .padding(.bottom, 2)
             .background(Color(.systemBackground))
-            
+
             // Feed List
             if analyzedVideos.isEmpty {
                 VStack(spacing: 24) {
@@ -51,19 +54,21 @@ struct FeedView: View {
                         .foregroundColor(.accentColor)
                         .symbolRenderingMode(.hierarchical)
 
-                    Text("No Serves Yet")
+                    Text(NSLocalizedString("feed_empty_title", tableName: "Quiz", comment: ""))
                         .font(.title3)
                         .bold()
                         .foregroundColor(.primary)
 
-                    Text("Add your first video to start analyzing your serves.")
+                    Text(NSLocalizedString("feed_empty_subtitle", tableName: "Quiz", comment: ""))
                         .font(.body)
                         .foregroundColor(.secondary)
                         .multilineTextAlignment(.center)
+                        .fixedSize(horizontal: false, vertical: true)
                         .padding(.horizontal, 40)
 
+
                     Button(action: { onAddTapped() }) {
-                        Text("Add Your First Video")
+                        Text(NSLocalizedString("feed_add_first_video", tableName: "Quiz", comment: ""))
                             .font(.headline)
                             .bold()
                             .frame(maxWidth: .infinity)
@@ -80,10 +85,13 @@ struct FeedView: View {
                 .padding(.bottom, 80)
                 .transition(.opacity)
             }
+
             List {
+
                 // Featured serve
                 if let featuredVideoURL = getFeaturedVideoURL(),
                    let speed = fastestSpeeds[featuredVideoURL] {
+
                     Section {
                         ZStack(alignment: .bottomLeading) {
                             if let thumbnail = featuredThumbnail {
@@ -98,11 +106,12 @@ struct FeedView: View {
                                     .fill(Color.gray.opacity(0.2))
                                     .frame(height: 300)
                             }
-                            
+
                             VStack(alignment: .leading, spacing: 4) {
-                                Text("Most recent Serve")
+                                Text(NSLocalizedString("feed_most_recent_serve", tableName: "Quiz", comment: ""))
                                     .font(.headline)
                                     .foregroundColor(.white)
+
                                 Text("\(Int(speed)) km/h")
                                     .font(.largeTitle)
                                     .bold()
@@ -121,26 +130,29 @@ struct FeedView: View {
                             Button(role: .destructive) {
                                 deleteVideo(featuredVideoURL)
                             } label: {
-                                Label("Delete", systemImage: "trash")
+                                Label(
+                                    NSLocalizedString("feed_delete", tableName: "Quiz", comment: ""),
+                                    systemImage: "trash"
+                                )
                             }
                             .tint(.red)
                         }
                     }
                 }
-                
+
                 // Other serves
                 if analyzedVideos.count > 1 {
-                    Section(header:
-                        Text("Other Serves")
-                        .font(.headline)
-                        .foregroundStyle(.primary)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .textCase(nil)
+                    Section(
+                        header: Text(NSLocalizedString("feed_other_serves", tableName: "Quiz", comment: ""))
+                            .font(.headline)
+                            .foregroundStyle(.primary)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .textCase(nil)
                     ) {
                         ForEach(analyzedVideos.filter { $0 != getFeaturedVideoURL() }.reversed(), id: \.self) { videoURL in
                             let speed = fastestSpeeds[videoURL] ?? 0
                             let servecount = serveCounts[videoURL] ?? 0
-                            
+
                             HStack(spacing: 0) {
                                 if let thumbnail = videoThumbnails[videoURL] {
                                     Image(uiImage: thumbnail)
@@ -154,20 +166,26 @@ struct FeedView: View {
                                         .fill(Color.gray.opacity(0.2))
                                         .frame(width: 120, height: 100)
                                 }
-                                
+
                                 VStack(alignment: .leading, spacing: 4) {
                                     Text("\(Int(speed)) km/h")
                                         .font(.headline)
                                         .fontWeight(.bold)
+
                                     HStack(spacing: 6) {
                                         Image(systemName: "tennisball")
-                                        Text("\(servecount) Serve\(servecount == 1 ? "" : "s") recorded")
-                                            .font(.footnote)
-                                            .foregroundColor(.secondary)
-
+                                        Text(
+                                            String(
+                                                format: NSLocalizedString("feed_serve_recorded_format", tableName: "Quiz", comment: ""),
+                                                servecount
+                                            )
+                                        )
+                                        .font(.footnote)
+                                        .foregroundColor(.secondary)
                                     }
                                 }
                                 .padding(.leading, 12)
+
                                 Spacer()
                             }
                             .frame(height: 100)
@@ -186,7 +204,10 @@ struct FeedView: View {
                                 Button(role: .destructive) {
                                     deleteVideo(videoURL)
                                 } label: {
-                                    Label("Delete", systemImage: "trash")
+                                    Label(
+                                        NSLocalizedString("feed_delete", tableName: "Quiz", comment: ""),
+                                        systemImage: "trash"
+                                    )
                                 }
                                 .tint(.red)
                             }
@@ -209,21 +230,23 @@ struct FeedView: View {
         }
         .edgesIgnoringSafeArea(.bottom)
     }
-    
+
     // MARK: - Helper Methods
-    
+
     private func getFeaturedVideoURL() -> URL? {
-        return analyzedVideos.last
+        analyzedVideos.last
     }
-    
+
     private func loadFeaturedThumbnail() {
         guard let featuredVideoURL = getFeaturedVideoURL() else {
             featuredThumbnail = nil
             return
         }
+
         let asset = AVAsset(url: featuredVideoURL)
         let imageGenerator = AVAssetImageGenerator(asset: asset)
         imageGenerator.appliesPreferredTrackTransform = true
+
         do {
             let cgImage = try imageGenerator.copyCGImage(at: .zero, actualTime: nil)
             featuredThumbnail = UIImage(cgImage: cgImage)
@@ -232,7 +255,7 @@ struct FeedView: View {
             featuredThumbnail = nil
         }
     }
-    
+
     private func deleteVideo(_ videoURL: URL) {
         guard var savedIds = UserDefaults.standard.stringArray(forKey: "AnalyzedAssetIDs") else { return }
 
@@ -247,13 +270,11 @@ struct FeedView: View {
         serveCounts.removeValue(forKey: videoURL)
         videoThumbnails.removeValue(forKey: videoURL)
 
-        // Refresh featured thumbnail immediately
         if analyzedVideos.isEmpty {
             featuredThumbnail = nil
         } else {
             loadFeaturedThumbnail()
         }
-
     }
 
     private func loadAnalyzedVideos() {
@@ -266,7 +287,6 @@ struct FeedView: View {
         let options = PHVideoRequestOptions()
         options.deliveryMode = .automatic
 
-        var newVideos: [URL] = []
         let group = DispatchGroup()
 
         assets.enumerateObjects { asset, _, _ in
@@ -274,7 +294,6 @@ struct FeedView: View {
             manager.requestAVAsset(forVideo: asset, options: options) { avAsset, _, _ in
                 if let urlAsset = avAsset as? AVURLAsset {
                     DispatchQueue.main.async {
-                        newVideos.append(urlAsset.url)
                         assetURLMap[asset.localIdentifier] = urlAsset.url
                     }
                 }
@@ -283,16 +302,12 @@ struct FeedView: View {
         }
 
         group.notify(queue: .main) {
-            // Preserve order from savedIds
-            self.analyzedVideos = savedIds.compactMap { id in
-                self.assetURLMap[id]
-            }
+            self.analyzedVideos = savedIds.compactMap { self.assetURLMap[$0] }
             self.loadFastestSpeeds()
             self.loadThumbnails()
             self.loadFeaturedThumbnail()
             self.loadServeCounts()
         }
-
     }
 
     private func loadServeCounts() {
@@ -302,16 +317,13 @@ struct FeedView: View {
         }
     }
 
-    
     private func loadFastestSpeeds() {
         for url in analyzedVideos {
             let key = "FastestSpeed_\(url.absoluteString)"
             fastestSpeeds[url] = UserDefaults.standard.double(forKey: key)
         }
     }
-    
-    
-    
+
     private func loadThumbnails() {
         for url in analyzedVideos {
             let asset = AVAsset(url: url)
@@ -323,6 +335,3 @@ struct FeedView: View {
         }
     }
 }
-
-
-

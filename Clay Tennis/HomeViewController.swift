@@ -65,7 +65,10 @@ class HomeViewController: UIViewController,
 
     func popToTheoryView() {
         if let hosting = theoryHostingController {
-            replaceRoot(with: hosting, title: "Technique Coach")
+            replaceRoot(
+                with: hosting,
+                title: NSLocalizedString("technique_coach_title", tableName: "Quiz", comment: "")
+            )
             navigationItem.leftBarButtonItem = nil
             disableLessonSwipeBack()
             navigationController?.setNavigationBarHidden(false, animated: false)
@@ -110,7 +113,10 @@ class HomeViewController: UIViewController,
     private func showSettingsView() {
         let settingsView = SettingsView(hasSeenOnboarding: .constant(true))
         let hosting = UIHostingController(rootView: AnyView(settingsView))
-        replaceRoot(with: hosting, title: "Settings")
+        replaceRoot(
+            with: hosting,
+            title: NSLocalizedString("settings_title", tableName: "Quiz", comment: "")
+        )
         navigationItem.leftBarButtonItem = nil
         disableLessonSwipeBack()
 
@@ -151,7 +157,10 @@ class HomeViewController: UIViewController,
         self.theoryHostingController = hosting
 
 
-        replaceRoot(with: hosting, title: "Technique Coach")
+        replaceRoot(
+            with: hosting,
+            title: NSLocalizedString("technique_coach_title", tableName: "Quiz", comment: "")
+        )
         navigationItem.leftBarButtonItem = nil
         disableLessonSwipeBack()
 

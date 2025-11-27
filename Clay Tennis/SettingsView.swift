@@ -10,10 +10,10 @@ struct SettingsView: View {
     @State private var showOnboarding = false
     @State private var showRecordingSetup = false
 
-    
     var body: some View {
         ScrollView {
             VStack(spacing: 0) {
+
                 // Top App Card
                 ZStack {
                     LinearGradient(
@@ -32,17 +32,17 @@ struct SettingsView: View {
                             .cornerRadius(16)
                             .shadow(radius: 4)
 
-                        Text("Welcome to Clay")
+                        Text(NSLocalizedString("settings_welcome_title", tableName: "Quiz", comment: ""))
                             .font(.title3.bold())
 
-                        Text("Analyze your serve with AI")
+                        Text(NSLocalizedString("settings_welcome_subtitle", tableName: "Quiz", comment: ""))
                             .font(.subheadline)
                             .multilineTextAlignment(.center)
                             .foregroundColor(.secondary)
                             .padding(.horizontal, 28)
 
                         Button(action: { showOnboarding = true }) {
-                            Text("View Onboarding")
+                            Text(NSLocalizedString("settings_view_onboarding", tableName: "Quiz", comment: ""))
                                 .font(.subheadline.weight(.semibold))
                                 .padding(.horizontal, 22)
                                 .padding(.vertical, 10)
@@ -52,7 +52,7 @@ struct SettingsView: View {
                         }
                         .padding(.top, 4)
                     }
-                    .padding(.top, 40)     
+                    .padding(.top, 40)
                     .padding(.bottom, 28)
                 }
                 .frame(height: 360)
@@ -60,28 +60,34 @@ struct SettingsView: View {
                 .padding(.top)
                 .padding(.bottom, 24)
 
-                                VStack(spacing: 24) {
+                VStack(spacing: 24) {
+
+                    // Support Section
                     VStack(alignment: .leading) {
-                        Text("Support")
+                        Text(NSLocalizedString("settings_support_title", tableName: "Quiz", comment: ""))
                             .font(.headline)
                             .foregroundColor(.secondary)
+
                         Group {
-                            Button("Recording setup guide") {
+                            Button(NSLocalizedString("settings_recording_setup", tableName: "Quiz", comment: "")) {
                                 showRecordingSetup = true
                             }
                             Divider()
-                            Button("Give Feedback") { if let url = URL(string: "mailto:christian.cadisch@gmail.com") {
-                                UIApplication.shared.open(url)
-                            }}
+                            Button(NSLocalizedString("settings_feedback", tableName: "Quiz", comment: "")) {
+                                if let url = URL(string: "mailto:christian.cadisch@gmail.com") {
+                                    UIApplication.shared.open(url)
+                                }
+                            }
                             Divider()
-                            Button("Share App") {
+                            Button(NSLocalizedString("settings_share_app", tableName: "Quiz", comment: "")) {
                                 let url = URL(string: "https://christiancadisch.github.io/tennis.html")!
                                 let activityVC = UIActivityViewController(activityItems: [url], applicationActivities: nil)
-                                
+
                                 if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
                                    let rootVC = scene.windows.first?.rootViewController {
                                     rootVC.present(activityVC, animated: true, completion: nil)
-                                }}
+                                }
+                            }
                         }
                         .tint(.blue)
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -92,21 +98,20 @@ struct SettingsView: View {
                     .cornerRadius(16)
                     .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
                     .padding(.horizontal)
-                    
-                    
-                    
+
+                    // About Section
                     VStack(alignment: .leading, spacing: 12) {
-                        
-                        Text("About")
+
+                        Text(NSLocalizedString("settings_about_title", tableName: "Quiz", comment: ""))
                             .font(.headline)
                             .foregroundColor(.secondary)
-                            .padding(.horizontal, 16) 
+                            .padding(.horizontal, 16)
 
                         VStack(alignment: .leading, spacing: 4) {
-                            Text("Clay v1.0")
+                            Text(NSLocalizedString("settings_version", tableName: "Quiz", comment: ""))
                                 .font(.subheadline)
 
-                            Text("Built to help you analyze and improve your tennis serve")
+                            Text(NSLocalizedString("settings_about_text", tableName: "Quiz", comment: ""))
                                 .font(.footnote)
                                 .foregroundColor(.secondary)
                         }
@@ -117,25 +122,25 @@ struct SettingsView: View {
                     }
                     .padding(.horizontal)
                     .padding(.bottom, 40)
-
                 }
             }
         }
         .background(Color(.systemGroupedBackground).ignoresSafeArea())
         .scrollIndicators(.hidden)
+
         .fullScreenCover(isPresented: $showOnboarding) {
             OnboardingView(hasSeenOnboarding: $hasSeenOnboarding)
                 .onChange(of: hasSeenOnboarding) { newValue in
                     if newValue { showOnboarding = false }
                 }
         }
-        
+
         .fullScreenCover(isPresented: $showRecordingSetup) {
             RecordingSetupView(isPresented: $showRecordingSetup)
         }
-
     }
 }
+
 
 #Preview {
     SettingsView(hasSeenOnboarding: .constant(true))

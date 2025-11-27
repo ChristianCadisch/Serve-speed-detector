@@ -7,6 +7,33 @@
 import Foundation
 
 let legworkQuestions: [QuizQuestion] = [
+
+    // EASY (7)
+    question("legwork_q1",  difficulty: .easy,   correctIndex: 2, answerCount: 3),
+    question("legwork_q2",  difficulty: .easy,   correctIndex: 2, answerCount: 3),
+    question("legwork_q3",  difficulty: .easy,   correctIndex: 3, answerCount: 3),
+    question("legwork_q4",  difficulty: .easy,   correctIndex: 2, answerCount: 3),
+    question("legwork_q5",  difficulty: .easy,   correctIndex: 3, answerCount: 3),
+    question("legwork_q6",  difficulty: .easy,   correctIndex: 2, answerCount: 3),
+    question("legwork_q7",  difficulty: .easy,   correctIndex: 3, answerCount: 3),
+
+    // MEDIUM (6)
+    question("legwork_q8",  difficulty: .medium, correctIndex: 3, answerCount: 3),
+    question("legwork_q9",  difficulty: .medium, correctIndex: 2, answerCount: 3),
+    question("legwork_q10", difficulty: .medium, correctIndex: 3, answerCount: 3),
+    question("legwork_q11", difficulty: .medium, correctIndex: 2, answerCount: 3),
+    question("legwork_q12", difficulty: .medium, correctIndex: 3, answerCount: 3),
+    question("legwork_q13", difficulty: .medium, correctIndex: 1, answerCount: 3),
+
+    // HARD (5)
+    question("legwork_q14", difficulty: .hard,   correctIndex: 2, answerCount: 3),
+    question("legwork_q15", difficulty: .hard,   correctIndex: 2, answerCount: 3),
+    question("legwork_q16", difficulty: .hard,   correctIndex: 3, answerCount: 3),
+    question("legwork_q17", difficulty: .hard,   correctIndex: 2, answerCount: 3),
+    question("legwork_q18", difficulty: .hard,   correctIndex: 3, answerCount: 3),
+]
+
+
     /*
     QuizQuestion( text: "What is the primary function of the Split-Step in tennis footwork?", type: .single, answers: [ QuizAnswer(text: "To ensure a closed stance for stability", isCorrect: false, explanation: "The Split-Step is for immediate strike preparation and quick direction change"), QuizAnswer(text: "To activate leg musculature for a quick start in any direction", isCorrect: true, explanation: "The goal of the dynamic Split-Step is the activation of the leg muscles for a fast start"), QuizAnswer(text: "To initiate the body coil for groundstroke power", isCorrect: false, explanation: "The unit turn initiates the coil"), ], difficulty: .easy ),
     QuizQuestion( text: "Which of the following is NOT listed as one of the three main stances used to maximize ground force on the tennis serve?", type: .single, answers: [ QuizAnswer(text: "Platform Stance", isCorrect: false, explanation: "The Platform Stance is one of the three main stances"), QuizAnswer(text: "Continental Stance", isCorrect: true, explanation: "The three main stances are the Platform Stance, the Pinpoint Stance, and the Hybrid Stance"), QuizAnswer(text: "Pinpoint Stance", isCorrect: false, explanation: "The Pinpoint Stance is one of the three main stances"), ], difficulty: .easy ),
@@ -32,4 +59,4 @@ let legworkQuestions: [QuizQuestion] = [
     QuizQuestion( text: "Which action, relating to court position and offensive shot selection, is listed in the 'Top Ten Fastest Ways to Lose a Match'?", type: .single, answers: [ QuizAnswer(text: "Hitting groundstrokes into the net when you are at the baseline", isCorrect: false, explanation: "While a mistake, the fastest way listed is more aggressive"), QuizAnswer(text: "Attempting to hit winners when you are behind the baseline", isCorrect: true, explanation: "Attempting to hit winners when behind the baseline is listed as the number one fastest way to lose a match"), QuizAnswer(text: "Failing to serve and volley enough against a Steady Baseliner", isCorrect: false, explanation: "This relates to strategy, not quick losing actions"), ], difficulty: .hard ),
     QuizQuestion( text: "What characterizes the proper leg stability and pressure application during the execution of a tennis stroke, according to the notes on economical tennis-specific footwork?", type: .single, answers: [ QuizAnswer(text: "The player should be jumping or airborne at the point of contact to increase vertical force", isCorrect: false, explanation: "Many shots are played while jumping, but the core principle emphasizes stability"), QuizAnswer(text: "The legs should be fully extended to ensure maximal reach", isCorrect: false, explanation: "Knees should be bent to lower the COG"), QuizAnswer(text: "The body posture must be calm, the legs stand stably on the ground, and pressure remains constant on the standing foot", isCorrect: true, explanation: "During the stroke, the body posture is calm, the legs stand stably on the ground, and pressure remains constant on the standing foot (Schlag aus dem Stand)"), ], difficulty: .hard ),
 */
-]
+
