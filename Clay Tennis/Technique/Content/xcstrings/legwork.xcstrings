@@ -1,0 +1,1066 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+
+
+
+
+"legwork_q1_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Was ist die Hauptfunktion des Split-Step in der Beinarbeit im Tennis?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "What is the primary function of the Split-Step in tennis footwork?" } }
+  }
+},
+"legwork_q1_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Eine geschlossene Stellung für mehr Stabilität sicherstellen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "To ensure a closed stance for stability" } }
+  }
+},
+"legwork_q1_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Der Split-Step dient der unmittelbaren Schlagvorbereitung und Richtungsänderung" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The split-step is for immediate strike preparation and quick direction change" } }
+  }
+},
+"legwork_q1_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Aktivierung der Beinmuskulatur für einen schnellen Start in jede Richtung" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "To activate leg musculature for a quick start in any direction" } }
+  }
+},
+"legwork_q1_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Der dynamische Split-Step aktiviert die Beinmuskulatur für einen schnellen Start" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The dynamic split-step activates the leg muscles for a fast start" } }
+  }
+},
+"legwork_q1_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Einleitung der Körperrotation für mehr Schlagkraft" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "To initiate the body coil for groundstroke power" } }
+  }
+},
+"legwork_q1_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Die Körperrotation wird durch den Unit Turn eingeleitet" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The unit turn initiates the coil" } }
+  }
+},
+"legwork_q2_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Welche der folgenden Optionen ist KEINE der drei Hauptstellungen zur Maximierung der Bodenreaktionskraft beim Aufschlag?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Which of the following is NOT listed as one of the three main stances used to maximize ground force on the tennis serve?" } }
+  }
+},
+"legwork_q2_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Platform-Stance" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Platform Stance" } }
+  }
+},
+"legwork_q2_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Die Platform-Stance gehört zu den drei Hauptstellungen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The platform stance is one of the three main stances" } }
+  }
+},
+"legwork_q2_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Continental-Stance" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Continental Stance" } }
+  }
+},
+"legwork_q2_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Die drei Hauptstellungen sind Platform, Pinpoint und Hybrid" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The three main stances are the Platform Stance, the Pinpoint Stance and the Hybrid Stance" } }
+  }
+},
+"legwork_q2_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Pinpoint-Stance" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Pinpoint Stance" } }
+  }
+},
+"legwork_q2_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Die Pinpoint-Stance ist eine der drei Hauptstellungen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The pinpoint stance is one of the three main stances" } }
+  }
+},
+
+"legwork_q3_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Wie sollte ein Spieler beim Volley seinen Körperschwerpunkt im Vergleich zur Grundstellung anpassen?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "When preparing for a volley, how should a player adjust their center of gravity compared to their baseline ready position?" } }
+  }
+},
+"legwork_q3_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Der Schwerpunkt sollte höher liegen, um die Reichweite zu erhöhen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The COG should be slightly higher to increase reach" } }
+  }
+},
+"legwork_q3_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Ein hoher Schwerpunkt macht den Spieler weniger explosiv" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "A high COG would make the player less explosive" } }
+  }
+},
+"legwork_q3_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Der Schwerpunkt bleibt gleich wie an der Grundlinie" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The COG should be the same as the baseline ready position" } }
+  }
+},
+"legwork_q3_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Am Netz muss der Schwerpunkt angepasst werden" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The COG should be adjusted for the net" } }
+  }
+},
+"legwork_q3_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Der Schwerpunkt sollte tiefer liegen für explosionsartigeren Abdruck" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The COG should be lower to allow for a more explosive push-off" } }
+  }
+},
+"legwork_q3_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Beim Volley sollte der Schwerpunkt tiefer sein für besseren Abdruck" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "For volleys, the COG should be lower to allow a more explosive push-off" } }
+  }
+},
+
+"legwork_q4_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Welches grundlegende Element ist entscheidend für die optimale Positionierung zum Treffpunkt eines Schlages?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "What fundamental element is identified as the key to achieving optimal positioning for the contact point of a tennis stroke?" } }
+  }
+},
+"legwork_q4_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Der verwendete Griff" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The grip used" } }
+  }
+},
+"legwork_q4_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Der Griff beeinflusst die Technik, nicht die Positionierung" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Grip influences technique, but not positioning" } }
+  }
+},
+"legwork_q4_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Tennisspezifische Beinarbeit" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Tennis-specific footwork" } }
+  }
+},
+"legwork_q4_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Die Beinarbeit ist entscheidend für die optimale Distanz und Position zum Ball" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Footwork is the key to optimal positioning and distance to the contact point" } }
+  }
+},
+"legwork_q4_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Der verwendete Schläger" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The type of racket used" } }
+  }
+},
+"legwork_q4_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Der Schläger beeinflusst Kraft und Gefühl, aber nicht die Positionierung" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This affects power and feel, not positioning" } }
+  }
+},
+
+"legwork_q5_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Was ist ein Hauptvorteil einer offenen Schlagstellung im Tennis?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "What is a main advantage of using an open striking stance in tennis?" } }
+  }
+},
+"legwork_q5_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Sie garantiert eine besonders stabile Position für präzise Angriffsbälle" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "It guarantees a stable position for precise attack balls" } }
+  }
+},
+"legwork_q5_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Dies ist eher ein Vorteil der geschlossenen Stellung" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This is a benefit of the closed stance" } }
+  }
+},
+"legwork_q5_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Sie erlaubt ein unmittelbares Verlagern des Körpergewichts nach vorne" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "It allows the player to immediately bring the body weight forward into the court" } }
+  }
+},
+"legwork_q5_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Dies ist typisch für die geschlossene Stellung oder den Schlagschritt" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This is typically associated with the closed stance or strike step" } }
+  }
+},
+"legwork_q5_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Sie ermöglicht es, unter Zeitdruck sofort schlagbereit zu sein und schnell zu erholen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "It allows the player to be ready for the stroke immediately under time pressure and recover quickly" } }
+  }
+},
+"legwork_q5_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Ein Hauptvorteil ist die schnelle Schlagbereitschaft und Rückkehr in die Grundposition" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "A main advantage of the open stance is immediate readiness and quick recovery" } }
+  }
+},
+
+"legwork_q6_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Warum wird empfohlen, beim Rückhand-Unit-Turn mit Laufschritten statt nur mit Sidesteps zum Ball zu kommen?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Why is it recommended to use normal running steps instead of only side steps during the unit turn of the backhand?" } }
+  }
+},
+"legwork_q6_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Laufschritte erlauben es, länger in einer geschlossenen Stellung zu bleiben" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Running steps allow the player to maintain a closed stance longer" } }
+  }
+},
+"legwork_q6_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Laufschritte verbessern Zeit- und Energieeffizienz" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Running steps maximize time and energy efficiency" } }
+  }
+},
+"legwork_q6_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Sidesteps sind zu langsam und ermüden den Spieler unnötig" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Side steps take too much time and tire the player out" } }
+  }
+},
+"legwork_q6_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Ein häufiger Fehler sind Sidesteps zum Ball, die zu viel Zeit und Energie kosten" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Side steps take too much time and energy; turning early allows running steps" } }
+  }
+},
+"legwork_q6_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Sidesteps werden nur beim Angriff ans Netz verwendet" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Side steps are only used when attacking the net" } }
+  }
+},
+"legwork_q6_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Sidesteps werden auch bei der Rückkehr in die Mitte genutzt" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Side steps are also used when recovering back to the center" } }
+  }
+},
+
+"legwork_q7_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Was definiert den Schlagschritt in der tennis-spezifischen Beinarbeit?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "What defines the strike step (Schlagschritt) in tennis footwork?" } }
+  }
+},
+"legwork_q7_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Der erste explosive Schritt aus dem Split-Step" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The first explosive step from the split-step position" } }
+  }
+},
+"legwork_q7_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Der erste explosive Schritt initiiert die Bewegung" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The first explosive step initiates movement" } }
+  }
+},
+"legwork_q7_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Der große Schritt über den Körper zurück ins Zentrum" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The large step used to cross over the body quickly back to the center" } }
+  }
+},
+"legwork_q7_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Dies beschreibt den Kreuzschritt" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This describes the crossover step" } }
+  }
+},
+"legwork_q7_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Der letzte große Schritt zum Ball für eine stabile Position" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The last large step taken to the ball to achieve a stable position" } }
+  }
+},
+"legwork_q7_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Der Schlagschritt ist der letzte große Schritt für Stabilität und Schwerpunktkontrolle" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The strike step is the last large step to ensure stability and proper COG position" } }
+  }
+},
+
+"legwork_q8_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Wie wird laut den Kraftquellen des Aufschlags die Bodenreaktionskraft maximal genutzt?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "According to the power sources of the serve, how is ground force maximized?" } }
+  }
+},
+"legwork_q8_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Durch mindestens zwei Sekunden Halten der Stellung vor der Bewegung" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "By holding the stance for at least two seconds before initiating the motion" } }
+  }
+},
+"legwork_q8_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Dies würde den Bewegungsimpuls zerstören" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This would lose momentum" } }
+  }
+},
+"legwork_q8_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Durch schnelles Wegziehen des Wurfarms vom Treffpunkt" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "By accelerating the tossing hand away from the contact point quickly" } }
+  }
+},
+"legwork_q8_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Dies maximiert eher die Rotationskraft" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This primarily maximizes rotational power" } }
+  }
+},
+"legwork_q8_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Durch eine explosive Abwärts- und Aufwärtsbewegung im Beinantrieb" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "By using an explosive down and up action on the leg drive" } }
+  }
+},
+"legwork_q8_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Eine explosive Abwärts-Aufwärts-Bewegung maximiert die Bodenreaktionskraft" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "An explosive down–up leg drive maximizes ground force" } }
+  }
+},
+
+"legwork_q9_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Bei einem weiten Rückhand-Volley im Zwei-Schritt-Muster: Welche Beinsequenz ist für einen Rechtshänder korrekt?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "For a right-handed player executing the two-step footwork pattern on a wide backhand volley, what is the correct sequence of leg movements?" } }
+  }
+},
+"legwork_q9_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Zuerst rechtes Bein, dann mit dem linken Bein in den Volley gehen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Right leg first, then step into the volley with the left leg" } }
+  }
+},
+"legwork_q9_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Diese Sequenz gilt für den Vorhand-Volley" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This sequence is for the forehand volley" } }
+  }
+},
+"legwork_q9_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Zuerst linkes Bein (seitlich/vorne), dann mit dem rechten Bein in den Volley gehen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Left leg first (outwards/forwards), then step into the volley with the right leg" } }
+  }
+},
+"legwork_q9_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Beim Rückhand-Volley des Rechtshänders startet das Zwei-Schritt-Muster mit dem linken Bein" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "For a right-hander, the two-step backhand volley starts with the left leg" } }
+  }
+},
+"legwork_q9_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Die Schritte sollten immer seitlich als Shuffle-Steps ausgeführt werden" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The steps should always be sideways (shuffle steps) to cover the net" } }
+  }
+},
+"legwork_q9_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Seitliche Shuffle-Steps sind für weite Bälle meist zu langsam" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Sideways shuffle steps are usually too slow for wide balls" } }
+  }
+},
+
+"legwork_q10_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Für welchen Schlag ist die geschlossene Schlagstellung besonders vorteilhaft und warum?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The closed striking stance is particularly advantageous for which specific groundstroke, and why?" } }
+  }
+},
+"legwork_q10_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Für die Vorhand, weil sie maximale Oberkörperrotation nutzt" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The forehand, because it utilizes maximal upper body rotation" } }
+  }
+},
+"legwork_q10_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Die geschlossene Stellung wird eher für Präzision und Stabilität genutzt" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The closed stance is typically used for stability and precision" } }
+  }
+},
+"legwork_q10_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Für die beidhändige Rückhand, da sie weniger Platz benötigt" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The two-handed backhand, because it minimizes space required for the swing" } }
+  }
+},
+"legwork_q10_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Die geschlossene Stellung wird häufiger bei der einhändigen Rückhand genutzt" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The closed stance is often used for the one-handed backhand" } }
+  }
+},
+"legwork_q10_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Für die einhändige Rückhand, da sie hohe Stabilität bietet" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The one-handed backhand, because it provides good stability" } }
+  }
+},
+"legwork_q10_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Die geschlossene Stellung gibt der einhändigen Rückhand mehr Stabilität" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The closed stance is especially advantageous for the one-handed backhand due to stability" } }
+  }
+},
+
+"legwork_q11_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "In welche Richtung verläuft die Impulsübertragung in der Schlagphase eines Grundschlags?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "When resolving the striking phase of a groundstroke, in which direction does the impulse transfer through the kinematic chain occur?" } }
+  }
+},
+"legwork_q11_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Von oben (Schulter/Arm) nach unten zur Hüfte" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "From the top (shoulder/arm) downwards to the hips" } }
+  }
+},
+"legwork_q11_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Dies beschreibt die Vorbereitungsphase" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This sequence applies to the preparatory phase" } }
+  }
+},
+"legwork_q11_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Vom Rumpf gleichzeitig nach außen in alle Gliedmaßen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "From the trunk outwards to the limbs simultaneously" } }
+  }
+},
+"legwork_q11_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Die Impulsübertragung erfolgt als Kettenreaktion, nicht simultan" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Impulse transmission follows a chain reaction, not a simultaneous spread" } }
+  }
+},
+"legwork_q11_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Von unten (Beine) nach oben bis zum Schlagarm" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "From the bottom (legs) upwards towards the striking arm" } }
+  }
+},
+"legwork_q11_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Die Schlagauflösung verläuft von den Beinen über Hüfte und Rumpf bis zum Arm" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The striking phase resolves from the legs upward through the body to the arm" } }
+  }
+},
+
+"legwork_q12_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Welche Bewegung ermöglicht das effektive Stoppen einer Rutschbewegung auf Sand?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "On a clay court, what mechanical action must a player execute to stop the sliding phase effectively?" } }
+  }
+},
+"legwork_q12_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Das vollständige Durchstrecken des hinteren Beins" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The player must fully straighten the rear leg" } }
+  }
+},
+"legwork_q12_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Das hintere Bein rutscht meist mit gebeugtem Knie" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The rear leg usually slides while bent" } }
+  }
+},
+"legwork_q12_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Den Körperschwerpunkt über das Knie bringen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Bring the center of gravity over the knee" } }
+  }
+},
+"legwork_q12_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "So erhöht sich Druck und Widerstand des Fußes im Sand" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This increases pressure and resistance so the shoe and clay interlock" } }
+  }
+},
+"legwork_q12_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Beide Füße gleichzeitig anheben" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Immediately lift both feet off the ground" } }
+  }
+},
+"legwork_q12_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Das würde die Bewegung abrupt stoppen, aber nicht effizient" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This would stop movement, but not efficiently" } }
+  }
+},
+
+"legwork_q13_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Beim Vorhand-Volley im Ein-Schritt-Muster: Welches Bein tritt ein und welche Bewegung sorgt für Stabilität?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "When a right-handed player executes a forehand volley using the one-step footwork pattern, which leg steps in and what movement is recommended for stability?" } }
+  }
+},
+"legwork_q13_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Das rechte Bein, gefolgt von einem kleinen Sprung" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The right leg steps in, followed by a slight jump" } }
+  }
+},
+"legwork_q13_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Beim Vorhand-Volley tritt das linke Bein ein" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "For a forehand volley, the left leg steps in" } }
+  }
+},
+"legwork_q13_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Das linke Bein, ähnlich einem halben Ausfallschritt" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The left leg steps in, similar to a half lunge" } }
+  }
+},
+"legwork_q13_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Der halbe Ausfallschritt verbessert Balance und Gewichtsverlagerung" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "A half lunge improves balance and weight transfer" } }
+  }
+},
+"legwork_q13_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Das linke Bein mit komplett gestrecktem Knie" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The left leg steps in, keeping the knee fully straight" } }
+  }
+},
+"legwork_q13_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Ein gebeugtes Knie ist wichtig für Stabilität" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Bending the knee is essential for stability" } }
+  }
+},
+
+"legwork_q14_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Welche Anweisung gilt für den Doppelpartner des Aufschlägers, wenn der Return cross-court an ihm vorbeigeht?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "What specific footwork instruction is provided for the server's partner in doubles if the return goes past them cross-court?" } }
+  }
+},
+"legwork_q14_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Sofort ans Netz laufen, um die Mitte zu decken" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Immediately run to the net to cover the middle" } }
+  }
+},
+"legwork_q14_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Dies würde die defensive Position aufgeben" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This would abandon the defensive position" } }
+  }
+},
+"legwork_q14_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Schnell den Griff wechseln für einen möglichen Passierschlag" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Quickly change grip for a possible passing shot" } }
+  }
+},
+"legwork_q14_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Die Anweisung betrifft die Positionierung, nicht den Griff" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The instruction refers to positioning, not grip" } }
+  }
+},
+"legwork_q14_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Zwei Schritte rückwärts „release back“ machen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "They must 'release back' two steps" } }
+  }
+},
+"legwork_q14_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Geht der Return cross-court vorbei, soll sich der Partner zwei Schritte lösen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "If the return goes past them cross-court, they should release back two steps" } }
+  }
+},
+
+"legwork_q15_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Welche Beinposition und -bewegung ist entscheidend für Stabilität im Prinzip der Impulserhaltung?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "In the principle of impulse conservation, which leg positioning and movement is crucial for optimal stability?" } }
+  }
+},
+"legwork_q15_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Enge Fußstellung und Durchstrecken der Knie" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Narrow stance and extended knees" } }
+  }
+},
+"legwork_q15_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Dies würde den Spieler instabil machen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This would destabilize the player" } }
+  }
+},
+"legwork_q15_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Breite Fußstellung und gebeugte Knie" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Wide stance and bent knees" } }
+  }
+},
+"legwork_q15_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "So wird der Körperschwerpunkt näher an die Stützfläche gebracht" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This brings the center of gravity closer to the support base" } }
+  }
+},
+"legwork_q15_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Aufrechter Körper und Vorwärtsbewegung durch den Schlag" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Upright posture and forward momentum through the stroke" } }
+  }
+},
+"legwork_q15_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Dies beschreibt nicht die entscheidende Beinarbeit für Stabilität" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This does not describe the key leg mechanics for stability" } }
+  }
+},
+
+"legwork_q16_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Welche Beschreibung trifft die korrekte Ausführung des Kreuzschritts am besten?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Which set of instructions accurately describes the correct execution of the crossover step (Kreuzschritt)?" } }
+  }
+},
+"legwork_q16_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Großer Sprung mit gekreuzten Armen und ohne Split-Step danach" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Starting with a large jump, crossing the arms, and avoiding the split-step afterward" } }
+  }
+},
+"legwork_q16_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Nach dem Kreuzschritt sollte immer ein Split-Step folgen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "A split-step should always follow the crossover step" } }
+  }
+},
+"legwork_q16_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Explosiver Abdruck vom äußeren Bein, Überkreuzen und anschließender Split-Step" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Explosive push-off from the outer leg, crossing over, followed by a split-step" } }
+  }
+},
+"legwork_q16_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "So wird maximale Bewegungseffizienz und Richtungswechsel erreicht" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This ensures efficient movement and preparation for the next direction change" } }
+  }
+},
+"legwork_q16_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Tiefes Sidesteppen in kurzen, schnellen Schritten" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Moving with a low center of gravity using short side steps" } }
+  }
+},
+"legwork_q16_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Dies beschreibt kleine Laufschritte, nicht den Kreuzschritt" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This describes small running steps, not the crossover step" } }
+  }
+},
+
+
+
+
+"legwork_q17_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Welche Strategie wird gegen einen Runner/Pusher empfohlen, um nicht in einen Marathon verwickelt zu werden?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "When facing a Runner/Pusher, what strategy is recommended to avoid getting drawn into a marathon match?" } }
+  }
+},
+"legwork_q17_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Hinter der Grundlinie bleiben und lange Winkel spielen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Stay behind the baseline and rely on deep angles" } }
+  }
+},
+"legwork_q17_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Das spielt dem Runner/Pusher in die Karten" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This plays into the pusher’s strengths" } }
+  }
+},
+"legwork_q17_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Konstant in die Mitte spielen, um die Winkel zu reduzieren" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Hit consistently to the middle to reduce angles" } }
+  }
+},
+"legwork_q17_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Das ist zwar eine Taktik, aber keine Lösung gegen lange Ballwechsel" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This is a tactic but does not help finish points" } }
+  }
+},
+"legwork_q17_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Gezielt ans Netz gehen und die Punkte früh beenden" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Look for chances to get to the net and finish points early" } }
+  }
+},
+"legwork_q17_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Durch Netzangriffe werden endlose Ballwechsel vermieden" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Attacking the net helps avoid long rallies and finish points quickly" } }
+  }
+},
+
+"legwork_q18_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Welcher Beinarbeitsfehler auf Sand weist darauf hin, dass ein Spieler zu spät zum Ball ist?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "What footwork timing mistake on clay indicates a player is too late to the ball?" } }
+  }
+},
+"legwork_q18_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Keine Spannung vor dem Rutschen aufbauen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Failing to build tension before starting the slide" } }
+  }
+},
+"legwork_q18_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Das deutet auf mangelnde Explosivität hin" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This indicates a lack of powerful initiation" } }
+  }
+},
+"legwork_q18_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Erst nach dem Schlag ins Rutschen kommen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Sliding after rather than before the stroke" } }
+  }
+},
+"legwork_q18_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Das zeigt, dass der Spieler grundsätzlich zu spät ist" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This indicates the player is fundamentally too late to the ball" } }
+  }
+},
+"legwork_q18_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Nur kurze statt lange Slides verwenden" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Using short slides instead of long sliding tracks" } }
+  }
+},
+"legwork_q18_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Die Länge des Slides ist kein direktes Zeichen für zu spätes Timing" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Slide length does not necessarily indicate late timing" } }
+  }
+},
+
+"legwork_q19_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Welche Kombination an Anpassungen wird für Returns gegen einen Big Server empfohlen?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "What combination of footwork adjustments is recommended when returning against a Big Server?" } }
+  }
+},
+"legwork_q19_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Einen Schritt zurückstehen, Beinarbeit-Rituale verstärken und nach vorne orientiert bleiben" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Stand a step or two back, increase footwork rituals, and stay positioned to move forward" } }
+  }
+},
+"legwork_q19_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "So gewinnt man Zeit und bleibt trotz Druck aktiv nach vorne orientiert" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This gives more time and allows moving forward into the return" } }
+  }
+},
+"legwork_q19_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Sehr weit vorgehen und mit maximalem Ausholen returnieren" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Move far inside and use a maximal backswing" } }
+  }
+},
+"legwork_q19_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Empfohlen wird ein kürzerer, nicht ein größerer Ausholweg" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "A shorter backswing is recommended, not a longer one" } }
+  }
+},
+"legwork_q19_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Beinarbeit-Rituale minimieren, um weniger nervös zu werden" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Minimize footwork rituals to reduce nervousness" } }
+  }
+},
+"legwork_q19_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Erhöhte Rituale werden explizit empfohlen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The advice is actually to increase footwork rituals" } }
+  }
+},
+
+"legwork_q20_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Welche Handlung gehört zu den „Top Ten schnellsten Wegen, ein Match zu verlieren“?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Which action is listed in the 'Top Ten Fastest Ways to Lose a Match'?" } }
+  }
+},
+"legwork_q20_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Grundschläge aus der Grundlinie ins Netz spielen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Hitting groundstrokes into the net from the baseline" } }
+  }
+},
+"legwork_q20_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Dies ist ein Fehler, aber nicht der schnellste Weg zu verlieren" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This is a mistake but not listed as the fastest way to lose" } }
+  }
+},
+"legwork_q20_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Winner schlagen, obwohl man weit hinter der Grundlinie steht" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Attempting winners while positioned behind the baseline" } }
+  }
+},
+"legwork_q20_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Dies wird als der schnellste Weg genannt, ein Match zu verlieren" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This is listed as the number one fastest way to lose a match" } }
+  }
+},
+"legwork_q20_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Zu wenig Serve-and-Volley gegen einen Baseline-Spieler" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Not serve-and-volleying enough against a steady baseliner" } }
+  }
+},
+"legwork_q20_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Dies ist eher eine taktische Diskussion als ein Extremfehler" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This relates to strategy, not the fastest way to lose" } }
+  }
+},
+
+"legwork_q21_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Was kennzeichnet eine korrekte Bein-Stabilität und Druckausübung während eines Schlages?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "What characterizes proper leg stability and pressure application during a tennis stroke?" } }
+  }
+},
+"legwork_q21_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Abspringen beim Treffpunkt für mehr vertikale Kraft" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Jumping at contact to increase vertical force" } }
+  }
+},
+"legwork_q21_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Der Fokus liegt auf Stabilität, nicht auf Absprung" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The core principle emphasizes stability, not jumping" } }
+  }
+},
+"legwork_q21_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Voll gestreckte Beine für maximale Reichweite" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Fully extended legs for maximum reach" } }
+  }
+},
+"legwork_q21_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Gebeugte Knie sind entscheidend zur Schwerpunktkontrolle" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Bent knees are crucial for controlling the center of gravity" } }
+  }
+},
+"legwork_q21_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Ruhige Körperhaltung, stabiler Stand und konstanter Druck auf dem Standbein" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "A calm posture, stable legs, and constant pressure on the standing foot" } }
+  }
+},
+"legwork_q21_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Stabil stehen und konstanten Druck halten ist zentral für ökonomische Beinarbeit" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Standing stably with constant pressure on the support leg is key" } }
+  }
+},
+
+
+
+
+
+  },
+  "version" : "1.1"
+}

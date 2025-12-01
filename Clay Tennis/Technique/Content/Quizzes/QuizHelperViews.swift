@@ -58,10 +58,10 @@ struct QuizResultView: View {
                 VStack(spacing: 32) {
 
                     VStack(spacing: 12) {
-                        Text(LocalizedStringKey("quiz_complete_title"), tableName: "Quiz")
+                        Text(LocalizedStringKey("quiz_complete_title"), tableName: "general")
                             .font(.largeTitle.bold())
 
-                        Text(LocalizedStringKey(performanceTextKey), tableName: "Quiz")
+                        Text(LocalizedStringKey(performanceTextKey), tableName: "general")
                             .font(.title2.weight(.semibold))
                             .foregroundColor(.secondary)
                     }
@@ -85,7 +85,7 @@ struct QuizResultView: View {
                                 String(
                                     format: NSLocalizedString(
                                         "correct_out_of_format",
-                                        tableName: "Quiz",
+                                        tableName: "general",
                                         bundle: .main,
                                         comment: ""
                                     ),
@@ -173,7 +173,11 @@ struct QuizResultView: View {
                     }
                     
                     VStack(alignment: .leading, spacing: 2) {
-                        Text("Next Quiz")
+                        Text(
+                            NSLocalizedString("next_quiz_button",
+                                              tableName: "general",
+                                              comment: "")
+                        )
                             .font(.caption.weight(.medium))
                             .foregroundColor(.white.opacity(0.6))
                         
@@ -191,8 +195,15 @@ struct QuizResultView: View {
                 
                 HeroProgressBar(
                     progress: progress,
-                    label: "\(solved)/\(total) solved"
+                    label: String(
+                        format: NSLocalizedString("quiz_solved_label_format",
+                                                  tableName: "general",
+                                                  comment: ""),
+                        solved,
+                        total
+                    )
                 )
+
             }
             .padding(.horizontal, 18)
             .padding(.vertical, 16)
@@ -405,7 +416,7 @@ class QuizViewModel: ObservableObject {
 
 extension QuizDifficulty {
     var localizedTitle: String {
-        NSLocalizedString(self.titleKey, tableName: "Quiz", comment: "")
+        NSLocalizedString(self.titleKey, tableName: "general", comment: "")
     }
 }
 
@@ -415,6 +426,7 @@ struct QuizOptionView: View {
     let answer: QuizAnswer
     let isSelected: Bool
     let revealed: Bool
+    let quizID: QuizIdentifier
     
     @State private var hasAnimatedCorrect = false
     @State private var checkScale: CGFloat = 1.0
@@ -426,7 +438,10 @@ struct QuizOptionView: View {
 
             // Existing answer row
             HStack {
-                Text(LocalizedStringKey(answer.textKey), tableName: "Quiz")
+                Text(
+                    LocalizedStringKey(answer.textKey),
+                    tableName: quizID.tableName
+                )
                     .foregroundColor(.primary)
                     .font(.body)
                     .multilineTextAlignment(.leading)
@@ -455,7 +470,10 @@ struct QuizOptionView: View {
             // NEW: Explanation text
             if revealed {
                 if answer.isCorrect {
-                    Text(LocalizedStringKey(answer.explanationKey), tableName: "Quiz")
+                    Text(
+                        LocalizedStringKey(answer.explanationKey),
+                        tableName: quizID.tableName
+                    )
                         .font(.footnote)
                         .foregroundColor(
                             colorScheme == .light
@@ -466,7 +484,10 @@ struct QuizOptionView: View {
                         .lineLimit(nil)
                         .fixedSize(horizontal: false, vertical: true)
                 } else if isSelected {
-                    Text(LocalizedStringKey(answer.explanationKey), tableName: "Quiz")
+                    Text(
+                        LocalizedStringKey(answer.explanationKey),
+                        tableName: quizID.tableName
+                    )
                         .font(.footnote)
                         .foregroundColor(.red.opacity(0.9))
                         .transition(.opacity.combined(with: .move(edge: .top)))
@@ -556,17 +577,17 @@ enum QuizIdentifier: Int, CaseIterable, Hashable {
     var title: String {
         switch self {
         case .serve:
-            return NSLocalizedString("topic_serve", tableName: "Quiz", comment: "")
+            return NSLocalizedString("topic_serve", tableName: "general", comment: "")
         case .tactics:
-            return NSLocalizedString("topic_tactics", tableName: "Quiz", comment: "")
+            return NSLocalizedString("topic_tactics", tableName: "general", comment: "")
         case .forehand:
-            return NSLocalizedString("topic_forehand", tableName: "Quiz", comment: "")
+            return NSLocalizedString("topic_forehand", tableName: "general", comment: "")
         case .backhand:
-            return NSLocalizedString("topic_backhand", tableName: "Quiz", comment: "")
+            return NSLocalizedString("topic_backhand", tableName: "general", comment: "")
         case .volley:
-            return NSLocalizedString("topic_volley", tableName: "Quiz", comment: "")
+            return NSLocalizedString("topic_volley", tableName: "general", comment: "")
         case .legwork:
-            return NSLocalizedString("topic_legwork", tableName: "Quiz", comment: "")
+            return NSLocalizedString("topic_legwork", tableName: "general", comment: "")
         }
     }
 
@@ -645,6 +666,14 @@ enum QuizDifficulty: Int, CaseIterable, Hashable {
         case .hard: return "difficulty_hard"
         }
     }
+    
+    var titleKeyAdjective: String {
+        switch self {
+        case .easy: return "difficulty_easy_adjective"
+        case .medium: return "difficulty_medium_adjective"
+        case .hard: return "difficulty_hard_adjective"
+        }
+    }
 }
 
 
@@ -656,4 +685,18 @@ struct LessonQuizID: Hashable {
         "QuizHighScore_\(topic.progressionIndex)_\(difficulty.orderIndex)"
     }
 }
+
+extension QuizIdentifier {
+    var tableName: String {
+        switch self {
+        case .serve: return "serve"
+        case .tactics: return "tactics"
+        case .forehand: return "forehand"
+        case .backhand: return "backhand"
+        case .volley: return "volley"
+        case .legwork: return "legwork"
+        }
+    }
+}
+
 

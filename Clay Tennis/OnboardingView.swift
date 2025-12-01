@@ -21,24 +21,24 @@ struct OnboardingView: View {
                     OnboardingPage(
                         name: "onboarding",
                         isSystemImage: false,
-                        title: NSLocalizedString("onboarding_page1_title", tableName: "Quiz", comment: ""),
-                        description: NSLocalizedString("onboarding_page1_desc", tableName: "Quiz", comment: ""),
+                        title: NSLocalizedString("onboarding_page1_title", tableName: "general", comment: ""),
+                        description: NSLocalizedString("onboarding_page1_desc", tableName: "general", comment: ""),
                         cornerRadius: 30
                     )
                     .tag(0)
 
                     OnboardingPage(
                         name: "camera",
-                        title: NSLocalizedString("onboarding_page2_title", tableName: "Quiz", comment: ""),
-                        description: NSLocalizedString("onboarding_page2_desc", tableName: "Quiz", comment: "")
+                        title: NSLocalizedString("onboarding_page2_title", tableName: "general", comment: ""),
+                        description: NSLocalizedString("onboarding_page2_desc", tableName: "general", comment: "")
                     )
                     .tag(1)
 
                     OnboardingPage(
                         name: "setup",
                         isSystemImage: false,
-                        title: NSLocalizedString("onboarding_page3_title", tableName: "Quiz", comment: ""),
-                        description: NSLocalizedString("onboarding_page3_desc", tableName: "Quiz", comment: ""),
+                        title: NSLocalizedString("onboarding_page3_title", tableName: "general", comment: ""),
+                        description: NSLocalizedString("onboarding_page3_desc", tableName: "general", comment: ""),
                         size: CGSize(width: 300, height: 3000),
                         cornerRadius: 30
                     )
@@ -46,8 +46,8 @@ struct OnboardingView: View {
 
                     OnboardingPage(
                         name: "chart.bar.fill",
-                        title: NSLocalizedString("onboarding_page4_title", tableName: "Quiz", comment: ""),
-                        description: NSLocalizedString("onboarding_page4_desc", tableName: "Quiz", comment: "")
+                        title: NSLocalizedString("onboarding_page4_title", tableName: "general", comment: ""),
+                        description: NSLocalizedString("onboarding_page4_desc", tableName: "general", comment: "")
                     )
                     .tag(3)
                 }
@@ -102,7 +102,7 @@ struct OnboardingView: View {
                                 .rootViewController?
                                 .dismiss(animated: true)
                         } label: {
-                            Text(NSLocalizedString("onboarding_get_started", tableName: "Quiz", comment: ""))
+                            Text(NSLocalizedString("onboarding_get_started", tableName: "general", comment: ""))
                                 .fontWeight(.bold)
                                 .frame(maxWidth: .infinity)
                                 .padding()

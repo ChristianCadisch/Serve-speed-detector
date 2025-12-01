@@ -26,8 +26,8 @@ struct RecordingSetupView: View {
                     OnboardingPage(
                         name: "phone_on_bottle",
                         isSystemImage: false,
-                        title: NSLocalizedString("recording_page1_title", tableName: "Quiz", comment: ""),
-                        description: NSLocalizedString("recording_page1_desc", tableName: "Quiz", comment: ""),
+                        title: NSLocalizedString("recording_page1_title", tableName: "general", comment: ""),
+                        description: NSLocalizedString("recording_page1_desc", tableName: "general", comment: ""),
                         size: CGSize(width: 300, height: 300),
                         cornerRadius: 30
                     )
@@ -37,8 +37,8 @@ struct RecordingSetupView: View {
                     OnboardingPage(
                         name: "setup",
                         isSystemImage: false,
-                        title: NSLocalizedString("recording_page2_title", tableName: "Quiz", comment: ""),
-                        description: NSLocalizedString("recording_page2_desc", tableName: "Quiz", comment: ""),
+                        title: NSLocalizedString("recording_page2_title", tableName: "general", comment: ""),
+                        description: NSLocalizedString("recording_page2_desc", tableName: "general", comment: ""),
                         size: CGSize(width: 300, height: 300),
                         cornerRadius: 30
                     )
@@ -47,8 +47,8 @@ struct RecordingSetupView: View {
                     // PAGE 3 — GOOD EXAMPLE VIDEO
                     RecordingSetupVideoPage(
                         remoteURL: "example_serve",
-                        title: NSLocalizedString("recording_page3_title", tableName: "Quiz", comment: ""),
-                        description: NSLocalizedString("recording_page3_desc", tableName: "Quiz", comment: "")
+                        title: NSLocalizedString("recording_page3_title", tableName: "general", comment: ""),
+                        description: NSLocalizedString("recording_page3_desc", tableName: "general", comment: "")
                     )
                     .tag(2)
                 }
@@ -97,7 +97,7 @@ struct RecordingSetupView: View {
                             isPresented = false
                             dismiss()
                         } label: {
-                            Text(NSLocalizedString("recording_setup_done", tableName: "Quiz", comment: ""))
+                            Text(NSLocalizedString("recording_setup_done", tableName: "general", comment: ""))
                                 .fontWeight(.bold)
                                 .frame(maxWidth: .infinity)
                                 .padding()

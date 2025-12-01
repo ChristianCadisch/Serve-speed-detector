@@ -18,7 +18,7 @@ struct QuizView: View {
     @State private var buttonPressed = false
 
     let quizID: QuizIdentifier
-    let onQuizFinished: (QuizIdentifier, Int) -> Void
+    let onQuizFinished: (LessonQuizID, Int, Int) -> Void
     let onFinish: () -> Void
     let navigationDelegate: HomeNavigationDelegate?
 
@@ -45,7 +45,8 @@ struct QuizView: View {
                     total: vm.questions.count,
                     quizID: quizID,
                     onNextQuiz: { id in
-                        onQuizFinished(quizID, vm.score)
+                        let id = LessonQuizID(topic: quizID, difficulty: vm.questions.first?.difficulty ?? .easy)
+                        onQuizFinished(id, vm.score, vm.questions.count)
                         navigationDelegate?.showQuiz(
                             topic: id.topic,
                             difficulty: id.difficulty
@@ -71,7 +72,7 @@ struct QuizView: View {
 
                 Text(
                     String(
-                        format: NSLocalizedString("question_counter_format", tableName: "Quiz", comment: ""),
+                        format: NSLocalizedString("question_counter_format", tableName: "general", comment: ""),
                         vm.currentIndex + 1,
                         vm.questions.count
                     )
@@ -83,7 +84,7 @@ struct QuizView: View {
 
             let question = vm.questions[vm.currentIndex]
 
-            Text(LocalizedStringKey(question.textKey), tableName: "Quiz")
+            Text(LocalizedStringKey(question.textKey), tableName: quizID.tableName)
                 .font(.title3.weight(.semibold))
                 .multilineTextAlignment(.leading)
                 .padding(22)
@@ -97,10 +98,12 @@ struct QuizView: View {
             VStack(spacing: 14) {
                 ForEach(question.answers) { answer in
                     QuizOptionView(
-                        answer: answer,   // pass keys directly
+                        answer: answer,
                         isSelected: vm.selectedAnswers.contains(answer.id),
-                        revealed: hasEntered
+                        revealed: hasEntered,
+                        quizID: quizID    
                     )
+
                     .onTapGesture {
                         if !hasEntered {
                             vm.toggleAnswer(answer.id, type: question.type)
@@ -120,12 +123,15 @@ struct QuizView: View {
                     vm.evaluateCurrentQuestion()
                     hasEntered = true
                     showContinue = true
-                    onQuizFinished(quizID, vm.score)
+                    let id = LessonQuizID(topic: quizID, difficulty: vm.questions.first?.difficulty ?? .easy)
+                    onQuizFinished(id, vm.score, vm.questions.count)
+
                 }
             } else if showContinue {
                 actionButton(titleKey: "continue_button") {
                     vm.submit()
-                    onQuizFinished(quizID, vm.score)
+                    let id = LessonQuizID(topic: quizID, difficulty: vm.questions.first?.difficulty ?? .easy)
+                    onQuizFinished(id, vm.score, vm.questions.count)
                 }
             }
 
@@ -138,7 +144,7 @@ struct QuizView: View {
 
     private func actionButton(titleKey: String, action: @escaping () -> Void) -> some View {
         Button(action: action) {
-            Text(LocalizedStringKey(titleKey), tableName: "Quiz")
+            Text(LocalizedStringKey(titleKey), tableName: "general")
                 .font(.headline)
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 18)
@@ -177,15 +183,15 @@ struct QuizView: View {
     }
 }
 
-
 #Preview {
     QuizView(
         vm: QuizViewModel(
             questions: QuizIdentifier.serve.questions(for: .easy)
         ),
         quizID: .serve,
-        onQuizFinished: { _, _ in },
+        onQuizFinished: { _, _, _ in },
         onFinish: { },
         navigationDelegate: nil
     )
 }
+

@@ -1,0 +1,1420 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "all_levels_completed" : {
+      "comment" : "Shown when all difficulty levels of a topic are completed",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle Levels abgeschlossen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All levels completed"
+          }
+        }
+      }
+    },
+    "all_topics" : {
+      "comment" : "Button title to show all quiz topics",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle Themen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All Topics"
+          }
+        }
+      }
+    },
+    "continue_button" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Weiter"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continue"
+          }
+        }
+      }
+    },
+    "correct_out_of_format" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "von %d richtig"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "out of %d"
+          }
+        }
+      }
+    },
+    "difficulty_easy" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leicht"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Easy"
+          }
+        }
+      }
+    },
+    "difficulty_hard" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schwer"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hard"
+          }
+        }
+      }
+    },
+    "difficulty_medium" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mittel"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Medium"
+          }
+        }
+      }
+    },
+    "enter_button" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Antwort prüfen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter"
+          }
+        }
+      }
+    },
+    "feed_add_first_video" : {
+      "comment" : "Button to add first video",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erstes Video hinzufügen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add Your First Video"
+          }
+        }
+      }
+    },
+    "feed_delete" : {
+      "comment" : "Delete button label for swipe actions",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Löschen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete"
+          }
+        }
+      }
+    },
+    "feed_empty_subtitle" : {
+      "comment" : "Subtitle when no serves exist",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Füge dein erstes Video hinzu, um deine Aufschläge zu analysieren."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add your first video to start analyzing your serves."
+          }
+        }
+      }
+    },
+    "feed_empty_title" : {
+      "comment" : "Shown when no serves exist",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Noch keine Aufschläge"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Serves Yet"
+          }
+        }
+      }
+    },
+    "feed_most_recent_serve" : {
+      "comment" : "Label for the featured serve card",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neuester Aufschlag"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Most recent Serve"
+          }
+        }
+      }
+    },
+    "feed_other_serves" : {
+      "comment" : "Section title above other serves",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Weitere Aufschläge"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Other Serves"
+          }
+        }
+      }
+    },
+    "feed_serve_counter_format" : {
+      "comment" : "Top bar serve counter e.g. '5 Serves'",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d Aufschläge"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d Serves"
+          }
+        }
+      }
+    },
+    "feed_serve_recorded_format" : {
+      "comment" : "Serve counter per video e.g. '3 Serves recorded'",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d Aufschläge gespeichert"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d Serves recorded"
+          }
+        }
+      }
+    },
+    "feed_title" : {
+      "comment" : "Title shown in the feed top bar",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clay"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clay"
+          }
+        }
+      }
+    },
+    "next_quiz_label" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nächstes Quiz"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next Quiz"
+          }
+        }
+      }
+    },
+    "next_up" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nächstes Level: %@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next up: %@"
+          }
+        }
+      }
+    },
+    "onboarding_get_started" : {
+      "comment" : "Final onboarding button",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loslegen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Get Started"
+          }
+        }
+      }
+    },
+    "onboarding_page1_desc" : {
+      "comment" : "Onboarding page 1 description",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dein iPhone-Aufschlagsradar mit modernster KI-Technologie"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your iPhone serve speed radar powered by the newest AI technology"
+          }
+        }
+      }
+    },
+    "onboarding_page1_title" : {
+      "comment" : "Onboarding page 1 title",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Willkommen bei Clay"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Welcome to Clay"
+          }
+        }
+      }
+    },
+    "onboarding_page2_desc" : {
+      "comment" : "Onboarding page 2 description",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lege dein Handy auf den Boden und nutze Slow-Motion für präziseste Ergebnisse"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Record with your phone on the floor and use slow motion for the most precise results"
+          }
+        }
+      }
+    },
+    "onboarding_page2_title" : {
+      "comment" : "Onboarding page 2 title",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kamera ruhig halten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep the Camera Steady"
+          }
+        }
+      }
+    },
+    "onboarding_page3_desc" : {
+      "comment" : "Onboarding page 3 description",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der gesamte Aufschlag muss sichtbar sein: Ballwurf, Treffpunkt, Flugbahn und Landung"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Make sure the full serve is visible: toss, contact, trajectory and landing"
+          }
+        }
+      }
+    },
+    "onboarding_page3_title" : {
+      "comment" : "Onboarding page 3 title",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den ganzen Aufschlag erfassen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Capture the Whole Serve"
+          }
+        }
+      }
+    },
+    "onboarding_page4_desc" : {
+      "comment" : "Onboarding page 4 description",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lade deinen ersten Aufschlag hoch oder nimm ihn direkt auf"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Upload or record your first serve"
+          }
+        }
+      }
+    },
+    "onboarding_page4_title" : {
+      "comment" : "Onboarding page 4 title",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los geht’s"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Let’s Get Started"
+          }
+        }
+      }
+    },
+    "out_of_format" : {
+      "comment" : "Score formatting",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "von %d"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "out of %d"
+          }
+        }
+      }
+    },
+    "question_counter_format" : {
+      "comment" : "Format for question counter",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frage %d von %d"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Question %d of %d"
+          }
+        }
+      }
+    },
+    "quiz_complete_title" : {
+      "comment" : "Title of the view that appears when a quiz is completed.",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quiz abgeschlossen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quiz Complete"
+          }
+        }
+      }
+    },
+    "quiz_result_excellent" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hervorragend!"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Excellent!"
+          }
+        }
+      }
+    },
+    "quiz_result_good" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gut gemacht!"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Good job!"
+          }
+        }
+      }
+    },
+    "quiz_result_keep_practicing" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Weiter üben!"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep practicing!"
+          }
+        }
+      }
+    },
+    "recommended_lesson" : {
+      "comment" : "Section header above the highlighted next suggested lesson",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Empfohlene Lektion"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recommended Lesson"
+          }
+        }
+      }
+    },
+    "recording_page1_desc" : {
+      "comment" : "Recording setup page 1 description",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lehne dein Handy an eine Trinkflasche oder Tasche. Die Kamera muss komplett ruhig bleiben — Aufnahmen aus der Hand funktionieren nicht"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lean your phone against a water bottle or your bag. The camera must remain completely still — handheld recordings won't work"
+          }
+        }
+      }
+    },
+    "recording_page1_title" : {
+      "comment" : "Recording setup page 1 title",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Platziere dein Handy stabil"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Place Your Phone Securely"
+          }
+        }
+      }
+    },
+    "recording_page2_desc" : {
+      "comment" : "Recording setup page 2 description",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Platziere dein Handy in der hinteren Ecke des Courts. Spieler und Landepunkt müssen sichtbar sein"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Place the phone at the back corner of the court. Make sure the player and landing area are both visible"
+          }
+        }
+      }
+    },
+    "recording_page2_title" : {
+      "comment" : "Recording setup page 2 title",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Korrekte Kameraposition"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Correct Camera Position"
+          }
+        }
+      }
+    },
+    "recording_page3_desc" : {
+      "comment" : "Recording setup page 3 description",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dein Video sollte den ganzen Aufschlag zeigen: Ballwurf, Treffmoment, Flugbahn und Landepunkt"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your video should clearly show the full serve: the toss, impact, trajectory, and the landing point on the opposite side"
+          }
+        }
+      }
+    },
+    "recording_page3_title" : {
+      "comment" : "Recording setup page 3 title",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beispiel einer guten Aufnahme"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Example of a Good Recording"
+          }
+        }
+      }
+    },
+    "recording_setup_done" : {
+      "comment" : "Close button for recording setup screen",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fertig"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done"
+          }
+        }
+      }
+    },
+    "settings_about_text" : {
+      "comment" : "About description under version",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entwickelt, um dir zu helfen, deinen Tennisaufschlag zu analysieren und zu verbessern"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Built to help you analyze and improve your tennis serve"
+          }
+        }
+      }
+    },
+    "settings_about_title" : {
+      "comment" : "Section header: About",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Über die App"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "About"
+          }
+        }
+      }
+    },
+    "settings_feedback" : {
+      "comment" : "Button: Give feedback",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Feedback geben"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Give Feedback"
+          }
+        }
+      }
+    },
+    "settings_recording_setup" : {
+      "comment" : "Button: Recording setup guide",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aufnahme-Anleitung"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recording setup guide"
+          }
+        }
+      }
+    },
+    "settings_share_app" : {
+      "comment" : "Button: Share app",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App teilen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Share App"
+          }
+        }
+      }
+    },
+    "settings_support_title" : {
+      "comment" : "Section header: Support",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Support"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Support"
+          }
+        }
+      }
+    },
+    "settings_title" : {
+      "comment" : "Navigation bar title for the Settings screen",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einstellungen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Settings"
+          }
+        }
+      }
+    },
+    "settings_version" : {
+      "comment" : "App version string",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clay v1.0"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clay v1.0"
+          }
+        }
+      }
+    },
+    "settings_view_onboarding" : {
+      "comment" : "Button to open onboarding again",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Onboarding anzeigen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "View Onboarding"
+          }
+        }
+      }
+    },
+    "settings_welcome_subtitle" : {
+      "comment" : "Subtitle under the welcome title",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analysiere deinen Aufschlag mit KI"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analyze your serve with AI"
+          }
+        }
+      }
+    },
+    "settings_welcome_title" : {
+      "comment" : "Title in the settings top card",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Willkommen bei Clay"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Welcome to Clay"
+          }
+        }
+      }
+    },
+    "solved_counter_format" : {
+      "comment" : "Solved questions counter",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d/%d gelöst"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d/%d solved"
+          }
+        }
+      }
+    },
+    "technique_coach_title" : {
+      "comment" : "Title for the Technique Coach screen",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Technik Coach"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Technique Coach"
+          }
+        }
+      }
+    },
+    "topic_backhand" : {
+      "comment" : "Quiz topic title: Backhand",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rückhand"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Backhand"
+          }
+        }
+      }
+    },
+    "topic_forehand" : {
+      "comment" : "Quiz topic title: Forehand",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vorhand"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Forehand"
+          }
+        }
+      }
+    },
+    "topic_legwork" : {
+      "comment" : "Quiz topic title: Leg Work",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beinarbeit"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leg Work"
+          }
+        }
+      }
+    },
+    "topic_serve" : {
+      "comment" : "Quiz topic title: Serve",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aufschlag"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Serve"
+          }
+        }
+      }
+    },
+    "topic_tactics" : {
+      "comment" : "Quiz topic title: Tactics",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Taktik"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tactics"
+          }
+        }
+      }
+    },
+    "topic_volley" : {
+      "comment" : "Quiz topic title: Volley",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volley"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volley"
+          }
+        }
+      }
+    },
+
+
+    "technique_coach_title" : {
+      "comment" : "Navigation bar title for the Technique Coach screen",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Technik Coach"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Technique Coach"
+          }
+        }
+      }
+    },
+    "topic_backhand" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rückhand"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Backhand"
+          }
+        }
+      }
+    },
+    "topic_forehand" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vorhand"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Forehand"
+          }
+        }
+      }
+    },
+    "topic_legwork" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beinarbeit"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leg Work"
+          }
+        }
+      }
+    },
+    "topic_serve" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aufschlag"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Serve"
+          }
+        }
+      }
+    },
+    "topic_tactics" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Taktik"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tactics"
+          }
+        }
+      }
+    },
+    "topic_volley" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volley"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volley"
+          }
+        }
+      }
+    },
+
+
+
+"quiz_locked_easy" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "This quiz is locked."
+      }
+    },
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Dieses Quiz ist gesperrt."
+      }
+    }
+  }
+},
+
+
+"quiz_locked_medium" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Solve 70% of the Easy Quiz first to unlock Medium."
+      }
+    },
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Löse zuerst 70% des einfachen Quiz, um Mittel freizuschalten."
+      }
+    }
+  }
+},
+
+"quiz_locked_hard" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Solve 70% of the Medium Quiz first to unlock Hard."
+      }
+    },
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Löse zuerst 70% des mittelschweren Quiz, um Schwer freizuschalten."
+      }
+    }
+  }
+},
+
+
+"difficulty_easy_adjective" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Easy"
+      }
+    },
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Einfaches"
+      }
+    }
+  }
+},
+
+
+"difficulty_medium_adjective" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Medium"
+      }
+    },
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Mittleres"
+      }
+    }
+  }
+},
+
+"difficulty_hard_adjective" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Hard"
+      }
+    },
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Schweres"
+      }
+    }
+  }
+},
+
+"quiz_completed_format" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "%d of %d Quizzes solved"
+      }
+    },
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "%d von %d Quizzes gelöst"
+      }
+    }
+  }
+},
+
+"quiz_solved_progress" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "%d of %d questions solved"
+      }
+    },
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "%d von %d Fragen gelöst"
+      }
+    }
+  }
+},
+
+"lesson_overview_title" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Lesson overview"
+      }
+    },
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Kursübersicht"
+      }
+    }
+  }
+},
+
+"quiz_solved_label_format" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "%d/%d solved"
+      }
+    },
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "%d/%d gelöst"
+      }
+    }
+  }
+},
+
+
+"next_quiz_button" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Next Quiz"
+      }
+    },
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Nächstes Quiz"
+      }
+    }
+  }
+},
+
+
+  },
+  "version" : "1.1"
+}

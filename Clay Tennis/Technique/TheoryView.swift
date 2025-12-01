@@ -14,7 +14,7 @@ struct TheoryView: View {
     @State private var highScores: [LessonQuizID: Int] = [:]
     @State private var refreshToken = UUID()
 
-
+    private let passThreshold: Double = 0.7
     private let topics = QuizIdentifier.progression
     weak var navigationDelegate: HomeNavigationDelegate?
 
@@ -25,7 +25,7 @@ struct TheoryView: View {
 
                     featuredCard
 
-                    Text(NSLocalizedString("all_topics", tableName: "Quiz", comment: ""))
+                    Text(NSLocalizedString("all_topics", tableName: "general", comment: ""))
                         .font(.headline)
                         .padding(.horizontal)
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -52,7 +52,7 @@ struct TheoryView: View {
                 .padding(.top, 12)
             }
             .id(refreshToken)
-            .navigationTitle(NSLocalizedString("technique_coach_title", tableName: "Quiz", comment: ""))
+            .navigationTitle(NSLocalizedString("technique_coach_title", tableName: "general", comment: ""))
             .navigationBarTitleDisplayMode(.inline)
             .onAppear { loadHighScores() }
             .background(
@@ -82,7 +82,7 @@ struct TheoryView: View {
         let progress = total == 0 ? 0 : Double(score) / Double(total)
 
         return VStack(alignment: .leading, spacing: 12) {
-            Text(NSLocalizedString("recommended_lesson", tableName: "Quiz", comment: ""))
+            Text(NSLocalizedString("recommended_lesson", tableName: "general", comment: ""))
                 .font(.headline)
                 .padding(.horizontal)
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -134,7 +134,7 @@ struct TheoryView: View {
 
                                 Text(
                                     String(
-                                        format: NSLocalizedString("next_up", tableName: "Quiz", comment: ""),
+                                        format: NSLocalizedString("next_up", tableName: "general", comment: ""),
                                         difficulty.localizedTitle
                                     )
                                 )
@@ -152,7 +152,7 @@ struct TheoryView: View {
                         HeroProgressBar(
                             progress: progress,
                             label: String(
-                                format: NSLocalizedString("solved_counter_format", tableName: "Quiz", comment: ""),
+                                format: NSLocalizedString("solved_counter_format", tableName: "general", comment: ""),
                                 score,
                                 total
                             )
@@ -199,7 +199,11 @@ struct TheoryView: View {
                 let id = LessonQuizID(topic: topic, difficulty: difficulty)
                 let score = highScores[id, default: 0]
                 let total = topic.totalQuestions(for: difficulty)
-                if total == 0 || score < total {
+
+                let progress = total == 0 ? 0.0 : Double(score) / Double(total)
+
+                // Replace "score < total" with 70% check
+                if total == 0 || progress < passThreshold {
                     return id
                 }
             }
@@ -285,6 +289,7 @@ struct HeroProgressBar: View {
 struct LessonRow: View {
     let topic: QuizIdentifier
     let highScores: [LessonQuizID: Int]
+    private let passThreshold: Double = 0.7
 
     private func score(for difficulty: QuizDifficulty) -> Int {
         highScores[LessonQuizID(topic: topic, difficulty: difficulty), default: 0]
@@ -297,24 +302,37 @@ struct LessonRow: View {
     private func dotState(_ d: QuizDifficulty) -> DifficultyState {
         let s = score(for: d)
         let t = total(for: d)
-        if t > 0 && s >= t { return .completed }
+        let progress = t == 0 ? 0.0 : Double(s) / Double(t)
+
+        if t > 0 && progress >= passThreshold {
+            return .completed
+        }
 
         switch d {
         case .easy:
             return .unlocked
+
         case .medium:
-            let easyDone = total(for: .easy) == 0 || score(for: .easy) >= total(for: .easy)
-            return easyDone ? .unlocked : .locked
+            let easyScore = score(for: .easy)
+            let easyTotal = total(for: .easy)
+            let easyProgress = easyTotal == 0 ? 0.0 : Double(easyScore) / Double(easyTotal)
+            return easyTotal == 0 || easyProgress >= passThreshold ? .unlocked : .locked
+
         case .hard:
-            let mediumDone = total(for: .medium) == 0 || score(for: .medium) >= total(for: .medium)
-            return mediumDone ? .unlocked : .locked
+            let mediumScore = score(for: .medium)
+            let mediumTotal = total(for: .medium)
+            let mediumProgress = mediumTotal == 0 ? 0.0 : Double(mediumScore) / Double(mediumTotal)
+            return mediumTotal == 0 || mediumProgress >= passThreshold ? .unlocked : .locked
         }
     }
 
     private var isTopicCompleted: Bool {
         QuizDifficulty.allCases.allSatisfy { d in
+            let s = score(for: d)
             let t = total(for: d)
-            return t == 0 || score(for: d) >= t
+            let progress = t == 0 ? 0.0 : Double(s) / Double(t)
+
+            return t == 0 || progress >= passThreshold
         }
     }
 
@@ -322,7 +340,7 @@ struct LessonRow: View {
         for d in QuizDifficulty.allCases {
             if dotState(d) != .completed {
                 return String(
-                    format: NSLocalizedString("next_up", tableName: "Quiz", comment: ""),
+                    format: NSLocalizedString("next_up", tableName: "general", comment: ""),
                     d.localizedTitle
                 )
             }
@@ -349,7 +367,7 @@ struct LessonRow: View {
 
                 Text(
                     isTopicCompleted
-                    ? NSLocalizedString("all_levels_completed", tableName: "Quiz", comment: "")
+                    ? NSLocalizedString("all_levels_completed", tableName: "general", comment: "")
                     : nextDifficultyText
                 )
                     .font(.caption)
@@ -496,7 +514,7 @@ extension QuizIdentifier {
     }
 
     var localizedTitle: String {
-        NSLocalizedString(self.titleKey, tableName: "Quiz", comment: "")
+        NSLocalizedString(self.titleKey, tableName: "general", comment: "")
     }
 }
 

@@ -1,0 +1,1522 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+
+
+    "backhand_q1_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Welcher Griff wird für eine aggressive Topspin-einhändige Rückhand empfohlen, wie sie z.B. von Roger Federer und Stan Wawrinka gespielt wird?"
+      }
+    },
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "What grip is recommended for hitting an aggressive topspin one-handed backhand, as used by players like Roger Federer and Stan Wawrinka?"
+      }
+    }
+  }
+},
+
+
+"backhand_q1_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Continental Griff"
+      }
+    },
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Continental Grip"
+      }
+    }
+  }
+},
+"backhand_q1_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Wird hauptsächlich für Slice, Volleys und Aufschläge verwendet"
+      }
+    },
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Mainly used for slices, volleys, and serves"
+      }
+    }
+  }
+},
+
+
+"backhand_q1_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Eastern Rückhandgriff"
+      }
+    },
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Eastern Backhand Grip"
+      }
+    }
+  }
+},
+"backhand_q1_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Ideal für agressiven Topspin mit der einhändigen Rückhand"
+      }
+    },
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Ideal for aggressive topspin on the one-handed backhand"
+      }
+    }
+  }
+},
+
+
+"backhand_q1_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Semi-Western Vorhandgriff"
+      }
+    },
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Semi-Western Forehand Grip"
+      }
+    }
+  }
+},
+"backhand_q1_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Dieser Griff wird für Vorhandschläge verwendet"
+      }
+    },
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "This grip is used for forehands"
+      }
+    }
+  }
+},
+
+
+
+"backhand_q2_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Welche erste Bewegung sollte ein Rechtshänder machen, sobald er erkennt, dass der Ball auf die Rückhand kommt?"
+      }
+    },
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "What is the primary action a right-handed player should take immediately after recognizing a ball coming to the backhand side?"
+      }
+    }
+  }
+},
+"backhand_q2_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Den Arm zum Ziel ausstrecken"
+      }
+    },
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Extend the arm toward the target"
+      }
+    }
+  }
+},
+
+
+"backhand_q2_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Das passiert erst nahe am Treffpunkt"
+      }
+    },
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Arm extension happens later, near contact"
+      }
+    }
+  }
+},
+"backhand_q2_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Den Oberkörper seitlich drehen und die rechte Schulter zum Netz zeigen"
+      }
+    },
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Turn the upper body sideways to the net, pointing the right shoulder toward the net"
+      }
+    }
+  }
+},
+"backhand_q2_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Die Seitdrehung sollte sofort erfolgen"
+      }
+    },
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "You should turn sideways immediately after reading the shot"
+      }
+    }
+  }
+},
+
+"backhand_q2_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Das Körpergewicht auf den vorderen Fuß verlagern"
+      }
+    },
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Shift the body weight onto the front foot"
+      }
+    }
+  }
+},
+
+
+"backhand_q2_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Die Gewichtsverlagerung passiert später im Schlag"
+      }
+    },
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Weight transfer happens later in the swing"
+      }
+    }
+    }
+  },
+
+
+
+
+
+  "backhand_q3_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Wo sollte der Ball bei einer ein- oder beidhändigen Rückhand getroffen werden?"
+      }
+    },
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Where should a player aim to make contact with the ball when executing a one-handed or two-handed backhand?"
+      }
+    }
+  }
+},
+"backhand_q3_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Hinter der Hüfte, nah am Körper"
+      }
+    },
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Behind the hip, close to the body"
+      }
+    }
+  }
+},
+"backhand_q3_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Zu naher Treffpunkt reduziert Kontrolle"
+      }
+    },
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Contacting too close reduces control"
+      }
+    }
+  }
+},
+"backhand_q3_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Vor dem Körper"
+      }
+    },
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Out in front of the body"
+      }
+    }
+  }
+},
+"backhand_q3_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Der korrekte Treffpunkt liegt vor dem Körper"
+      }
+    },
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Correct contact point is in front of the body"
+      }
+    }
+  }
+},
+"backhand_q3_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Direkt neben dem Körper, beim vorderen Fuß"
+      }
+    },
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Directly beside the body, near the front foot"
+      }
+    }
+  }
+},
+"backhand_q3_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Führt zu schlechtem Energietransfer"
+      }
+    },
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "This causes poor energy transfer"
+      }
+    }
+  }
+},
+
+"backhand_q4_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Was ist das Ziel eines Tief-zu-Hoch-Schwünge bei der Rückhand?"
+      }
+    },
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "What is the goal of utilizing a low-to-high swing path on a backhand groundstroke?"
+      }
+    }
+  }
+},
+"backhand_q4_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Topspin erzeugen und den Ball ins Feld heben"
+      }
+    },
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "To generate topspin and lift the ball into the court"
+      }
+    }
+  }
+},
+"backhand_q4_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Der Schläger streicht von unten nach oben über den Ball"
+      }
+    },
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "This swing brushes up to create topspin"
+      }
+    }
+  }
+},
+"backhand_q4_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Einen flachen, harten Winner schlagen"
+      }
+    },
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "To achieve a flat, powerful winner"
+      }
+    }
+  }
+},
+
+
+
+"backhand_q4_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Ein flacher Schlag nutzt eine andere Schwungbahn"
+      }
+    },
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "A flat shot uses a different path"
+      }
+    }
+  }
+},
+"backhand_q4_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Den Ausschwung verkürzen und Verletzungen vermeiden"
+      }
+    },
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "To shorten the follow-through and reduce injury"
+      }
+    }
+  }
+},
+"backhand_q4_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Ein voller Ausschwung hilft Verletzungen zu vermeiden"
+      }
+    },
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "A full follow-through helps prevent injury"
+      }
+    }
+  }
+},
+
+"backhand_q5_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Was ist ein gemeinsames Merkmal einer guten Power Position bei ein- und beidhändiger Rückhand?"
+      }
+    },
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "What is a common trait of a good power position for both one-handed and two-handed backhands?"
+      }
+    }
+  }
+},
+"backhand_q5_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Der Schlägerkopf ist tiefer als der Griff"
+      }
+    },
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "The racket head is lower than the grip level"
+      }
+    }
+  }
+},
+"backhand_q5_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Der Schlägerkopf sollte höher sein"
+      }
+    },
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "The racket head should be higher"
+      }
+    }
+  }
+},
+"backhand_q5_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Die Schultern sind entspannt und zeigen zum Seitenzaun"
+      }
+    },
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "The shoulders are relaxed and facing the side fence"
+      }
+    }
+  }
+},
+"backhand_q5_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Die Schultern sollten voll eingedreht sein"
+      }
+    },
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "The shoulders should be fully coiled"
+      }
+    }
+  }
+},
+"backhand_q5_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Der Schlägerkopf ist höher als der Griff"
+      }
+    },
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "The racket head is higher than the grip level"
+      }
+    }
+  }
+},
+"backhand_q5_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Ein höherer Schlägerkopf erzeugt bessere Hebelwirkung"
+      }
+    },
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "A higher racket head creates better leverage"
+      }
+    }
+  }
+},
+
+"backhand_q6_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Welcher Griff wird für die obere Hand (linke Hand) bei einer beidhändigen Rückhand eines Rechtshänders empfohlen?"
+      }
+    },
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "For a right-handed player using a two-handed backhand, which grip is recommended for the top hand (the left hand)?"
+      }
+    }
+  }
+},
+"backhand_q6_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Eastern Vorhandgriff oder Semi-Western Griff"
+      }
+    },
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "An Eastern forehand grip or Semi-western grip"
+      }
+    }
+  }
+},
+"backhand_q6_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Die obere Hand schlägt wie eine Vorhand"
+      }
+    },
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "The top hand drives the stroke like a forehand"
+      }
+    }
+  }
+},
+"backhand_q6_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Continental Griff"
+      }
+    },
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "A Continental grip"
+      }
+    }
+  }
+},
+"backhand_q6_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Wird meist von der unteren Hand verwendet"
+      }
+    },
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "This is usually used by the bottom hand"
+      }
+    }
+  }
+},
+"backhand_q6_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Hammergriff"
+      }
+    },
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "A Hammer grip"
+      }
+    }
+  }
+},
+"backhand_q6_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Dieser Griff wird für Aufschläge und Volleys genutzt"
+      }
+    },
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "This grip is used for serves and volleys"
+      }
+    }
+  }
+},
+
+"backhand_q7_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Wohin bewegt sich der Schläger bei einer reinen Oberkörper-Drehung von der 12-Uhr-Position?"
+      }
+    },
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "During the unit turn on the backhand, if the player coils their upper body without moving their arms, where does the racket move from the initial 12 o'clock position?"
+      }
+    }
+  }
+},
+"backhand_q7_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Zur 6-Uhr-Position (zum Boden)"
+      }
+    },
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "To a 6 o'clock position (facing the ground)"
+      }
+    }
+  }
+},
+"backhand_q7_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Das gehört nicht zur Rückhand-Drehung"
+      }
+    },
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "This is not part of the backhand coil"
+      }
+    }
+  }
+},
+"backhand_q7_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Zur 3-Uhr-Position (zur rechten Platzseite)"
+      }
+    },
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "To a 3 o'clock position (facing the right side of the court)"
+      }
+    }
+  }
+},
+"backhand_q7_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Das ist typisch für die Vorhand-Drehung"
+      }
+    },
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "This is typical for forehand coils"
+      }
+    }
+  }
+},
+"backhand_q7_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Zur 9-Uhr-Position (zur linken Platzseite)"
+      }
+    },
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "To a 9 o'clock position (facing the left side of the court)"
+      }
+    }
+  }
+},
+"backhand_q7_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Eine reine Oberkörper-Drehung bringt den Schläger auf 9 Uhr"
+      }
+    },
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "A pure upper-body coil rotates it to 9 o'clock"
+      }
+    }
+  }
+},
+
+"backhand_q8_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : {
+      "stringUnit" : { "state" : "translated", "value" : "Warum wird der Eastern Rückhandgriff mit der unteren Hand bei der beidhändigen Rückhand nicht empfohlen?" }
+    },
+    "en" : {
+      "stringUnit" : { "state" : "translated", "value" : "Why is using an Eastern backhand grip on the bottom hand discouraged for a two-handed backhand?" }
+    }
+  }
+},
+"backhand_q8_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Er verursacht zu viel Belastung im Handgelenk" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "It causes excessive wrist strain" } }
+  }
+},
+"backhand_q8_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Das Hauptproblem ist die Flugbahn, nicht die Belastung" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The main issue is shot flatness, not strain" } }
+  }
+},
+"backhand_q8_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Er erschwert das Durchziehen und das flache Treffen des Balls stark" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "It makes it very hard to flatten out the backhand and truly hit through the shot" } }
+  }
+},
+"backhand_q8_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Der Ball lässt sich damit kaum druckvoll durchschlagen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This grip limits your ability to drive the ball" } }
+  }
+},
+"backhand_q8_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Er verhindert, dass die obere Hand dominiert" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "It prevents the top hand from dominating the stroke" } }
+  }
+},
+"backhand_q8_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Das Problem liegt im Abflachen, nicht in der Handdominanz" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The problem is flattening, not hand dominance" } }
+  }
+},
+
+"backhand_q9_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Wo sollte der Schlägerkopf beim Finish einer einhändigen Topspin-Rückhand enden?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "To ensure proper topspin generation on a one-handed backhand, where should the racket head generally finish?" } }
+  }
+},
+"backhand_q9_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Auf Hüfthöhe, zur gegenüberliegenden Ecke gerichtet" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "At waist height, pointed toward the opposite corner" } }
+  }
+},
+"backhand_q9_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Das Finish sollte deutlich höher sein" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The finish should be much higher" } }
+  }
+},
+"backhand_q9_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Hoch, auf Schulter- oder Kopfhöhe" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "High, around shoulder or head height" } }
+  }
+},
+"backhand_q9_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Ein hohes Finish erzeugt den nötigen Topspin" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "A high finish ensures upward brushing" } }
+  }
+},
+"backhand_q9_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Tief, nahe der linken Tasche" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Low, near the left pocket, with the arm relaxed" } }
+  }
+},
+"backhand_q9_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Der Schläger sollte nicht tief enden" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The racket should not finish low" } }
+  }
+},
+
+"backhand_q10_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "In welche Richtung verläuft die Bewegung der kinetischen Kette in der Ausholphase?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "In the preparation phase (Ausholbewegung), in what direction does the kinematic chain movement flow?" } }
+  }
+},
+"backhand_q10_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Von unten nach oben" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "From the bottom up" } }
+  }
+},
+"backhand_q10_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Das passiert erst in der Schlagphase" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "That happens during the hitting phase" } }
+  }
+},
+"backhand_q10_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Von oben nach unten" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "From the top down" } }
+  }
+},
+"backhand_q10_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Die Vorbereitung startet im Oberkörper" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The preparation starts from the upper body" } }
+  }
+},
+"backhand_q10_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Parallel zur Grundlinie" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Horizontally, parallel to the baseline" } }
+  }
+},
+"backhand_q10_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Die Bewegung ist vertikal oder diagonal" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The movement is vertical/diagonal" } }
+  }
+},
+
+"backhand_q11_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Welche Hand dominiert die Bewegung bei der beidhändigen Rückhand?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "In the execution of a two-handed backhand, which hand primarily dominates the movement?" } }
+  }
+},
+"backhand_q11_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Die untere (rechte) Hand" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The bottom (right) hand" } }
+  }
+},
+"backhand_q11_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Sie stabilisiert hauptsächlich" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "It mainly stabilizes" } }
+  }
+},
+"backhand_q11_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Die untere (rechte) Hand für die Fixierung des Handgelenks" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The bottom (right) hand ensures wrist fixation" } }
+  }
+},
+"backhand_q11_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Stabilität ist nur sekundär" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Stability is secondary" } }
+  }
+},
+"backhand_q11_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Die obere (linke) Hand, die wie eine Vorhand arbeitet" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The upper (left) hand, which executes a forehand-like movement" } }
+  }
+},
+"backhand_q11_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Die obere Hand liefert den Großteil der Schlagkraft" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The top hand provides most of the power" } }
+  }
+},
+
+"backhand_q12_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Warum sollte der Arm beim Treffpunkt einer einhändigen Rückhand fast vollständig gestreckt sein?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Why should the arm be almost fully extended at the contact point on a one-handed backhand?" } }
+  }
+},
+"backhand_q12_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Um den Schlägerkopf Lag zu maximieren" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "To maximize racket head lag" } }
+  }
+},
+"backhand_q12_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Lag wird eher bei der Vorhand diskutiert" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Lag is discussed more for forehands" } }
+  }
+},
+"backhand_q12_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Um die Ballgeschwindigkeit besser abzufedern" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "To absorb incoming ball pace" } }
+  }
+},
+"backhand_q12_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Das kann die Stabilität verringern" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This can reduce stability" } }
+  }
+},
+"backhand_q12_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Für maximale Stabilität und Energieübertragung" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "To ensure firmness and optimal energy transfer" } }
+  }
+},
+"backhand_q12_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Streckung stabilisiert den Treffpunkt und überträgt Kraft" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Extension stabilizes contact and transfers power" } }
+  }
+},
+
+"backhand_q13_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Was ist ein zentraler Vorteil einer frühen Einheitdrehung (Unit Turn) bei der Rückhand?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "What is a key benefit of executing the unit turn early on the backhand?" } }
+  }
+},
+"backhand_q13_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Sie verzögert die Wahrnehmung des Gegners" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "It delays the opponent’s read" } }
+  }
+},
+"backhand_q13_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Der Hauptvorteil liegt in der Bewegungseffizienz" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The benefit is movement efficiency" } }
+  }
+},
+"backhand_q13_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Sie erlaubt normale Laufbewegungen statt langsamer Sidesteps" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "It allows normal running steps instead of slow side steps" } }
+  }
+},
+"backhand_q13_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Frühes Eindrehen ermöglicht schnelleres Positionieren" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Early turn allows faster positioning" } }
+  }
+},
+"backhand_q13_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Sie speichert das Gewicht auf dem vorderen Bein" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "It stores weight mainly on the front leg" } }
+  }
+},
+"backhand_q13_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Das Gewicht wird auf dem hinteren Bein gespeichert" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Weight is stored on the back leg" } }
+  }
+},
+
+"backhand_q14_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Welche Höhe sollten beide Ellbogen nach dem Finish einer beidhändigen Rückhand haben?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "What is the recommended height for both elbows after a two-handed backhand finish?" } }
+  }
+},
+"backhand_q14_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Auf Schulterhöhe" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Around shoulder level" } }
+  }
+},
+"backhand_q14_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Beide Ellbogen sollten hoch enden" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Both elbows should finish high" } }
+  }
+},
+"backhand_q14_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Auf Hüfthöhe, eng am Körper" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "At waist height, close to the body" } }
+  }
+},
+"backhand_q14_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Ein zu tiefes Finish blockiert den Ausschwung" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Finishing too low blocks the follow-through" } }
+  }
+},
+"backhand_q14_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Den Rücken berührend" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Touching the back" } }
+  }
+},
+"backhand_q14_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Nur der Schlägerkopf kann den Rücken berühren" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Only the racket head may touch the back" } }
+  }
+},
+
+"backhand_q15_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Wann beginnen Topspieler mit der Eindrehnung bei der Rückhand?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "When should elite players begin the coil motion during a backhand?" } }
+  }
+},
+"backhand_q15_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Nachdem der Ball das Netz überquert" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "After the ball crosses the net" } }
+  }
+},
+"backhand_q15_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Topspieler starten deutlich früher" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Top players start much earlier" } }
+  }
+},
+"backhand_q15_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Kurz vor dem Treffpunkt" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Just before contact" } }
+  }
+},
+"backhand_q15_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Die Eindrehnung erfolgt in der Vorbereitung" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The coil is done during preparation" } }
+  }
+},
+"backhand_q15_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Fast sobald der Ball die Saiten des Gegners verlässt" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Almost as soon as the ball leaves the opponent’s strings" } }
+  }
+},
+"backhand_q15_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Topspieler drehen sich sofort ein" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Elite players start the coil immediately" } }
+  }
+},
+
+"backhand_q16_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Was sollte der Schläger im Treffbereich tun?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "During the contact zone, what should the racket be doing?" } }
+  }
+},
+"backhand_q16_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Etwas langsamer werden" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Slowing down slightly" } }
+  }
+},
+"backhand_q16_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Der Schläger sollte nicht abbremsen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "It should not decelerate" } }
+  }
+},
+"backhand_q16_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Mit guter Geschwindigkeit beschleunigen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Accelerating with good speed" } }
+  }
+},
+"backhand_q16_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Der Schläger sollte durch den Ball beschleunigen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The racket should accelerate through contact" } }
+  }
+},
+"backhand_q16_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Kurz für die Handgelenkfixierung pausieren" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Pausing briefly for wrist fixation" } }
+  }
+},
+"backhand_q16_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Pausieren zerstört den Schwung" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Pausing kills momentum" } }
+  }
+},
+
+"backhand_q17_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Was ist die Hauptfunktion der Power Position bei der Rückhand?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "What is the core function of the Power Position in the backhand?" } }
+  }
+},
+"backhand_q17_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Den Schlägerkopf für Topspin zu senken" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "To lower the racket head for topspin" } }
+  }
+},
+"backhand_q17_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Der Schlägerkopf sollte höher sein" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The racket head should be higher" } }
+  }
+},
+"backhand_q17_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Racket Lag zu garantieren" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "To guarantee racket lag" } }
+  }
+},
+"backhand_q17_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Lag wird eher bei der Vorhand diskutiert" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Lag is mainly discussed for forehands" } }
+  }
+},
+"backhand_q17_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Kraft auch nach einer kurzen Pause speichern und freisetzen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "To allow power generation even after a brief pause" } }
+  }
+},
+"backhand_q17_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Sie speichert Energie auch bei kurzem Stop" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "It stores power even if you stop momentarily" } }
+  }
+},
+
+"backhand_q18_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Welche wichtige Rolle spielt ein vollständiger Ausschwung bei der Rückhand?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "What crucial role does a complete follow-through play in the backhand stroke?" } }
+  }
+},
+"backhand_q18_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Um das Gleichgewicht vor der Erholung zu halten" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "To keep balance before recovering" } }
+  }
+},
+"backhand_q18_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Der Hauptfokus liegt auf der Verletzungsprävention" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The main focus is injury prevention" } }
+  }
+},
+"backhand_q18_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Um die Muskulatur zu entspannen und Verletzungen zu vermeiden" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "To help muscles relax and reduce injury risk" } }
+  }
+},
+"backhand_q18_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Ein guter Ausschwung schützt den Körper" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "A good follow-through protects your body" } }
+  }
+},
+"backhand_q18_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Um die Erholungszeit zu verlängern" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "To increase recovery time" } }
+  }
+},
+"backhand_q18_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Seine Rolle ist biomechanisch, nicht zeitlich" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Its role is biomechanical, not temporal" } }
+  }
+},
+
+"backhand_q19_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Was sollte die nicht schlagende Hand beim Finish einer einhändigen Rückhand tun?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "During the finish of a one-handed backhand, what should the non-hitting hand do?" } }
+  }
+},
+"backhand_q19_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Vorwärts über den Körper schwingen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Swing forward across the body" } }
+  }
+},
+"backhand_q19_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Sie dient hauptsächlich als Gegengewicht" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "It acts as a counterbalance" } }
+  }
+},
+"backhand_q19_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Bei der linken Tasche bleiben oder nach hinten und unten ziehen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Stay by the left pocket or pull back and down" } }
+  }
+},
+"backhand_q19_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Sie stabilisiert und balanciert den Schwung aus" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "It balances the upward swing of the hitting arm" } }
+  }
+},
+"backhand_q19_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Den Schläger am Hals halten" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Hold the throat of the racket" } }
+  }
+},
+"backhand_q19_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Das passiert nur früher in der Ausholbewegung" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "That happens earlier in preparation" } }
+  }
+},
+
+"backhand_q20_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Wie wird die kinetische Kette während der Schlagphase der Rückhand aufgelöst?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "How is the kinetic chain resolved during the hitting phase of the backhand?" } }
+  }
+},
+"backhand_q20_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Von unten nach oben" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "From bottom to top" } }
+  }
+},
+"backhand_q20_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Die Kraft fließt von den Beinen über den Körper nach oben" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Power flows upward through the body" } }
+  }
+},
+"backhand_q20_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Von oben nach unten" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "From top to bottom" } }
+  }
+},
+"backhand_q20_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Das passiert in der Vorbereitungsphase" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "That happens during preparation" } }
+  }
+},
+"backhand_q20_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Gleichzeitig in allen Gliedmaßen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Simultaneously across all limbs" } }
+  }
+},
+"backhand_q20_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Die Kette arbeitet sequenziell" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The chain works in sequence" } }
+  }
+},
+
+  },
+  "version" : "1.1"
+}

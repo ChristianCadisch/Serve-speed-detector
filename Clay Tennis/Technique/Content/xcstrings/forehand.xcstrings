@@ -1,0 +1,968 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    
+
+
+
+"forehand_q1_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Welcher Griff wird für eine vielseitige Vorhand empfohlen, der sowohl aggressiven Topspin als auch flache Schläge erlaubt?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Which grip is recommended for a versatile forehand, allowing for aggressive topspin and flat shots?" } }
+  }
+},
+"forehand_q1_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Continental Griff" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Continental Grip" } }
+  }
+},
+"forehand_q1_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Wird hauptsächlich für Aufschläge und Slice verwendet" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Used for serves and slices" } }
+  }
+},
+"forehand_q1_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Semi-Western Vorhandgriff" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Semi-Western Forehand Grip (Mittlerer VH Griff)" } }
+  }
+},
+"forehand_q1_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Empfohlen, da er Topspin ermöglicht und gleichzeitig flache Schläge zulässt" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Recommended as it allows topspin while also enabling the player to flatten out the shot" } }
+  }
+},
+"forehand_q1_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Eastern Rückhandgriff" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Eastern Backhand Grip" } }
+  }
+},
+"forehand_q1_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Wird für die einhändige Rückhand verwendet" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Used for the one-handed backhand" } }
+  }
+},
+
+"forehand_q2_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Wo sollte sich der Schlägerkopf in der Grundstellung relativ zum Griff befinden?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "In the ready position, where should the racket head be relative to the grip?" } }
+  }
+},
+"forehand_q2_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Unterhalb der Griffhöhe" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Lower than the grip level" } }
+  }
+},
+"forehand_q2_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Eine schlechte Position, die Zeit kostet" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "A poor position that costs time" } }
+  }
+},
+"forehand_q2_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Parallel zum Boden" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Parallel to the ground" } }
+  }
+},
+"forehand_q2_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Der Schlägerkopf sollte höher als der Griff sein" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The head should be higher than the grip" } }
+  }
+},
+"forehand_q2_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Höher als die Griffhöhe" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Higher than the grip level" } }
+  }
+},
+"forehand_q2_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Eine hohe Schlägerposition schafft Hebelwirkung für den Schlag" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Having the racket head higher than the grip creates leverage for the stroke" } }
+  }
+},
+
+"forehand_q3_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Wie nennt man die erste seitliche Rotation des Oberkörpers vom Netz weg?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "What is the name for the initial rotation of the upper body sideways to the net?" } }
+  }
+},
+"forehand_q3_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Split Step" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The Split Step" } }
+  }
+},
+"forehand_q3_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Ein kleiner Sprung zur Initiierung und Vorbereitung" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "A hop for initiation and preparation" } }
+  }
+},
+"forehand_q3_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Power Position" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The Power Position" } }
+  }
+},
+"forehand_q3_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Die aufgedrehte Position nach der Vorbereitung" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The coiled position reached after preparation" } }
+  }
+},
+"forehand_q3_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Unit Turn" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The Unit Turn" } }
+  }
+},
+"forehand_q3_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Die Oberkörperrotation, die die Vorbereitung einleitet und Energie speichert" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The rotation of the upper body that kicks off preparation and stores energy" } }
+  }
+},
+
+"forehand_q4_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Wo befindet sich bei der ATP-Vorhand am häufigsten der Endpunkt des Schlagarms (Ellbogen)?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "What is the most common finish location for the hitting elbow on the ATP forehand?" } }
+  }
+},
+"forehand_q4_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Nahe der Hüfte" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Near the hip" } }
+  }
+},
+"forehand_q4_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Das ist nicht das typische Durchschwingen auf der Tour" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This is not the common follow-through finish" } }
+  }
+},
+"forehand_q4_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Über die Brust" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Across the chest" } }
+  }
+},
+"forehand_q4_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Der Ellbogen wird in den Körper gezogen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The most commonly used forehand finish on the ATP tour pulls the elbow into the body" } }
+  }
+},
+"forehand_q4_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Hinter dem Rücken" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Behind the back" } }
+  }
+},
+"forehand_q4_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Dieses Finish wird meist vermieden" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This finish is generally avoided" } }
+  }
+},
+
+"forehand_q5_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Wo sollte sich der Treffpunkt idealerweise befinden?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Where should the contact point ideally be located?" } }
+  }
+},
+"forehand_q5_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Direkt neben dem Körper" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Directly alongside the body" } }
+  }
+},
+"forehand_q5_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Der Treffpunkt muss vor dem Körper liegen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Contact must be made out in front" } }
+  }
+},
+"forehand_q5_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Hinter dem Körper" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Behind the body" } }
+  }
+},
+"forehand_q5_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Ein zu später Treffpunkt zerstört den Schlag" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "A late contact destroys the shot" } }
+  }
+},
+"forehand_q5_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Seitlich vor dem Körper, zwischen Hüft- und Schulterhöhe" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Laterally in front, between hip and shoulder height" } }
+  }
+},
+"forehand_q5_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Der Treffpunkt sollte seitlich vor dem Körper liegen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The contact point should be laterally in front, between the hip and shoulder" } }
+  }
+},
+
+"forehand_q6_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "In welcher Muskelgruppe speichert der Unit Turn hauptsächlich Energie?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The Unit Turn stores energy in which muscle group?" } }
+  }
+},
+"forehand_q6_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Quadrizeps und hintere Oberschenkelmuskulatur" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Quadriceps and hamstrings" } }
+  }
+},
+"forehand_q6_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Die Beine liefern hauptsächlich die Bodenreaktionskraft" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Legs are used for ground force" } }
+  }
+},
+"forehand_q6_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Rumpfmuskulatur, besonders die schrägen Bauchmuskeln" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Trunk muscles, especially the obliques" } }
+  }
+},
+"forehand_q6_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Die Rotation speichert Energie im Rumpf" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Rotating the upper body stores energy in the trunk muscles (obliques)" } }
+  }
+},
+"forehand_q6_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Unterarm- und Handgelenksbeuger" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Forearm and wrist flexors" } }
+  }
+},
+"forehand_q6_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Diese sind für die Endbeschleunigung wichtig" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "These are critical for final acceleration" } }
+  }
+},
+
+"forehand_q7_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Was ist die Hauptaktion bei einer schnell geschlagenen Vorhand?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "What is the primary action in a quickly hit forehand?" } }
+  }
+},
+"forehand_q7_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Fixieren des Handgelenks" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Fixing the wrist position" } }
+  }
+},
+"forehand_q7_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Das passiert erst direkt beim Treffpunkt" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This occurs right at contact" } }
+  }
+},
+"forehand_q7_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Maximale Beschleunigung des Schlägerkopfs von unten nach vorne oben" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Accelerating the racket head maximally from below to front above" } }
+  }
+},
+"forehand_q7_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Die Hauptaktion ist die maximale Beschleunigung des Schlägerkopfs" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The primary action is maximally accelerating the racket head from below to front above" } }
+  }
+},
+"forehand_q7_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Verkürzen der Ausholbewegung" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Minimizing the overall swing path" } }
+  }
+},
+"forehand_q7_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Das ist nur Teil der Vorbereitung" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This is a preparatory action" } }
+  }
+},
+
+"forehand_q8_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Welchen Hauptvorteil bringt der sogenannte »Racket Lag« bei der Vorhand?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "What key advantage does \"Racket Lag\" provide in the forehand?" } }
+  }
+},
+"forehand_q8_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Er verkürzt die Schwungbahn" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "It shortens the swing path" } }
+  }
+},
+"forehand_q8_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Er verkürzt die Schwungbahn nicht zwingend" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "It doesn't necessarily shorten the path" } }
+  }
+},
+"forehand_q8_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Er verhindert eine Handgelenksstreckung" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "It prevents wrist extension" } }
+  }
+},
+"forehand_q8_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Lag beinhaltet meist eine Streckung im Handgelenk" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Lag usually involves wrist extension" } }
+  }
+},
+"forehand_q8_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Er schafft Hebelwirkung für Power und Kontrolle" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "It provides leverage over the ball for power and control" } }
+  }
+},
+"forehand_q8_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Der nachlaufende Schlägerkopf erzeugt zusätzliche Hebelwirkung" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Racket lag, where the head trails the grip, provides leverage for extra power and control" } }
+  }
+},
+
+"forehand_q9_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Wo sollte sich die nicht schlagende Hand in der Power Position befinden?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Where should the non-hitting hand be in the Power Position?" } }
+  }
+},
+"forehand_q9_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Hinter dem Rücken eingeklappt" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Tucked behind the back" } }
+  }
+},
+"forehand_q9_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Sie sollte vorne am Körper bleiben" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "It should be held across the body" } }
+  }
+},
+"forehand_q9_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Am Griff nahe der Schlagseite" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Holding the grip near the hitting hip" } }
+  }
+},
+"forehand_q9_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Sie sollte quer vor dem Körper bleiben" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "It should be across the front of the body" } }
+  }
+},
+"forehand_q9_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Quer vor dem Körper, zum Ausbalancieren und Ballverfolgen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Across the body, balancing and tracking the ball" } }
+  }
+},
+"forehand_q9_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Die freie Hand hilft bei Balance und Orientierung" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The non-hitting hand helps balance the upper body and track the ball" } }
+  }
+},
+
+"forehand_q10_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Warum ist der extreme Vorhandgriff (Westerngriff) langfristig limitierend?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Why is the Extreme Forehand Grip (Westerngriff) limiting for long-term performance?" } }
+  }
+},
+"forehand_q10_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Er erschwert das Erzeugen von Topspin" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "It makes generating topspin difficult" } }
+  }
+},
+"forehand_q10_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Er ist eher für starken Topspin geeignet" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "It is suitable for balls with a lot of topspin" } }
+  }
+},
+"forehand_q10_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Er ist ungeeignet für flache, schnelle Bälle und tiefe Slices" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "It is unsuitable for flat, fast balls and deep slices" } }
+  }
+},
+"forehand_q10_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Er schränkt die Schlagvariabilität stark ein" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This grip limits shot variability and is unsuitable for flat/fast balls and deep slice balls" } }
+  }
+},
+"forehand_q10_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Er zwingt zu einer geschlossenen Stellung bei jedem Schlag" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "It requires a closed stance for every shot" } }
+  }
+},
+"forehand_q10_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Das eigentliche Problem ist die eingeschränkte Schlagvielfalt" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The source discusses shot type limitation" } }
+  }
+},
+
+
+"forehand_q11_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Welches biomechanische Prinzip im Handgelenk optimiert die Vorhandbeschleunigung?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "What biomechanical principle involving the wrist optimizes forehand acceleration?" } }
+  }
+},
+"forehand_q11_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Prinzip der Gegenwirkung" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Principle of Counteraction" } }
+  }
+},
+"forehand_q11_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Bezieht sich eher auf Gleichgewicht und Bodenreaktionskräfte" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This applies to balance and ground force" } }
+  }
+},
+"forehand_q11_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Dehnungs-Verkürzungs-Zyklus" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The Stretch-Shortening Cycle" } }
+  }
+},
+"forehand_q11_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Die vorgedehnten Muskeln beschleunigen das Handgelenk aktiver" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The stretch-shortening cycle involving the wrist is key for acceleration during the swing" } }
+  }
+},
+"forehand_q11_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Optimaler Beschleunigungsweg" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Principle of Optimal Acceleration Path" } }
+  }
+},
+"forehand_q11_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Ein allgemeines biomechanisches Konzept" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This is a general biomechanical concept" } }
+  }
+},
+
+"forehand_q12_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Welche Ballhöhe bevorzugen die meisten sogenannten »Huge Forehand« Spieler?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Which ball height do most \"Huge Forehand\" players prefer to hit?" } }
+  }
+},
+"forehand_q12_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Knöchelhöhe (tief)" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Ankle height (low)" } }
+  }
+},
+"forehand_q12_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Tiefe Bälle sind für sie unangenehm" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Players like deep slices to low corners against them" } }
+  }
+},
+"forehand_q12_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Auf Taillenhöhe (Schlagzone)" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Waist high (strike zone)" } }
+  }
+},
+"forehand_q12_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Hier können sie ihre Vorhand am besten ausspielen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Most Huge Forehanders prefer the ball waist high" } }
+  }
+},
+"forehand_q12_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Auf Schulterhöhe (hoch)" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Shoulder height (high)" } }
+  }
+},
+"forehand_q12_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Hohe Bälle sind eine typische Taktik gegen sie" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "High looping shots are a common tactic against them" } }
+  }
+},
+
+"forehand_q13_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Wenn die Arme beim Unit Turn passiv sind, wohin bewegt sich der Schläger von 12 Uhr?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "If the arms are passive during the Unit Turn, the racket moves from 12 o’clock to what clock position?" } }
+  }
+},
+"forehand_q13_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "9 Uhr" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "9 o'clock (left side)" } }
+  }
+},
+"forehand_q13_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Das beschreibt eher die Rückhandbewegung" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This describes the backhand turn" } }
+  }
+},
+"forehand_q13_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "6 Uhr" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "6 o'clock (down)" } }
+  }
+},
+"forehand_q13_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Das ist Teil des Schläger-Drops" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This is part of the racket drop" } }
+  }
+},
+"forehand_q13_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "3 Uhr" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "3 o'clock (right side)" } }
+  }
+},
+"forehand_q13_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Der Schläger bewegt sich von vorne auf die Schlagseite" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The racket moves from 12 o’clock (net) to 3 o’clock (right side)" } }
+  }
+},
+
+"forehand_q14_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Für welche Ballart ist der leichtere Eastern-Vorhandgriff besonders geeignet?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The lighter Eastern Forehand Grip is especially suitable for what type of ball?" } }
+  }
+},
+"forehand_q14_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Hohe Topspin-Bälle" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "High topspin balls" } }
+  }
+},
+"forehand_q14_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Dafür ist der Westerngriff besser geeignet" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The Western grip is better for heavy topspin" } }
+  }
+},
+"forehand_q14_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Schnelle Vorhandbälle mit wenig Rotation" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Fast forehand balls with little rotation" } }
+  }
+},
+"forehand_q14_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Der Eastern Griff unterstützt flache, schnelle Schläge" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The lighter Eastern Forehand Grip is suited for fast forehand balls with little rotation" } }
+  }
+},
+"forehand_q14_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Stoppbälle und Slices" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Drop shots and slices" } }
+  }
+},
+"forehand_q14_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Dafür wird meist der Continental Griff verwendet" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The Hammer/Continental grip is used for slices" } }
+  }
+},
+
+
+"forehand_q15_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Welche Stopptaktik zwingt einen »Huge Forehand« Spieler zu einem defensiven Rückschlag?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "What drop shot tactic forces a \"Huge Forehand\" opponent into a conservative return?" } }
+  }
+},
+"forehand_q15_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Stoppbälle auf die Vorhandseite" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Drop shots to their forehand side" } }
+  }
+},
+"forehand_q15_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Ziel ist es, die schwächere Rückhand anzugreifen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The goal is to play to their weaker backhand" } }
+  }
+},
+"forehand_q15_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Stoppbälle auf die Rückhandseite" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Drop shots to their backhand side" } }
+  }
+},
+"forehand_q15_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Sie zwingen den Gegner, überzulaufen und defensiv zu spielen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This forces them to run up and over, making a forehand difficult and forcing a conservative shot" } }
+  }
+},
+"forehand_q15_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Wiederholt in die Mitte" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Repeated drop shots to the center" } }
+  }
+},
+"forehand_q15_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Das nutzt seine Schwäche nicht gezielt aus" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This does not exploit their weakness" } }
+  }
+},
+
+"forehand_q16_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Wie ist die Top-Down-Sequenz des Körpers im Vordehnungsprozess der Vorhand?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "What is the top-down sequence of the body parts initiating the forehand pre-stretching process?" } }
+  }
+},
+"forehand_q16_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Schulterachse, Rumpf, Oberschenkel, Schienbein, Knöchel" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Shoulder axis, trunk, thigh, shin, ankle" } }
+  }
+},
+"forehand_q16_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Die Vorspannung beginnt oben und verläuft entlang der kinetischen Kette nach unten" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The sequence starts with the shoulder axis and continues down the kinematic chain to the ankle" } }
+  }
+},
+"forehand_q16_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Knöchel, Schienbein, Oberschenkel, Rumpf, Schulterachse" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Ankle, shin, thigh, trunk, shoulder axis" } }
+  }
+},
+"forehand_q16_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Das beschreibt die Entlade- bzw. Beschleunigungsphase" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This is the release/uncoil sequence" } }
+  }
+},
+"forehand_q16_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Hüfte, Schulter, Ellbogen, Handgelenk" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Hips, shoulder, elbow, wrist" } }
+  }
+},
+"forehand_q16_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Diese Sequenz ignoriert wichtige Teile der unteren Extremität" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This misses key lower body parts" } }
+  }
+},
+
+"forehand_q17_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Welche Ellbogenposition reduziert die Schulterbelastung beim Über-die-Brust-Finish?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "To reduce shoulder stress in the \"across the chest\" finish, what position must the hitting elbow be in?" } }
+  }
+},
+"forehand_q17_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Gestreckt und voll durchgedrückt" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Straight and fully extended" } }
+  }
+},
+"forehand_q17_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Ein gestreckter Arm erhöht die Belastung im Schultergelenk" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "A straight arm places great stress on the shoulder joint" } }
+  }
+},
+"forehand_q17_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Gebeugt und in den Körper gezogen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Bent, pulling the racket into the body/chest" } }
+  }
+},
+"forehand_q17_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Ein gebeugter Ellbogen schont die Schulter" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The elbow should be bent when finishing to take stress off the shoulder" } }
+  }
+},
+"forehand_q17_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Zum Netzpfosten gerichtet" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Pointing toward the net post" } }
+  }
+},
+"forehand_q17_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Das Finish sollte um den Körper herum erfolgen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The finish should wrap around the body" } }
+  }
+},
+
+"forehand_q18_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Warum entwickeln junge Spieler oft einen extremen Vorhandgriff?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Why do young players often develop the extreme forehand grip?" } }
+  }
+},
+"forehand_q18_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Um flache, schnelle Bälle besser schlagen zu können" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "To maximize ability to hit flat, fast balls" } }
+  }
+},
+"forehand_q18_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Dieser Griff ist dafür ungeeignet" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The grip is unsuitable for flat, fast balls" } }
+  }
+},
+"forehand_q18_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Sie müssen oft Bälle über Schulterhöhe spielen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "They must frequently hit balls above shoulder height due to early transition to normal balls and height" } }
+  }
+},
+"forehand_q18_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Der extreme Griff hilft bei hohen Treffpunkten" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The extreme grip helps them return balls frequently above shoulder height" } }
+  }
+},
+"forehand_q18_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Sie imitieren ausschließlich Profispieler" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "They are mimicking professional players who use this grip exclusively" } }
+  }
+},
+"forehand_q18_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Er ist im Gegenteil langfristig leistungshemmend" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This grip limits variability and is performance-limiting" } }
+  }
+},
+
+"forehand_q19_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Welche ist weniger verzeihlich: Schlechte Strategie oder schlechte Ausführung?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Which is less forgivable: Bad Strategy or Bad Execution?" } }
+  }
+},
+"forehand_q19_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Schlechte Ausführung" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Bad Execution" } }
+  }
+},
+"forehand_q19_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Technische Fehler sind menschlich und verzeihlich" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Bad execution (physical mistakes) is forgivable" } }
+  }
+},
+"forehand_q19_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Schlechte Strategie" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Bad Strategy" } }
+  }
+},
+"forehand_q19_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Taktische Entscheidungen liegen vollständig in deiner Kontrolle" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Bad strategy is less forgivable because choosing tactics is 100% within the player’s control" } }
+  }
+},
+"forehand_q19_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Beides ist gleich verzeihlich" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Both are equally forgivable" } }
+  }
+},
+"forehand_q19_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Die Quelle macht einen klaren Unterschied" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The sources distinguish between them" } }
+  }
+},
+
+    
+
+
+
+
+
+  },
+  "version" : "1.1"
+}

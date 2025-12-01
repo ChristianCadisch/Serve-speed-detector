@@ -67,7 +67,7 @@ class HomeViewController: UIViewController,
         if let hosting = theoryHostingController {
             replaceRoot(
                 with: hosting,
-                title: NSLocalizedString("technique_coach_title", tableName: "Quiz", comment: "")
+                title: NSLocalizedString("technique_coach_title", tableName: "general", comment: "")
             )
             navigationItem.leftBarButtonItem = nil
             disableLessonSwipeBack()
@@ -115,7 +115,7 @@ class HomeViewController: UIViewController,
         let hosting = UIHostingController(rootView: AnyView(settingsView))
         replaceRoot(
             with: hosting,
-            title: NSLocalizedString("settings_title", tableName: "Quiz", comment: "")
+            title: NSLocalizedString("settings_title", tableName: "general", comment: "")
         )
         navigationItem.leftBarButtonItem = nil
         disableLessonSwipeBack()
@@ -159,7 +159,7 @@ class HomeViewController: UIViewController,
 
         replaceRoot(
             with: hosting,
-            title: NSLocalizedString("technique_coach_title", tableName: "Quiz", comment: "")
+            title: NSLocalizedString("technique_coach_title", tableName: "general", comment: "")
         )
         navigationItem.leftBarButtonItem = nil
         disableLessonSwipeBack()
@@ -210,7 +210,10 @@ class HomeViewController: UIViewController,
     
     private func showLessonDetailView(_ view: LessonDetailView) {
         let hosting = UIHostingController(rootView: AnyView(view))
-        replaceRoot(with: hosting, title: "Lesson overview")
+        replaceRoot(
+            with: hosting,
+            title: NSLocalizedString("lesson_overview_title", tableName: "general", comment: "")
+        )
 
         navigationController?.setNavigationBarHidden(false, animated: false)
 
@@ -324,11 +327,25 @@ class HomeViewController: UIViewController,
         let quizView = QuizView(
             vm: QuizViewModel(questions: topic.questions(for: difficulty)),
             quizID: topic,
-            onQuizFinished: { _, score in
+            onQuizFinished: { _, score, total in
                 let id = LessonQuizID(topic: topic, difficulty: difficulty)
-                let current = UserDefaults.standard.integer(forKey: id.userDefaultsKey)
-                if score > current {
+                let total = topic.totalQuestions(for: difficulty)
+
+                let ratio = Double(score) / Double(max(total, 1))
+
+                // Save best score
+                let previous = UserDefaults.standard.integer(forKey: id.userDefaultsKey)
+                if score > previous {
                     UserDefaults.standard.set(score, forKey: id.userDefaultsKey)
+                }
+
+                // ✅ Unlock next level if ≥ 70%
+                if ratio >= 0.7 {
+                    if let nextDifficulty = QuizDifficulty(rawValue: difficulty.rawValue + 1) {
+                        let nextID = LessonQuizID(topic: topic, difficulty: nextDifficulty)
+
+                        UserDefaults.standard.set(true, forKey: "Unlocked_\(nextID.userDefaultsKey)")
+                    }
                 }
             },
             onFinish: { [weak self] in

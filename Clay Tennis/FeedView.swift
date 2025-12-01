@@ -24,7 +24,7 @@ struct FeedView: View {
 
             // Top Bar
             HStack {
-                Text(NSLocalizedString("feed_title", tableName: "Quiz", comment: ""))
+                Text(NSLocalizedString("feed_title", tableName: "general", comment: ""))
                     .font(.title3)
                     .fontWeight(.bold)
 
@@ -34,7 +34,7 @@ struct FeedView: View {
                     Image(systemName: "tennisball")
                     Text(
                         String(
-                            format: NSLocalizedString("feed_serve_counter_format", tableName: "Quiz", comment: ""),
+                            format: NSLocalizedString("feed_serve_counter_format", tableName: "general", comment: ""),
                             serveCounts.values.reduce(0, +)
                         )
                     )
@@ -54,12 +54,12 @@ struct FeedView: View {
                         .foregroundColor(.accentColor)
                         .symbolRenderingMode(.hierarchical)
 
-                    Text(NSLocalizedString("feed_empty_title", tableName: "Quiz", comment: ""))
+                    Text(NSLocalizedString("feed_empty_title", tableName: "general", comment: ""))
                         .font(.title3)
                         .bold()
                         .foregroundColor(.primary)
 
-                    Text(NSLocalizedString("feed_empty_subtitle", tableName: "Quiz", comment: ""))
+                    Text(NSLocalizedString("feed_empty_subtitle", tableName: "general", comment: ""))
                         .font(.body)
                         .foregroundColor(.secondary)
                         .multilineTextAlignment(.center)
@@ -68,7 +68,7 @@ struct FeedView: View {
 
 
                     Button(action: { onAddTapped() }) {
-                        Text(NSLocalizedString("feed_add_first_video", tableName: "Quiz", comment: ""))
+                        Text(NSLocalizedString("feed_add_first_video", tableName: "general", comment: ""))
                             .font(.headline)
                             .bold()
                             .frame(maxWidth: .infinity)
@@ -108,7 +108,7 @@ struct FeedView: View {
                             }
 
                             VStack(alignment: .leading, spacing: 4) {
-                                Text(NSLocalizedString("feed_most_recent_serve", tableName: "Quiz", comment: ""))
+                                Text(NSLocalizedString("feed_most_recent_serve", tableName: "general", comment: ""))
                                     .font(.headline)
                                     .foregroundColor(.white)
 
@@ -131,7 +131,7 @@ struct FeedView: View {
                                 deleteVideo(featuredVideoURL)
                             } label: {
                                 Label(
-                                    NSLocalizedString("feed_delete", tableName: "Quiz", comment: ""),
+                                    NSLocalizedString("feed_delete", tableName: "general", comment: ""),
                                     systemImage: "trash"
                                 )
                             }
@@ -143,7 +143,7 @@ struct FeedView: View {
                 // Other serves
                 if analyzedVideos.count > 1 {
                     Section(
-                        header: Text(NSLocalizedString("feed_other_serves", tableName: "Quiz", comment: ""))
+                        header: Text(NSLocalizedString("feed_other_serves", tableName: "general", comment: ""))
                             .font(.headline)
                             .foregroundStyle(.primary)
                             .frame(maxWidth: .infinity, alignment: .leading)
@@ -176,7 +176,7 @@ struct FeedView: View {
                                         Image(systemName: "tennisball")
                                         Text(
                                             String(
-                                                format: NSLocalizedString("feed_serve_recorded_format", tableName: "Quiz", comment: ""),
+                                                format: NSLocalizedString("feed_serve_recorded_format", tableName: "general", comment: ""),
                                                 servecount
                                             )
                                         )
@@ -205,7 +205,7 @@ struct FeedView: View {
                                     deleteVideo(videoURL)
                                 } label: {
                                     Label(
-                                        NSLocalizedString("feed_delete", tableName: "Quiz", comment: ""),
+                                        NSLocalizedString("feed_delete", tableName: "general", comment: ""),
                                         systemImage: "trash"
                                     )
                                 }

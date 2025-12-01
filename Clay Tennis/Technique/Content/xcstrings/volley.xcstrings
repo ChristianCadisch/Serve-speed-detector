@@ -1,0 +1,1066 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    
+
+
+    
+
+
+
+"volley_q1_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Welcher Griff wird empfohlen, um sowohl Vorhand- als auch Rückhand-Volleys sowie den Smash zu spielen, ohne den Griff wechseln zu müssen?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "What grip is recommended for hitting both the forehand and backhand volleys, as well as the overhead smash, without needing to change grips?" } }
+  }
+},
+"volley_q1_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Semi-Western Vorhandgriff" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Semi-Western Forehand Grip" } }
+  }
+},
+"volley_q1_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Dieser Griff wird hauptsächlich für Vorhandschläge genutzt" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This grip is primarily used for forehands" } }
+  }
+},
+"volley_q1_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Eastern Rückhandgriff" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Eastern Backhand Grip" } }
+  }
+},
+"volley_q1_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Dieser Griff wird für aggressive einhändige Rückhände verwendet" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This grip is used for the aggressive one-handed backhand" } }
+  }
+},
+"volley_q1_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Continental-Griff (Hammergriff)" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Continental Grip (Hammergriff)" } }
+  }
+},
+"volley_q1_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Der Continentalgriff wird für alle Volleys, Slices und den Smash verwendet, da er stabil ist und einen Griffwechsel überflüssig macht" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The Continental grip, also known as the chopper grip or Hammergriff/Semikontinentalgriff, is used for all volleys, slices, and the smash because it provides stability and saves time by eliminating the need to change grips" } }
+  }
+},
+
+"volley_q2_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Wie sollte der Schlägerkopf in der Grundstellung am Netz im Verhältnis zum Griff positioniert sein?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "In the ready position at the net, how should the racket head generally be positioned relative to the grip?" } }
+  }
+},
+"volley_q2_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Der Schlägerkopf zeigt nach unten zum Boden" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The racket head should be pointing down towards the ground" } }
+  }
+},
+"volley_q2_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Diese Position erschwert die stabile L-Form" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This position makes it difficult to achieve the necessary 'L' shape for stability" } }
+  }
+},
+"volley_q2_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Der Schlägerkopf ist über dem Griff und bildet eine L-Form" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The racket head should be above the grip, creating an L shape" } }
+  }
+},
+"volley_q2_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Diese Position sorgt für Stabilität und Hebelwirkung beim Volley" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The ready position requires the racket head to be above the grip, creating an L shape, to give stability and leverage on your volleys" } }
+  }
+},
+"volley_q2_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Der Schlägerkopf ist hinter dem Körper für den Ausholschwung" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The racket head should be behind the body to prepare for the backswing" } }
+  }
+},
+"volley_q2_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Der Schläger sollte vor dem Körper zwischen Hüfte und Brust gehalten werden" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The racket should be kept in front of the upper body, between waist and chest height, for an optimal ready position" } }
+  }
+},
+
+"volley_q3_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Welche Art von Volley wird bei einem sehr schnellen Ball empfohlen, um Fehler zu minimieren und das Tempo des Gegners umzulenken?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "When facing a fast incoming ball, which type of volley swing is recommended to minimize error by redirecting the opponent’s pace?" } }
+  }
+},
+"volley_q3_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Power-Volley" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Power Volley" } }
+  }
+},
+"volley_q3_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Dieser wird bei langsameren und hohen Bällen verwendet" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The Power Volley is used on slower, floating balls when you have time" } }
+  }
+},
+"volley_q3_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Topspin-Volley" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Topspin Volley" } }
+  }
+},
+"volley_q3_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Dieser wird aggressiv gespielt, wenn genug Zeit zur Beschleunigung vorhanden ist" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The Topspin Volley is used aggressively when the player has time to accelerate the racket" } }
+  }
+},
+"volley_q3_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Block-Volley" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Block Volley" } }
+  }
+},
+"volley_q3_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Beim Block-Volley wird der Ball mit minimaler Bewegung nur umgelenkt" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The Block Volley involves a minimal swing, where the player blocks the ball, redirecting the volley using the power already on the opponent's shot" } }
+  }
+},
+
+"volley_q4_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Welches Bein tritt bei einem rechtshändigen Spieler beim nahen Vorhand-Volley im Ein-Schritt-Muster in den Treffpunkt?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "For a right-handed player executing a close forehand volley using a one-step pattern, which leg steps into the contact point?" } }
+  }
+},
+"volley_q4_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Das rechte Bein" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The right leg" } }
+  }
+},
+"volley_q4_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Dieser Schritt wird eher bei weiten Bällen im Zwei-Schritt-Muster verwendet" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Stepping with the right leg on the forehand volley is the initial move for wider balls in the two-step pattern, but not the final step-in for close balls" } }
+  }
+},
+"volley_q4_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Das linke Bein" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The left leg" } }
+  }
+},
+"volley_q4_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Beim Vorhand-Volley tritt der rechtshändige Spieler mit dem linken Bein in den Ball, um das Körpergewicht zu übertragen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "On the forehand volley, a right-handed player steps into the contact point with the left leg, often resembling a half lunge, to transfer body weight" } }
+  }
+},
+"volley_q4_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Keins, der Spieler bleibt stehen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Neither leg, as the player should remain stationary" } }
+  }
+},
+"volley_q4_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Das Hineinschreiten verbessert Stabilität und Kraftübertragung" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Stepping into the volley helps transfer body weight, making the shot more powerful and stable" } }
+  }
+},
+
+"volley_q5_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Welches Bein tritt bei einem rechtshändigen Spieler beim nahen Rückhand-Volley im Ein-Schritt-Muster in den Treffpunkt?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "For a right-handed player executing a close backhand volley using a one-step pattern, which leg steps into the contact point?" } }
+  }
+},
+"volley_q5_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Das rechte Bein" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The right leg" } }
+  }
+},
+"volley_q5_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Beim Rückhand-Volley tritt der Rechtshänder mit dem rechten Bein in den Ball, um das Körpergewicht dahinter zu bringen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "For a right-handed player hitting a backhand volley, stepping into contact should be done with the right leg to get body weight behind the volley" } }
+  }
+},
+"volley_q5_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Das linke Bein" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The left leg" } }
+  }
+},
+"volley_q5_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Dieser Schritt ist eher Teil des Zwei-Schritt-Musters bei weiten Bällen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Stepping with the left leg on the backhand volley is the initial move for wider balls in the two-step pattern" } }
+  }
+},
+"volley_q5_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Beide Beine gleichzeitig (Sprung)" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Both feet simultaneously (jump step)" } }
+  }
+},
+"volley_q5_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Ein gezielter Schritt in den Ball sorgt für Stabilität und Kontrolle" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Footwork should generally involve stepping into the ball to provide stability and power" } }
+  }
+},
+
+"volley_q6_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Welche strategische Chance bietet sich beim Volley gegen einen sehr laufstarken Gegner (Runner/Pusher)?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Against an opponent who relies heavily on speed and hustling (Runner/Pusher), what is a key strategic opportunity involving the volley?" } }
+  }
+},
+"volley_q6_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Weiche Slices von der Grundlinie, um ihn nach vorne zu locken" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "To hit soft slices from the baseline to draw them forward" } }
+  }
+},
+"volley_q6_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Dies ist eher eine Drop-Shot-Taktik und kein Volley-Fokus" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "While drop shots draw them forward, this question asks for a volley opportunity" } }
+  }
+},
+"volley_q6_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Hohe Moonballs tief in den Court spielen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "To hit high moonballs deep into the court" } }
+  }
+},
+"volley_q6_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Dies ist eine Grundlinientaktik, keine Volley-Taktik" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This is a groundstroke tactic, not a volley tactic" } }
+  }
+},
+"volley_q6_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Gezielt ans Netz gehen und die Punkte dort beenden" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "To look for opportunities to get to the net and finish the point" } }
+  }
+},
+"volley_q6_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Gegen Runner solltest du Punkte früh am Netz beenden, um lange Ballwechsel zu vermeiden" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Against a Runner/Pusher, look for chances to get to the net and finish the point to avoid a marathon match" } }
+  }
+},
+
+"volley_q7_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Welche Art von Drall ist entscheidend, um einen Standard-Volley flach zu halten?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "What type of spin is most crucial for executing a Standard Volley effectively to keep the ball low after the bounce?" } }
+  }
+},
+"volley_q7_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Topspin" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Topspin" } }
+  }
+},
+"volley_q7_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Topspin wird bei aggressiven Volleys genutzt, ist aber nicht der Standard" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Topspin volleys are used in aggressive situations but are not the standard approach" } }
+  }
+},
+"volley_q7_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Flat" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Flat" } }
+  }
+},
+"volley_q7_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Ein flacher Volley springt oft zu hoch ab" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "A flat volley will sit up, giving the opponent an easier ball to hit at waist height" } }
+  }
+},
+"volley_q7_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Unterschnitt (Slice)" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Underspin (Slice)" } }
+  }
+},
+"volley_q7_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Unterschnitt kontrolliert den Ball und hält ihn flach, sodass der Gegner tief schlagen muss" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The key to many standard volleys is using underspin (slice). This controls the ball and keeps it low, forcing the opponent to hit below knee height" } }
+  }
+},
+
+"volley_q8_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Wie lautet das empfohlene Zwei-Schritt-Bewegungsmuster für einen rechtshändigen Spieler bei einem weiten Rückhand-Volley?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "What is the recommended two-step footwork pattern for a right-handed player attempting to reach a wide backhand volley or closing down on the net?" } }
+  }
+},
+"volley_q8_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Linker Schritt, dann rechter Schritt" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Left step, then right step" } }
+  }
+},
+"volley_q8_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Beim Rückhand-Volley ist der erste Schritt links, der zweite in den Treffpunkt mit rechts" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "For a right-handed player on the backhand volley, the first step is with the left leg (the outside leg), followed by the right leg stepping into contact" } }
+  }
+},
+"volley_q8_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Rechter Schritt, dann linker Schritt" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Right step, then left step" } }
+  }
+},
+"volley_q8_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Dieses Muster gilt für den weiten Vorhand-Volley" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This pattern is used for the wide forehand volley" } }
+  }
+},
+"volley_q8_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Drei schnelle Sidesteps" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Three quick side steps" } }
+  }
+},
+"volley_q8_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Das Zwei-Schritt-Muster ist effizienter für weite Bälle" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The two-step footwork pattern is designed to cover wider balls efficiently" } }
+  }
+},
+
+"volley_q9_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Wie lautet das empfohlene Zwei-Schritt-Bewegungsmuster für einen rechtshändigen Spieler bei einem weiten Vorhand-Volley?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "What is the recommended two-step footwork pattern for a right-handed player attempting to reach a wide forehand volley or closing down on the net?" } }
+  }
+},
+"volley_q9_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Linker Schritt, dann rechter Schritt" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Left step, then right step" } }
+  }
+},
+"volley_q9_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Dieses Muster wird für den Rückhand-Volley verwendet" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This pattern is used for the wide backhand volley" } }
+  }
+},
+"volley_q9_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Rechter Schritt, dann linker Schritt" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Right step, then left step" } }
+  }
+},
+"volley_q9_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Beim Vorhand-Volley ist der erste Schritt rechts, gefolgt vom linken Bein in den Kontakt" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "For a right-handed player on the forehand volley, the initial step is with the right leg (the outside leg), followed by the left leg stepping into contact" } }
+  }
+},
+"volley_q9_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Ein schneller Sprung und Ausfallschritt" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "A quick jump and lunge" } }
+  }
+},
+"volley_q9_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Ziel ist es, das Zwei-Schritt-Muster sauber zu beherrschen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The goal is to master the standard two-step footwork pattern for stability and coverage" } }
+  }
+},
+
+"volley_q10_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Welche Volley-Eigenschaften sollten gegen einen Counter-Puncher besonders betont werden, um erfolgreiche Passing Shots zu verhindern?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "When playing against a Counter-Puncher, which volley traits should be emphasized to prevent them from successfully passing you?" } }
+  }
+},
+"volley_q10_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Hohes Tempo und flache Schläge in die Ecken" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "High pace and flat contact, aiming for the corners" } }
+  }
+},
+"volley_q10_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Counter-Puncher nutzen oft das Tempo des Gegners und laufen gut Ecken aus" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Counter-Punchers prefer pace to work with and are good at running down shots in the corners" } }
+  }
+},
+"volley_q10_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Winkel und Gefühl, während man eng ans Netz schließt" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Angles and touch, while closing in tight to the net" } }
+  }
+},
+"volley_q10_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Gegen Counter-Puncher solltest du eng ans Netz gehen und mit Gefühl und Winkeln arbeiten" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Against a Counter-Puncher, you should close in tight to the net and use more angles and touch on your volleys, as they prefer to pass rather than lob" } }
+  }
+},
+"volley_q10_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Tiefe, harte Volleys bis nahe an die Grundlinie" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Deep, powerful volleys that land near the baseline" } }
+  }
+},
+"volley_q10_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Tiefe Volleys können ihnen mehr Zeit für Passierschläge oder Lobs geben" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Deep volleys might give them a better chance to set up a passing shot or lob" } }
+  }
+},
+
+"volley_q11_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Welche technische Methode erzeugt primär den Unterschnitt (Slice) beim Standard-Volley?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "What is the primary technical method used to create underspin (slice) on a standard tennis volley?" } }
+  }
+},
+"volley_q11_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Starke Handgelenkspronation kurz vor dem Treffpunkt" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Hitting the ball with heavy wrist pronation just prior to contact" } }
+  }
+},
+"volley_q11_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Pronation wird hauptsächlich im Service beschrieben" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Pronation is described primarily in the context of the serve" } }
+  }
+},
+"volley_q11_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Saiten gerade halten und aggressiv nach unten schlagen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Keeping the strings flat and hitting down aggressively" } }
+  }
+},
+"volley_q11_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Ein flacher Volley bleibt oft zu hoch" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "A flat volley tends to sit up high" } }
+  }
+},
+"volley_q11_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Die Schlagfläche zum Himmel öffnen beim Treffpunkt" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Opening the strings towards the sky as you make contact" } }
+  }
+},
+"volley_q11_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Durch das Öffnen der Schlagfläche wird Unterschnitt erzeugt" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "To create underspin (slice) on the volley, you should simply open the strings towards the sky as you make contact, helping you hit under the ball" } }
+  }
+},
+
+"volley_q12_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Wie bewegt sich der Schläger beim Block-Volley im Vergleich zum Fangen eines Balls?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "When using the block volley technique, what is the motion of the racket compared to the act of catching a ball?" } }
+  }
+},
+"volley_q12_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Der Schläger schwingt erst zurück, dann nach vorne" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The racket swings backwards before accelerating forward" } }
+  }
+},
+"volley_q12_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Ein echter Rückschwung wird beim Block-Volley vermieden" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "A true backswing is avoided in the block volley" } }
+  }
+},
+"volley_q12_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Der Schläger wird einfach vorne in den Treffpunkt gehalten" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The racket is simply placed at the point of contact out in front of the body" } }
+  }
+},
+"volley_q12_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Beim Block-Volley wird der Schläger nur platziert, ähnlich wie beim Fangen eines Balls" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The swing is minimal; you are simply placing the racket at the contact point, similar to placing your hand out to catch a ball without swinging backwards" } }
+  }
+},
+"volley_q12_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Der Schläger dreht stark, um viel Seitenschnitt zu erzeugen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The racket rotates significantly to impart heavy sidespin" } }
+  }
+},
+"volley_q12_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Beim Block-Volley geht es um Umlenkung, nicht um Spin" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The block volley focuses on redirection, not heavy spin generation" } }
+  }
+},
+
+"volley_q13_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Warum wird gegen einen aggressiven Grundlinienspieler empfohlen, ans Netz zu gehen?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Against an Aggressive Baseliner, why is coming to the net recommended as a tactical move?" } }
+  }
+},
+"volley_q13_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Sie mögen kurze Punkte und werden durch Netzspiel frustriert" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "They are accustomed to short points and get frustrated by net play" } }
+  }
+},
+"volley_q13_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Aggressive Grundlinienspieler kommen meist nur nach Winnern ans Netz" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Aggressive Baseliners like short points but usually only come to the net after hitting a winner" } }
+  }
+},
+"volley_q13_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Sie schlagen ihre Passierschläge oft mit viel Tempo, wodurch der Ball hoch bleibt" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "They tend to hit their passing shots with a lot of pace, often keeping the ball high for easy volleys" } }
+  }
+},
+"volley_q13_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Ihr Tempo führt oft dazu, dass die Bälle höher bleiben und leichter zu volleyieren sind" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Aggressive Baseliners often hit passing shots with pace, which tends to keep the ball high, giving the net player easy volleys" } }
+  }
+},
+"volley_q13_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Sie machen viele Fehler bei Rückwärtsbewegungen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "They have a high error rate when forced to hit groundstrokes while retreating" } }
+  }
+},
+"volley_q13_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Aggressive Grundlinienspieler sind meist sehr solide von hinten" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "They are generally steady and reliable" } }
+  }
+},
+
+"volley_q14_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Welche Return-Taktik im Doppel wird empfohlen, um einen häufig pochenden Netzspieler gezielt zu stören?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "When playing doubles against a team that uses signals and poaches frequently, what unconventional return tactic is advised specifically to disrupt the net player?" } }
+  }
+},
+"volley_q14_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Ein scharfer Slice-Return auf die Füße des Grundlinienspielers" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Hit the return with a sharp slice right at the baseline player’s feet" } }
+  }
+},
+"volley_q14_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Dies zielt nicht direkt auf den Netzspieler ab" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Hitting at the baseline player doesn't target the poacher directly" } }
+  }
+},
+"volley_q14_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Ein weicher, hoher Return über den Netzspieler (Moonball)" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Hit the return softly and high over the net player’s head (moonball)" } }
+  }
+},
+"volley_q14_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Ein Lob ist empfohlen, aber nicht unbedingt ein Moonball" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Lobbing the return is recommended, but not necessarily a moonball" } }
+  }
+},
+"volley_q14_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Den Return direkt auf den Netzspieler spielen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Hit the return directly at the net player" } }
+  }
+},
+"volley_q14_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "So muss der Netzspieler unter Druck volleyieren und macht häufiger Fehler" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Hitting the return directly at the net player makes them play the volley on the returner’s terms and often causes an error, as good poachers prefer to be on the move when they volley" } }
+  }
+},
+
+"volley_q15_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Wie wird beim Power-Volley bei langsameren Bällen Schlägerkopfgeschwindigkeit erzeugt?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "In the context of the Power Volley (used on slower, floating balls), what mechanism is used to generate racket head speed through the contact point?" } }
+  }
+},
+"volley_q15_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Durch einen starken Handgelenksschnipp nach dem Treffpunkt" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Initiating a large wrist snap immediately after making contact" } }
+  }
+},
+"volley_q15_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Das Handgelenk sollte beim Kontakt stabil bleiben" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The wrist must be fixed at contact to maintain stability" } }
+  }
+},
+"volley_q15_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Durch Arm-Beschleunigung bei stillstehendem Körper" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Using arm acceleration while keeping the body stationary" } }
+  }
+},
+"volley_q15_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Beim Power-Volley wird stark der Körper eingesetzt" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The Power Volley relies heavily on body use" } }
+  }
+},
+"volley_q15_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Durch Eindrehen des Oberkörpers und Öffnen der Schultern im Treffpunkt" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Coiling the upper body during preparation and opening up the shoulders during contact" } }
+  }
+},
+"volley_q15_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Das Öffnen der Schultern erzeugt Schlägerkopfgeschwindigkeit durch den Treffpunkt" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The key to the Power Volley is using the body to generate swing by coiling the upper body; opening the shoulders creates racket head speed through contact" } }
+  }
+},
+
+"volley_q16_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Welche Art von Return gegen einen Serve-and-Volley-Spieler sollte vermieden werden, da sie oft hoch bleibt?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Against a Serve and Volleyer, which type of return should be avoided because it tends to stay up high and offer an easy target?" } }
+  }
+},
+"volley_q16_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Lob-Returns" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Lobs off the return" } }
+  }
+},
+"volley_q16_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Lobs sind als Taktik durchaus empfohlen, besonders auf zweite Aufschläge" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Lob returns are suggested as a tactic, especially on second serves" } }
+  }
+},
+"volley_q16_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Chip-and-Charge-Returns" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Returns that are chipped and charged" } }
+  }
+},
+"volley_q16_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Chip and Charge ist eine geeignete Kontertaktik" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Chip and charge is recommended to take away the Serve and Volleyer's game plan" } }
+  }
+},
+"volley_q16_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Harte Slices und harte Returns" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Hard slices and hard returns that smash through the court" } }
+  }
+},
+"volley_q16_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Solche Returns bleiben oft hoch und bieten dem Volleyspieler ein leichtes Ziel" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Avoid using a lot of hard slices, as they tend to float and stay up in the strike-zone for an easy volley. Also, smashing hard returns tends to keep the ball high above the net, making it easy to volley" } }
+  }
+},
+
+"volley_q17_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Welche Anweisung gilt speziell beim Volleyspiel gegen einen Moonballer?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "What specific instruction is given for volleying against a player who utilizes the high arcing shots of a Moonballer?" } }
+  }
+},
+"volley_q17_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Nicht zu aggressiv ans Netz schließen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Do not close too aggressively to the net" } }
+  }
+},
+"volley_q17_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Du wirst viele Overheads spielen müssen, daher nicht zu eng schließen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "When serving and volleying against a Moonballer, be prepared to hit a lot of overheads and specifically 'do not close too aggressively'" } }
+  }
+},
+"volley_q17_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Hinten bleiben und nur Drop-Volleys spielen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Stay back and only use drop volleys" } }
+  }
+},
+"volley_q17_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Es wird empfohlen, häufiger Serve-and-Volley zu spielen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Serving and volleying more than usual is recommended" } }
+  }
+},
+"volley_q17_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Nur bei sehr flachen Bällen ans Netz gehen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Approach the net only on soft, low shots to their feet" } }
+  }
+},
+"volley_q17_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Durch die hohen Flugbahnen kann man auch bei anderen Bällen leicht ans Netz kommen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "You can sneak in and pick off volleys easily because their shots take longer to develop" } }
+  }
+},
+
+"volley_q18_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Welche technische Anpassung ist für Vorhand- und Rückhand-Volleys nötig, um Unterschnitt zu erzeugen?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "What technical adjustment should be made to the forehand and backhand volley swing paths when attempting to impart slice (underspin)?" } }
+  }
+},
+"volley_q18_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Der Schläger wird von unterhalb des Balls nach oben geführt" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The racket should be moved from below the ball straight up" } }
+  }
+},
+"volley_q18_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Diese Bewegung erzeugt Topspin" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This path creates topspin, which is not the goal for a standard slice volley" } }
+  }
+},
+"volley_q18_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Der Schläger bewegt sich horizontal über den Körper" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The racket should move horizontally across the body" } }
+  }
+},
+"volley_q18_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Eine horizontale Bewegung erzeugt eher Seitenschnitt" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Horizontal movement imparts sidespin" } }
+  }
+},
+"volley_q18_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Der Schläger wird von oben nach unten und nach vorne geführt" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The racket is moved from above/top down and forward to the contact point" } }
+  }
+},
+"volley_q18_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "So entsteht Unterschnitt beim Volley (Rückwärtsdrall)" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The forehand volley moves the racket head from above/top down and forward to create Rückwärtsdrall (backspin); the backhand volley follows a similar path" } }
+  }
+},
+
+"volley_q19_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Welches technische Detail der Schultern wird für einen stabilen Rückhand-Volley hervorgehoben?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Which technical detail regarding the shoulders is explicitly mentioned for maintaining stability and control during the backhand volley execution?" } }
+  }
+},
+"volley_q19_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Die Schultern folgen aktiv dem Schläger nach vorne" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The shoulders should follow the racket head forward" } }
+  }
+},
+"volley_q19_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Zu starkes Nachziehen kann die Stabilität verringern" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Following the racket too much can lead to instability" } }
+  }
+},
+"volley_q19_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Die Schulterachse bleibt parallel zur Schlagrichtung" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The shoulder axis should remain parallel to the stroke direction" } }
+  }
+},
+"volley_q19_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Dies sorgt für Schlagkontrolle und Stabilität beim Rückhand-Volley" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "For the backhand volley, the shoulder axis remains parallel to the stroke direction, which serves for strike control and stability" } }
+  }
+},
+"volley_q19_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Die Schlag-Schulter sinkt beim Treffpunkt stark ab" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The hitting shoulder should drop significantly upon contact" } }
+  }
+},
+"volley_q19_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Ziel ist eine stabile, aufrechte Position" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The goal is to maintain a stable, solid position" } }
+  }
+},
+
+"volley_q20_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Was bezeichnet man als den Fehler des Schlagens auf sogenannte \"Sucker Balls\" am Netz?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "What critical strategic error at the net is known as swinging on 'Sucker Balls'?" } }
+  }
+},
+"volley_q20_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Einen Stoppball von hinter der Grundlinie versuchen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Trying a drop shot from behind the baseline" } }
+  }
+},
+"volley_q20_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Das ist ein Fehler, aber nicht der sogenannte Sucker Ball" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This is a tactical error, but not specifically the 'Sucker Ball'" } }
+  }
+},
+"volley_q20_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Aggressiv auf hohe, schwebende Volleys schwingen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Swinging aggressively on high floating volleys" } }
+  }
+},
+"volley_q20_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Dies gilt als einer der schnellsten Wege, ein Match zu verlieren" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "One of the 'Top Ten Fastest Ways to Lose a Match' is swinging on high floating volleys, referred to as 'Sucker Balls'" } }
+  }
+},
+"volley_q20_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Von hinten auf Winner gehen" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Attempting to hit winners when behind the baseline" } }
+  }
+},
+"volley_q20_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Das ist ein häufiger Fehler, aber kein spezifischer Volley-Fehler" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "This is a common error, but not the volley-specific 'Sucker Ball'" } }
+  }
+},
+
+"volley_q21_text" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Warum sollte ein Topspin-Volley mit mehr Topspin gespielt werden als ein normaler Grundschlag?" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Why is hitting a Topspin Volley—as opposed to a standard volley—recommended to be played with more topspin than a normal groundstroke?" } }
+  }
+},
+"volley_q21_a1" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Damit der Ball schneller abtaucht und den Gegner zu tiefen Returns zwingt" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "To ensure the ball dips quickly and forces the opponent into a low return" } }
+  }
+},
+"volley_q21_a1_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Beim Topspin-Volley steht vor allem Kontrolle und Platzierung im Vordergrund" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The focus is on control and placement since the player is close to the net" } }
+  }
+},
+"volley_q21_a2" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Um mehr Kontrolle und Platzierung im vorderen Spielfeld zu erhalten" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "To gain better control and placement since the volley is hit directly inside the service boxes" } }
+  }
+},
+"volley_q21_a2_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Im Vorderfeld ist mehr Topspin sinnvoll für bessere Kontrolle" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Because the Topspin Volley is played directly in the court, it is recommended to be played with more topspin for better control than a normal groundstroke" } }
+  }
+},
+"volley_q21_a3" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Weil der Schläger horizontal durch den Ball beschleunigt werden muss" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "Because the racket needs to be accelerated horizontally across the ball" } }
+  }
+},
+"volley_q21_a3_expl" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "de" : { "stringUnit" : { "state" : "translated", "value" : "Beim Topspin-Volley erfolgt die Bewegung eher vorwärts und aufwärts" } },
+    "en" : { "stringUnit" : { "state" : "translated", "value" : "The racket is accelerated from hip height forward and upward" } }
+  }
+},
+
+
+
+
+  },
+  "version" : "1.1"
+}

@@ -1,0 +1,1494 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    
+
+
+    
+    "tactics_q1_a1" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bei jeder Gelegenheit ans Netz gehen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Attack the net at every opportunity"
+          }
+        }
+      }
+    },
+    "tactics_q1_a1_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diese Idee gehört zur Taktik des Zeit-Kontrollierens"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This relates to the 'Controlling Time' tactic"
+          }
+        }
+      }
+    },
+    "tactics_q1_a2" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jeden Schlag mit maximaler Geschwindigkeit und Kraft spielen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hit every shot with maximum speed and power"
+          }
+        }
+      }
+    },
+    "tactics_q1_a2_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das erhöht das Fehlerrisiko deutlich"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This increases the risk of errors"
+          }
+        }
+      }
+    },
+    "tactics_q1_a3" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Konstanter als der Gegner spielen und ihn zuerst zu Fehlern zwingen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Be more consistent than your opponent and force them to break down first"
+          }
+        }
+      }
+    },
+    "tactics_q1_a3_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diese Denkweise fokussiert auf Konstanz: den Gegner ausspielen und zu Fehlern zwingen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "It is a mindset focused on consistency; out-rally the opponent and force them to break down first"
+          }
+        }
+      }
+    },
+    "tactics_q1_text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Was ist das Hauptziel der sogenannten „Goldenen Taktik“ zum Gewinnen von Einzelmatches?"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What is the primary objective of the 'Golden Tactic' for winning singles matches?"
+          }
+        }
+      }
+    },
+    "tactics_q2_a1" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Spieler mit der Riesen-Vorhand"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The Huge Forehand"
+          }
+        }
+      }
+    },
+    "tactics_q2_a1_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieser Spieler hat eine große Waffe, aber auch eine klare Schwäche"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This player has a major weapon, but also a definable weakness"
+          }
+        }
+      }
+    },
+    "tactics_q2_a2" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Allround-Spieler"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The All-Courter"
+          }
+        }
+      }
+    },
+    "tactics_q2_a2_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Allround-Spieler ist am schwierigsten, da er sich überall auf dem Platz wohlfühlt"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The All-Courter is the most difficult player style because they are comfortable playing from anywhere"
+          }
+        }
+      }
+    },
+    "tactics_q2_a3" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der aggressive Grundlinienspieler"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The Aggressive Baseliner"
+          }
+        }
+      }
+    },
+    "tactics_q2_a3_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieser Spieler bleibt lieber hinten und schlägt hart von der Grundlinie"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This player prefers to stay back and bang the ball"
+          }
+        }
+      }
+    },
+    "tactics_q2_text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Welcher Spielertyp gilt als am schwierigsten, weil er von überall auf dem Platz effektiv spielen kann?"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Which player style is considered the most difficult to face because they can play effectively from anywhere on the court?"
+          }
+        }
+      }
+    },
+    "tactics_q3_a1" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eastern-Backhand-Griff"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eastern Backhand Grip"
+          }
+        }
+      }
+    },
+    "tactics_q3_a1_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wird hauptsächlich für einhändige Topspin-Backhands verwendet"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Used primarily for the one-handed backhand topspin drive"
+          }
+        }
+      }
+    },
+    "tactics_q3_a2" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continental-Griff (Hammergriff / Semikontinentalgriff)"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continental Grip (Hammergriff / Semikontinentalgriff)"
+          }
+        }
+      }
+    },
+    "tactics_q3_a2_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ermöglicht Vorhand- und Rückhandvolleys sowie den Smash ohne Griffwechsel"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The Continental Grip allows you to hit forehand/backhand volleys and the smash without changing grips"
+          }
+        }
+      }
+    },
+    "tactics_q3_a3" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Semi-Western-Vorhandgriff"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Semi-Western Forehand Grip"
+          }
+        }
+      }
+    },
+    "tactics_q3_a3_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wird für aggressive Topspin-Vorhände verwendet"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Used for aggressive topspin forehands"
+          }
+        }
+      }
+    },
+    "tactics_q3_text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Welcher Griff wird für alle Volleys am Netz empfohlen?"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Which grip is recommended for all volleys at the net?"
+          }
+        }
+      }
+    },
+    "tactics_q4_a1" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den Return als Angriffsball spielen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Treating the return as an approach shot"
+          }
+        }
+      }
+    },
+    "tactics_q4_a1_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das ist eigentlich eine empfohlene Taktik gegen diesen Spielertyp"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This is a recommended tactic against this player type"
+          }
+        }
+      }
+    },
+    "tactics_q4_a2" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sich zu Winners verleiten lassen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Getting lured into trying for winners"
+          }
+        }
+      }
+    },
+    "tactics_q4_a2_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Führt fast immer zu unnötigen Fehlern"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avoid being lured into trying for winners, as this is the easiest way to make errors"
+          }
+        }
+      }
+    },
+    "tactics_q4_a3" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mit gleicher Geschwindigkeit zurückspielen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Using the matching method (returning the same speed)"
+          }
+        }
+      }
+    },
+    "tactics_q4_a3_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eine empfohlene Methode um Überziehen zu vermeiden"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This is a recommended tactic for avoiding over-hitting"
+          }
+        }
+      }
+    },
+    "tactics_q4_text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gegen einen Wimpy Server – was solltest du beim Return vermeiden?"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Against a Wimpy Server, what should you avoid doing on the return?"
+          }
+        }
+      }
+    },
+    "tactics_q5_a1" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cross-Step (Kreuzschritt)"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The Cross-Step (Kreuzschritt)"
+          }
+        }
+      }
+    },
+    "tactics_q5_a1_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wird für schnelle Rückkehr zur Platzmitte verwendet"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This is used for rapid recovery back to the center of the court"
+          }
+        }
+      }
+    },
+    "tactics_q5_a2" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sliding Step (Rutschen)"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The Sliding Step (rutschen)"
+          }
+        }
+      }
+    },
+    "tactics_q5_a2_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wird hauptsächlich auf Sandplätzen verwendet"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This is a technique used specifically on clay courts"
+          }
+        }
+      }
+    },
+    "tactics_q5_a3" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Split-Step"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The Split-Step"
+          }
+        }
+      }
+    },
+    "tactics_q5_a3_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktiviert die Beinmuskulatur für einen explosiven Start in jede Richtung"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The Split-Step is wide and dynamic, activating leg muscles for a quick start in any direction"
+          }
+        }
+      }
+    },
+    "tactics_q5_text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Welche Fußarbeit muss genau im Treffmoment des Gegners ausgeführt werden, um schnell starten zu können?"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What footwork action must be executed the moment the opponent hits the ball to enable a quick start?"
+          }
+        }
+      }
+    },
+    "tactics_q6_a1" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Häufiger ans Netz gehen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Getting to the net more often"
+          }
+        }
+      }
+    },
+    "tactics_q6_a1_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ist eigentlich empfohlen gegen diesen Spielertyp"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Getting to the net is recommended to take their shots out of the air"
+          }
+        }
+      }
+    },
+    "tactics_q6_a2" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Topspin-Bälle aus den Knien hochziehen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ripping topspin groundstrokes"
+          }
+        }
+      }
+    },
+    "tactics_q6_a2_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Führt häufig dazu, den Ball ins Netz zu schlagen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avoid ripping topspin groundstrokes on balls below the knees"
+          }
+        }
+      }
+    },
+    "tactics_q6_a3" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mondbälle von der Grundlinie"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Playing moonballs from the baseline"
+          }
+        }
+      }
+    },
+    "tactics_q6_a3_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Empfohlen, da ein Slice aus dieser Höhe schwerer zu spielen ist"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Moonballs are recommended because a slice is harder to hit when it is out of the strike zone"
+          }
+        }
+      }
+    },
+    "tactics_q6_text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gegen einen Slicer/Hacker – was solltest du bei sehr tiefen Bällen vermeiden?"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Against a Slicer/Hacker, what should you avoid doing when the ball is very low to the ground?"
+          }
+        }
+      }
+    },
+    "tactics_q7_a1" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindestens 1 Schlag"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "At least 1 shot"
+          }
+        }
+      }
+    },
+    "tactics_q7_a1_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieser Spielertyp hofft genau auf solche schnellen Fehler"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This player banks on opponents rushing and missing early"
+          }
+        }
+      }
+    },
+    "tactics_q7_a2" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindestens 4 Schläge"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "At least 4 shots"
+          }
+        }
+      }
+    },
+    "tactics_q7_a2_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geduldig Punkte aufbauen, bevor man angreift"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You should work the point and make at least four shots before trying for a winner"
+          }
+        }
+      }
+    },
+    "tactics_q7_a3" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindestens 8 Schläge"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "At least 8 shots"
+          }
+        }
+      }
+    },
+    "tactics_q7_a3_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht notwendig laut Taktik-Empfehlung"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The tactic recommends at least four shots before attempting a winner"
+          }
+        }
+      }
+    },
+    "tactics_q7_text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gegen einen Runner/Pusher – wie viele Schläge solltest du spielen, bevor du einen Winner versuchst?"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Against a Runner/Pusher, how many shots should you aim to hit before attempting a winner?"
+          }
+        }
+      }
+    },
+    "tactics_q8_a1" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ob dein Trainer die Taktik gut findet"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "If your coach approves the tactic"
+          }
+        }
+      }
+    },
+    "tactics_q8_a1_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der entscheidende Test ist der Matchdruck"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coaches know what skills are usable, but the test involves match pressure"
+          }
+        }
+      }
+    },
+    "tactics_q8_a2" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ob du sie im Training 10-mal hintereinander geschafft hast"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "If you successfully executed it in practice 10 times in a row"
+          }
+        }
+      }
+    },
+    "tactics_q8_a2_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Training ist nicht gleich Matchsituation"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Success in practice is not the specific usable test defined"
+          }
+        }
+      }
+    },
+    "tactics_q8_a3" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ob du sie bei 4:4 im dritten Satz spielen würdest"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "If you would try it at 4-all in the third set"
+          }
+        }
+      }
+    },
+    "tactics_q8_a3_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wenn ja, ist die Taktik wirklich spielbar"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "If yes, the tactic is usable"
+          }
+        }
+      }
+    },
+    "tactics_q8_text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Welche Frage solltest du dir stellen, um zu prüfen, ob eine Taktik wirklich 'spielbar' ist?"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What question should you ask yourself to determine if a tactic is truly usable in a competitive match?"
+          }
+        }
+      }
+    },
+    "tactics_q9_a1" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sie schlagen lieber vorbei als zu lobben"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "They prefer to pass you rather than lob you"
+          }
+        }
+      }
+    },
+    "tactics_q9_a1_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enges Einrücken zwingt sie zum riskanten Passierschlag"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "They prefer to pass rather than lob, so closing tight pressures them"
+          }
+        }
+      }
+    },
+    "tactics_q9_a2" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sie machen mehr Lob-Fehler"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "They often miss the lob if you move closer"
+          }
+        }
+      }
+    },
+    "tactics_q9_a2_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Hauptgrund ist ihre Passier-Vorliebe"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The reason is their preference for aggressive shots"
+          }
+        }
+      }
+    },
+    "tactics_q9_a3" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Du verkleinerst ihre Zielfläche"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Closing in tight minimizes their target area"
+          }
+        }
+      }
+    },
+    "tactics_q9_a3_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dies ist ein Nebeneffekt, nicht der taktische Hauptgrund"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The main reason is their tactical preference for passing"
+          }
+        }
+      }
+    },
+    "tactics_q9_text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Warum solltest du gegen einen Counter-Puncher am Netz eng einrücken?"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "When at the net against a Counter-Puncher, why should you close in tight?"
+          }
+        }
+      }
+    },
+    "tactics_q10_a2" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Er bietet die größte Fehlertoleranz und verursacht Verwirrung"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "It offers the most margin for error and often causes confusion"
+          }
+        }
+      }
+    },
+    "tactics_q10_a2_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beide Spieler denken, der andere spielt den Ball"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "It offers margin for error and causes confusion between opponents"
+          }
+        }
+      }
+    },
+    "tactics_q10_text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wenn beide Gegner am Netz stehen, warum ist ein Schlag durch die Mitte so effektiv?"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "When both opponents are at the net, what is the strategic benefit of passing the ball down the center?"
+          }
+        }
+      }
+    },
+    "tactics_q11_a3" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mondball"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Moonball (high loopy groundstroke)"
+          }
+        }
+      }
+    },
+    "tactics_q11_a3_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nimmt dem Gegner Tempo und Rhythmus"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Moonballs deny them pace or rhythm"
+          }
+        }
+      }
+    },
+    "tactics_q11_text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Welche Schussart wird gegen einen Drop Shot–Lob-Spieler empfohlen?"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What type of high-arching shot should be used against a Drop Shot – Lob player?"
+          }
+        }
+      }
+    },
+    "tactics_q12_a3" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einer vorne, einer hinten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "One up and one back formation"
+          }
+        }
+      }
+    },
+    "tactics_q12_a3_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diese Formation sollte gegen Rush & Crush vermieden werden"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This is the ideal setup for Rush & Crush teams and should be avoided"
+          }
+        }
+      }
+    },
+    "tactics_q12_text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In welcher Doppelformation fühlt sich ein Rush & Crush Team am wohlsten?"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Which doubles formation is the dream situation for a Rush & Crush team?"
+          }
+        }
+      }
+    },
+    "tactics_q13_a2" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Du spielst genau sein stärkstes Spiel"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You play into the one thing they do better than you"
+          }
+        }
+      }
+    },
+    "tactics_q13_a2_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Du neutralisierst damit deine eigenen Stärken"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "It nullifies your better weapons by playing into their strength"
+          }
+        }
+      }
+    },
+    "tactics_q13_text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Was ist die Hauptgefahr beim Spielen gegen einen Moonballer?"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What is the main danger of playing a Moonballer?"
+          }
+        }
+      }
+    },
+    "tactics_q14_a2" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Wurfhand zieht nach unten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The tossing hand pulling down and away"
+          }
+        }
+      }
+    },
+    "tactics_q14_a2_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dies startet die Rotationsbewegung des Körpers"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This starts the rotational chain"
+          }
+        }
+      }
+    },
+    "tactics_q14_text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Was beginnt das Aufdrehen des Körpers aus der Trophy Position?"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What specific action initiates the uncoiling of the body from the trophy position?"
+          }
+        }
+      }
+    },
+    "tactics_q15_a1" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cross-Step (Kreuzschritt)"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The Cross-Step (Kreuzschritt)"
+          }
+        }
+      }
+    },
+    "tactics_q15_a1_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Explosiver Abdruck mit zwei schnellen Schritten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Two explosive steps back to center"
+          }
+        }
+      }
+    },
+    "tactics_q15_text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Welche Schritttechnik bringt dich am schnellsten zurück zur Platzmitte?"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Which footwork pattern returns you fastest to the center of the court?"
+          }
+        }
+      }
+    },
+    "tactics_q16_a2" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cross-Court Return lobben"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lob the return cross-court"
+          }
+        }
+      }
+    },
+    "tactics_q16_a2_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dies erzeugt Verwirrung und zwingt zum Positionswechsel"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This causes confusion and forces opponents to switch positions"
+          }
+        }
+      }
+    },
+    "tactics_q16_text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Welche Return-Taktik wird gegen die Australian Formation empfohlen?"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What classic return tactic is used against the Australian formation?"
+          }
+        }
+      }
+    },
+    "tactics_q17_a2" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einen hohen, langen Ball cross spielen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A high, long cross-court ball"
+          }
+        }
+      }
+    },
+    "tactics_q17_a2_expl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gibt dir Zeit zur Erholung und Neu-Positionierung"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gives you time to recover and reposition"
+          }
+        }
+      }
+    },
+    "tactics_q17_text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Was ist im 'Red'-Notfallmodus die empfohlene Taktik?"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In the Red emergency situation, what shot is recommended?"
+          }
+        }
+      }
+    },
+
+
+
+
+
+  },
+  "version" : "1.1"
+}

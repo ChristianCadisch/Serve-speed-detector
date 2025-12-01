@@ -32,17 +32,17 @@ struct SettingsView: View {
                             .cornerRadius(16)
                             .shadow(radius: 4)
 
-                        Text(NSLocalizedString("settings_welcome_title", tableName: "Quiz", comment: ""))
+                        Text(NSLocalizedString("settings_welcome_title", tableName: "general", comment: ""))
                             .font(.title3.bold())
 
-                        Text(NSLocalizedString("settings_welcome_subtitle", tableName: "Quiz", comment: ""))
+                        Text(NSLocalizedString("settings_welcome_subtitle", tableName: "general", comment: ""))
                             .font(.subheadline)
                             .multilineTextAlignment(.center)
                             .foregroundColor(.secondary)
                             .padding(.horizontal, 28)
 
                         Button(action: { showOnboarding = true }) {
-                            Text(NSLocalizedString("settings_view_onboarding", tableName: "Quiz", comment: ""))
+                            Text(NSLocalizedString("settings_view_onboarding", tableName: "general", comment: ""))
                                 .font(.subheadline.weight(.semibold))
                                 .padding(.horizontal, 22)
                                 .padding(.vertical, 10)
@@ -64,22 +64,22 @@ struct SettingsView: View {
 
                     // Support Section
                     VStack(alignment: .leading) {
-                        Text(NSLocalizedString("settings_support_title", tableName: "Quiz", comment: ""))
+                        Text(NSLocalizedString("settings_support_title", tableName: "general", comment: ""))
                             .font(.headline)
                             .foregroundColor(.secondary)
 
                         Group {
-                            Button(NSLocalizedString("settings_recording_setup", tableName: "Quiz", comment: "")) {
+                            Button(NSLocalizedString("settings_recording_setup", tableName: "general", comment: "")) {
                                 showRecordingSetup = true
                             }
                             Divider()
-                            Button(NSLocalizedString("settings_feedback", tableName: "Quiz", comment: "")) {
+                            Button(NSLocalizedString("settings_feedback", tableName: "general", comment: "")) {
                                 if let url = URL(string: "mailto:christian.cadisch@gmail.com") {
                                     UIApplication.shared.open(url)
                                 }
                             }
                             Divider()
-                            Button(NSLocalizedString("settings_share_app", tableName: "Quiz", comment: "")) {
+                            Button(NSLocalizedString("settings_share_app", tableName: "general", comment: "")) {
                                 let url = URL(string: "https://christiancadisch.github.io/tennis.html")!
                                 let activityVC = UIActivityViewController(activityItems: [url], applicationActivities: nil)
 
@@ -102,16 +102,16 @@ struct SettingsView: View {
                     // About Section
                     VStack(alignment: .leading, spacing: 12) {
 
-                        Text(NSLocalizedString("settings_about_title", tableName: "Quiz", comment: ""))
+                        Text(NSLocalizedString("settings_about_title", tableName: "general", comment: ""))
                             .font(.headline)
                             .foregroundColor(.secondary)
                             .padding(.horizontal, 16)
 
                         VStack(alignment: .leading, spacing: 4) {
-                            Text(NSLocalizedString("settings_version", tableName: "Quiz", comment: ""))
+                            Text(NSLocalizedString("settings_version", tableName: "general", comment: ""))
                                 .font(.subheadline)
 
-                            Text(NSLocalizedString("settings_about_text", tableName: "Quiz", comment: ""))
+                            Text(NSLocalizedString("settings_about_text", tableName: "general", comment: ""))
                                 .font(.footnote)
                                 .foregroundColor(.secondary)
                         }

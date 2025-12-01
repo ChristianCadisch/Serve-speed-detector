@@ -34,18 +34,22 @@ struct LessonDetailView: View {
     private func state(_ d: QuizDifficulty) -> DifficultyState {
         let s = score(d)
         let t = total(d)
-        if t > 0 && Double(s) / Double(t) >= 0.8 {
+        if t > 0 && Double(s) / Double(t) >= 0.7 {
             return .completed
         }
         switch d {
         case .easy:
             return .unlocked
         case .medium:
-            let easyDone = total(.easy) == 0 || score(.easy) >= total(.easy)
+            let easyDone = total(.easy) == 0 ||
+                           Double(score(.easy)) / Double(total(.easy)) >= 0.7
             return easyDone ? .unlocked : .locked
+
         case .hard:
-            let mediumDone = total(.medium) == 0 || score(.medium) >= total(.medium)
+            let mediumDone = total(.medium) == 0 ||
+                             Double(score(.medium)) / Double(total(.medium)) >= 0.7
             return mediumDone ? .unlocked : .locked
+
         }
     }
 
@@ -100,11 +104,17 @@ struct LessonDetailView: View {
                     Text(topic.title)
                         .font(.title2.bold())
 
-                    Text("\(totalCompletedLevels) of 3 quizzes completed")
+                    Text(
+                        String(
+                            format: NSLocalizedString("quiz_completed_format", tableName: "general", comment: ""),
+                            totalCompletedLevels,
+                            3
+                        )
+                    )
                         .font(.subheadline)
                         .foregroundColor(.secondary)
 
-                    Text("Stories + 3 quizzes")
+                    Text("Stories + 3 Quizzes")
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }
@@ -139,7 +149,12 @@ struct LessonDetailView: View {
 
                 HStack {
                     VStack(alignment: .leading, spacing: 4) {
-                        Text("\(topic.title) Theory")
+                        Text(
+                            String(
+                                format: NSLocalizedString("topic_theory_format", tableName: "general", comment: ""),
+                                topic.title
+                            )
+                        )
                             .font(.headline)
                             .foregroundColor(.white)
 
@@ -219,11 +234,12 @@ struct DifficultyLevelCard: View {
 
     private var lockMessage: String {
         switch difficulty {
-        case .medium: return "Solve Easy first to unlock Medium."
-        case .hard: return "Solve Medium first to unlock Hard."
-        case .easy: return "This quiz is locked."
+        case .medium: return NSLocalizedString("quiz_locked_medium", tableName: "general", comment: "")
+        case .hard:   return NSLocalizedString("quiz_locked_hard",   tableName: "general", comment: "")
+        case .easy:   return NSLocalizedString("quiz_locked_easy",   tableName: "general", comment: "")
         }
     }
+
 
     private var cardContent: some View {
         VStack(spacing: 10) {
@@ -239,11 +255,19 @@ struct DifficultyLevelCard: View {
                 }
 
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("\(difficulty.localizedTitle) Quiz")
+                    Text("\(difficulty.localizedAdjective) Quiz")
                         .font(.headline)
                         .foregroundColor(state == .locked ? .gray : .primary)
 
-                    Text(total == 0 ? "No questions" : "Solved \(highScore)/\(total)")
+                    Text(
+                        total == 0
+                        ? NSLocalizedString("no_questions", tableName: "general", comment: "")
+                        : String(
+                            format: NSLocalizedString("quiz_solved_progress", tableName: "general", comment: ""),
+                            highScore,
+                            total
+                          )
+                    )
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }
@@ -330,22 +354,35 @@ struct ProgressRing: View {
     }
 }
 
-/*
-#Preview {
-    let topic: QuizIdentifier = .serve
+extension QuizDifficulty {
 
-    let mockScores: [LessonQuizID: Int] = [
-        LessonQuizID(topic: topic, difficulty: .easy): 2,
-        LessonQuizID(topic: topic, difficulty: .medium): 2,
-        LessonQuizID(topic: topic, difficulty: .hard): 0
+    var localizedAdjective: String {
+        switch self {
+        case .easy:
+            return NSLocalizedString("difficulty_easy_adjective", tableName: "general", comment: "")
+        case .medium:
+            return NSLocalizedString("difficulty_medium_adjective", tableName: "general", comment: "")
+        case .hard:
+            return NSLocalizedString("difficulty_hard_adjective", tableName: "general", comment: "")
+        }
+    }
+
+}
+
+
+#Preview {
+    @State var mockScores: [LessonQuizID: Int] = [
+        LessonQuizID(topic: .serve,   difficulty: .easy):   3,
+        LessonQuizID(topic: .serve,   difficulty: .medium): 2,
+        LessonQuizID(topic: .serve,   difficulty: .hard):   0
     ]
 
     return NavigationStack {
         LessonDetailView(
-            topic: topic,
-            highScores: mockScores,
-            onHighScoreUpdated: { _, _ in }
+            topic: .serve,
+            highScores: $mockScores,
+            onHighScoreUpdated: { _, _ in },
+            navigationDelegate: nil
         )
     }
 }
-*/
