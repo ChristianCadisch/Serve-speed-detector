@@ -1415,6 +1415,25 @@
 },
 
 
+"topic_theory_format" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "%@ Theory cards"
+      }
+    },
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "%@ Theorie lernen"
+      }
+    }
+  }
+},
+
+
   },
   "version" : "1.1"
 }
