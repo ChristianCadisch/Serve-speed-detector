@@ -13,183 +13,198 @@ import AVFoundation
 
 struct AICoachScreen: View {
     @ObservedObject var state = GameStateObserver.shared
-
+    
     var videoURL: URL
     @State private var controller: AIcameraViewController? = nil
-    @State private var showHeroBanner = true
+    @State private var showHeroBanner = false
     @State private var animateFeedback = false
     @State private var trophyFrameThumbnail: UIImage? = nil
-
+    @State private var showAnalysisCard = false
+    @State private var observation = ""
+    
     @Environment(\.colorScheme) private var colorScheme
-
+    
     var body: some View {
         VStack(spacing: 0) {
-
+            
             ZStack(alignment: .top) {
-
+                
                 // VIDEO
                 AICameraViewRepresentable(
                     videoURL: videoURL,
                     frame: UIScreen.main.bounds,
                     controller: $controller
                 )
-                .frame(height: UIScreen.main.bounds.height * 0.52)
+                .frame(height: showHeroBanner ? UIScreen.main.bounds.height * 0.4 : UIScreen.main.bounds.height * 0.7)
                 .clipped()
                 .shadow(color: .black.opacity(0.18), radius: 14, y: 4)
-
+                
                 // TOP FLOATING HERO BANNER
                 if showHeroBanner {
-                    VStack(spacing: 6) {
-
+                    VStack {
                         HStack(spacing: 10) {
                             Image(systemName: "figure.tennis")
                                 .font(.title3.weight(.semibold))
                                 .foregroundColor(.blue)
-
-                            Text("Trophy Pose Detected")
-                                .font(.headline.weight(.semibold))
-                                .fontDesign(.rounded)
-
-                            Image(systemName: "checkmark.circle.fill")
-                                .foregroundColor(.green)
+                            
+                            if observation == "Trophy" {
+                                Text("Trophy Pose Detected")
+                                    .font(.headline.weight(.semibold))
+                                    .fontDesign(.rounded)
+                            }else {
+                                Text("Serve Detected")
+                                    .font(.headline.weight(.semibold))
+                                    .fontDesign(.rounded)
+                            }
+                            
                         }
-
-                        Text("Great position — here’s what I noticed.")
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
+                        .padding(.horizontal, 18)
+                        .padding(.vertical, 12)
+                        .background(.ultraThinMaterial)
+                        .cornerRadius(18)
+                        .shadow(radius: 10)
+                        .padding(.leading, 80)  // Push it to the right of back button
+                        .padding(.top, -50)
+                        
+                        Spacer()
                     }
-                    .padding(.horizontal, 18)
-                    .padding(.vertical, 14)
-                    .background(.ultraThinMaterial)
-                    .cornerRadius(18)
-                    .shadow(radius: 10)
-                    .padding(.top, 30)
+                    .frame(maxWidth: .infinity, alignment: .leading)
                     .transition(.move(edge: .top).combined(with: .opacity))
+                    .zIndex(999)
                 }
-
+                
                 // TIMELINE + MARKERS
                 VStack {
                     Spacer()
                     TrophyTimelineBar(
-                        progress: state.videoProgress,
-                        trophyMarker: state.trophyFramePosition ?? 0
+                        progress: state.videoProgress
                     )
                     .frame(height: 7)
                     .padding(.horizontal, 28)
                     .padding(.bottom, 10)
                 }
             }
-
+            .id("videoLayer")
+            
             // ANALYSIS CARD
-            ScrollView(.vertical, showsIndicators: false) {
-                VStack(alignment: .leading, spacing: 26) {
-
-                    // SNAPSHOT HEADER (thumbnail)
-                    if let img = trophyFrameThumbnail {
-                        snapshotHeader(image: Image(uiImage: img))
-                            .padding(.top, 12)
-                    }
-
-                    // INTRO SECTION
-                    VStack(alignment: .leading, spacing: 6) {
-                        Text("Nice trophy pose, James 👏")
-                            .font(.title2.weight(.bold))
-                            .fontDesign(.rounded)
-
-                        Text("Here’s what your motion looks like at the key moment:")
-                            .font(.headline)
-                            .fontDesign(.rounded)
-                            .foregroundColor(.secondary)
-                    }
-
-                    // FEEDBACK SECTION HEADER
-                    Text("Breakdown")
-                        .font(.title3.weight(.semibold))
-                        .fontDesign(.rounded)
-                        .padding(.top, 4)
-
-                    // FEEDBACK BUBBLES
-                    VStack(alignment: .leading, spacing: 16) {
-                        ForEach(state.feedbackArray.indices, id: \.self) { idx in
-                            feedbackBubble(text: state.feedbackArray[idx])
-                                .opacity(animateFeedback ? 1 : 0)
-                                .offset(y: animateFeedback ? 0 : 8)
-                                .animation(
-                                    .spring(response: 0.45, dampingFraction: 0.85)
-                                        .delay(Double(idx) * 0.07),
-                                    value: animateFeedback
+                        if showHeroBanner {
+                            ZStack(alignment: .bottom) {
+                                ScrollView(.vertical, showsIndicators: false) {
+                                    VStack(alignment: .leading, spacing: 14) {
+                                        
+                                        // SNAPSHOT HEADER (thumbnail)
+                                        if let img = trophyFrameThumbnail {
+                                            snapshotHeader(image: Image(uiImage: img))
+                                                .padding(.top, 12)
+                                        }
+                                        
+                                        // INTRO SECTION
+                                        HStack(spacing: 8) {
+                                            Image(systemName: "sparkles")
+                                                .foregroundColor(.blue)
+                                                .font(.headline)
+                                            
+                                            Text("Clay's insights")
+                                                .font(.title3.weight(.semibold))
+                                                .fontDesign(.rounded)
+                                        }
+                                        
+                                        
+                                        
+                                        // FEEDBACK BUBBLES
+                                        VStack(alignment: .leading, spacing: 12) {
+                                            ForEach(state.feedbackArray.prefix(2), id: \.self) { item in
+                                                feedbackBubble(text: item)
+                                                    .opacity(animateFeedback ? 1 : 0)
+                                                    .offset(y: animateFeedback ? 0 : 8)
+                                                    .animation(
+                                                        .spring(response: 0.45, dampingFraction: 0.85),
+                                                        value: animateFeedback
+                                                    )
+                                            }
+                                            
+                                        }
+                                        
+                                    }
+                                    .padding(30)
+                                    .padding(.bottom, 120) // Space for button
+                                    .blur(radius: 0.001)
+                                }
+                                .padding(.top, 0)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 28, style: .continuous)
+                                        .fill(.ultraThinMaterial)
+                                        .shadow(color: .black.opacity(0.15), radius: 18, y: -6)
                                 )
+                                .onAppear {
+                                    animateFeedback = true
+                                }
+                                
+                                // CONTINUE BUTTON (floating over scroll)
+                                VStack {
+                                    Spacer()
+                                    Button(action: {
+                                        controller?.setOverlayVisible(true)
+                                        controller?.continuePlayback()
+                                        withAnimation(.spring()) {
+                                            showHeroBanner = false
+                                        }
+                                    }) {
+                                        HStack(spacing: 8) {
+                                            Text("Continue")
+                                                .font(.headline.weight(.semibold))
+                                            Image(systemName: "arrow.right.circle.fill")
+                                                .font(.title3.weight(.semibold))
+                                        }
+                                        .foregroundColor(.blue)
+                                        .frame(maxWidth: .infinity)
+                                        .frame(height: 55)
+                                    }
+                                    .background(.ultraThinMaterial)
+                                    .cornerRadius(22)
+                                    .padding(.horizontal, 18)
+                                    .padding(.bottom, 12)
+                                    .shadow(color: .black.opacity(0.1), radius: 10, y: -2)
+                                }
+                            }
+                            
                         }
-                    }
-
-                }
-                .padding(30)
-                .padding(.bottom, 110)
-            }
-            .background(
-                (colorScheme == .dark
-                 ? Color.black.opacity(0.92)
-                 : Color(uiColor: .systemBackground).opacity(0.97))
-                    .cornerRadius(28, corners: [.topLeft, .topRight])
-                    .shadow(color: .black.opacity(0.14), radius: 12, y: -4)
-            )
-            .onAppear {
-                loadThumbnail()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.45) {
-                    withAnimation(.easeInOut(duration: 0.35)) {
-                        showHeroBanner = false
-                    }
-                    withAnimation(.easeInOut(duration: 0.3)) {
-                        animateFeedback = true
-                    }
-                }
-            }
-
-            // CTA SHEET
-            VStack(spacing: 10) {
-
-                // GRABBER
-                RoundedRectangle(cornerRadius: 3)
-                    .fill(Color.secondary.opacity(0.45))
-                    .frame(width: 42, height: 5)
-                    .padding(.top, 4)
-
-                HStack(spacing: 16) {
-
-                    NavigationLink(
-                        destination: AICoachDetailsView(details: state.feedbackArrayDetailed)
-                    ) {
-                        Text("Details")
-                            .font(.headline.bold())
-                            .padding(.vertical, 14)
-                            .frame(maxWidth: .infinity)
-                            .background(
-                                RoundedRectangle(cornerRadius: 14)
-                                    .stroke(Color.blue.opacity(0.6), lineWidth: 2)
-                            )
-                    }
-
-                    Button(action: {
-                        controller?.continuePlayback()
-                    }) {
-                        Text("Continue")
-                            .font(.headline.bold())
-                            .foregroundColor(.white)
-                            .padding(.vertical, 14)
-                            .frame(maxWidth: .infinity)
-                            .background(Color.blue.cornerRadius(14))
-                    }
-                }
-                .padding(.horizontal, 20)
-                .padding(.bottom, 12)
-                .background(.ultraThinMaterial)
-            }
         }
         .navigationBarTitleDisplayMode(.inline)
+        .onChange(of: state.trophyFramePosition) { newVal in
+            guard newVal != nil else { return }
+            
+            controller?.setOverlayVisible(false)
+            self.observation = "Trophy"
+            withAnimation(.spring()) {
+                showHeroBanner = true
+            }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.9) {
+                withAnimation(.spring(response: 0.5, dampingFraction: 0.85)) {
+                    showAnalysisCard = true
+                }
+            }
+        }
+        .onChange(of: state.serveFramePosition) { newVal in
+            guard newVal != nil else { return }
+            
+            controller?.setOverlayVisible(false)
+            self.observation = "Serve"
+            withAnimation(.spring()) {
+                showHeroBanner = true
+            }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.9) {
+                withAnimation(.spring(response: 0.5, dampingFraction: 0.85)) {
+                    showAnalysisCard = true
+                }
+            }
+        }
     }
-
+    
     // MARK: - SNAPSHOT HEADER
-
+    
     private func snapshotHeader(image: Image) -> some View {
         HStack(spacing: 14) {
             image
@@ -199,58 +214,52 @@ struct AICoachScreen: View {
                 .clipped()
                 .cornerRadius(14)
                 .shadow(radius: 6)
-
+            
             VStack(alignment: .leading, spacing: 6) {
                 Text("Trophy Pose Identified")
                     .font(.headline.weight(.semibold))
                     .fontDesign(.rounded)
-
+                
                 Text("Racket up, elbow high, knees engaged")
                     .font(.subheadline)
                     .foregroundColor(.secondary)
             }
-
+            
             Spacer()
         }
         .padding(8)
     }
-
+    
     // MARK: - FEEDBACK BUBBLE
-
+    
     private func feedbackBubble(text: String) -> some View {
-        HStack(alignment: .top, spacing: 12) {
-
-            // Accent Icon
+        HStack(alignment: .top, spacing: 8) {
+            
             Image(systemName: "checkmark.circle.fill")
                 .foregroundColor(.green)
-                .font(.title3)
-
-            VStack(alignment: .leading, spacing: 4) {
-                Text(text)
-                    .font(.body)
-                    .fontDesign(.rounded)
-            }
+                .font(.subheadline)   // smaller icon
+            
+            Text(text)
+                .font(.callout)       // tighter text
+                .fontDesign(.rounded)
+                .foregroundColor(.primary)
         }
-        .padding(16)
+        .padding(12)
         .background(
             (colorScheme == .dark
              ? Color.white.opacity(0.08)
-             : Color.blue.opacity(0.08))
-            .overlay(
-                Rectangle()
-                    .frame(width: 4)
-                    .foregroundColor(.blue.opacity(0.65)),
-                alignment: .leading
-            )
-            .cornerRadius(16)
+             : Color.white.opacity(0.14))
         )
+        .overlay(
+            Rectangle()
+                .frame(width: 3)
+                .foregroundColor(.blue.opacity(0.55)),
+            alignment: .leading
+        )
+        .cornerRadius(12)
     }
-
-    // MARK: - FRAME THUMBNAIL EXTRACTION
-
-    private func loadThumbnail() {
-        trophyFrameThumbnail = state.trophyFrameImage
-    }
+    
+    
 }
 
 
@@ -258,43 +267,23 @@ struct AICoachScreen: View {
 
 struct TrophyTimelineBar: View {
     var progress: CGFloat
-    var trophyMarker: CGFloat
-
+    
     var body: some View {
         GeometryReader { geo in
             ZStack(alignment: .leading) {
-
-                // BACKGROUND BAR
+                
                 Capsule()
                     .fill(Color.gray.opacity(0.25))
-
-                // FILLED PROGRESS
+                
                 Capsule()
-                    .fill(
-                        LinearGradient(
-                            colors: [Color.blue.opacity(0.85), Color.blue.opacity(0.55)],
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
-                    )
-                    .frame(width: geo.size.width * progress)
-
-                // MOVING DOT
-                Circle()
                     .fill(Color.blue)
-                    .frame(width: 14, height: 14)
-                    .offset(x: max(0, (geo.size.width * progress) - 7))
-
-                // TROPHY MARKER
-                Rectangle()
-                    .fill(Color.green)
-                    .frame(width: 3, height: 14)
-                    .cornerRadius(2)
-                    .offset(x: geo.size.width * trophyMarker)
+                    .frame(width: geo.size.width * progress)
             }
         }
+        .frame(height: 4)
     }
 }
+
 
 
 // MARK: - CORNER EXT
@@ -302,7 +291,7 @@ struct TrophyTimelineBar: View {
 struct RoundedCorner: Shape {
     var radius: CGFloat = .infinity
     var corners: UIRectCorner = .allCorners
-
+    
     func path(in rect: CGRect) -> Path {
         let path = UIBezierPath(
             roundedRect: rect,
@@ -326,14 +315,14 @@ struct AICameraViewRepresentable: UIViewControllerRepresentable {
     var videoURL: URL?
     var frame: CGRect
     @Binding var controller: AIcameraViewController?
-
+    
     func makeUIViewController(context: Context) -> AIcameraViewController {
         let vc = AIcameraViewController(frame: frame)
         if let url = videoURL { vc.setupWithVideoURL(url) }
         DispatchQueue.main.async { self.controller = vc }
         return vc
     }
-
+    
     func updateUIViewController(_ uiViewController: AIcameraViewController, context: Context) {}
 }
 
@@ -342,7 +331,7 @@ struct AICameraViewRepresentable: UIViewControllerRepresentable {
 
 struct AICoachDetailsView: View {
     var details: [String]
-
+    
     var body: some View {
         List {
             ForEach(details, id: \.self) { d in

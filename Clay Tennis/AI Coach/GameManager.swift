@@ -157,7 +157,7 @@ class GameStateObserver: ObservableObject {
     @Published var feedbackArrayDetailed : [String] = ["Hoi du", " :) "]
     @Published var videoProgress: CGFloat = 0.0
     @Published var trophyFramePosition: CGFloat? = nil
-    @Published var trophyFrameImage: UIImage? = nil
+    @Published var serveFramePosition: CGFloat? = nil
 
     let gameManager = GameManager.shared
     static let shared = GameStateObserver()
