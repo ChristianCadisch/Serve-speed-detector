@@ -35,9 +35,11 @@ struct CameraView: UIViewControllerRepresentable {
     }
 
     func updateUIViewController(_ uiViewController: AIcameraViewController, context: Context) {
+        /*
         if let videoURL = videoURL {
             uiViewController.setupWithVideoURL(videoURL)
         }
+         */
     }
 
 }
@@ -97,6 +99,19 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
         
         let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(handlePinchGesture(_:)))
         view.addGestureRecognizer(pinchGesture)
+        
+        aiCoach.feedbackHandler = {
+            short, detailed in
+            let gm = GameManager.shared
+            gm.playerStats.feedbackArray = short.components(separatedBy: "\n")
+            gm.playerStats.feedbackArrayDetailed = detailed.components(separatedBy: "\n")
+
+            NotificationCenter.default.post(
+                name: GameStateChangeNotification.name,
+                object: GameStateChangeNotification.gameManager,
+                userInfo: nil
+            )
+        }
     }
     
     @objc private func handlePinchGesture(_ gesture: UIPinchGestureRecognizer) {
@@ -119,29 +134,29 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
     }
     
     func setupLayers() {
-        jointLayer.strokeColor = UIColor.darkGray.cgColor
-        jointLayer.fillColor = UIColor.darkGray.cgColor
-        jointLayer.lineWidth = jointMarkerSize
-        
-        jointSegmentLayer.strokeColor = UIColor.blue.cgColor
+        // Nice bright green (tennis-style)
+        let accent = UIColor(red: 0.10, green: 0.95, blue: 0.45, alpha: 1).cgColor
+
+        jointLayer.strokeColor = accent
+        jointLayer.fillColor = accent
+        jointLayer.lineWidth = 4    // thicker joint dots
+
+        jointSegmentLayer.strokeColor = accent
         jointSegmentLayer.fillColor = nil
-        jointSegmentLayer.lineWidth = jointLineWidth
-        
-        // Applying vertical flip transformation and translating upwards
+        jointSegmentLayer.lineWidth = 3.5   // thicker skeleton lines
+
         let flip = CGAffineTransform(scaleX: 1, y: -1)
         jointSegmentLayer.setAffineTransform(flip)
         jointLayer.setAffineTransform(flip)
-        
-        // Ensure layers cover the full bounds of the overlay view
-        
+
         jointSegmentLayer.frame = overlayView.bounds
         jointLayer.frame = overlayView.bounds
-        
-        // Add all layers to the overlay view
+
         overlayView.layer.addSublayer(jointLayer)
         overlayView.layer.addSublayer(jointSegmentLayer)
         overlayView.layer.zPosition = 2000
     }
+
     
     func setupVideoOutputView(_ videoOutputView: UIView) {
         videoOutputView.translatesAutoresizingMaskIntoConstraints = false
@@ -153,6 +168,8 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
     
     func pauseVideoPlayback(multiplier: Int32) {
         VideoCoachRenderView?.pausePlayback()
+        displayLink?.invalidate()
+        displayLink = nil
         VideoCoachRenderView?.stepBackFrames(multiplier: multiplier)
     }
     func resumeVideoPlayback() {
@@ -161,8 +178,17 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
     }
     
     func continuePlayback() {
+        self.startDisplayLink()
         VideoCoachRenderView?.player?.play()
     }
+    
+    func startDisplayLink() {
+        let link = CADisplayLink(target: self, selector: #selector(handleDisplayLink(_:)))
+        link.preferredFramesPerSecond = 0
+        link.add(to: .main, forMode: .default)
+        displayLink = link
+    }
+
 
 
     
@@ -308,10 +334,18 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
         displayLink.isPaused = true
         displayLink.add(to: RunLoop.current, forMode: .default)
         
+        
         guard let track = asset.tracks(withMediaType: .video).first else {
             //AppError.display(AppError.videoReadingError(reason: "No video tracks found in AVAsset."), inViewController: self)
             return
         }
+        
+        // Set safe minimum seek time to 3 frames
+        let frame = track.minFrameDuration.seconds
+        self.VideoCoachRenderView.minSeekTime = frame * 3
+        print("minSeekTime =", self.VideoCoachRenderView.minSeekTime)
+
+
         
         let playerItem = AVPlayerItem(asset: asset)
         let player = AVPlayer(playerItem: playerItem)
@@ -423,6 +457,7 @@ class CameraFeedView: UIView, NormalizedGeometryConverting {
 // MARK: - View for rendering video file contents
 class VideoCoachRenderView: UIView, NormalizedGeometryConverting {
     private var renderLayer: AVPlayerLayer!
+    var minSeekTime: Double = 0.033
     
     func pausePlayback() {
         player?.pause()
@@ -431,10 +466,21 @@ class VideoCoachRenderView: UIView, NormalizedGeometryConverting {
     func stepBackFrames(multiplier: Int32) {
         guard let player = player else { return }
         let currentTime = player.currentTime()
-        let frameDuration = CMTime(value: 1, timescale: 30) // Assuming a 30 FPS video
-        let newTime = CMTimeSubtract(currentTime, CMTimeMultiply(frameDuration, multiplier: multiplier))
-        player.seek(to: newTime, toleranceBefore: .zero, toleranceAfter: .zero)
+        let frameDuration = CMTime(value: 1, timescale: 30)
+
+        let targetTime = CMTimeSubtract(currentTime, CMTimeMultiply(frameDuration, multiplier: multiplier))
+
+        let safeTime = max(targetTime.seconds, self.minSeekTime)
+        print("Seeking to:", safeTime)
+
+        player.seek(
+            to: CMTime(seconds: safeTime, preferredTimescale: 600),
+            toleranceBefore: .zero,
+            toleranceAfter: .zero
+        )
     }
+
+
     
     var player: AVPlayer? {
         get {

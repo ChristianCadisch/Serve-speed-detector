@@ -167,6 +167,8 @@ class GameStateObserver: ObservableObject {
             return
         }
         feedbackText = gameManager.playerStats.feedbackText
+        feedbackArray = gameManager.playerStats.feedbackArray
+        feedbackArrayDetailed = gameManager.playerStats.feedbackArrayDetailed
     }
     
     deinit {

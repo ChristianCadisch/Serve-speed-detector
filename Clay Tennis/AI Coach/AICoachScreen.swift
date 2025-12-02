@@ -105,9 +105,11 @@ struct AICameraViewRepresentable: UIViewControllerRepresentable {
     }
 
     func updateUIViewController(_ uiViewController: AIcameraViewController, context: Context) {
+        /*
         if let url = videoURL {
             uiViewController.setupWithVideoURL(url)
         }
+        */
     }
     
     func continueVideo() {

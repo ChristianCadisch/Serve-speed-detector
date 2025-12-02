@@ -109,6 +109,8 @@ class AICoach {
                 provideFeedback(for: convertJointsToCGPoint(joints), pose: "Trophy behind")
                 leftElbowOverShoulder = false
                 wristHeightDecreasingCount = 0
+                framesSinceWristOverShoulder = 0
+                prevYDifference = 0
                 elbowOverShoulderCount = 0
                 return (true, detectionThreshold)
             }
