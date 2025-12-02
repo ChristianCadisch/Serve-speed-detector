@@ -35,11 +35,7 @@ struct CameraView: UIViewControllerRepresentable {
     }
 
     func updateUIViewController(_ uiViewController: AIcameraViewController, context: Context) {
-        /*
-        if let videoURL = videoURL {
-            uiViewController.setupWithVideoURL(videoURL)
-        }
-         */
+
     }
 
 }
@@ -76,6 +72,9 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
     private var currentZoomScale: CGFloat = 1.0
     
     private var videoFrameRate: Float = 0.0
+    private var timeObserverToken: Any?
+    private var progressLink: CADisplayLink?
+
     
     init(frame: CGRect) {
         super.init(nibName: nil, bundle: nil)
@@ -124,6 +123,37 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
     }
     
     
+    func startProgressUpdates() {
+        progressLink?.invalidate()
+
+        let link = CADisplayLink(target: self, selector: #selector(updateVideoProgress))
+        link.preferredFramesPerSecond = 30
+        link.add(to: .main, forMode: .default)
+        progressLink = link
+    }
+    
+    
+    @objc private func updateVideoProgress() {
+        guard let player = VideoCoachRenderView?.player else {
+            print("⚠️ No player for progress")
+            return
+        }
+        guard let item = player.currentItem else {
+            print("⚠️ No playerItem for progress")
+            return
+        }
+
+        let duration = item.duration.seconds
+        let current = player.currentTime().seconds
+
+        if duration > 0 {
+            let p = max(0, min(current / duration, 1))
+            GameStateObserver.shared.videoProgress = p
+        }
+    }
+
+
+
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -356,6 +386,8 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
         playerItem.add(output)
         player.actionAtItemEnd = .pause
         player.play()
+        startProgressUpdates()
+
         
         self.displayLink = displayLink
         self.playerItemOutput = output

@@ -155,8 +155,12 @@ class GameStateObserver: ObservableObject {
     //  @Published var feedbackArray = [String]()
     @Published var feedbackArray: [String] = ["Hoi du", " :) "]
     @Published var feedbackArrayDetailed : [String] = ["Hoi du", " :) "]
-    
+    @Published var videoProgress: CGFloat = 0.0
+    @Published var trophyFramePosition: CGFloat? = nil
+    @Published var trophyFrameImage: UIImage? = nil
+
     let gameManager = GameManager.shared
+    static let shared = GameStateObserver()
     
     init() {
         NotificationCenter.default.addObserver(self, selector: #selector(handleStateChange(notification:)), name: GameStateChangeNotification.name, object: GameStateChangeNotification.gameManager)
