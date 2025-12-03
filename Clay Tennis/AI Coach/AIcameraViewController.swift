@@ -63,17 +63,12 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
     private var jointPath = UIBezierPath()
     private var jointSegmentPath = UIBezierPath()
     
-    private var lineLayer: CAShapeLayer?  // Store a reference to the line layer
     private var overlayView: UIView!
     
     private var jointMarkerSize: CGFloat = 0.5
     private var jointLineWidth: CGFloat = 1.0
     
-    private var currentZoomScale: CGFloat = 1.0
-    
-    private var videoFrameRate: Float = 0.0
-    private var timeObserverToken: Any?
-    private var progressLink: CADisplayLink?
+        private var progressLink: CADisplayLink?
     
     private var lastObservation: VNHumanBodyPoseObservation?
     
@@ -96,11 +91,7 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
         overlayView.translatesAutoresizingMaskIntoConstraints = false
         overlayView.backgroundColor = .clear
         overlayView.isUserInteractionEnabled = false  // Important: let touches pass through
-        
-        setupLayers()
-        
-        let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(handlePinchGesture(_:)))
-        view.addGestureRecognizer(pinchGesture)
+                
         
         setupLayers()
         aiCoach.feedbackHandler = {
@@ -117,44 +108,37 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
         }
     }
     
-    @objc private func handleViewBoundsChange() {
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self, let observation = self.lastObservation else { return }
-            self.jointLayer.frame = self.overlayView.bounds
-            self.jointSegmentLayer.frame = self.overlayView.bounds
-            self.redrawSkeleton(from: observation)
-        }
-    }
     
-    @objc private func handlePinchGesture(_ gesture: UIPinchGestureRecognizer) {
-        guard let viewToZoom = gesture.view else { return }
-        
-        if gesture.state == .began || gesture.state == .changed {
-            viewToZoom.transform = viewToZoom.transform.scaledBy(x: gesture.scale, y: gesture.scale)
-            gesture.scale = 1.0
-        } else if gesture.state == .ended {
-            // Redraw skeleton after scaling is complete
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self, let observation = self.lastObservation else { return }
-                self.redrawSkeleton(from: observation)
-            }
-        }
-    }
+
     
+    // 5. Update the updateLayout method to use continuous updates
     func updateLayout(frame: CGRect) {
-        // no manual frame mutations here anymore
-        jointLayer.frame = overlayView.bounds
-        jointSegmentLayer.frame = overlayView.bounds
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
-            guard let self = self, let observation = self.lastObservation else { return }
-            self.redrawSkeleton(from: observation)
-        }
+        self.view.frame = frame
+        
+        // Immediate layout
+        view.setNeedsLayout()
+        view.layoutIfNeeded()
+        
+        VideoCoachRenderView?.frame = view.bounds
+        VideoCoachRenderView?.setNeedsLayout()
+        VideoCoachRenderView?.layoutIfNeeded()
+        
+        // Update overlay immediately
+        updateOverlayLayout()
     }
     
+    private struct JointConnection {
+        let start: CGPoint
+        let end: CGPoint
+        let startConfidence: Float
+        let endConfidence: Float
+    }
+
+    private var cachedJointConnections: [JointConnection] = []
+
+    // Modified redrawSkeleton to cache normalized positions
     private func redrawSkeleton(from observation: VNHumanBodyPoseObservation) {
-        self.jointPath.removeAllPoints()
-        self.jointSegmentPath.removeAllPoints()
-        
+        // First, cache the normalized joint data
         do {
             let recognizedPoints = try observation.recognizedPoints(.all)
             let connections: [(VNHumanBodyPoseObservation.JointName, VNHumanBodyPoseObservation.JointName)] = [
@@ -165,22 +149,64 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
                 (.rightKnee, .rightAnkle)
             ]
             
+            // Cache normalized positions
+            cachedJointConnections.removeAll()
             for (startJoint, endJoint) in connections {
-                guard let startPoint = recognizedPoints[startJoint]?.location,
-                      let endPoint = recognizedPoints[endJoint]?.location,
-                      recognizedPoints[startJoint]!.confidence > 0.1,
-                      recognizedPoints[endJoint]!.confidence > 0.1 else {
+                guard let startPoint = recognizedPoints[startJoint],
+                      let endPoint = recognizedPoints[endJoint],
+                      startPoint.confidence > 0.1,
+                      endPoint.confidence > 0.1 else {
                     continue
                 }
-                let scaledSize = CGSize(width: self.view.bounds.size.width, height: self.view.bounds.size.height)
-                self.updatePathForJoint(startPoint: startPoint, endPoint: endPoint, scale: scaledSize)
+                cachedJointConnections.append(JointConnection(
+                    start: startPoint.location,
+                    end: endPoint.location,
+                    startConfidence: startPoint.confidence,
+                    endConfidence: endPoint.confidence
+                ))
             }
             
-            self.jointLayer.path = self.jointPath.cgPath
-            self.jointSegmentLayer.path = self.jointSegmentPath.cgPath
+            // Now draw using cached data
+            drawSkeletonFromCache()
+            
         } catch {
             print("Error redrawing skeleton: \(error)")
         }
+    }
+    
+    // New method: Draw skeleton from cached normalized positions
+    private func drawSkeletonFromCache() {
+        self.jointPath.removeAllPoints()
+        self.jointSegmentPath.removeAllPoints()
+        
+        guard let videoView = VideoCoachRenderView else { return }
+        
+        print("🎨 Drawing skeleton - View bounds: \(videoView.bounds.size)")
+        print("🎨 Drawing skeleton - VideoRect: \(videoView.renderLayer.videoRect)")
+        print("🔄 Joint layer transform: \(jointLayer.affineTransform())")  // ← Add this
+        print("🔄 Joint layer bounds: \(jointLayer.bounds)")                  // ← Add this
+        print("🔄 Joint layer position: \(jointLayer.position)")              // ← Add this
+        
+        
+        for connection in cachedJointConnections {
+            // Convert using CURRENT video rect (updates during animation)
+            let viewStart = videoView.viewPointConverted(fromNormalizedContentsPoint: connection.start)
+            let viewEnd = videoView.viewPointConverted(fromNormalizedContentsPoint: connection.end)
+            
+            // Create circles at joint positions
+            let startCircle = UIBezierPath(arcCenter: viewStart, radius: 2.0, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true)
+            self.jointPath.append(startCircle)
+            
+            let endCircle = UIBezierPath(arcCenter: viewEnd, radius: 2.0, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true)
+            self.jointPath.append(endCircle)
+            
+            // Draw line between joints
+            self.jointSegmentPath.move(to: viewStart)
+            self.jointSegmentPath.addLine(to: viewEnd)
+        }
+        
+        self.jointLayer.path = self.jointPath.cgPath
+        self.jointSegmentLayer.path = self.jointSegmentPath.cgPath
     }
     
     
@@ -220,25 +246,10 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        VideoCoachRenderView.frame = self.view.bounds
-        
-        // If overlay is subview of VideoCoachRenderView, just update its frame
-        overlayView.frame = VideoCoachRenderView.bounds
-        jointLayer.frame = overlayView.bounds
-        jointSegmentLayer.frame = overlayView.bounds
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
-            guard let self = self, let observation = self.lastObservation else { return }
-            self.redrawSkeleton(from: observation)
-        }
+        VideoCoachRenderView?.frame = self.view.bounds
+        updateOverlayLayout()
     }
     
-    func setOverlayVisible(_ visible: Bool) {
-        UIView.animate(withDuration: 0.3) {
-            self.jointLayer.opacity = visible ? 1 : 0
-            self.jointSegmentLayer.opacity = visible ? 1 : 0
-        }
-    }
     
     func setupLayers() {
         // Nice bright green (tennis-style)
@@ -252,9 +263,6 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
         jointSegmentLayer.fillColor = nil
         jointSegmentLayer.lineWidth = 3.5   // thicker skeleton lines
         
-        let flip = CGAffineTransform(scaleX: 1, y: -1)
-        jointSegmentLayer.setAffineTransform(flip)
-        jointLayer.setAffineTransform(flip)
         
         jointSegmentLayer.frame = overlayView.bounds
         jointLayer.frame = overlayView.bounds
@@ -286,10 +294,6 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
         displayLink = nil
         VideoCoachRenderView?.stepBackFrames(multiplier: multiplier)
     }
-    func resumeVideoPlayback() {
-        VideoCoachRenderView?.stepBackFrames(multiplier: -4)
-        VideoCoachRenderView?.player?.play()
-    }
     
     func continuePlayback() {
         self.startDisplayLink()
@@ -317,16 +321,16 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
             // Store the first observation
             self.lastObservation = observations.first
             
-            // Draw the skeleton
+            // Draw the skeleton (this also updates cache)
             if let observation = observations.first {
                 self.redrawSkeleton(from: observation)
             }
             
-            // Game logic
+            // Game logic remains the same...
             for observation in observations {
                 do {
                     let recognizedPoints = try observation.recognizedPoints(.all)
-                    let verbose = true
+                    let verbose = false
                     
                     if self.gameManager.stateMachine.currentState is GameManager.TryDetectingServe {
                         let (serveDetected, framesPrior) = self.aiCoach.detectServe(from: recognizedPoints, verbose: verbose)
@@ -334,7 +338,6 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
                             self.pauseVideoPlayback(multiplier: framesPrior)
                             self.gameManager.stateMachine.enter(GameManager.TryDetectingTrophyPose.self)
                             GameStateObserver.shared.serveFramePosition = GameStateObserver.shared.videoProgress
-                            
                         }
                     } else {
                         let (trophyPoseDetected, framesPrior) = self.aiCoach.detectTrophyPose(from: recognizedPoints, verbose: verbose)
@@ -350,6 +353,35 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
             }
         }
     }
+
+    // OPTIONAL: Force AVPlayerLayer to layout immediately
+    func startContinuousLayoutUpdates(duration: TimeInterval = 0.5) {
+        layoutUpdateLink?.invalidate()
+        
+        // Force initial layout
+        VideoCoachRenderView?.renderLayer.setNeedsLayout()
+        VideoCoachRenderView?.renderLayer.layoutIfNeeded()
+        
+        let link = CADisplayLink(target: self, selector: #selector(updateOverlayDuringAnimation))
+        link.add(to: .main, forMode: .common)
+        layoutUpdateLink = link
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + duration) { [weak self] in
+            self?.layoutUpdateLink?.invalidate()
+            self?.layoutUpdateLink = nil
+            self?.updateOverlayLayout()
+        }
+    }
+
+    @objc private func updateOverlayDuringAnimation() {
+        // Force AVPlayerLayer to update its videoRect
+        VideoCoachRenderView?.renderLayer.setNeedsLayout()
+        VideoCoachRenderView?.renderLayer.layoutIfNeeded()
+        
+
+        updateOverlayLayout()
+    }
+
     
     
     private func updatePathForJoint(startPoint: CGPoint, endPoint: CGPoint, scale: CGSize) {
@@ -389,27 +421,15 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        // Stop capture session if it's running
-        // Invalidate display link so it's removed from run loop
         displayLink?.invalidate()
+        layoutUpdateLink?.invalidate()
+        progressLink?.invalidate()
     }
     
     
     func setupWithVideoURL(_ url: URL) {
         let asset = AVAsset(url: url)
         startReadingAsset(asset)
-        
-        // Get the frame rate of the video
-        videoFrameRate = getVideoFrameRate(asset: asset)
-        print("Video Frame Rate: \(videoFrameRate) FPS")
-    }
-    
-    private func getVideoFrameRate(asset: AVAsset) -> Float {
-        guard let track = asset.tracks(withMediaType: .video).first else {
-            print("No video tracks found in AVAsset.")
-            return 0.0
-        }
-        return track.nominalFrameRate
     }
     
     
@@ -443,7 +463,6 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
         // Set safe minimum seek time to 3 frames
         let frame = track.minFrameDuration.seconds
         self.VideoCoachRenderView.minSeekTime = frame * 3
-        print("minSeekTime =", self.VideoCoachRenderView.minSeekTime)
         
         
         
@@ -517,6 +536,25 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
     }
     
     
+    
+    private var layoutUpdateLink: CADisplayLink?
+
+
+    // 4. Add a clean method to update overlay layout
+    private func updateOverlayLayout() {
+        guard let videoView = VideoCoachRenderView else { return }
+        
+        // Update frames to match current state
+        overlayView.frame = videoView.bounds
+        jointLayer.frame = overlayView.bounds
+        jointSegmentLayer.frame = overlayView.bounds
+        
+        // Redraw using cached normalized positions with CURRENT geometry
+        drawSkeletonFromCache()
+    }
+
+    
+    
 }
 
 
@@ -573,7 +611,6 @@ class VideoCoachRenderView: UIView, NormalizedGeometryConverting {
         let targetTime = CMTimeSubtract(currentTime, CMTimeMultiply(frameDuration, multiplier: multiplier))
         
         let safeTime = max(targetTime.seconds, self.minSeekTime)
-        print("Seeking to:", safeTime)
         
         player.seek(
             to: CMTime(seconds: safeTime, preferredTimescale: 600),
@@ -618,10 +655,17 @@ class VideoCoachRenderView: UIView, NormalizedGeometryConverting {
     }
     
     func viewPointConverted(fromNormalizedContentsPoint normalizedPoint: CGPoint) -> CGPoint {
-        let videoRect = renderLayer.videoRect
-        let convertedPoint = CGPoint(x: videoRect.origin.x + normalizedPoint.x * videoRect.width,
-                                     y: videoRect.origin.y + normalizedPoint.y * videoRect.height)
-        return convertedPoint
-    }
+            let videoRect = renderLayer.videoRect
+            
+            // Vision framework gives us normalized coordinates where (0,0) is bottom-left
+            // UIKit uses (0,0) as top-left, so we need to flip the Y coordinate
+            let flippedY = 1.0 - normalizedPoint.y
+            
+            let convertedPoint = CGPoint(
+                x: videoRect.origin.x + normalizedPoint.x * videoRect.width,
+                y: videoRect.origin.y + flippedY * videoRect.height
+            )
+            return convertedPoint
+        }
 }
 

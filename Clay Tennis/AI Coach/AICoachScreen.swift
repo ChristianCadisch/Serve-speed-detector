@@ -144,7 +144,6 @@ struct AICoachScreen: View {
                                 VStack {
                                     Spacer()
                                     Button(action: {
-                                        controller?.setOverlayVisible(true)
                                         controller?.continuePlayback()
                                         withAnimation(.spring()) {
                                             showHeroBanner = false
@@ -174,23 +173,32 @@ struct AICoachScreen: View {
         .onChange(of: state.trophyFramePosition) { newVal in
             guard newVal != nil else { return }
             
-            controller?.setOverlayVisible(false)
             self.observation = "Trophy"
+            
+            print("🎬 ANIMATION START - Video frame: \(controller?.VideoCoachRenderView?.frame.size ?? .zero)")
+            print("🎬 ANIMATION START - VideoRect: \(controller?.VideoCoachRenderView?.renderLayer.videoRect ?? .zero)")
+            
+            controller?.startContinuousLayoutUpdates(duration: 0.6)
+            
             withAnimation(.spring()) {
                 showHeroBanner = true
             }
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.9) {
-                withAnimation(.spring(response: 0.5, dampingFraction: 0.85)) {
-                    showAnalysisCard = true
-                }
+            // Add this to verify after animation completes
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                print("🎬 ANIMATION END - Video frame: \(controller?.VideoCoachRenderView?.frame.size ?? .zero)")
+                print("🎬 ANIMATION END - VideoRect: \(controller?.VideoCoachRenderView?.renderLayer.videoRect ?? .zero)")
             }
         }
+
         .onChange(of: state.serveFramePosition) { newVal in
             guard newVal != nil else { return }
             
-            controller?.setOverlayVisible(false)
             self.observation = "Serve"
+            
+            // Start continuous updates BEFORE animation
+            controller?.startContinuousLayoutUpdates(duration: 0.6)
+            
             withAnimation(.spring()) {
                 showHeroBanner = true
             }
