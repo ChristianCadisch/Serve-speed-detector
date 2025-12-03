@@ -72,6 +72,11 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
     
     private var lastObservation: VNHumanBodyPoseObservation?
     
+    // Export support
+    private var exportOverlayLayer = CALayer()
+    private var exportQueue = DispatchQueue(label: "export.queue")
+
+    
     
     init(frame: CGRect) {
         super.init(nibName: nil, bundle: nil)
@@ -138,7 +143,6 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
 
     // Modified redrawSkeleton to cache normalized positions
     private func redrawSkeleton(from observation: VNHumanBodyPoseObservation) {
-        // First, cache the normalized joint data
         do {
             let recognizedPoints = try observation.recognizedPoints(.all)
             let connections: [(VNHumanBodyPoseObservation.JointName, VNHumanBodyPoseObservation.JointName)] = [
@@ -149,7 +153,6 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
                 (.rightKnee, .rightAnkle)
             ]
             
-            // Cache normalized positions
             cachedJointConnections.removeAll()
             for (startJoint, endJoint) in connections {
                 guard let startPoint = recognizedPoints[startJoint],
@@ -165,14 +168,19 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
                     endConfidence: endPoint.confidence
                 ))
             }
+
+            print("🦴 Caching joints — raw Vision normalized coordinates:")
+            for c in cachedJointConnections {
+                print("   start:", c.start, "end:", c.end)
+            }
             
-            // Now draw using cached data
             drawSkeletonFromCache()
             
         } catch {
             print("Error redrawing skeleton: \(error)")
         }
     }
+
     
     // New method: Draw skeleton from cached normalized positions
     private func drawSkeletonFromCache() {
@@ -180,27 +188,21 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
         self.jointSegmentPath.removeAllPoints()
         
         guard let videoView = VideoCoachRenderView else { return }
-        
-        print("🎨 Drawing skeleton - View bounds: \(videoView.bounds.size)")
-        print("🎨 Drawing skeleton - VideoRect: \(videoView.renderLayer.videoRect)")
-        print("🔄 Joint layer transform: \(jointLayer.affineTransform())")  // ← Add this
-        print("🔄 Joint layer bounds: \(jointLayer.bounds)")                  // ← Add this
-        print("🔄 Joint layer position: \(jointLayer.position)")              // ← Add this
-        
+
+        print("🖼 drawSkeletonFromCache() — video bounds:", videoView.bounds)
         
         for connection in cachedJointConnections {
-            // Convert using CURRENT video rect (updates during animation)
             let viewStart = videoView.viewPointConverted(fromNormalizedContentsPoint: connection.start)
             let viewEnd = videoView.viewPointConverted(fromNormalizedContentsPoint: connection.end)
+
+            print("   🎯 converted start:", viewStart, "end:", viewEnd)
             
-            // Create circles at joint positions
             let startCircle = UIBezierPath(arcCenter: viewStart, radius: 2.0, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true)
             self.jointPath.append(startCircle)
             
             let endCircle = UIBezierPath(arcCenter: viewEnd, radius: 2.0, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true)
             self.jointPath.append(endCircle)
             
-            // Draw line between joints
             self.jointSegmentPath.move(to: viewStart)
             self.jointSegmentPath.addLine(to: viewEnd)
         }
@@ -208,6 +210,7 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
         self.jointLayer.path = self.jointPath.cgPath
         self.jointSegmentLayer.path = self.jointSegmentPath.cgPath
     }
+
     
     
     
@@ -292,7 +295,58 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
         VideoCoachRenderView?.pausePlayback()
         displayLink?.invalidate()
         displayLink = nil
+
+        // First compute & store safeTime
         VideoCoachRenderView?.stepBackFrames(multiplier: multiplier)
+
+        guard let safe = VideoCoachRenderView?.safeTime,
+              let player = VideoCoachRenderView?.player else { return }
+
+        let seekTime = CMTime(seconds: safe, preferredTimescale: 600)
+
+        player.seek(
+            to: seekTime,
+            toleranceBefore: .zero,
+            toleranceAfter: .zero
+        ) { [weak self] _ in
+            self?.processCurrentVideoFrame()
+
+            if let obs = self?.lastObservation {
+                DispatchQueue.main.async {
+                    self?.redrawSkeleton(from: obs)
+                    self?.updateOverlayLayout()
+                }
+            }
+        }
+    }
+
+
+    // Add this new method to manually process the current frame
+    private func processCurrentVideoFrame() {
+        guard let output = playerItemOutput,
+              let player = VideoCoachRenderView?.player else {
+            return
+        }
+        
+        let currentTime = player.currentTime()
+        
+        videoFileReadingQueue.async { [weak self] in
+            guard let self = self else { return }
+            
+            // Check if we have a new pixel buffer at this time
+            guard output.hasNewPixelBuffer(forItemTime: currentTime) else {
+                print("⚠️ No pixel buffer available at current time")
+                return
+            }
+            
+            guard let pixelBuffer = output.copyPixelBuffer(forItemTime: currentTime, itemTimeForDisplay: nil) else {
+                print("⚠️ Failed to copy pixel buffer")
+                return
+            }
+            
+            // Process this frame to update the skeleton
+            self.processVideoFrame(pixelBuffer: pixelBuffer)
+        }
     }
     
     func continuePlayback() {
@@ -552,6 +606,421 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
         // Redraw using cached normalized positions with CURRENT geometry
         drawSkeletonFromCache()
     }
+    
+    
+    private func getVideoSizeAndTransform(from track: AVAssetTrack) -> (size: CGSize, transform: CGAffineTransform, isPortrait: Bool) {
+        let naturalSize = track.naturalSize
+        let transform = track.preferredTransform
+        
+        // Calculate actual display size after transform
+        let videoSize = naturalSize.applying(transform)
+        let normalizedSize = CGSize(
+            width: abs(videoSize.width),
+            height: abs(videoSize.height)
+        )
+        
+        let isPortrait = normalizedSize.height > normalizedSize.width
+        
+        print("📐 Video naturalSize: \(naturalSize)")
+        print("📐 Video transform: \(transform)")
+        print("📐 Video normalized size: \(normalizedSize)")
+        print("📐 Is portrait: \(isPortrait)")
+        
+        return (normalizedSize, transform, isPortrait)
+    }
+
+    private func makeExportOverlayLayer(videoSize: CGSize) -> CALayer {
+        print("🎨 makeExportOverlayLayer - START")
+        print("🎨 videoSize:", videoSize)
+        print("🎨 cachedJointConnections count:", cachedJointConnections.count)
+
+        for (i, c) in cachedJointConnections.enumerated() {
+            print("   [\(i)] normalized start:", c.start, "end:", c.end)
+            let sx = c.start.x * videoSize.width
+            let sy = (1 - c.start.y) * videoSize.height
+            let ex = c.end.x * videoSize.width
+            let ey = (1 - c.end.y) * videoSize.height
+            print("   [\(i)] scaled start:", CGPoint(x: sx, y: sy),
+                  "scaled end:", CGPoint(x: ex, y: ey))
+        }
+
+        let root = CALayer()
+        root.frame = CGRect(origin: .zero, size: videoSize)
+        root.masksToBounds = true
+
+        let exportJointPath = UIBezierPath()
+        let exportSegmentPath = UIBezierPath()
+
+        for connection in cachedJointConnections {
+            let startX = connection.start.x * videoSize.width
+            let startY = (connection.start.y) * videoSize.height
+            let endX = connection.end.x * videoSize.width
+            let endY = (connection.end.y) * videoSize.height
+
+            let startPoint = CGPoint(x: startX, y: startY)
+            let endPoint = CGPoint(x: endX, y: endY)
+
+            let radius = max(videoSize.width, videoSize.height) * 0.006
+
+            exportJointPath.append(
+                UIBezierPath(
+                    arcCenter: startPoint,
+                    radius: radius,
+                    startAngle: 0,
+                    endAngle: .pi * 2,
+                    clockwise: true
+                )
+            )
+            exportJointPath.append(
+                UIBezierPath(
+                    arcCenter: endPoint,
+                    radius: radius,
+                    startAngle: 0,
+                    endAngle: .pi * 2,
+                    clockwise: true
+                )
+            )
+
+            exportSegmentPath.move(to: startPoint)
+            exportSegmentPath.addLine(to: endPoint)
+        }
+
+        let joints = CAShapeLayer()
+        joints.frame = root.bounds
+        joints.strokeColor = jointLayer.strokeColor
+        joints.fillColor = jointLayer.fillColor
+        joints.lineWidth = max(videoSize.width, videoSize.height) * 0.004
+        joints.path = exportJointPath.cgPath
+
+        let segments = CAShapeLayer()
+        segments.frame = root.bounds
+        segments.strokeColor = jointSegmentLayer.strokeColor
+        segments.fillColor = jointSegmentLayer.fillColor
+        segments.lineWidth = max(videoSize.width, videoSize.height) * 0.0035
+        segments.path = exportSegmentPath.cgPath
+
+        root.addSublayer(joints)
+        root.addSublayer(segments)
+
+        print("🎨 Export overlay layer created with sublayers:",
+              root.sublayers?.count ?? 0)
+
+        return root
+    }
+
+
+    private func makeVideoComposition(
+        asset: AVAsset,
+        videoSize: CGSize,
+        transform: CGAffineTransform
+    ) -> AVVideoComposition {
+        print("🎬 makeVideoComposition - videoSize:", videoSize)
+        print("🎬 transform:", transform)
+
+        guard let videoTrack = asset.tracks(withMediaType: .video).first else {
+            fatalError("No video track")
+        }
+
+        let composition = AVMutableVideoComposition()
+        composition.renderSize = videoSize
+        composition.frameDuration = CMTime(value: 1, timescale: 30)
+
+        let instruction = AVMutableVideoCompositionInstruction()
+        instruction.timeRange = CMTimeRange(start: .zero, duration: asset.duration)
+
+        let layerInstruction = AVMutableVideoCompositionLayerInstruction(assetTrack: videoTrack)
+        layerInstruction.setTransform(transform, at: .zero)
+
+        instruction.layerInstructions = [layerInstruction]
+        composition.instructions = [instruction]
+
+        let parentLayer = CALayer()
+        let videoLayer = CALayer()
+
+        parentLayer.frame = CGRect(origin: .zero, size: videoSize)
+        videoLayer.frame = CGRect(origin: .zero, size: videoSize)
+
+        parentLayer.addSublayer(videoLayer)
+        parentLayer.addSublayer(self.exportOverlayLayer)
+
+        print("🎬 Video composition created, renderSize:", composition.renderSize)
+
+        composition.animationTool = AVVideoCompositionCoreAnimationTool(
+            postProcessingAsVideoLayer: videoLayer,
+            in: parentLayer
+        )
+
+        return composition
+    }
+
+
+    func exportVideoWithOverlay(
+        originalURL: URL,
+        completion: @escaping (URL?) -> Void
+    ) {
+        print("📹 Dynamic export START:", originalURL)
+
+        let asset = AVAsset(url: originalURL)
+        guard let track = asset.tracks(withMediaType: .video).first else {
+            print("❌ No video track found")
+            completion(nil)
+            return
+        }
+
+        let naturalSize = track.naturalSize
+        let transform = track.preferredTransform
+        let fps = track.nominalFrameRate
+        let frameDuration = CMTimeMake(value: 1, timescale: Int32(fps))
+
+        let isPortrait = abs(transform.b) == 1.0 && abs(transform.c) == 1.0
+
+        let exportSize: CGSize =
+            isPortrait ? CGSize(width: naturalSize.height, height: naturalSize.width)
+                       : naturalSize
+
+        print("🎞 naturalSize:", naturalSize)
+        print("🎞 exportSize:", exportSize)
+        print("🎞 preferredTransform:", transform)
+        print("🎞 isPortrait:", isPortrait)
+
+        let reader: AVAssetReader
+        do {
+            reader = try AVAssetReader(asset: asset)
+        } catch {
+            print("❌ Failed to create AVAssetReader:", error)
+            completion(nil)
+            return
+        }
+
+        let readerOutput = AVAssetReaderTrackOutput(
+            track: track,
+            outputSettings: [
+                kCVPixelBufferPixelFormatTypeKey as String:
+                    kCVPixelFormatType_32BGRA
+            ]
+        )
+        reader.add(readerOutput)
+
+        let outputURL = FileManager.default.temporaryDirectory
+            .appendingPathComponent("dynamic_export_\(UUID().uuidString).mp4")
+
+        let writer: AVAssetWriter
+        do {
+            writer = try AVAssetWriter(outputURL: outputURL, fileType: .mp4)
+        } catch {
+            print("❌ Failed to create AVAssetWriter:", error)
+            completion(nil)
+            return
+        }
+
+        let writerInput = AVAssetWriterInput(
+            mediaType: .video,
+            outputSettings: [
+                AVVideoCodecKey: AVVideoCodecType.h264,
+                AVVideoWidthKey: exportSize.width,
+                AVVideoHeightKey: exportSize.height
+            ]
+        )
+        writerInput.expectsMediaDataInRealTime = false
+
+        let adaptor = AVAssetWriterInputPixelBufferAdaptor(
+            assetWriterInput: writerInput,
+            sourcePixelBufferAttributes: [
+                kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA,
+                kCVPixelBufferWidthKey as String: exportSize.width,
+                kCVPixelBufferHeightKey as String: exportSize.height
+            ]
+        )
+
+        writer.add(writerInput)
+
+        writer.startWriting()
+        reader.startReading()
+        writer.startSession(atSourceTime: .zero)
+
+        let poseRequest = VNDetectHumanBodyPoseRequest()
+        let ciContext = CIContext()
+
+        print("🚀 Export loop started…")
+
+        writerInput.requestMediaDataWhenReady(on: DispatchQueue.global(qos: .userInitiated)) {
+            var frameCount: Int64 = 0
+
+            while writerInput.isReadyForMoreMediaData {
+                guard let sampleBuffer = readerOutput.copyNextSampleBuffer() else {
+                    print("🏁 No more frames — finishing export")
+                    writerInput.markAsFinished()
+                    writer.finishWriting {
+                        print("✅ Export completed:", outputURL)
+                        completion(outputURL)
+                    }
+                    return
+                }
+
+                guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
+                    print("⚠️ Failed to extract pixel buffer")
+                    continue
+                }
+
+                let w = CVPixelBufferGetWidth(pixelBuffer)
+                let h = CVPixelBufferGetHeight(pixelBuffer)
+                print("📦 [EXPORT] Input pixelBuffer:", w, "x", h)
+
+                let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
+                print("🖼 [EXPORT] CIImage extent:", ciImage.extent)
+                print("🔄 [EXPORT] preferredTransform:", transform)
+                print("📐 [EXPORT] exportSize:", exportSize)
+
+                let handler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer, options: [:])
+                try? handler.perform([poseRequest])
+
+                if let obs = poseRequest.results?.first {
+                    self.redrawSkeleton(from: obs)
+
+                    do {
+                        let points = try obs.recognizedPoints(.all)
+                        self.cachedJointConnections.removeAll()
+
+                        let pairs: [(VNHumanBodyPoseObservation.JointName, VNHumanBodyPoseObservation.JointName)] = [
+                            (.rightShoulder, .rightElbow),
+                            (.rightElbow, .rightWrist),
+                            (.rightShoulder, .rightHip),
+                            (.rightHip, .rightKnee),
+                            (.rightKnee, .rightAnkle)
+                        ]
+
+                        for (a, b) in pairs {
+                            if let p1 = points[a], let p2 = points[b],
+                               p1.confidence > 0.1, p2.confidence > 0.1 {
+
+                                print("👣 [EXPORT] Vision normalized:", p1.location, p2.location)
+
+                                let sp = CGPoint(x: p1.location.x * exportSize.width,
+                                                 y: (p1.location.y) * exportSize.height)
+                                let ep = CGPoint(x: p2.location.x * exportSize.width,
+                                                 y: (p2.location.y) * exportSize.height)
+
+                                print("➡️  [EXPORT] Scaled to:", sp, ep)
+
+                                self.cachedJointConnections.append(
+                                    JointConnection(
+                                        start: p1.location,
+                                        end: p2.location,
+                                        startConfidence: p1.confidence,
+                                        endConfidence: p2.confidence
+                                    )
+                                )
+                            }
+                        }
+                    } catch {
+                        print("⚠️ Error reading points:", error)
+                    }
+                }
+
+                self.exportOverlayLayer = self.makeExportOverlayLayer(videoSize: exportSize)
+                print("🎨 [EXPORT] overlay frame:", self.exportOverlayLayer.frame)
+
+                var renderedPixel: CVPixelBuffer? = nil
+                CVPixelBufferCreate(
+                    nil,
+                    Int(exportSize.width),
+                    Int(exportSize.height),
+                    kCVPixelFormatType_32BGRA,
+                    nil,
+                    &renderedPixel
+                )
+
+                guard let rendered = renderedPixel else {
+                    print("❌ Failed to create output pixel buffer")
+                    continue
+                }
+
+                CVPixelBufferLockBaseAddress(rendered, [])
+
+                let colorSpace = CGColorSpaceCreateDeviceRGB()
+                let bitmapInfo = CGBitmapInfo.byteOrder32Little.rawValue |
+                                 CGImageAlphaInfo.premultipliedFirst.rawValue
+
+                guard let ctx = CGContext(
+                    data: CVPixelBufferGetBaseAddress(rendered),
+                    width: Int(exportSize.width),
+                    height: Int(exportSize.height),
+                    bitsPerComponent: 8,
+                    bytesPerRow: CVPixelBufferGetBytesPerRow(rendered),
+                    space: colorSpace,
+                    bitmapInfo: bitmapInfo
+                ) else {
+                    print("⚠️ Failed to create CGContext")
+                    CVPixelBufferUnlockBaseAddress(rendered, [])
+                    continue
+                }
+
+                ctx.saveGState()
+                ctx.concatenate(transform)
+
+                let drawRect = isPortrait
+                    ? CGRect(origin: .zero,
+                             size: CGSize(width: exportSize.height,
+                                          height: exportSize.width))
+                    : CGRect(origin: .zero, size: exportSize)
+
+                print("🖍 [EXPORT] drawRect:", drawRect)
+
+                let cgImage = ciContext.createCGImage(ciImage, from: ciImage.extent)
+                if let cg = cgImage {
+                    ctx.draw(cg, in: drawRect)
+                }
+
+                ctx.restoreGState()
+
+                print("🎨 [EXPORT] Rendering overlay… frame:", self.exportOverlayLayer.frame)
+                self.exportOverlayLayer.render(in: ctx)
+
+                CVPixelBufferUnlockBaseAddress(rendered, [])
+
+                let time = CMTime(value: frameCount, timescale: Int32(fps))
+                adaptor.append(rendered, withPresentationTime: time)
+
+                frameCount += 1
+            }
+        }
+    }
+
+
+
+
+    
+
+    func exportCurrentVideo(completion: @escaping (URL?) -> Void) {
+        print("🎥 exportCurrentVideo - START")
+        
+        guard let player = VideoCoachRenderView?.player else {
+            print("❌ No player available")
+            completion(nil)
+            return
+        }
+        
+        print("🎥 Player found")
+        
+        guard let item = player.currentItem else {
+            print("❌ No player item available")
+            completion(nil)
+            return
+        }
+        
+        print("🎥 Player item found")
+        
+        guard let urlAsset = item.asset as? AVURLAsset else {
+            print("❌ Asset is not AVURLAsset")
+            completion(nil)
+            return
+        }
+        
+        print("🎥 AVURLAsset found - URL: \(urlAsset.url)")
+
+        exportVideoWithOverlay(originalURL: urlAsset.url, completion: completion)
+    }
+
 
     
     
@@ -598,6 +1067,7 @@ class CameraFeedView: UIView, NormalizedGeometryConverting {
 class VideoCoachRenderView: UIView, NormalizedGeometryConverting {
     var renderLayer: AVPlayerLayer!
     var minSeekTime: Double = 0.033
+    var safeTime = 0.0
     
     func pausePlayback() {
         player?.pause()
@@ -607,17 +1077,21 @@ class VideoCoachRenderView: UIView, NormalizedGeometryConverting {
         guard let player = player else { return }
         let currentTime = player.currentTime()
         let frameDuration = CMTime(value: 1, timescale: 30)
-        
+
         let targetTime = CMTimeSubtract(currentTime, CMTimeMultiply(frameDuration, multiplier: multiplier))
-        
-        let safeTime = max(targetTime.seconds, self.minSeekTime)
-        
+
+        let computed = max(targetTime.seconds, self.minSeekTime)
+        self.safeTime = computed     // <-- Store it here
+
+        let seekTime = CMTime(seconds: computed, preferredTimescale: 600)
+
         player.seek(
-            to: CMTime(seconds: safeTime, preferredTimescale: 600),
+            to: seekTime,
             toleranceBefore: .zero,
             toleranceAfter: .zero
         )
     }
+
     
     
     
@@ -655,17 +1129,21 @@ class VideoCoachRenderView: UIView, NormalizedGeometryConverting {
     }
     
     func viewPointConverted(fromNormalizedContentsPoint normalizedPoint: CGPoint) -> CGPoint {
-            let videoRect = renderLayer.videoRect
-            
-            // Vision framework gives us normalized coordinates where (0,0) is bottom-left
-            // UIKit uses (0,0) as top-left, so we need to flip the Y coordinate
-            let flippedY = 1.0 - normalizedPoint.y
-            
-            let convertedPoint = CGPoint(
-                x: videoRect.origin.x + normalizedPoint.x * videoRect.width,
-                y: videoRect.origin.y + flippedY * videoRect.height
-            )
-            return convertedPoint
-        }
+        let videoRect = renderLayer.videoRect
+
+        print("🔍 [Conversion] incoming normalized:", normalizedPoint)
+        print("🔍 [Conversion] videoRect:", videoRect)
+
+        let flippedY = 1.0 - normalizedPoint.y
+        let convertedPoint = CGPoint(
+            x: videoRect.origin.x + normalizedPoint.x * videoRect.width,
+            y: videoRect.origin.y + flippedY * videoRect.height
+        )
+
+        print("🔍 [Conversion] converted:", convertedPoint)
+
+        return convertedPoint
+    }
+
 }
 

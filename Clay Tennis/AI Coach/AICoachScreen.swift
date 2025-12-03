@@ -22,6 +22,12 @@ struct AICoachScreen: View {
     @State private var showAnalysisCard = false
     @State private var observation = ""
     
+    // Add these new states
+    @State private var isExporting = false
+    @State private var exportedVideoURL: URL?
+    @State private var showShareSheet = false
+    @State private var exportError: String?
+    
     @Environment(\.colorScheme) private var colorScheme
     
     var body: some View {
@@ -51,7 +57,7 @@ struct AICoachScreen: View {
                                 Text("Trophy Pose Detected")
                                     .font(.headline.weight(.semibold))
                                     .fontDesign(.rounded)
-                            }else {
+                            } else {
                                 Text("Serve Detected")
                                     .font(.headline.weight(.semibold))
                                     .fontDesign(.rounded)
@@ -63,7 +69,7 @@ struct AICoachScreen: View {
                         .background(.ultraThinMaterial)
                         .cornerRadius(18)
                         .shadow(radius: 10)
-                        .padding(.leading, 80)  // Push it to the right of back button
+                        .padding(.leading, 80)
                         .padding(.top, -50)
                         
                         Spacer()
@@ -87,89 +93,109 @@ struct AICoachScreen: View {
             .id("videoLayer")
             
             // ANALYSIS CARD
-                        if showHeroBanner {
-                            ZStack(alignment: .bottom) {
-                                ScrollView(.vertical, showsIndicators: false) {
-                                    VStack(alignment: .leading, spacing: 14) {
-                                        
-                                        // SNAPSHOT HEADER (thumbnail)
-                                        if let img = trophyFrameThumbnail {
-                                            snapshotHeader(image: Image(uiImage: img))
-                                                .padding(.top, 12)
-                                        }
-                                        
-                                        // INTRO SECTION
-                                        HStack(spacing: 8) {
-                                            Image(systemName: "sparkles")
-                                                .foregroundColor(.blue)
-                                                .font(.headline)
-                                            
-                                            Text("Clay's insights")
-                                                .font(.title3.weight(.semibold))
-                                                .fontDesign(.rounded)
-                                        }
-                                        
-                                        
-                                        
-                                        // FEEDBACK BUBBLES
-                                        VStack(alignment: .leading, spacing: 12) {
-                                            ForEach(state.feedbackArray.prefix(2), id: \.self) { item in
-                                                feedbackBubble(text: item)
-                                                    .opacity(animateFeedback ? 1 : 0)
-                                                    .offset(y: animateFeedback ? 0 : 8)
-                                                    .animation(
-                                                        .spring(response: 0.45, dampingFraction: 0.85),
-                                                        value: animateFeedback
-                                                    )
-                                            }
-                                            
-                                        }
-                                        
-                                    }
-                                    .padding(30)
-                                    .padding(.bottom, 120) // Space for button
-                                    .blur(radius: 0.001)
-                                }
-                                .padding(.top, 0)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 28, style: .continuous)
-                                        .fill(.ultraThinMaterial)
-                                        .shadow(color: .black.opacity(0.15), radius: 18, y: -6)
-                                )
-                                .onAppear {
-                                    animateFeedback = true
-                                }
+            if showHeroBanner {
+                ZStack(alignment: .bottom) {
+                    ScrollView(.vertical, showsIndicators: false) {
+                        VStack(alignment: .leading, spacing: 14) {
+                            
+                            // SNAPSHOT HEADER (thumbnail)
+                            if let img = trophyFrameThumbnail {
+                                snapshotHeader(image: Image(uiImage: img))
+                                    .padding(.top, 12)
+                            }
+                            
+                            // INTRO SECTION
+                            HStack(spacing: 8) {
+                                Image(systemName: "sparkles")
+                                    .foregroundColor(.blue)
+                                    .font(.headline)
                                 
-                                // CONTINUE BUTTON (floating over scroll)
-                                VStack {
-                                    Spacer()
-                                    Button(action: {
-                                        controller?.continuePlayback()
-                                        withAnimation(.spring()) {
-                                            showHeroBanner = false
-                                        }
-                                    }) {
-                                        HStack(spacing: 8) {
-                                            Text("Continue")
-                                                .font(.headline.weight(.semibold))
-                                            Image(systemName: "arrow.right.circle.fill")
-                                                .font(.title3.weight(.semibold))
-                                        }
-                                        .foregroundColor(.blue)
-                                        .frame(maxWidth: .infinity)
-                                        .frame(height: 55)
-                                    }
-                                    .background(.ultraThinMaterial)
-                                    .cornerRadius(22)
-                                    .padding(.horizontal, 18)
-                                    .padding(.bottom, 12)
-                                    .shadow(color: .black.opacity(0.1), radius: 10, y: -2)
+                                Text("Clay's insights")
+                                    .font(.title3.weight(.semibold))
+                                    .fontDesign(.rounded)
+                            }
+                            
+                            // FEEDBACK BUBBLES
+                            VStack(alignment: .leading, spacing: 12) {
+                                ForEach(state.feedbackArray.prefix(2), id: \.self) { item in
+                                    feedbackBubble(text: item)
+                                        .opacity(animateFeedback ? 1 : 0)
+                                        .offset(y: animateFeedback ? 0 : 8)
+                                        .animation(
+                                            .spring(response: 0.45, dampingFraction: 0.85),
+                                            value: animateFeedback
+                                        )
                                 }
                             }
                             
                         }
+                        .padding(30)
+                        .padding(.bottom, 180)
+                        .blur(radius: 0.001)
+                    }
+                    .padding(.top, 0)
+                    .background(
+                        RoundedRectangle(cornerRadius: 28, style: .continuous)
+                            .fill(.ultraThinMaterial)
+                            .shadow(color: .black.opacity(0.15), radius: 18, y: -6)
+                    )
+                    .onAppear {
+                        animateFeedback = true
+                    }
+                    
+                    // BUTTONS (floating over scroll)
+                    VStack(spacing: 12) {
+                        Spacer()
+                        
+                        // CONTINUE BUTTON
+                        Button(action: {
+                            controller?.continuePlayback()
+                            withAnimation(.spring()) {
+                                showHeroBanner = false
+                            }
+                        }) {
+                            HStack(spacing: 8) {
+                                Text("Continue")
+                                    .font(.headline.weight(.semibold))
+                                Image(systemName: "arrow.right.circle.fill")
+                                    .font(.title3.weight(.semibold))
+                            }
+                            .foregroundColor(.blue)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 55)
+                        }
+                        .background(.ultraThinMaterial)
+                        .cornerRadius(22)
+                        .padding(.horizontal, 18)
+                        .padding(.bottom, 12)
+                        .shadow(color: .black.opacity(0.1), radius: 10, y: -2)
+                    }
+                }
+            }
         }
         .navigationBarTitleDisplayMode(.inline)
+        .sheet(isPresented: $showShareSheet) {
+            if let url = exportedVideoURL {
+                ShareSheet(items: [url])
+            }
+        }
+        .alert("Export Error", isPresented: .constant(exportError != nil)) {
+            Button("OK") {
+                exportError = nil
+            }
+        } message: {
+            if let error = exportError {
+                Text(error)
+            }
+        }
+
+        // AUTO-EXPORT WHEN VIDEO ENDS
+        .onChange(of: state.videoProgress) { progress in
+            if progress >= 1.0 {
+                exportVideo()
+            }
+        }
+
         .onChange(of: state.trophyFramePosition) { newVal in
             guard newVal != nil else { return }
             
@@ -184,19 +210,16 @@ struct AICoachScreen: View {
                 showHeroBanner = true
             }
             
-            // Add this to verify after animation completes
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
                 print("🎬 ANIMATION END - Video frame: \(controller?.VideoCoachRenderView?.frame.size ?? .zero)")
                 print("🎬 ANIMATION END - VideoRect: \(controller?.VideoCoachRenderView?.renderLayer.videoRect ?? .zero)")
             }
         }
-
         .onChange(of: state.serveFramePosition) { newVal in
             guard newVal != nil else { return }
             
             self.observation = "Serve"
             
-            // Start continuous updates BEFORE animation
             controller?.startContinuousLayoutUpdates(duration: 0.6)
             
             withAnimation(.spring()) {
@@ -206,6 +229,53 @@ struct AICoachScreen: View {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.9) {
                 withAnimation(.spring(response: 0.5, dampingFraction: 0.85)) {
                     showAnalysisCard = true
+                }
+            }
+        }
+    }
+
+    
+    // MARK: - Export Function
+    
+    private func exportVideo() {
+        print("🚀 Export button tapped")
+        print("🚀 Controller exists: \(controller != nil)")
+        print("🚀 VideoCoachRenderView exists: \(controller?.VideoCoachRenderView != nil)")
+        
+        isExporting = true
+        
+        controller?.exportCurrentVideo { [self] url in
+            print("🚀 Export callback received")
+            print("🚀 URL: \(String(describing: url))")
+            
+            DispatchQueue.main.async {
+                self.isExporting = false
+                
+                if let tempURL = url {
+                    // Copy to a more accessible location
+                    let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+                    let finalURL = documentsPath.appendingPathComponent("ClayTennis_Export_\(Date().timeIntervalSince1970).mp4")
+                    
+                    do {
+                        // Remove existing file if it exists
+                        if FileManager.default.fileExists(atPath: finalURL.path) {
+                            try FileManager.default.removeItem(at: finalURL)
+                        }
+                        
+                        // Copy temp file to documents
+                        try FileManager.default.copyItem(at: tempURL, to: finalURL)
+                        
+                        print("✅ File copied to: \(finalURL)")
+                        
+                        self.exportedVideoURL = finalURL
+                        self.showShareSheet = true
+                    } catch {
+                        print("❌ Failed to copy file: \(error)")
+                        self.exportError = "Failed to prepare video for sharing: \(error.localizedDescription)"
+                    }
+                } else {
+                    print("❌ Export failed - showing error")
+                    self.exportError = "Failed to export video. Please try again."
                 }
             }
         }
@@ -355,6 +425,40 @@ struct AICoachDetailsView: View {
         }
         .navigationTitle("Detailed Analysis")
     }
+}
+
+
+// MARK: - Share Sheet
+
+struct ShareSheet: UIViewControllerRepresentable {
+    let items: [Any]
+    
+    func makeUIViewController(context: Context) -> UIActivityViewController {
+        // For file URLs, we need to ensure they're accessible
+        let activityItems: [Any] = items.map { item in
+            if let url = item as? URL {
+                // Return the URL directly - iOS will handle it
+                return url
+            }
+            return item
+        }
+        
+        let controller = UIActivityViewController(
+            activityItems: activityItems,
+            applicationActivities: nil
+        )
+        
+        // Exclude some activities that don't make sense for videos
+        controller.excludedActivityTypes = [
+            .addToReadingList,
+            .assignToContact,
+            .print
+        ]
+        
+        return controller
+    }
+    
+    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
 }
 
 
