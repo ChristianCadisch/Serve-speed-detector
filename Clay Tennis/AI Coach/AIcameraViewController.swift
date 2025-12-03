@@ -33,11 +33,11 @@ struct CameraView: UIViewControllerRepresentable {
         }
         return controller
     }
-
+    
     func updateUIViewController(_ uiViewController: AIcameraViewController, context: Context) {
         uiViewController.updateLayout(frame: frame)
     }
-
+    
 }
 
 
@@ -76,7 +76,7 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
     private var progressLink: CADisplayLink?
     
     private var lastObservation: VNHumanBodyPoseObservation?
-
+    
     
     init(frame: CGRect) {
         super.init(nibName: nil, bundle: nil)
@@ -90,37 +90,39 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
     override func viewDidLoad() {
         super.viewDidLoad()
         bodyPoseRequest = VNDetectHumanBodyPoseRequest(completionHandler: handleBodyPose)
-
+        
         // Initialize the overlay view
         overlayView = UIView()
         overlayView.translatesAutoresizingMaskIntoConstraints = false
         overlayView.backgroundColor = .clear
-        view.addSubview(overlayView)
-
-        NSLayoutConstraint.activate([
-            overlayView.topAnchor.constraint(equalTo: view.topAnchor),
-            overlayView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            overlayView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            overlayView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
-
+        overlayView.isUserInteractionEnabled = false  // Important: let touches pass through
         
         setupLayers()
         
         let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(handlePinchGesture(_:)))
         view.addGestureRecognizer(pinchGesture)
         
+        setupLayers()
         aiCoach.feedbackHandler = {
             short, detailed in
             let gm = GameManager.shared
             gm.playerStats.feedbackArray = short.components(separatedBy: "\n")
             gm.playerStats.feedbackArrayDetailed = detailed.components(separatedBy: "\n")
-
+            
             NotificationCenter.default.post(
                 name: GameStateChangeNotification.name,
                 object: GameStateChangeNotification.gameManager,
                 userInfo: nil
             )
+        }
+    }
+    
+    @objc private func handleViewBoundsChange() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self, let observation = self.lastObservation else { return }
+            self.jointLayer.frame = self.overlayView.bounds
+            self.jointSegmentLayer.frame = self.overlayView.bounds
+            self.redrawSkeleton(from: observation)
         }
     }
     
@@ -130,6 +132,12 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
         if gesture.state == .began || gesture.state == .changed {
             viewToZoom.transform = viewToZoom.transform.scaledBy(x: gesture.scale, y: gesture.scale)
             gesture.scale = 1.0
+        } else if gesture.state == .ended {
+            // Redraw skeleton after scaling is complete
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self, let observation = self.lastObservation else { return }
+                self.redrawSkeleton(from: observation)
+            }
         }
     }
     
@@ -138,48 +146,48 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
         jointLayer.frame = overlayView.bounds
         jointSegmentLayer.frame = overlayView.bounds
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
-                guard let self = self, let observation = self.lastObservation else { return }
-                self.redrawSkeleton(from: observation)
-            }
+            guard let self = self, let observation = self.lastObservation else { return }
+            self.redrawSkeleton(from: observation)
+        }
     }
     
     private func redrawSkeleton(from observation: VNHumanBodyPoseObservation) {
-            self.jointPath.removeAllPoints()
-            self.jointSegmentPath.removeAllPoints()
+        self.jointPath.removeAllPoints()
+        self.jointSegmentPath.removeAllPoints()
+        
+        do {
+            let recognizedPoints = try observation.recognizedPoints(.all)
+            let connections: [(VNHumanBodyPoseObservation.JointName, VNHumanBodyPoseObservation.JointName)] = [
+                (.rightShoulder, .rightElbow),
+                (.rightElbow, .rightWrist),
+                (.rightShoulder, .rightHip),
+                (.rightHip, .rightKnee),
+                (.rightKnee, .rightAnkle)
+            ]
             
-            do {
-                let recognizedPoints = try observation.recognizedPoints(.all)
-                let connections: [(VNHumanBodyPoseObservation.JointName, VNHumanBodyPoseObservation.JointName)] = [
-                    (.rightShoulder, .rightElbow),
-                    (.rightElbow, .rightWrist),
-                    (.rightShoulder, .rightHip),
-                    (.rightHip, .rightKnee),
-                    (.rightKnee, .rightAnkle)
-                ]
-                
-                for (startJoint, endJoint) in connections {
-                    guard let startPoint = recognizedPoints[startJoint]?.location,
-                          let endPoint = recognizedPoints[endJoint]?.location,
-                          recognizedPoints[startJoint]!.confidence > 0.1,
-                          recognizedPoints[endJoint]!.confidence > 0.1 else {
-                        continue
-                    }
-                    let scaledSize = CGSize(width: self.view.bounds.size.width, height: self.view.bounds.size.height)
-                    self.updatePathForJoint(startPoint: startPoint, endPoint: endPoint, scale: scaledSize)
+            for (startJoint, endJoint) in connections {
+                guard let startPoint = recognizedPoints[startJoint]?.location,
+                      let endPoint = recognizedPoints[endJoint]?.location,
+                      recognizedPoints[startJoint]!.confidence > 0.1,
+                      recognizedPoints[endJoint]!.confidence > 0.1 else {
+                    continue
                 }
-                
-                self.jointLayer.path = self.jointPath.cgPath
-                self.jointSegmentLayer.path = self.jointSegmentPath.cgPath
-            } catch {
-                print("Error redrawing skeleton: \(error)")
+                let scaledSize = CGSize(width: self.view.bounds.size.width, height: self.view.bounds.size.height)
+                self.updatePathForJoint(startPoint: startPoint, endPoint: endPoint, scale: scaledSize)
             }
+            
+            self.jointLayer.path = self.jointPath.cgPath
+            self.jointSegmentLayer.path = self.jointSegmentPath.cgPath
+        } catch {
+            print("Error redrawing skeleton: \(error)")
         }
-
+    }
+    
     
     
     func startProgressUpdates() {
         progressLink?.invalidate()
-
+        
         let link = CADisplayLink(target: self, selector: #selector(updateVideoProgress))
         link.preferredFramesPerSecond = 30
         link.add(to: .main, forMode: .default)
@@ -196,32 +204,33 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
             print("⚠️ No playerItem for progress")
             return
         }
-
+        
         let duration = item.duration.seconds
         let current = player.currentTime().seconds
-
+        
         if duration > 0 {
             let p = max(0, min(current / duration, 1))
             GameStateObserver.shared.videoProgress = p
         }
     }
-
-
-
+    
+    
+    
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         VideoCoachRenderView.frame = self.view.bounds
-        overlayView.frame = VideoCoachRenderView.frame
+        
+        // If overlay is subview of VideoCoachRenderView, just update its frame
+        overlayView.frame = VideoCoachRenderView.bounds
         jointLayer.frame = overlayView.bounds
         jointSegmentLayer.frame = overlayView.bounds
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
-                guard let self = self, let observation = self.lastObservation else { return }
-                self.redrawSkeleton(from: observation)
-            }
-
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
+            guard let self = self, let observation = self.lastObservation else { return }
+            self.redrawSkeleton(from: observation)
+        }
     }
     
     func setOverlayVisible(_ visible: Bool) {
@@ -234,32 +243,32 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
     func setupLayers() {
         // Nice bright green (tennis-style)
         let accent = UIColor(red: 0.10, green: 0.95, blue: 0.45, alpha: 1).cgColor
-
+        
         jointLayer.strokeColor = accent
         jointLayer.fillColor = accent
         jointLayer.lineWidth = 4    // thicker joint dots
-
+        
         jointSegmentLayer.strokeColor = accent
         jointSegmentLayer.fillColor = nil
         jointSegmentLayer.lineWidth = 3.5   // thicker skeleton lines
-
+        
         let flip = CGAffineTransform(scaleX: 1, y: -1)
         jointSegmentLayer.setAffineTransform(flip)
         jointLayer.setAffineTransform(flip)
-
+        
         jointSegmentLayer.frame = overlayView.bounds
         jointLayer.frame = overlayView.bounds
-
+        
         overlayView.layer.addSublayer(jointLayer)
         overlayView.layer.addSublayer(jointSegmentLayer)
         overlayView.layer.zPosition = 2000
     }
-
+    
     
     func setupVideoOutputView(_ videoOutputView: UIView) {
         videoOutputView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(videoOutputView)
-
+        
         NSLayoutConstraint.activate([
             videoOutputView.topAnchor.constraint(equalTo: view.topAnchor),
             videoOutputView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -267,7 +276,7 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
             videoOutputView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
-
+    
     
     
     
@@ -293,54 +302,54 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
         link.add(to: .main, forMode: .default)
         displayLink = link
     }
-
-
-
+    
+    
+    
     
     
     func handleBodyPose(request: VNRequest, error: Error?) {
-            DispatchQueue.main.async {
-                guard let observations = request.results as? [VNHumanBodyPoseObservation] else {
-                    print("Failed to obtain body pose results")
-                    return
-                }
-                
-                // Store the first observation
-                self.lastObservation = observations.first
-                
-                // Draw the skeleton
-                if let observation = observations.first {
-                    self.redrawSkeleton(from: observation)
-                }
-                
-                // Game logic
-                for observation in observations {
-                    do {
-                        let recognizedPoints = try observation.recognizedPoints(.all)
-                        let verbose = true
-                        
-                        if self.gameManager.stateMachine.currentState is GameManager.TryDetectingServe {
-                            let (serveDetected, framesPrior) = self.aiCoach.detectServe(from: recognizedPoints, verbose: verbose)
-                            if serveDetected {
-                                self.pauseVideoPlayback(multiplier: framesPrior)
-                                self.gameManager.stateMachine.enter(GameManager.TryDetectingTrophyPose.self)
-                                GameStateObserver.shared.serveFramePosition = GameStateObserver.shared.videoProgress
-
-                            }
-                        } else {
-                            let (trophyPoseDetected, framesPrior) = self.aiCoach.detectTrophyPose(from: recognizedPoints, verbose: verbose)
-                            if trophyPoseDetected {
-                                self.pauseVideoPlayback(multiplier: framesPrior / 2)
-                                self.gameManager.stateMachine.enter(GameManager.TryDetectingServe.self)
-                                GameStateObserver.shared.trophyFramePosition = GameStateObserver.shared.videoProgress
-                            }
+        DispatchQueue.main.async {
+            guard let observations = request.results as? [VNHumanBodyPoseObservation] else {
+                print("Failed to obtain body pose results")
+                return
+            }
+            
+            // Store the first observation
+            self.lastObservation = observations.first
+            
+            // Draw the skeleton
+            if let observation = observations.first {
+                self.redrawSkeleton(from: observation)
+            }
+            
+            // Game logic
+            for observation in observations {
+                do {
+                    let recognizedPoints = try observation.recognizedPoints(.all)
+                    let verbose = true
+                    
+                    if self.gameManager.stateMachine.currentState is GameManager.TryDetectingServe {
+                        let (serveDetected, framesPrior) = self.aiCoach.detectServe(from: recognizedPoints, verbose: verbose)
+                        if serveDetected {
+                            self.pauseVideoPlayback(multiplier: framesPrior)
+                            self.gameManager.stateMachine.enter(GameManager.TryDetectingTrophyPose.self)
+                            GameStateObserver.shared.serveFramePosition = GameStateObserver.shared.videoProgress
+                            
                         }
-                    } catch {
-                        print("Error processing body pose observation: \(error)")
+                    } else {
+                        let (trophyPoseDetected, framesPrior) = self.aiCoach.detectTrophyPose(from: recognizedPoints, verbose: verbose)
+                        if trophyPoseDetected {
+                            self.pauseVideoPlayback(multiplier: framesPrior / 2)
+                            self.gameManager.stateMachine.enter(GameManager.TryDetectingServe.self)
+                            GameStateObserver.shared.trophyFramePosition = GameStateObserver.shared.videoProgress
+                        }
                     }
+                } catch {
+                    print("Error processing body pose observation: \(error)")
                 }
             }
         }
+    }
     
     
     private func updatePathForJoint(startPoint: CGPoint, endPoint: CGPoint, scale: CGSize) {
@@ -406,16 +415,20 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
     
     
     func startReadingAsset(_ asset: AVAsset) {
-
+        
         // FIX: remove previous video view
         VideoCoachRenderView?.player?.pause()
         VideoCoachRenderView?.removeFromSuperview()
         VideoCoachRenderView = nil
-
+        
         // Now create a single one
         VideoCoachRenderView = Clay_Tennis.VideoCoachRenderView(frame: view.bounds)
         setupVideoOutputView(VideoCoachRenderView)
-
+        
+        overlayView.removeFromSuperview()
+        VideoCoachRenderView.addSubview(overlayView)
+        overlayView.frame = VideoCoachRenderView.bounds
+        
         let displayLink = CADisplayLink(target: self, selector: #selector(handleDisplayLink(_:)))
         displayLink.preferredFramesPerSecond = 0
         displayLink.isPaused = true
@@ -431,8 +444,8 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
         let frame = track.minFrameDuration.seconds
         self.VideoCoachRenderView.minSeekTime = frame * 3
         print("minSeekTime =", self.VideoCoachRenderView.minSeekTime)
-
-
+        
+        
         
         let playerItem = AVPlayerItem(asset: asset)
         let player = AVPlayer(playerItem: playerItem)
@@ -444,7 +457,7 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
         player.actionAtItemEnd = .pause
         player.play()
         startProgressUpdates()
-
+        
         
         self.displayLink = displayLink
         self.playerItemOutput = output
@@ -556,20 +569,20 @@ class VideoCoachRenderView: UIView, NormalizedGeometryConverting {
         guard let player = player else { return }
         let currentTime = player.currentTime()
         let frameDuration = CMTime(value: 1, timescale: 30)
-
+        
         let targetTime = CMTimeSubtract(currentTime, CMTimeMultiply(frameDuration, multiplier: multiplier))
-
+        
         let safeTime = max(targetTime.seconds, self.minSeekTime)
         print("Seeking to:", safeTime)
-
+        
         player.seek(
             to: CMTime(seconds: safeTime, preferredTimescale: 600),
             toleranceBefore: .zero,
             toleranceAfter: .zero
         )
     }
-
-
+    
+    
     
     var player: AVPlayer? {
         get {

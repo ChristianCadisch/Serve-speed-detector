@@ -323,7 +323,9 @@ struct AICameraViewRepresentable: UIViewControllerRepresentable {
         return vc
     }
     
-    func updateUIViewController(_ uiViewController: AIcameraViewController, context: Context) {}
+    func updateUIViewController(_ uiViewController: AIcameraViewController, context: Context) {
+        uiViewController.updateLayout(frame: frame)
+    }
 }
 
 

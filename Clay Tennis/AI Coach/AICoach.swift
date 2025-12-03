@@ -131,9 +131,7 @@ class AICoach {
         var feedbackArrayDetailed = [String]()
         
         if pose == "Trophy behind" {
-            feedbackArray.append("Good job on the Trophy Pose! Let's break it down:")
-            feedbackArrayDetailed.append("Your Trophy Pose is a crucial element in your serve. Analyzing it can help improve your power and stability.")
-            
+             
             // Calculate knee angles
             guard let leftKneeAngle = calculateAngle(from: joints, joint1: .leftHip, joint2: .leftKnee, joint3: .leftAnkle),
                   let rightKneeAngle = calculateAngle(from: joints, joint1: .rightHip, joint2: .rightKnee, joint3: .rightAnkle) else {
@@ -146,17 +144,17 @@ class AICoach {
             
             // Feedback on knee angles
             if averageKneeAngle < federerAverageAngle {
-                feedbackArray.append("Your knees are bent \(federerAverageAngle - averageKneeAngle)° less than Roger Federer's. This may reduce the power of your serve.")
-                feedbackArrayDetailed.append("Having less knee bend can impact the explosiveness of your serve. Try bending your knees more to generate more power.")
+                feedbackArray.append("Your knees are bent \(Int(federerAverageAngle - averageKneeAngle))° less than Roger Federer's. This may reduce the power of your serve")
+                feedbackArrayDetailed.append("Having less knee bend can impact the explosiveness of your serve. Try bending your knees more to generate more power")
             } else {
-                feedbackArray.append("Your knee bending is on par with Roger Federer's, which is excellent for power generation.")
-                feedbackArrayDetailed.append("Maintaining this level of knee bend helps you to utilize your lower body strength effectively.")
+                feedbackArray.append("Your knee bending is on par with Roger Federer's, which is excellent for power generation")
+                feedbackArrayDetailed.append("Maintaining this level of knee bend helps you to utilize your lower body strength effectively")
             }
             
             // Calculate foot placement
             guard let leftAnkle = joints[.leftAnkle], let rightAnkle = joints[.rightAnkle] else {
-                feedbackArray.append("Could not determine ankle positions.")
-                feedbackArrayDetailed.append("Without accurate ankle positions, it's challenging to assess your stance properly.")
+                feedbackArray.append("Could not determine ankle positions")
+                feedbackArrayDetailed.append("Without accurate ankle positions, it's challenging to assess your stance properly")
                 feedbackHandler?(feedbackArray.joined(separator: "\n"), feedbackArrayDetailed.joined(separator: "\n"))
                 return
             }
@@ -166,25 +164,23 @@ class AICoach {
             
             // Feedback on foot placement
             if playerStanceDistance / federerStanceDistance < 0.9 {
-                feedbackArray.append("Your feet are closer together compared to Roger Federer, which could affect your stability.")
-                feedbackArrayDetailed.append("Wider foot placement can enhance stability and balance, helping you maintain a strong base during your serve.")
+                feedbackArray.append("Your feet are closer together compared to Roger Federer, which could affect your stability")
+                feedbackArrayDetailed.append("Wider foot placement can enhance stability and balance, helping you maintain a strong base during your serve")
             } else {
-                feedbackArray.append("Your stance width is similar to or wider than Roger Federer's, providing good stability.")
+                feedbackArray.append("Your stance width is similar to or wider than Roger Federer's, providing good stability")
                 feedbackArrayDetailed.append("A stable stance is essential for a powerful serve. Keep up the good work!")
             }
             
             feedbackHandler?(feedbackArray.joined(separator: "\n"), feedbackArrayDetailed.joined(separator: "\n"))
             
         } else if pose == "Hit behind" {
-            feedbackArray.append("Nice serve! Let's take a closer look:")
-            feedbackArrayDetailed.append("Analyzing your serve can help refine your technique and ensure you're making the most out of each shot.")
-            
+             
             guard let leftWrist = joints[.leftWrist],
                   let rightWrist = joints[.rightWrist],
                   let leftShoulder = joints[.leftShoulder],
                   let rightShoulder = joints[.rightShoulder] else {
-                feedbackArray.append("Essential joint positions are missing.")
-                feedbackArrayDetailed.append("Having all joint positions is crucial for a detailed analysis.")
+                feedbackArray.append("Essential joint positions are missing")
+                feedbackArrayDetailed.append("Having all joint positions is crucial for a detailed analysis")
                 feedbackHandler?(feedbackArray.joined(separator: "\n"), feedbackArrayDetailed.joined(separator: "\n"))
                 return
             }
@@ -199,11 +195,11 @@ class AICoach {
             // Calculate the angle of the arm to determine the direction of the hit
             if let armAngle = calculateAngle(from: joints, joint1: .rightShoulder, joint2: higherWristJoint, joint3: lowerWristJoint) {
                 if armAngle < 50.0 {
-                    feedbackArray.append("You're hitting the ball too far to the right of your body.")
-                    feedbackArrayDetailed.append("Adjusting your hitting position can help you hit the ball more centrally, improving control and accuracy.")
+                    feedbackArray.append("You're hitting the ball too far to the right of your body")
+                    feedbackArrayDetailed.append("Adjusting your hitting position can help you hit the ball more centrally, improving control and accuracy")
                 } else if armAngle > 100.0 {
-                    feedbackArray.append("You're hitting the ball too much to the left.")
-                    feedbackArrayDetailed.append("Hitting the ball closer to your body's centerline can enhance power and precision.")
+                    feedbackArray.append("You're hitting the ball too much to the left")
+                    feedbackArrayDetailed.append("Hitting the ball closer to your body's centerline can enhance power and precision")
                 }
             }
             
@@ -212,20 +208,20 @@ class AICoach {
             
             if let elbowAngle = calculateAngle(from: joints, joint1: .rightShoulder, joint2: elbowJoint, joint3: higherWristJoint) {
                 if elbowAngle > 30.0 {
-                    feedbackArray.append("Ensure your arm is fully extended.")
-                    feedbackArrayDetailed.append("Keeping your arm straight helps in maximizing the reach and power of your serve.")
+                    feedbackArray.append("Ensure your arm is fully extended")
+                    feedbackArrayDetailed.append("Keeping your arm straight helps in maximizing the reach and power of your serve")
                 }
             }
             
             // Compare shoulder heights to ensure proper posture
             if lowerShoulder.y <= higherShoulder.y {
-                feedbackArray.append("Maintain a lower shoulder position compared to the higher shoulder for better form.")
-                feedbackArrayDetailed.append("Proper shoulder positioning enhances stability and control during your serve.")
+                feedbackArray.append("Maintain a lower shoulder position compared to the higher shoulder for better form")
+                feedbackArrayDetailed.append("Proper shoulder positioning enhances stability and control during your serve")
             }
             
             if feedbackArray.isEmpty {
                 feedbackArray.append("Congratulations, your technique looks perfect!")
-                feedbackArrayDetailed.append("Keep practicing to maintain this level of performance.")
+                feedbackArrayDetailed.append("Keep practicing to maintain this level of performance")
             }
             
             feedbackHandler?(feedbackArray.joined(separator: "\n"), feedbackArrayDetailed.joined(separator: "\n"))

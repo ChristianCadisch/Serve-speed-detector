@@ -24,17 +24,20 @@ class HomeViewController: UIViewController,
     private var feedView: UIHostingController<AnyView>!
     var recordedVideoURL: URL?
     @State private var analyzedVideos: [URL] = []
-    private var activeTab: ActiveTab = .feed
+    private var activeTab: ActiveTab = .home
     private var currentHostingController: UIHostingController<AnyView>?
     private var theoryHostingController: UIHostingController<AnyView>?
     private var pendingUploadMode: UploadMode = .speed
     
     
     private enum ActiveTab {
-        case feed
-        case settings
+        case home
+        case speedUpload
+        case coachUpload
         case theory
+        case settings
     }
+
     
     private enum UploadMode {
         case speed
@@ -97,9 +100,7 @@ class HomeViewController: UIViewController,
     
     private func showFeedView() {
         let feedView = FeedView(
-            onAddTapped: { [weak self] in
-                self?.openGallery()
-            },
+            onAddTapped: { },
             onSettingsTapped: { [weak self] in
                 self?.showSettingsView()
             },
@@ -198,7 +199,7 @@ class HomeViewController: UIViewController,
         // --- Bottom bar ---
         let tabBar = makeBottomTabBar()
         container.addArrangedSubview(tabBar)
-        tabBar.heightAnchor.constraint(equalToConstant: 70).isActive = true
+        tabBar.heightAnchor.constraint(equalToConstant: 80).isActive = true
         
         // Replace everything in view
         view.subviews.forEach { $0.removeFromSuperview() }
@@ -244,49 +245,56 @@ class HomeViewController: UIViewController,
     
     
     private func makeBottomTabBar() -> UIView {
+        let container = UIView()
+        container.backgroundColor = UIColor.systemBackground
+        container.translatesAutoresizingMaskIntoConstraints = false
+        
         let bar = UIStackView()
         bar.axis = .horizontal
         bar.alignment = .center
         bar.distribution = .equalSpacing
-        bar.backgroundColor = UIColor.systemBackground
-        bar.layoutMargins = UIEdgeInsets(top: 10, left: 50, bottom: -10, right: 50)
-        bar.isLayoutMarginsRelativeArrangement = true
-        bar.spacing = 0
-        
+        bar.translatesAutoresizingMaskIntoConstraints = false
+
         func createButton(systemName: String, isActive: Bool, action: @escaping () -> Void) -> UIButton {
-            let button = UIButton(type: .system)
-            // ✅ Explicitly configure size + scale
-            let config = UIImage.SymbolConfiguration(pointSize: 32, weight: .regular, scale: .large)
-            let image = UIImage(systemName: systemName, withConfiguration: config)
-            button.setImage(image, for: .normal)
-            
-            button.tintColor = isActive ? UIColor.label : UIColor.secondaryLabel
-            
-            button.addAction(UIAction { _ in action() }, for: .touchUpInside)
-            
-            button.translatesAutoresizingMaskIntoConstraints = false
-            
-            button.imageView?.contentMode = .scaleAspectFit
-            button.contentHorizontalAlignment = .center
-            button.contentVerticalAlignment = .center
-            return button
+            let b = UIButton(type: .system)
+            let config = UIImage.SymbolConfiguration(pointSize: 24, weight: .regular)
+            b.setImage(UIImage(systemName: systemName, withConfiguration: config), for: .normal)
+            b.tintColor = isActive ? UIColor.label : UIColor.secondaryLabel
+            b.addAction(UIAction { _ in action() }, for: .touchUpInside)
+            b.translatesAutoresizingMaskIntoConstraints = false
+            return b
         }
-        
-        let feedButton = createButton(
-            systemName: "figure.tennis",
-            isActive: activeTab == .feed
+
+        // HOME
+        let homeButton = createButton(
+            systemName: "house.fill",
+            isActive: activeTab == .home
         ) { [weak self] in
-            self?.activeTab = .feed
+            self?.activeTab = .home
             self?.showFeedView()
         }
-        
-        let addButton = createButton(
-            systemName: "plus.app",
-            isActive: false
+
+        // SERVE SPEED
+        let speedButton = createButton(
+            systemName: "figure.tennis",
+            isActive: activeTab == .speedUpload
         ) { [weak self] in
-            self?.openGallery()
+            self?.activeTab = .speedUpload
+            self?.pendingUploadMode = .speed
+            self?.presentVideoPicker()
         }
-        
+
+        // AI COACH
+        let coachButton = createButton(
+            systemName: "sparkles",
+            isActive: activeTab == .coachUpload
+        ) { [weak self] in
+            self?.activeTab = .coachUpload
+            self?.pendingUploadMode = .coach
+            self?.presentVideoPicker()
+        }
+
+        // THEORY
         let theoryButton = createButton(
             systemName: "brain.head.profile",
             isActive: activeTab == .theory
@@ -295,7 +303,7 @@ class HomeViewController: UIViewController,
             self?.showTheoryView()
         }
         
-        
+        // SETTINGS
         let settingsButton = createButton(
             systemName: "gearshape",
             isActive: activeTab == .settings
@@ -303,16 +311,25 @@ class HomeViewController: UIViewController,
             self?.activeTab = .settings
             self?.showSettingsView()
         }
-        
-        bar.addArrangedSubview(feedButton)
-        bar.addArrangedSubview(addButton)
+
+        bar.addArrangedSubview(homeButton)
+        bar.addArrangedSubview(speedButton)
+        bar.addArrangedSubview(coachButton)
         bar.addArrangedSubview(theoryButton)
         bar.addArrangedSubview(settingsButton)
         
-        //bar.heightAnchor.constraint(equalToConstant: 70).isActive = true
+        container.addSubview(bar)
         
-        return bar
+        NSLayoutConstraint.activate([
+            bar.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 40),
+            bar.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -40),
+            bar.centerYAnchor.constraint(equalTo: container.centerYAnchor),
+            bar.heightAnchor.constraint(equalToConstant: 50)
+        ])
+
+        return container
     }
+
     
     
     func popToLessonView(refresh: Bool) {
@@ -427,25 +444,9 @@ class HomeViewController: UIViewController,
     // MARK: - Video Handling
     
     func openGallery() {
-        let alert = UIAlertController(title: "What would you like to analyze?",
-                                      message: nil,
-                                      preferredStyle: .actionSheet)
-        
-        alert.addAction(UIAlertAction(title: "Serve Speed", style: .default, handler: { _ in
-            self.pendingUploadMode = .speed
-            self.presentVideoPicker()
-        }))
-        
-        alert.addAction(UIAlertAction(title: "Technique Coach", style: .default, handler: { _ in
-            self.pendingUploadMode = .coach
-            print("🧠 Selected Technique Coach")
-            self.presentVideoPicker()
-        }))
-        
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-        
-        present(alert, animated: true)
+        presentVideoPicker()
     }
+
     
     private func presentVideoPicker() {
         var configuration = PHPickerConfiguration(photoLibrary: .shared())
@@ -473,8 +474,8 @@ class HomeViewController: UIViewController,
                 self.addAnalyzedVideo(newVideoURL, serveCount: serveCount)
             }
             
-            if self.activeTab != .feed {
-                self.activeTab = .feed
+            if self.activeTab != .home {
+                self.activeTab = .home
                 self.showFeedView()
             }
         }
