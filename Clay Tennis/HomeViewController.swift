@@ -28,7 +28,25 @@ class HomeViewController: UIViewController,
     private var currentHostingController: UIHostingController<AnyView>?
     private var theoryHostingController: UIHostingController<AnyView>?
     private var pendingUploadMode: UploadMode = .speed
-    
+    private var pendingServeVideoURL: URL?
+
+    private func prepareServeVideoForAnalysis(originalURL: URL) -> URL? {
+        let fileManager = FileManager.default
+        let docs = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
+
+        let filename = "serve_\(UUID().uuidString).mov"
+        let destinationURL = docs.appendingPathComponent(filename)
+
+        do {
+            try fileManager.copyItem(at: originalURL, to: destinationURL)
+            print("✅ [FILE] Serve video staged at:", destinationURL.lastPathComponent)
+            return destinationURL
+        } catch {
+            print("❌ [FILE] Serve staging failed:", error.localizedDescription)
+            return nil
+        }
+    }
+
     
     private enum ActiveTab {
         case home
@@ -37,7 +55,7 @@ class HomeViewController: UIViewController,
         case theory
         case settings
     }
-
+    
     
     private enum UploadMode {
         case speed
@@ -108,15 +126,15 @@ class HomeViewController: UIViewController,
                 self?.openContentAnalysis(for: videoURL)
             }
         )
-
+        
         let hosting = UIHostingController(rootView: AnyView(feedView))
         replaceRoot(with: hosting, title: "")
         navigationItem.leftBarButtonItem = nil
         disableLessonSwipeBack()
-
+        
         navigationController?.setNavigationBarHidden(false, animated: false)
     }
-
+    
     
     
     private func showSettingsView() {
@@ -255,7 +273,7 @@ class HomeViewController: UIViewController,
         bar.alignment = .center
         bar.distribution = .equalSpacing
         bar.translatesAutoresizingMaskIntoConstraints = false
-
+        
         func createButton(systemName: String, isActive: Bool, action: @escaping () -> Void) -> UIButton {
             let b = UIButton(type: .system)
             let config = UIImage.SymbolConfiguration(pointSize: 24, weight: .regular)
@@ -265,7 +283,7 @@ class HomeViewController: UIViewController,
             b.translatesAutoresizingMaskIntoConstraints = false
             return b
         }
-
+        
         // HOME
         let homeButton = createButton(
             systemName: "house.fill",
@@ -274,7 +292,7 @@ class HomeViewController: UIViewController,
             self?.activeTab = .home
             self?.showFeedView()
         }
-
+        
         // SERVE SPEED
         let speedButton = createButton(
             systemName: "figure.tennis",
@@ -284,7 +302,7 @@ class HomeViewController: UIViewController,
             self?.pendingUploadMode = .speed
             self?.presentVideoPicker()
         }
-
+        
         // AI COACH
         let coachButton = createButton(
             systemName: "sparkles",
@@ -294,7 +312,7 @@ class HomeViewController: UIViewController,
             self?.pendingUploadMode = .coach
             self?.presentVideoPicker()
         }
-
+        
         // THEORY
         let theoryButton = createButton(
             systemName: "brain.head.profile",
@@ -312,7 +330,7 @@ class HomeViewController: UIViewController,
             self?.activeTab = .settings
             self?.showSettingsView()
         }
-
+        
         bar.addArrangedSubview(homeButton)
         bar.addArrangedSubview(speedButton)
         bar.addArrangedSubview(coachButton)
@@ -327,10 +345,10 @@ class HomeViewController: UIViewController,
             bar.centerYAnchor.constraint(equalTo: container.centerYAnchor),
             bar.heightAnchor.constraint(equalToConstant: 50)
         ])
-
+        
         return container
     }
-
+    
     
     
     func popToLessonView(refresh: Bool) {
@@ -433,8 +451,8 @@ class HomeViewController: UIViewController,
         let hosting = UIHostingController(rootView: coachView)
         navigationController?.pushViewController(hosting, animated: true)
     }
-
-
+    
+    
     
     
     func contentAnalysisViewControllerDidFinish(_ controller: ContentAnalysisViewController) {
@@ -447,7 +465,7 @@ class HomeViewController: UIViewController,
     func openGallery() {
         presentVideoPicker()
     }
-
+    
     
     private func presentVideoPicker() {
         var configuration = PHPickerConfiguration(photoLibrary: .shared())
@@ -466,21 +484,62 @@ class HomeViewController: UIViewController,
         
         controller.dismiss(animated: true) {
             
-            if let url = self.recordedVideoURL {
-                let key = "ServeCount_\(url.absoluteString)"
-                UserDefaults.standard.set(serveCount, forKey: key)
+            guard let url = self.pendingServeVideoURL else {
+                print("❌ [SERVE] No staged serve video found")
+                return
             }
+
+            let speedKey = "FastestSpeed_\(url.absoluteString)"
+            let speed = UserDefaults.standard.double(forKey: speedKey)
             
-            if let newVideoURL = self.recordedVideoURL {
-                self.addAnalyzedVideo(newVideoURL, serveCount: serveCount)
-            }
+            let feedItem = FeedItem(
+                type: .serve,
+                date: Date(),
+                thumbnailURL: url,
+                title: "Serve Speed",
+                subtitle: "\(serveCount) serves",
+                primaryMetricText: "\(Int(speed)) km/h",
+                secondaryMetricText: nil,
+                fastestSpeedKmh: speed,
+                serveCount: serveCount
+            )
+            
+            print("✅ [SERVE] Creating serve FeedItem")
+            print("📍 URL:", url.lastPathComponent)
+            print("🏎 Speed:", speed)
+            print("🎯 Serve Count:", serveCount)
+
+            FeedItemStorage.append(feedItem)
+            
+            NotificationCenter.default.post(name: .feedItemCreated, object: feedItem)
             
             if self.activeTab != .home {
                 self.activeTab = .home
                 self.showFeedView()
             }
         }
+        self.pendingServeVideoURL = nil
+
     }
+    
+    
+    private func copyVideoToAppStorage(originalURL: URL) -> URL? {
+        let fileManager = FileManager.default
+        let docs = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
+
+        let filename = "serve_\(UUID().uuidString).mov"
+        let destinationURL = docs.appendingPathComponent(filename)
+
+        do {
+            try fileManager.copyItem(at: originalURL, to: destinationURL)
+            print("✅ [FILE] Copied serve video to:", destinationURL.lastPathComponent)
+            return destinationURL
+        } catch {
+            print("❌ [FILE] Copy failed:", error.localizedDescription)
+            return nil
+        }
+    }
+
     
     
     
@@ -524,53 +583,91 @@ extension HomeViewController: PHPickerViewControllerDelegate {
         options.deliveryMode = .highQualityFormat
         
         manager.requestAVAsset(forVideo: asset, options: options) { avAsset, _, _ in
-            guard let avAsset = avAsset else { return }
+            guard let avURLAsset = avAsset as? AVURLAsset else { return }
+
             DispatchQueue.main.async {
-                let selectedURL = (avAsset as? AVURLAsset)?.url ?? URL(fileURLWithPath: "")
-                
+
+                let originalURL = avURLAsset.url
+                print("📥 [PICKER] Picked video:", originalURL.lastPathComponent)
+
                 switch self.pendingUploadMode {
+
                 case .speed:
-                    self.openContentAnalysis(for: selectedURL)
-                    
+
+                    // ✅ COPY INTO APP STORAGE
+                    if let safeURL = self.prepareServeVideoForAnalysis(originalURL: originalURL) {
+                            self.pendingServeVideoURL = safeURL
+                            self.openContentAnalysis(for: safeURL)
+                        }
+
                 case .coach:
-                    print("Running AI Coach mode")
-                    self.openAICoach(for: selectedURL)
-                    
+
+                    // ✅ AI Coach keeps using the app-owned pipeline
+                    self.openAICoach(for: originalURL)
                 }
             }
         }
+
     }
 }
-    
-    extension Notification.Name {
-        static let feedItemCreated = Notification.Name("FeedItemCreated")
-    }
-    
-    
-    
-    protocol HomeNavigationDelegate: AnyObject {
-        func showLessonDetail(
-            topic: QuizIdentifier,
-            highScores: Binding<[LessonQuizID: Int]>,
-            onHighScoreUpdated: @escaping (LessonQuizID, Int) -> Void
-        )
-        
-        func popToTheoryView()
-        func popToLessonView(refresh: Bool)
-        func showQuiz(topic: QuizIdentifier, difficulty: QuizDifficulty)
-        
-    }
-    
-    
-    
-    // PREVIEW STUFF
-    struct HomeVCPreview: UIViewControllerRepresentable {
-        func makeUIViewController(context: Context) -> HomeViewController {
-            return HomeViewController()
+
+enum FeedItemStorage {
+
+    private static let key = "FeedItems"
+
+    static func load() -> [FeedItem] {
+        guard let data = UserDefaults.standard.data(forKey: key),
+              let items = try? JSONDecoder().decode([FeedItem].self, from: data) else {
+            return []
         }
-        
-        func updateUIViewController(_ uiViewController: HomeViewController, context: Context) {}
+        return items
     }
-    #Preview {
-        HomeVCPreview()
+
+    static func append(_ item: FeedItem) {
+        var items = load()
+        items.append(item)
+        save(items)
+
+        print("💾 [STORAGE] Feed saved. Total items now:", items.count)
     }
+
+
+    static func save(_ items: [FeedItem]) {
+        if let data = try? JSONEncoder().encode(items) {
+            UserDefaults.standard.set(data, forKey: key)
+        }
+    }
+}
+
+extension Notification.Name {
+    static let feedItemCreated = Notification.Name("FeedItemCreated")
+}
+
+
+
+protocol HomeNavigationDelegate: AnyObject {
+    func showLessonDetail(
+        topic: QuizIdentifier,
+        highScores: Binding<[LessonQuizID: Int]>,
+        onHighScoreUpdated: @escaping (LessonQuizID, Int) -> Void
+    )
+    
+    func popToTheoryView()
+    func popToLessonView(refresh: Bool)
+    func showQuiz(topic: QuizIdentifier, difficulty: QuizDifficulty)
+    
+}
+
+
+
+// PREVIEW STUFF
+struct HomeVCPreview: UIViewControllerRepresentable {
+    func makeUIViewController(context: Context) -> HomeViewController {
+        return HomeViewController()
+    }
+    
+    func updateUIViewController(_ uiViewController: HomeViewController, context: Context) {}
+}
+#Preview {
+    HomeVCPreview()
+}

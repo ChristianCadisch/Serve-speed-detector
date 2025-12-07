@@ -10,9 +10,12 @@ import AVFoundation
 import Vision
 
 protocol ContentAnalysisViewControllerDelegate: AnyObject {
-    func contentAnalysisViewControllerDidFinish(_ controller: ContentAnalysisViewController)
-    
+    func contentAnalysisViewControllerDidFinish(
+        _ controller: ContentAnalysisViewController,
+        serveCount: Int
+    )
 }
+
 
 class ContentAnalysisViewController: UIViewController,
                                      AVCaptureVideoDataOutputSampleBufferDelegate {
@@ -33,7 +36,11 @@ class ContentAnalysisViewController: UIViewController,
         print("close tapped")
         navigationController?.popViewController(animated: true)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            self.delegate?.contentAnalysisViewControllerDidFinish(self)
+            self.delegate?.contentAnalysisViewControllerDidFinish(
+                self,
+                serveCount: self.detectedServeCount
+            )
+
         }
     }
     
@@ -265,7 +272,11 @@ class ContentAnalysisViewController: UIViewController,
         print("back tapped")
         navigationController?.popViewController(animated: true)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            self.delegate?.contentAnalysisViewControllerDidFinish(self)
+            self.delegate?.contentAnalysisViewControllerDidFinish(
+                self,
+                serveCount: self.detectedServeCount
+            )
+
             
         }
         
