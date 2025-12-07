@@ -44,6 +44,7 @@ struct QuizView: View {
                     score: vm.score,
                     total: vm.questions.count,
                     quizID: quizID,
+                    
                     difficulty: vm.questions.first?.difficulty ?? .easy,
                     onNextQuiz: { id in
                         let id = LessonQuizID(topic: quizID, difficulty: vm.questions.first?.difficulty ?? .easy)
@@ -52,7 +53,7 @@ struct QuizView: View {
                             topic: id.topic,
                             difficulty: id.difficulty
                         )
-                    }
+                    }, shouldPostToFeed: true
                 )
             } else {
                 quizContent

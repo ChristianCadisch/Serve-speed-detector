@@ -37,6 +37,24 @@
         }
       }
     },
+    "quiz_try_again" : {
+      "comment" : "Button title to show all quiz topics",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nochmal versuchen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try again"
+          }
+        }
+      }
+    },
     "continue_button" : {
       "extractionState" : "manual",
       "localizations" : {

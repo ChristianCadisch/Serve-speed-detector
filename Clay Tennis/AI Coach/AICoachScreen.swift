@@ -259,11 +259,14 @@ struct AICoachScreen: View {
             fastestSpeedKmh: nil,
             serveCount: nil,
             aiTipCount: state.feedbackArray.count,
+            aiTips: state.feedbackArray,
+            aiTipsDetailed: state.feedbackArrayDetailed,
             quizTopicKey: nil,
             quizDifficulty: nil,
             quizCorrectAnswers: nil,
             quizTotalQuestions: nil
         )
+
 
         var items = (try? JSONDecoder().decode(
             [FeedItem].self,

@@ -24,6 +24,9 @@ struct FeedView: View {
     var onAddTapped: () -> Void
     var onSettingsTapped: () -> Void
     var onVideoSelected: (URL) -> Void
+    var onAICoachSelected: (URL) -> Void
+    var onQuizSelected: (QuizIdentifier, QuizDifficulty) -> Void
+
 
     var body: some View {
             VStack(spacing: 0) {
@@ -94,27 +97,42 @@ struct FeedView: View {
                         }
                     }
                 }
-                .navigationDestination(item: $selectedAICoachItem) { _ in
-                    AICoachDetailView()
+                .navigationDestination(item: $selectedAICoachItem) { item in
+                    AICoachDetailView(
+                        item: item,
+                        onReplayAICoach: { url in
+                            onAICoachSelected(url)
+                        }
+                    )
                 }
+
                 .navigationDestination(item: $selectedQuizItem) { item in
+                    let topic = QuizIdentifier.allCases.first {
+                        $0.tableName == item.quizTopicKey
+                    } ?? .serve
+
+                    let difficulty: QuizDifficulty = {
+                        switch item.quizDifficulty {
+                        case .easy: return .easy
+                        case .medium: return .medium
+                        case .hard: return .hard
+                        case .none: return .easy
+                        }
+                    }()
+
                     QuizResultView(
                         score: item.quizCorrectAnswers ?? 0,
                         total: item.quizTotalQuestions ?? 1,
-                        quizID: QuizIdentifier.allCases.first {
-                            $0.tableName == item.quizTopicKey
-                        } ?? .serve,
-                        difficulty: {
-                            switch item.quizDifficulty {
-                            case .easy: return .easy
-                            case .medium: return .medium
-                            case .hard: return .hard
-                            case .none: return .easy
-                            }
-                        }(),
-                        onNextQuiz: { _ in }
+                        quizID: topic,
+                        difficulty: difficulty,
+                        onNextQuiz: { id in
+                            print("✅ [FEED → QUIZ] Next quiz tapped:", id.topic, id.difficulty)
+                            onQuizSelected(id.topic, id.difficulty)
+                        },
+                        shouldPostToFeed: false
                     )
                 }
+
                 .listStyle(.plain)
                 .scrollContentBackground(.hidden)
                 .padding(.bottom, 4)
@@ -147,18 +165,42 @@ struct FeedView: View {
     private func featuredHero(_ item: FeedItem) -> some View {
         ZStack(alignment: .bottomLeading) {
 
-            if let url = item.thumbnailURL,
-               let image = videoThumbnails[url.path] {
-                Image(uiImage: image)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(height: 300)
-                    .clipped()
-            } else {
-                Rectangle()
-                    .fill(Color.gray.opacity(0.2))
-                    .frame(height: 300)
+            GeometryReader { geo in
+                Group {
+                    // ✅ SERVE & AI COACH
+                    if let url = item.thumbnailURL,
+                       let image = videoThumbnails[url.path] {
+
+                        Image(uiImage: image)
+                            .resizable()
+                            .scaledToFill()                 // ✅ FORCE FILL
+                            .frame(width: geo.size.width,  // ✅ HARD WIDTH CLAMP
+                                   height: 300)            // ✅ HARD HEIGHT CLAMP
+                            .clipped()                      // ✅ HARD CROP
+
+                    // ✅ QUIZ
+                    } else if item.type == .quizResult,
+                              let key = item.quizTopicKey,
+                              let topic = QuizIdentifier.allCases.first(where: { $0.tableName == key }) {
+
+                        Image(topic.thumbnailImageName)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: geo.size.width,
+                                   height: 300)
+                            .clipped()
+
+                    // ✅ FALLBACK
+                    } else {
+                        Rectangle()
+                            .fill(Color.gray.opacity(0.2))
+                            .frame(width: geo.size.width, height: 300)
+                    }
+                }
             }
+            .frame(height: 300)
+
+
 
             VStack(alignment: .leading, spacing: 6) {
                 Text(item.title)
@@ -187,9 +229,8 @@ struct FeedView: View {
                 selectedQuizItem = item
             }
         }
-        
-
     }
+
 
 
     private func serveRow(_ item: FeedItem) -> some View {
@@ -583,6 +624,10 @@ struct FeedItem: Identifiable, Codable, Hashable {
     let type: FeedItemType
     let date: Date
 
+    // ✅ NEW: AI feedback payload
+    var aiTips: [String]
+    var aiTipsDetailed: [String]
+
     // Shared visuals
     let thumbnailURL: URL?
 
@@ -626,6 +671,8 @@ struct FeedItem: Identifiable, Codable, Hashable {
         serveCount: Int? = nil,
 
         aiTipCount: Int? = nil,
+        aiTips: [String] = [],
+        aiTipsDetailed: [String] = [],
 
         quizTopicKey: String? = nil,
         quizDifficulty: FeedDifficulty? = nil,
@@ -643,6 +690,8 @@ struct FeedItem: Identifiable, Codable, Hashable {
         self.fastestSpeedKmh = fastestSpeedKmh
         self.serveCount = serveCount
         self.aiTipCount = aiTipCount
+        self.aiTips = aiTips
+        self.aiTipsDetailed = aiTipsDetailed
         self.quizTopicKey = quizTopicKey
         self.quizDifficulty = quizDifficulty
         self.quizCorrectAnswers = quizCorrectAnswers
@@ -652,9 +701,4 @@ struct FeedItem: Identifiable, Codable, Hashable {
 
 
 
-struct AICoachDetailView: View {
-    var body: some View {
-        Color(.systemBackground)
-            .ignoresSafeArea()
-    }
-}
+

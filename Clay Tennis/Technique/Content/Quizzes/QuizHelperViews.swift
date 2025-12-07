@@ -14,6 +14,8 @@ struct QuizResultView: View {
     let quizID: QuizIdentifier
     let difficulty: QuizDifficulty
     let onNextQuiz: (LessonQuizID) -> Void
+    let shouldPostToFeed: Bool
+
     
     @State private var nextLesson: LessonQuizID?
     @State private var appear = false
@@ -100,6 +102,37 @@ struct QuizResultView: View {
                     }
                 }
                 
+                Button {
+                    onNextQuiz(LessonQuizID(topic: quizID, difficulty: difficulty))
+                } label: {
+                    HStack(spacing: 10) {
+                        Image(systemName: "arrow.clockwise")
+                            .font(.system(size: 16, weight: .semibold))
+
+                        Text(NSLocalizedString("quiz_try_again", tableName: "general", comment: "Try Again"))
+                            .font(.headline.weight(.semibold))
+                    }
+                    .foregroundStyle(.white)
+                    .padding(.horizontal, 28)
+                    .padding(.vertical, 14)
+                    .background(
+                        LinearGradient(
+                            colors: [
+                                topicAccent,
+                                topicAccent.opacity(0.8)
+                            ],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                    .clipShape(Capsule())
+                    .shadow(color: topicAccent.opacity(0.35), radius: 10, y: 4)
+                }
+                .opacity(appear ? 1 : 0)
+                .offset(y: appear ? 0 : 10)
+                .animation(.spring(response: 0.5, dampingFraction: 0.85), value: appear)
+
+                
                 Spacer()
                 
                 nextQuizBar
@@ -114,26 +147,17 @@ struct QuizResultView: View {
             }
             
             showConfetti = true
-            postQuizToFeed()
-            
+            if shouldPostToFeed {
+                postQuizToFeed()
+            }
+
             DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
                 showConfetti = false
             }
         }
-        .overlay(alignment: .topTrailing) {
-            Button {
-                onNextQuiz(LessonQuizID(topic: quizID, difficulty: difficulty))
-            } label: {
-                Image(systemName: "arrow.clockwise")
-                    .font(.system(size: 18, weight: .semibold))
-                    .padding(12)
-                    .background(Color(.systemBackground).opacity(0.85))
-                    .clipShape(Circle())
-                    .shadow(color: .black.opacity(0.15), radius: 6, y: 2)
-            }
-            .padding(.top, 12)
-            .padding(.trailing, 14)
-        }
+
+
+
 
     }
     
@@ -770,6 +794,7 @@ extension QuizIdentifier {
         total: 10,
         quizID: .serve,
         difficulty: .medium,
-        onNextQuiz: { _ in }
+        onNextQuiz: { _ in },
+        shouldPostToFeed: false
     )
 }

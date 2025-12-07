@@ -124,7 +124,15 @@ class HomeViewController: UIViewController,
             },
             onVideoSelected: { [weak self] videoURL in
                 self?.openContentAnalysis(for: videoURL)
+            },
+            onAICoachSelected: { [weak self] videoURL in
+                        self?.showAICoach(videoURL: videoURL)
+                    },
+            onQuizSelected: { [weak self] topic, difficulty in
+                print("🏁 [HOME] Launching quiz from Feed:", topic, difficulty)
+                self?.showQuiz(topic: topic, difficulty: difficulty)
             }
+
         )
 
         let hosting = UIHostingController(
@@ -143,7 +151,21 @@ class HomeViewController: UIViewController,
         navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
-    
+    private func showAICoach(videoURL: URL) {
+        let view = AICoachScreen(videoURL: videoURL)
+
+        let hosting = UIHostingController(
+            rootView: AnyView(
+                NavigationStack {
+                    view
+                }
+            )
+        )
+
+        hosting.modalPresentationStyle = .fullScreen
+        present(hosting, animated: true)
+    }
+
     
     private func showSettingsView() {
         let settingsView = SettingsView(hasSeenOnboarding: .constant(true))
