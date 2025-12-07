@@ -108,14 +108,15 @@ class HomeViewController: UIViewController,
                 self?.openContentAnalysis(for: videoURL)
             }
         )
-        
+
         let hosting = UIHostingController(rootView: AnyView(feedView))
         replaceRoot(with: hosting, title: "")
         navigationItem.leftBarButtonItem = nil
         disableLessonSwipeBack()
-        
+
         navigationController?.setNavigationBarHidden(false, animated: false)
     }
+
     
     
     private func showSettingsView() {
@@ -542,7 +543,7 @@ extension HomeViewController: PHPickerViewControllerDelegate {
 }
     
     extension Notification.Name {
-        static let newVideoAdded = Notification.Name("newVideoAdded")
+        static let feedItemCreated = Notification.Name("FeedItemCreated")
     }
     
     

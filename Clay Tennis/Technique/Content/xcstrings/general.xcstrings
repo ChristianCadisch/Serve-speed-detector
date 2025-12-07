@@ -1267,6 +1267,24 @@
   }
 },
 
+"quiz_solved_label" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Solved"
+      }
+    },
+    "de" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Gelöst"
+      }
+    }
+  }
+},
+
 
 "difficulty_easy_adjective" : {
   "extractionState" : "manual",

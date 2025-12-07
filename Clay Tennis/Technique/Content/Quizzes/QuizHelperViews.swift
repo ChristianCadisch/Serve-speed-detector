@@ -12,6 +12,7 @@ struct QuizResultView: View {
     let score: Int
     let total: Int
     let quizID: QuizIdentifier
+    let difficulty: QuizDifficulty
     let onNextQuiz: (LessonQuizID) -> Void
     
     @State private var nextLesson: LessonQuizID?
@@ -113,6 +114,7 @@ struct QuizResultView: View {
                 }
 
                 showConfetti = true
+                postQuizToFeed()
 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
                     showConfetti = false
@@ -212,6 +214,53 @@ struct QuizResultView: View {
             .shadow(color: Color.black.opacity(0.2), radius: 10, y: 4)
         }
         .buttonStyle(.plain)
+    }
+    
+    
+    
+    private func postQuizToFeed() {
+        let feedItem = FeedItem(
+            type: .quizResult,
+            date: Date(),
+            thumbnailURL: nil,
+            title: quizID.title,
+            subtitle: String(
+                format: NSLocalizedString("quiz_completed_subtitle", tableName: "general", comment: ""),
+                score,
+                total
+            ),
+            primaryMetricText: "\(score)/\(total)",
+            secondaryMetricText: performanceText,
+            quizTopicKey: quizID.tableName,
+            quizDifficulty: FeedDifficulty(rawValue: "easy"), // You'll need to pass difficulty
+            quizCorrectAnswers: score,
+            quizTotalQuestions: total
+        )
+        
+        // Save to UserDefaults
+        var savedItems = loadFeedItems()
+        savedItems.append(feedItem)
+        saveFeedItems(savedItems)
+        
+        // Post notification
+        NotificationCenter.default.post(
+            name: .feedItemCreated,
+            object: feedItem
+        )
+    }
+    
+    private func loadFeedItems() -> [FeedItem] {
+        guard let data = UserDefaults.standard.data(forKey: "FeedItems"),
+              let items = try? JSONDecoder().decode([FeedItem].self, from: data) else {
+            return []
+        }
+        return items
+    }
+
+    private func saveFeedItems(_ items: [FeedItem]) {
+        if let data = try? JSONEncoder().encode(items) {
+            UserDefaults.standard.set(data, forKey: "FeedItems")
+        }
     }
     
     
