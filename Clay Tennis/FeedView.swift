@@ -12,12 +12,13 @@ import UIKit
 
 struct FeedView: View {
     @State private var analyzedVideos: [URL] = []
-    @State private var videoThumbnails: [URL: UIImage] = [:]
     @State private var featuredThumbnail: UIImage?
     @State private var fastestSpeeds: [URL: Double] = [:]
     @State private var assetURLMap: [String: URL] = [:]
     @State private var serveCounts: [URL: Int] = [:]
     @State private var feedItems: [FeedItem] = []
+    @State private var videoThumbnails: [String: UIImage] = [:]
+
 
     var onAddTapped: () -> Void
     var onSettingsTapped: () -> Void
@@ -120,7 +121,7 @@ struct FeedView: View {
                                 let servecount = serveCounts[videoURL] ?? 0
 
                                 HStack(spacing: 0) {
-                                    if let thumbnail = videoThumbnails[videoURL] {
+                                    if let thumbnail = videoThumbnails[videoURL.path] {
                                         Image(uiImage: thumbnail)
                                             .resizable()
                                             .scaledToFill()
@@ -186,9 +187,15 @@ struct FeedView: View {
                             .textCase(nil)
                         ) {
                             ForEach(feedItems.sorted(by: { $0.date > $1.date })) { item in
-                                if item.type == .quizResult {
+                                switch item.type {
+                                case .quizResult:
                                     quizResultRow(item)
+                                case .aiCoach:
+                                    aiCoachRow(item)
+                                case .serve:
+                                    EmptyView()
                                 }
+
                             }
                         }
                     }
@@ -206,8 +213,14 @@ struct FeedView: View {
                 .onReceive(NotificationCenter.default.publisher(for: .feedItemCreated)) { notification in
                     if let feedItem = notification.object as? FeedItem {
                         feedItems.append(feedItem)
+
+                        if feedItem.type == .aiCoach, let url = feedItem.thumbnailURL {
+                            generateAndCacheThumbnail(for: url)
+                        }
                     }
                 }
+
+
             }
             .edgesIgnoringSafeArea(.bottom)
         }
@@ -220,8 +233,16 @@ struct FeedView: View {
             feedItems = []
             return
         }
+
         feedItems = items
+
+        for item in items {
+            if item.type == .aiCoach, let url = item.thumbnailURL {
+                generateAndCacheThumbnail(for: url)
+            }
+        }
     }
+
     
     private func getFeaturedVideoURL() -> URL? {
         analyzedVideos.last
@@ -245,6 +266,37 @@ struct FeedView: View {
             featuredThumbnail = nil
         }
     }
+    
+    private func generateAndCacheThumbnail(for url: URL) {
+        let key = url.path
+
+        guard videoThumbnails[key] == nil else {
+            return
+        }
+
+        DispatchQueue.global(qos: .userInitiated).async {
+            let asset = AVAsset(url: url)
+
+            let imageGenerator = AVAssetImageGenerator(asset: asset)
+            imageGenerator.appliesPreferredTrackTransform = true
+
+            do {
+                let cgImage = try imageGenerator.copyCGImage(at: .zero, actualTime: nil)
+                let image = UIImage(cgImage: cgImage)
+
+                DispatchQueue.main.async {
+                    videoThumbnails[key] = image
+                }
+
+            } catch {
+                print("❌ [THUMB] FAILURE for:", key)
+                print("❌ [THUMB] Error:", error.localizedDescription)
+            }
+        }
+    }
+
+
+
 
     private func deleteVideo(_ videoURL: URL) {
         guard var savedIds = UserDefaults.standard.stringArray(forKey: "AnalyzedAssetIDs") else { return }
@@ -258,7 +310,7 @@ struct FeedView: View {
         analyzedVideos.removeAll { $0 == videoURL }
         fastestSpeeds.removeValue(forKey: videoURL)
         serveCounts.removeValue(forKey: videoURL)
-        videoThumbnails.removeValue(forKey: videoURL)
+        videoThumbnails.removeValue(forKey: videoURL.path)
 
         if analyzedVideos.isEmpty {
             featuredThumbnail = nil
@@ -316,14 +368,17 @@ struct FeedView: View {
 
     private func loadThumbnails() {
         for url in analyzedVideos {
+            let key = url.path
             let asset = AVAsset(url: url)
             let imageGenerator = AVAssetImageGenerator(asset: asset)
             imageGenerator.appliesPreferredTrackTransform = true
+
             if let cgImage = try? imageGenerator.copyCGImage(at: .zero, actualTime: nil) {
-                videoThumbnails[url] = UIImage(cgImage: cgImage)
+                videoThumbnails[key] = UIImage(cgImage: cgImage)
             }
         }
     }
+
     
     private var emptyState: some View {
            VStack(spacing: 24) {
@@ -486,6 +541,84 @@ struct FeedView: View {
             return .gray
         }
     }
+    
+    
+    private func aiCoachRow(_ item: FeedItem) -> some View {
+        HStack(spacing: 0) {
+
+            if let url = item.thumbnailURL,
+               let thumbnail = videoThumbnails[url.path] {
+
+                Image(uiImage: thumbnail)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 120, height: 100)
+                    .clipped()
+                    .mask(
+                        RoundedRectangle(cornerRadius: 8, style: .continuous)
+                    )
+
+            } else {
+                RoundedRectangle(cornerRadius: 8, style: .continuous)
+                    .fill(Color.gray.opacity(0.2))
+                    .frame(width: 120, height: 100)
+            }
+
+            VStack(alignment: .leading, spacing: 8) {
+                Text(item.title)
+                    .font(.headline)
+                    .fontWeight(.bold)
+
+                if let subtitle = item.subtitle {
+                    HStack(spacing: 6) {
+                        Image(systemName: "tennisball")
+                            .font(.caption2)
+                        Text(subtitle)
+                            .font(.footnote)
+                            .foregroundColor(.secondary)
+                    }
+                }
+            }
+            .padding(.leading, 12)
+
+            Spacer()
+
+            if let tips = item.aiTipCount {
+                VStack(spacing: 2) {
+                    Text("\(tips)")
+                        .font(.title3)
+                        .fontWeight(.bold)
+
+                    Text("Tips")
+                        .font(.caption2)
+                        .foregroundColor(.secondary)
+                }
+                .padding(.trailing, 10)
+            }
+        }
+        .frame(height: 100)
+        .background(
+            RoundedRectangle(cornerRadius: 8, style: .continuous)
+                .fill(Color.purple.opacity(0.15))
+        )
+        .clipShape(
+            RoundedRectangle(cornerRadius: 8, style: .continuous)
+        )
+        .contentShape(Rectangle())
+        .onTapGesture {
+            if let url = item.thumbnailURL {
+                onVideoSelected(url)
+            }
+        }
+        .listRowInsets(
+            EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16)
+        )
+        .listRowSeparator(.hidden)
+    }
+
+
+
+    
 }
 
 

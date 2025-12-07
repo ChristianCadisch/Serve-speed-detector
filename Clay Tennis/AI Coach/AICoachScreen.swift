@@ -238,6 +238,50 @@ struct AICoachScreen: View {
     // MARK: - Export Function
     
     private func exportVideo() {
+        
+        let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let finalURL = documentsPath.appendingPathComponent("ClayTennis_Export_\(Date().timeIntervalSince1970).mp4")
+
+        
+        print("🧪 [AI EXPORT] Export disabled by design")
+        print("🧪 [AI EXPORT] Generated placeholder URL:", finalURL)
+        print("🧪 [AI EXPORT] File exists at URL:", FileManager.default.fileExists(atPath: finalURL.path))
+
+        
+        let feedItem = FeedItem(
+            type: .aiCoach,
+            date: Date(),
+            thumbnailURL: videoURL,
+            title: "AI Coach Analysis",
+            subtitle: "Serve technique insights",
+            primaryMetricText: "\(state.feedbackArray.count) tips",
+            secondaryMetricText: nil,
+            fastestSpeedKmh: nil,
+            serveCount: nil,
+            aiTipCount: state.feedbackArray.count,
+            quizTopicKey: nil,
+            quizDifficulty: nil,
+            quizCorrectAnswers: nil,
+            quizTotalQuestions: nil
+        )
+
+        var items = (try? JSONDecoder().decode(
+            [FeedItem].self,
+            from: UserDefaults.standard.data(forKey: "FeedItems") ?? Data()
+        )) ?? []
+
+        items.append(feedItem)
+
+        if let data = try? JSONEncoder().encode(items) {
+            UserDefaults.standard.set(data, forKey: "FeedItems")
+        }
+
+        NotificationCenter.default.post(
+            name: .feedItemCreated,
+            object: feedItem
+        )
+
+        /*
         print("🚀 Export button tapped")
         print("🚀 Controller exists: \(controller != nil)")
         print("🚀 VideoCoachRenderView exists: \(controller?.VideoCoachRenderView != nil)")
@@ -279,6 +323,7 @@ struct AICoachScreen: View {
                 }
             }
         }
+         */
     }
     
     // MARK: - SNAPSHOT HEADER
