@@ -31,6 +31,8 @@ class HomeViewController: UIViewController,
     private var pendingServeVideoURL: URL?
     private var pendingCoachVideoURL: URL?
     private var iCloudDownloadOverlay: UIView?
+    private var lastPickedAssetIdentifier: String?
+
 
 
     private func prepareServeVideoForAnalysis(originalURL: URL) -> URL? {
@@ -171,9 +173,10 @@ class HomeViewController: UIViewController,
             onVideoSelected: { [weak self] videoURL in
                 self?.openContentAnalysis(for: videoURL)
             },
-            onAICoachSelected: { [weak self] videoURL in
-                self?.openAICoachSafe(for: videoURL)
+            onAICoachSelected: { [weak self] assetLocalIdentifier in
+                self?.openAICoachSafe(assetLocalIdentifier: assetLocalIdentifier)
             },
+
             onQuizSelected: { [weak self] topic, difficulty in
                 print("🏁 [HOME] Launching quiz from Feed:", topic, difficulty)
                 self?.showQuiz(topic: topic, difficulty: difficulty)
@@ -196,6 +199,29 @@ class HomeViewController: UIViewController,
         navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
+
+    
+    private func openAICoachSafe(assetLocalIdentifier: String) {
+
+        print("🤖 [AI OPEN] Requested asset ID:", assetLocalIdentifier)
+
+        let view = AICoachScreen(
+            assetLocalIdentifier: assetLocalIdentifier,
+            initialVideoURL: pendingCoachVideoURL   // ✅ PASS LOCAL FILE IF AVAILABLE
+        )
+
+        let hosting = UIHostingController(
+            rootView: AnyView(
+                NavigationStack {
+                    view
+                }
+            )
+        )
+
+        hosting.modalPresentationStyle = .fullScreen
+        present(hosting, animated: true)
+    }
+
 
     
     private func showSettingsView() {
@@ -521,12 +547,8 @@ class HomeViewController: UIViewController,
         navigationController?.pushViewController(controller, animated: true)
     }
 
-    
-    private func openAICoach(for videoURL: URL) {
-        let coachView = AICoachScreen(videoURL: videoURL)
-        let hosting = UIHostingController(rootView: coachView)
-        navigationController?.pushViewController(hosting, animated: true)
-    }
+
+
     
     
     
@@ -572,6 +594,7 @@ class HomeViewController: UIViewController,
                 type: .serve,
                 date: Date(),
                 thumbnailURL: url,
+                assetLocalIdentifier: self.lastPickedAssetIdentifier,
                 title: "Serve Speed",
                 subtitle: "\(serveCount) serves",
                 primaryMetricText: "\(Int(speed)) km/h",
@@ -649,6 +672,8 @@ extension HomeViewController: PHPickerViewControllerDelegate {
             return
         }
 
+        self.lastPickedAssetIdentifier = assetId
+        
         print("✅ [PICKER] Selected asset ID:", assetId)
         showICloudDownloadOverlay()
 
@@ -723,7 +748,13 @@ extension HomeViewController: PHPickerViewControllerDelegate {
                               FileManager.default.fileExists(atPath: safeURL.path))
 
                         self.pendingCoachVideoURL = safeURL
-                        self.openAICoachSafe(for: safeURL)
+                        guard let assetID = self.lastPickedAssetIdentifier else {
+                            print("❌ [AI] Missing assetLocalIdentifier")
+                            return
+                        }
+
+                        self.openAICoachSafe(assetLocalIdentifier: assetID)
+
 
                     } else {
                         print("❌ [AI] Copy to app storage FAILED")
@@ -733,39 +764,6 @@ extension HomeViewController: PHPickerViewControllerDelegate {
             }
         }
     }
-
-    private func openAICoachSafe(for videoURL: URL) {
-
-        print("🤖 [AI OPEN] Requested:", videoURL.lastPathComponent)
-        print("📁 [AI OPEN] Exists:",
-              FileManager.default.fileExists(atPath: videoURL.path))
-
-        let fileSize = (try? FileManager.default
-            .attributesOfItem(atPath: videoURL.path)[.size] as? NSNumber)?
-            .intValue ?? 0
-
-        print("📦 [AI OPEN] File size:", fileSize, "bytes")
-
-        guard fileSize > 0 else {
-            print("❌ [AI OPEN] ABORT — AI Coach file missing or empty")
-            return
-        }
-
-        let view = AICoachScreen(videoURL: videoURL)
-
-        let hosting = UIHostingController(
-            rootView: AnyView(
-                NavigationStack {
-                    view
-                }
-            )
-        )
-
-        hosting.modalPresentationStyle = .fullScreen
-        present(hosting, animated: true)
-    }
-
-    
     
 }
 

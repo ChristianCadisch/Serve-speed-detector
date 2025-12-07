@@ -262,6 +262,7 @@ struct QuizResultView: View {
             type: .quizResult,
             date: Date(),
             thumbnailURL: nil,
+            assetLocalIdentifier: nil,
             title: quizID.title,
             subtitle: String(
                 format: NSLocalizedString("quiz_completed_subtitle", tableName: "general", comment: ""),

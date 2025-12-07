@@ -36,7 +36,15 @@ struct CameraView: UIViewControllerRepresentable {
     
     func updateUIViewController(_ uiViewController: AIcameraViewController, context: Context) {
         uiViewController.updateLayout(frame: frame)
+
+        if let videoURL {
+            print("🔄 [AI VIEW] Updating controller with video:", videoURL.lastPathComponent)
+            uiViewController.setupWithVideoURL(videoURL)
+        } else {
+            print("⚠️ [AI VIEW] updateUIViewController called with NIL videoURL")
+        }
     }
+
     
 }
 
@@ -496,9 +504,18 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
 
         
         // FIX: remove previous video view
+        print("🧹 [AI READER] Resetting previous video state")
+
+        displayLink?.invalidate()
+        displayLink = nil
+
+        playerItemOutput = nil
+
         VideoCoachRenderView?.player?.pause()
+        VideoCoachRenderView?.player?.replaceCurrentItem(with: nil)
         VideoCoachRenderView?.removeFromSuperview()
         VideoCoachRenderView = nil
+
         
         // Now create a single one
         VideoCoachRenderView = Clay_Tennis.VideoCoachRenderView(frame: view.bounds)

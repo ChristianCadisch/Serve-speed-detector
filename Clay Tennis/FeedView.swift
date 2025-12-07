@@ -24,7 +24,7 @@ struct FeedView: View {
     var onAddTapped: () -> Void
     var onSettingsTapped: () -> Void
     var onVideoSelected: (URL) -> Void
-    var onAICoachSelected: (URL) -> Void
+    var onAICoachSelected: (String) -> Void
     var onQuizSelected: (QuizIdentifier, QuizDifficulty) -> Void
 
 
@@ -100,11 +100,17 @@ struct FeedView: View {
                 .navigationDestination(item: $selectedAICoachItem) { item in
                     AICoachDetailView(
                         item: item,
-                        onReplayAICoach: { url in
-                            onAICoachSelected(url)
+                        onReplayAICoach: { _ in   // ✅ explicitly accept the required URL argument
+                            if let assetID = item.assetLocalIdentifier {
+                                onAICoachSelected(assetID)
+                            } else {
+                                print("❌ [FEED] Missing assetLocalIdentifier for AI Coach item")
+                            }
                         }
                     )
                 }
+
+
 
                 .navigationDestination(item: $selectedQuizItem) { item in
                     let topic = QuizIdentifier.allCases.first {
@@ -300,11 +306,47 @@ struct FeedView: View {
         feedItems = items
 
         for item in items {
-            if let url = item.thumbnailURL {
-                print("🧩 [FEED] Generating thumbnail for:", url.lastPathComponent, "type:", item.type)
+            if let url = item.thumbnailURL,
+               FileManager.default.fileExists(atPath: url.path) {
+
                 generateAndCacheThumbnail(for: url)
+
+            } else if item.assetLocalIdentifier != nil {
+
+                recoverVideoIfNeeded(for: item) { recoveredURL in
+                    guard let recoveredURL else { return }
+
+                    DispatchQueue.main.async {
+                        if let index = feedItems.firstIndex(where: { $0.id == item.id }) {
+                            feedItems[index] = FeedItem(
+                                id: item.id,
+                                type: item.type,
+                                date: item.date,
+                                thumbnailURL: recoveredURL,
+                                assetLocalIdentifier: item.assetLocalIdentifier,
+                                title: item.title,
+                                subtitle: item.subtitle,
+                                primaryMetricText: item.primaryMetricText,
+                                secondaryMetricText: item.secondaryMetricText,
+                                fastestSpeedKmh: item.fastestSpeedKmh,
+                                serveCount: item.serveCount,
+                                aiTipCount: item.aiTipCount,
+                                aiTips: item.aiTips,
+                                aiTipsDetailed: item.aiTipsDetailed,
+                                quizTopicKey: item.quizTopicKey,
+                                quizDifficulty: item.quizDifficulty,
+                                quizCorrectAnswers: item.quizCorrectAnswers,
+                                quizTotalQuestions: item.quizTotalQuestions
+                            )
+
+                            generateAndCacheThumbnail(for: recoveredURL)
+                            FeedItemStorage.save(feedItems)
+                        }
+                    }
+                }
             }
         }
+
 
     }
 
@@ -495,6 +537,44 @@ struct FeedView: View {
         }
         .frame(height: 6)
     }
+    
+    
+    private func recoverVideoIfNeeded(for item: FeedItem, completion: @escaping (URL?) -> Void) {
+        guard let assetID = item.assetLocalIdentifier else {
+            completion(nil)
+            return
+        }
+
+        let assets = PHAsset.fetchAssets(withLocalIdentifiers: [assetID], options: nil)
+        guard let asset = assets.firstObject else {
+            completion(nil)
+            return
+        }
+
+        let manager = PHImageManager.default()
+        let options = PHVideoRequestOptions()
+        options.isNetworkAccessAllowed = true
+        options.deliveryMode = .highQualityFormat
+
+        manager.requestAVAsset(forVideo: asset, options: options) { avAsset, _, _ in
+            guard let urlAsset = avAsset as? AVURLAsset else {
+                completion(nil)
+                return
+            }
+
+            let fm = FileManager.default
+            let docs = fm.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            let newURL = docs.appendingPathComponent("recovered_\(UUID().uuidString).mov")
+
+            do {
+                try fm.copyItem(at: urlAsset.url, to: newURL)
+                completion(newURL)
+            } catch {
+                completion(nil)
+            }
+        }
+    }
+
 
 
     // MARK: - Difficulty Color Mapping
@@ -629,7 +709,9 @@ struct FeedItem: Identifiable, Codable, Hashable {
     var aiTipsDetailed: [String]
 
     // Shared visuals
-    let thumbnailURL: URL?
+    let thumbnailURL: URL?          // cache only
+    let assetLocalIdentifier: String?   // ✅ permanent identity
+
 
     // Text
     let title: String
@@ -660,6 +742,7 @@ struct FeedItem: Identifiable, Codable, Hashable {
         date: Date,
 
         thumbnailURL: URL?,
+        assetLocalIdentifier: String?,
 
         title: String,
         subtitle: String? = nil,
@@ -683,6 +766,7 @@ struct FeedItem: Identifiable, Codable, Hashable {
         self.type = type
         self.date = date
         self.thumbnailURL = thumbnailURL
+        self.assetLocalIdentifier = assetLocalIdentifier
         self.title = title
         self.subtitle = subtitle
         self.primaryMetricText = primaryMetricText

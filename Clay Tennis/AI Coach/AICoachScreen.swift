@@ -8,13 +8,17 @@
 
 import SwiftUI
 import AVFoundation
+import Photos
 
 // MARK: - MAIN COACH SCREEN
 
 struct AICoachScreen: View {
     @ObservedObject var state = GameStateObserver.shared
     
-    var videoURL: URL
+    var assetLocalIdentifier: String
+    var initialVideoURL: URL?
+    @State private var resolvedVideoURL: URL? = nil
+    
     @State private var controller: AIcameraViewController? = nil
     @State private var showHeroBanner = false
     @State private var animateFeedback = false
@@ -37,10 +41,11 @@ struct AICoachScreen: View {
                 
                 // VIDEO
                 AICameraViewRepresentable(
-                    videoURL: videoURL,
+                    videoURL: resolvedVideoURL,
                     frame: UIScreen.main.bounds,
                     controller: $controller
                 )
+
                 .frame(height: showHeroBanner ? UIScreen.main.bounds.height * 0.4 : UIScreen.main.bounds.height * 0.7)
                 .clipped()
                 .shadow(color: .black.opacity(0.18), radius: 14, y: 4)
@@ -91,7 +96,20 @@ struct AICoachScreen: View {
                 }
             }
             .id("videoLayer")
-            
+            .onAppear {
+
+                // ✅ FAST PATH — WE ALREADY HAVE A LOCAL FILE
+                if let initialVideoURL {
+                    print("⚡️ [AI] Using pre-downloaded local file:", initialVideoURL.lastPathComponent)
+                    self.resolvedVideoURL = initialVideoURL
+                    return
+                }
+
+                // ✅ FALLBACK — RECOVER FROM PHOTO LIBRARY
+                recoverVideoFromAsset()
+            }
+
+
             // ANALYSIS CARD
             if showHeroBanner {
                 ZStack(alignment: .bottom) {
@@ -233,6 +251,53 @@ struct AICoachScreen: View {
             }
         }
     }
+    
+    
+    
+    
+    private func recoverVideoFromAsset() {
+        print("🔁 [AI] Recovering video from asset ID:", assetLocalIdentifier)
+
+        let assets = PHAsset.fetchAssets(
+            withLocalIdentifiers: [assetLocalIdentifier],
+            options: nil
+        )
+
+        guard let asset = assets.firstObject else {
+            print("❌ [AI] PHAsset not found")
+            return
+        }
+
+        let manager = PHImageManager.default()
+        let options = PHVideoRequestOptions()
+        options.isNetworkAccessAllowed = true
+        options.deliveryMode = .highQualityFormat
+
+        manager.requestAVAsset(forVideo: asset, options: options) { avAsset, _, _ in
+
+            guard let urlAsset = avAsset as? AVURLAsset else {
+                print("❌ [AI] Failed to obtain AVURLAsset")
+                return
+            }
+
+            let fm = FileManager.default
+            let docs = fm.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            let safeURL = docs.appendingPathComponent("ai_\(UUID().uuidString).mov")
+
+            do {
+                try fm.copyItem(at: urlAsset.url, to: safeURL)
+
+                DispatchQueue.main.async {
+                    print("✅ [AI] Video recovered to:", safeURL.lastPathComponent)
+                    self.resolvedVideoURL = safeURL
+                }
+
+            } catch {
+                print("❌ [AI] File recovery failed:", error.localizedDescription)
+            }
+        }
+    }
+
 
     
     // MARK: - Export Function
@@ -251,7 +316,8 @@ struct AICoachScreen: View {
         let feedItem = FeedItem(
             type: .aiCoach,
             date: Date(),
-            thumbnailURL: videoURL,
+            thumbnailURL: resolvedVideoURL,
+            assetLocalIdentifier: assetLocalIdentifier,
             title: "AI Coach Analysis",
             subtitle: "Serve technique insights",
             primaryMetricText: "\(state.feedbackArray.count) tips",
@@ -451,7 +517,15 @@ struct AICameraViewRepresentable: UIViewControllerRepresentable {
     
     func updateUIViewController(_ uiViewController: AIcameraViewController, context: Context) {
         uiViewController.updateLayout(frame: frame)
+
+        if let videoURL {
+            print("🔄 [AI VIEW] Updating controller with video:", videoURL.lastPathComponent)
+            uiViewController.setupWithVideoURL(videoURL)
+        } else {
+            print("⚠️ [AI VIEW] updateUIViewController called with NIL videoURL")
+        }
     }
+
 }
 
 
@@ -516,8 +590,9 @@ struct AICoachScreen_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             AICoachScreen(
-                videoURL: Bundle.main.url(forResource: "sample", withExtension: "mp4") ?? URL(fileURLWithPath: "")
+                assetLocalIdentifier: "PREVIEW_ASSET_ID"
             )
+
         }
     }
 }
