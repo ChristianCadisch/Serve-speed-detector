@@ -490,6 +490,11 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
     
     func startReadingAsset(_ asset: AVAsset) {
         
+        print("🎥 [READER] Starting reader")
+        print("🎥 [READER] Asset playable:", asset.isPlayable)
+        print("🎥 [READER] Asset readable:", asset.isReadable)
+
+        
         // FIX: remove previous video view
         VideoCoachRenderView?.player?.pause()
         VideoCoachRenderView?.removeFromSuperview()

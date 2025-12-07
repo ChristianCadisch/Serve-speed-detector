@@ -29,6 +29,9 @@ class HomeViewController: UIViewController,
     private var theoryHostingController: UIHostingController<AnyView>?
     private var pendingUploadMode: UploadMode = .speed
     private var pendingServeVideoURL: URL?
+    private var pendingCoachVideoURL: URL?
+    private var iCloudDownloadOverlay: UIView?
+
 
     private func prepareServeVideoForAnalysis(originalURL: URL) -> URL? {
         let fileManager = FileManager.default
@@ -46,6 +49,49 @@ class HomeViewController: UIViewController,
             return nil
         }
     }
+    
+    private func showICloudDownloadOverlay() {
+        guard iCloudDownloadOverlay == nil else { return }
+
+        let overlay = UIView(frame: view.bounds)
+        overlay.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+
+        let spinner = UIActivityIndicatorView(style: .large)
+        spinner.color = .white
+        spinner.startAnimating()
+
+        let label = UILabel()
+        label.text = "Downloading from iCloud…"
+        label.textColor = .white
+        label.font = .systemFont(ofSize: 16, weight: .semibold)
+        label.textAlignment = .center
+
+        let stack = UIStackView(arrangedSubviews: [spinner, label])
+        stack.axis = .vertical
+        stack.spacing = 16
+        stack.alignment = .center
+
+        overlay.addSubview(stack)
+        stack.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            stack.centerXAnchor.constraint(equalTo: overlay.centerXAnchor),
+            stack.centerYAnchor.constraint(equalTo: overlay.centerYAnchor)
+        ])
+
+        view.addSubview(overlay)
+        iCloudDownloadOverlay = overlay
+
+        print("☁️ [iCLOUD] Download overlay shown")
+    }
+    
+    private func hideICloudDownloadOverlay() {
+        iCloudDownloadOverlay?.removeFromSuperview()
+        iCloudDownloadOverlay = nil
+        print("✅ [iCLOUD] Download overlay hidden")
+    }
+
+
 
     
     private enum ActiveTab {
@@ -126,13 +172,12 @@ class HomeViewController: UIViewController,
                 self?.openContentAnalysis(for: videoURL)
             },
             onAICoachSelected: { [weak self] videoURL in
-                        self?.showAICoach(videoURL: videoURL)
-                    },
+                self?.openAICoachSafe(for: videoURL)
+            },
             onQuizSelected: { [weak self] topic, difficulty in
                 print("🏁 [HOME] Launching quiz from Feed:", topic, difficulty)
                 self?.showQuiz(topic: topic, difficulty: difficulty)
             }
-
         )
 
         let hosting = UIHostingController(
@@ -151,20 +196,6 @@ class HomeViewController: UIViewController,
         navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
-    private func showAICoach(videoURL: URL) {
-        let view = AICoachScreen(videoURL: videoURL)
-
-        let hosting = UIHostingController(
-            rootView: AnyView(
-                NavigationStack {
-                    view
-                }
-            )
-        )
-
-        hosting.modalPresentationStyle = .fullScreen
-        present(hosting, animated: true)
-    }
 
     
     private func showSettingsView() {
@@ -469,12 +500,27 @@ class HomeViewController: UIViewController,
     }
     
     private func openContentAnalysis(for videoURL: URL) {
-        recordedVideoURL = videoURL     // ← ADD THIS LINE
+
+        print("🎬 [OPEN] Requested playback:", videoURL.lastPathComponent)
+        print("📁 [OPEN] Exists:", FileManager.default.fileExists(atPath: videoURL.path))
+
+        let fileSize = (try? FileManager.default.attributesOfItem(atPath: videoURL.path)[.size] as? NSNumber)?.intValue ?? 0
+        print("📦 [OPEN] File size:", fileSize, "bytes")
+
+        guard fileSize > 0 else {
+            print("❌ [OPEN] ABORT — File is empty or missing")
+            return
+        }
+
+        recordedVideoURL = videoURL
+
         let controller = ContentAnalysisViewController()
         controller.recordedVideoSource = AVAsset(url: videoURL)
         controller.delegate = self
+
         navigationController?.pushViewController(controller, animated: true)
     }
+
     
     private func openAICoach(for videoURL: URL) {
         let coachView = AICoachScreen(videoURL: videoURL)
@@ -592,53 +638,135 @@ class HomeViewController: UIViewController,
 }
 
 extension HomeViewController: PHPickerViewControllerDelegate {
+    
+    
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         picker.dismiss(animated: true)
+
         guard let result = results.first,
-              let assetId = result.assetIdentifier else { return }
-        
-        // ✅ Save only the persistent Photos identifier
-        var savedIds = UserDefaults.standard.stringArray(forKey: "AnalyzedAssetIDs") ?? []
-        if !savedIds.contains(assetId) {
-            savedIds.append(assetId)
-            UserDefaults.standard.set(savedIds, forKey: "AnalyzedAssetIDs")
+              let assetId = result.assetIdentifier else {
+            print("❌ [PICKER] No asset identifier")
+            return
         }
-        
-        // ✅ Fetch AVAsset temporarily for analysis
+
+        print("✅ [PICKER] Selected asset ID:", assetId)
+        showICloudDownloadOverlay()
+
         let assets = PHAsset.fetchAssets(withLocalIdentifiers: [assetId], options: nil)
-        guard let asset = assets.firstObject else { return }
-        
+        guard let asset = assets.firstObject else {
+            print("❌ [PICKER] PHAsset fetch failed")
+            hideICloudDownloadOverlay()
+            return
+        }
+
         let manager = PHImageManager.default()
         let options = PHVideoRequestOptions()
         options.deliveryMode = .highQualityFormat
-        
-        manager.requestAVAsset(forVideo: asset, options: options) { avAsset, _, _ in
-            guard let avURLAsset = avAsset as? AVURLAsset else { return }
+        options.isNetworkAccessAllowed = true
+
+        print("☁️ [iCLOUD] Network access allowed:", options.isNetworkAccessAllowed)
+
+        manager.requestAVAsset(forVideo: asset, options: options) { avAsset, _, info in
 
             DispatchQueue.main.async {
 
+                self.hideICloudDownloadOverlay()
+
+                guard let avURLAsset = avAsset as? AVURLAsset else {
+                    print("❌ [iCLOUD] AVURLAsset conversion failed")
+                    return
+                }
+
                 let originalURL = avURLAsset.url
-                print("📥 [PICKER] Picked video:", originalURL.lastPathComponent)
+
+                print("✅ [iCLOUD] AVAsset delivered")
+                print("📍 [iCLOUD] isFileURL:", originalURL.isFileURL)
+                print("📍 [iCLOUD] Original URL:", originalURL)
+                print("📍 [iCLOUD] File exists:", FileManager.default.fileExists(atPath: originalURL.path))
+
+                let fileSize = (try? FileManager.default.attributesOfItem(atPath: originalURL.path)[.size] as? NSNumber)?.intValue ?? 0
+                print("📦 [iCLOUD] File size:", fileSize, "bytes")
+
+                guard fileSize > 0 else {
+                    print("❌ [iCLOUD] Downloaded file is EMPTY — aborting")
+                    return
+                }
 
                 switch self.pendingUploadMode {
 
                 case .speed:
 
-                    // ✅ COPY INTO APP STORAGE
                     if let safeURL = self.prepareServeVideoForAnalysis(originalURL: originalURL) {
-                            self.pendingServeVideoURL = safeURL
-                            self.openContentAnalysis(for: safeURL)
-                        }
+
+                        print("✅ [SERVE] Copied to app storage:", safeURL.lastPathComponent)
+                        print("📁 [SERVE] Exists after copy:",
+                              FileManager.default.fileExists(atPath: safeURL.path))
+
+                        self.pendingServeVideoURL = safeURL
+                        self.openContentAnalysis(for: safeURL)
+
+                    } else {
+                        print("❌ [SERVE] Copy to app storage FAILED")
+                    }
 
                 case .coach:
 
-                    // ✅ AI Coach keeps using the app-owned pipeline
-                    self.openAICoach(for: originalURL)
+                    guard fileSize > 0 else {
+                        print("❌ [AI] iCloud download returned empty file — abort")
+                        return
+                    }
+
+                    if let safeURL = self.prepareServeVideoForAnalysis(originalURL: originalURL) {
+
+                        print("✅ [AI] Copied to app storage:", safeURL.lastPathComponent)
+                        print("📁 [AI] Exists after copy:",
+                              FileManager.default.fileExists(atPath: safeURL.path))
+
+                        self.pendingCoachVideoURL = safeURL
+                        self.openAICoachSafe(for: safeURL)
+
+                    } else {
+                        print("❌ [AI] Copy to app storage FAILED")
+                    }
+
                 }
             }
         }
-
     }
+
+    private func openAICoachSafe(for videoURL: URL) {
+
+        print("🤖 [AI OPEN] Requested:", videoURL.lastPathComponent)
+        print("📁 [AI OPEN] Exists:",
+              FileManager.default.fileExists(atPath: videoURL.path))
+
+        let fileSize = (try? FileManager.default
+            .attributesOfItem(atPath: videoURL.path)[.size] as? NSNumber)?
+            .intValue ?? 0
+
+        print("📦 [AI OPEN] File size:", fileSize, "bytes")
+
+        guard fileSize > 0 else {
+            print("❌ [AI OPEN] ABORT — AI Coach file missing or empty")
+            return
+        }
+
+        let view = AICoachScreen(videoURL: videoURL)
+
+        let hosting = UIHostingController(
+            rootView: AnyView(
+                NavigationStack {
+                    view
+                }
+            )
+        )
+
+        hosting.modalPresentationStyle = .fullScreen
+        present(hosting, animated: true)
+    }
+
+    
+    
 }
 
 enum FeedItemStorage {
