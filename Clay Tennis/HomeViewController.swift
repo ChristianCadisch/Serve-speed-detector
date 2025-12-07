@@ -126,8 +126,16 @@ class HomeViewController: UIViewController,
                 self?.openContentAnalysis(for: videoURL)
             }
         )
+
+        let hosting = UIHostingController(
+            rootView: AnyView(
+                NavigationStack {
+                    feedView
+                }
+            )
+        )
+
         
-        let hosting = UIHostingController(rootView: AnyView(feedView))
         replaceRoot(with: hosting, title: "")
         navigationItem.leftBarButtonItem = nil
         disableLessonSwipeBack()

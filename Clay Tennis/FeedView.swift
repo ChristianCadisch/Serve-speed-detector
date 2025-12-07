@@ -16,6 +16,9 @@ struct FeedView: View {
     
     @State private var feedItems: [FeedItem] = []
     @State private var videoThumbnails: [String: UIImage] = [:]
+    @State private var selectedAICoachItem: FeedItem?
+    @State private var selectedQuizItem: FeedItem?
+
 
 
     var onAddTapped: () -> Void
@@ -77,7 +80,7 @@ struct FeedView: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .textCase(nil)
                         ) {
-                            ForEach(feedItems.sorted(by: { $0.date > $1.date })) { item in
+                            ForEach(feedItems.sorted(by: { $0.date > $1.date }).dropFirst()) { item in
                                 switch item.type {
                                 case .serve:
                                     serveRow(item)
@@ -91,7 +94,27 @@ struct FeedView: View {
                         }
                     }
                 }
-
+                .navigationDestination(item: $selectedAICoachItem) { _ in
+                    AICoachDetailView()
+                }
+                .navigationDestination(item: $selectedQuizItem) { item in
+                    QuizResultView(
+                        score: item.quizCorrectAnswers ?? 0,
+                        total: item.quizTotalQuestions ?? 1,
+                        quizID: QuizIdentifier.allCases.first {
+                            $0.tableName == item.quizTopicKey
+                        } ?? .serve,
+                        difficulty: {
+                            switch item.quizDifficulty {
+                            case .easy: return .easy
+                            case .medium: return .medium
+                            case .hard: return .hard
+                            case .none: return .easy
+                            }
+                        }(),
+                        onNextQuiz: { _ in }
+                    )
+                }
                 .listStyle(.plain)
                 .scrollContentBackground(.hidden)
                 .padding(.bottom, 4)
@@ -151,7 +174,23 @@ struct FeedView: View {
             .padding()
         }
         .cornerRadius(12)
+        .contentShape(Rectangle())
+        .onTapGesture {
+            switch item.type {
+            case .serve:
+                if let url = item.thumbnailURL {
+                    onVideoSelected(url)
+                }
+            case .aiCoach:
+                selectedAICoachItem = item
+            case .quizResult:
+                selectedQuizItem = item
+            }
+        }
+        
+
     }
+
 
     private func serveRow(_ item: FeedItem) -> some View {
         HStack(spacing: 0) {
@@ -205,8 +244,8 @@ struct FeedView: View {
         .listRowSeparator(.hidden)
         .onTapGesture {
             if let url = item.thumbnailURL {
-                onVideoSelected(url)
-            }
+                    onVideoSelected(url)
+                }
         }
     }
 
@@ -378,6 +417,10 @@ struct FeedView: View {
             EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16)
         )
         .listRowSeparator(.hidden)
+        .onTapGesture {
+            selectedQuizItem = item
+        }
+
     }
 
 
@@ -492,9 +535,7 @@ struct FeedView: View {
         )
         .contentShape(Rectangle())
         .onTapGesture {
-            if let url = item.thumbnailURL {
-                onVideoSelected(url)
-            }
+            selectedAICoachItem = item
         }
         .listRowInsets(
             EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16)
@@ -537,7 +578,7 @@ enum FeedDifficulty: String, Codable {
     case hard
 }
 
-struct FeedItem: Identifiable, Codable {
+struct FeedItem: Identifiable, Codable, Hashable {
     let id: UUID
     let type: FeedItemType
     let date: Date
@@ -609,3 +650,11 @@ struct FeedItem: Identifiable, Codable {
     }
 }
 
+
+
+struct AICoachDetailView: View {
+    var body: some View {
+        Color(.systemBackground)
+            .ignoresSafeArea()
+    }
+}

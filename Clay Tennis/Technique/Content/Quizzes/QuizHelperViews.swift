@@ -33,98 +33,113 @@ struct QuizResultView: View {
     }
     
     var body: some View {
-            ZStack {
-
-                if showConfetti {
-                    ConfettiView(colors: [
-                        topicAccent,
-                        topicAccent.opacity(0.7),
-                        .white,
-                        Color.primary
-                    ])
-                    .ignoresSafeArea()
-                }
-
-                LinearGradient(
-                    colors: [
-                        topicAccent.opacity(0.10),
-                        Color(.systemBackground)
-                    ],
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
+        ZStack {
+            
+            if showConfetti {
+                ConfettiView(colors: [
+                    topicAccent,
+                    topicAccent.opacity(0.7),
+                    .white,
+                    Color.primary
+                ])
                 .ignoresSafeArea()
-                .allowsHitTesting(false)
-
-                VStack(spacing: 32) {
-
-                    VStack(spacing: 12) {
-                        Text(LocalizedStringKey("quiz_complete_title"), tableName: "general")
-                            .font(.largeTitle.bold())
-
-                        Text(LocalizedStringKey(performanceTextKey), tableName: "general")
-                            .font(.title2.weight(.semibold))
-                            .foregroundColor(.secondary)
-                    }
-                    .opacity(appear ? 1 : 0)
-                    .offset(y: appear ? 0 : 10)
-
-                    ZStack {
-                        Circle()
-                            .fill(Color(.secondarySystemBackground))
-                            .frame(width: 140, height: 140)
-                            .overlay(
-                                Circle()
-                                    .stroke(topicAccent.opacity(0.15), lineWidth: 2)
-                            )
-
-                        VStack(spacing: 4) {
-                            Text("\(score)")
-                                .font(.system(size: 52, weight: .bold))
-
-                            Text(
-                                String(
-                                    format: NSLocalizedString(
-                                        "correct_out_of_format",
-                                        tableName: "general",
-                                        bundle: .main,
-                                        comment: ""
-                                    ),
-                                    total
-                                )
-                            )
-
-                            .font(.headline)
-                            .foregroundColor(.secondary)
-
-                        }
-                    }
-
-                    Spacer()
-
-                    nextQuizBar
-                        .padding(.horizontal, 20)
-                        .padding(.bottom, 12)
-                }
-                .padding(.top, 80)
             }
-            .onAppear {
-                withAnimation(.easeOut(duration: 0.6)) {
-                    appear = true
+            
+            LinearGradient(
+                colors: [
+                    topicAccent.opacity(0.10),
+                    Color(.systemBackground)
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .ignoresSafeArea()
+            .allowsHitTesting(false)
+            
+            VStack(spacing: 32) {
+                
+                VStack(spacing: 12) {
+                    Text(LocalizedStringKey("quiz_complete_title"), tableName: "general")
+                        .font(.largeTitle.bold())
+                    
+                    Text(LocalizedStringKey(performanceTextKey), tableName: "general")
+                        .font(.title2.weight(.semibold))
+                        .foregroundColor(.secondary)
                 }
-
-                showConfetti = true
-                postQuizToFeed()
-
-                DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
-                    showConfetti = false
+                .opacity(appear ? 1 : 0)
+                .offset(y: appear ? 0 : 10)
+                
+                ZStack {
+                    Circle()
+                        .fill(Color(.secondarySystemBackground))
+                        .frame(width: 140, height: 140)
+                        .overlay(
+                            Circle()
+                                .stroke(topicAccent.opacity(0.15), lineWidth: 2)
+                        )
+                    
+                    VStack(spacing: 4) {
+                        Text("\(score)")
+                            .font(.system(size: 52, weight: .bold))
+                        
+                        Text(
+                            String(
+                                format: NSLocalizedString(
+                                    "correct_out_of_format",
+                                    tableName: "general",
+                                    bundle: .main,
+                                    comment: ""
+                                ),
+                                total
+                            )
+                        )
+                        
+                        .font(.headline)
+                        .foregroundColor(.secondary)
+                        
+                    }
                 }
+                
+                Spacer()
+                
+                nextQuizBar
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 12)
+            }
+            .padding(.top, 80)
+        }
+        .onAppear {
+            withAnimation(.easeOut(duration: 0.6)) {
+                appear = true
+            }
+            
+            showConfetti = true
+            postQuizToFeed()
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+                showConfetti = false
             }
         }
+        .overlay(alignment: .topTrailing) {
+            Button {
+                onNextQuiz(LessonQuizID(topic: quizID, difficulty: difficulty))
+            } label: {
+                Image(systemName: "arrow.clockwise")
+                    .font(.system(size: 18, weight: .semibold))
+                    .padding(12)
+                    .background(Color(.systemBackground).opacity(0.85))
+                    .clipShape(Circle())
+                    .shadow(color: .black.opacity(0.15), radius: 6, y: 2)
+            }
+            .padding(.top, 12)
+            .padding(.trailing, 14)
+        }
+
+    }
     
     private var performanceTextKey: String {
         let ratio = Double(score) / Double(max(total, 1))
-
+        
         switch ratio {
         case 0.8...:
             return "quiz_result_excellent"
@@ -180,8 +195,8 @@ struct QuizResultView: View {
                                               tableName: "general",
                                               comment: "")
                         )
-                            .font(.caption.weight(.medium))
-                            .foregroundColor(.white.opacity(0.6))
+                        .font(.caption.weight(.medium))
+                        .foregroundColor(.white.opacity(0.6))
                         
                         Text("\(topic.localizedTitle) • \(difficulty.localizedTitle)")
                             .font(.headline.weight(.semibold))
@@ -205,7 +220,7 @@ struct QuizResultView: View {
                         total
                     )
                 )
-
+                
             }
             .padding(.horizontal, 18)
             .padding(.vertical, 16)
@@ -256,7 +271,7 @@ struct QuizResultView: View {
         }
         return items
     }
-
+    
     private func saveFeedItems(_ items: [FeedItem]) {
         if let data = try? JSONEncoder().encode(items) {
             UserDefaults.standard.set(data, forKey: "FeedItems")
@@ -390,7 +405,7 @@ struct QuizAnswer: Identifiable {
     let textKey: String
     let isCorrect: Bool
     let explanationKey: String
-
+    
     init(text: String, isCorrect: Bool, explanationKey: String = "placeholder") {
         self.id = UUID()
         self.textKey = text
@@ -484,21 +499,21 @@ struct QuizOptionView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-
+            
             // Existing answer row
             HStack {
                 Text(
                     LocalizedStringKey(answer.textKey),
                     tableName: quizID.tableName
                 )
-                    .foregroundColor(.primary)
-                    .font(.body)
-                    .multilineTextAlignment(.leading)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .lineLimit(nil)
-
+                .foregroundColor(.primary)
+                .font(.body)
+                .multilineTextAlignment(.leading)
+                .fixedSize(horizontal: false, vertical: true)
+                .lineLimit(nil)
+                
                 Spacer()
-
+                
                 if revealed {
                     if answer.isCorrect {
                         Image(systemName: "checkmark.circle.fill")
@@ -515,7 +530,7 @@ struct QuizOptionView: View {
                         .foregroundColor(.primary)
                 }
             }
-
+            
             // NEW: Explanation text
             if revealed {
                 if answer.isCorrect {
@@ -523,28 +538,28 @@ struct QuizOptionView: View {
                         LocalizedStringKey(answer.explanationKey),
                         tableName: quizID.tableName
                     )
-                        .font(.footnote)
-                        .foregroundColor(
-                            colorScheme == .light
-                            ? Color(red: 0.0, green: 0.45, blue: 0.15)   // darker for light mode
-                            : .green.opacity(0.9)                       // original for dark mode
-                        )
-                        .transition(.opacity.combined(with: .move(edge: .top)))
-                        .lineLimit(nil)
-                        .fixedSize(horizontal: false, vertical: true)
+                    .font(.footnote)
+                    .foregroundColor(
+                        colorScheme == .light
+                        ? Color(red: 0.0, green: 0.45, blue: 0.15)   // darker for light mode
+                        : .green.opacity(0.9)                       // original for dark mode
+                    )
+                    .transition(.opacity.combined(with: .move(edge: .top)))
+                    .lineLimit(nil)
+                    .fixedSize(horizontal: false, vertical: true)
                 } else if isSelected {
                     Text(
                         LocalizedStringKey(answer.explanationKey),
                         tableName: quizID.tableName
                     )
-                        .font(.footnote)
-                        .foregroundColor(.red.opacity(0.9))
-                        .transition(.opacity.combined(with: .move(edge: .top)))
-                        .lineLimit(nil)
-                        .fixedSize(horizontal: false, vertical: true)
+                    .font(.footnote)
+                    .foregroundColor(.red.opacity(0.9))
+                    .transition(.opacity.combined(with: .move(edge: .top)))
+                    .lineLimit(nil)
+                    .fixedSize(horizontal: false, vertical: true)
                 }
             }
-
+            
         }
         .padding()
         .background(backgroundStyle)
@@ -639,7 +654,7 @@ enum QuizIdentifier: Int, CaseIterable, Hashable {
             return NSLocalizedString("topic_legwork", tableName: "general", comment: "")
         }
     }
-
+    
     
     var iconName: String {
         switch self {
@@ -671,7 +686,7 @@ enum QuizIdentifier: Int, CaseIterable, Hashable {
     // NEW: per-difficulty question sets
     func questions(for difficulty: QuizDifficulty) -> [QuizQuestion] {
         let allQuestions: [QuizQuestion]
-
+        
         switch self {
         case .serve:    allQuestions = serveQuestions
         case .tactics:  allQuestions = tacticsQuestions
@@ -680,12 +695,12 @@ enum QuizIdentifier: Int, CaseIterable, Hashable {
         case .volley:   allQuestions = volleyQuestions
         case .legwork:  allQuestions = legworkQuestions
         }
-
+        
         return allQuestions.filter { question in
             question.difficulty.rawValue == difficulty.rawValue
         }
     }
-
+    
     
     func totalQuestions(for difficulty: QuizDifficulty) -> Int {
         questions(for: difficulty).count
@@ -705,9 +720,9 @@ enum QuizDifficulty: Int, CaseIterable, Hashable {
     case easy
     case medium
     case hard
-
+    
     var orderIndex: Int { rawValue }
-
+    
     var titleKey: String {
         switch self {
         case .easy: return "difficulty_easy"
@@ -749,3 +764,12 @@ extension QuizIdentifier {
 }
 
 
+#Preview {
+    QuizResultView(
+        score: 7,
+        total: 10,
+        quizID: .serve,
+        difficulty: .medium,
+        onNextQuiz: { _ in }
+    )
+}
