@@ -11,6 +11,32 @@ import UIKit
 import SwiftUI
 import AVFoundation
 import UniformTypeIdentifiers
+import Combine
+
+class CoachHubState: ObservableObject {
+    @Published var selectedMode: ServeMode = .technique
+}
+
+struct CoachHubWrapper: View {
+    @ObservedObject var state: CoachHubState
+    let recordAction: () -> Void
+    let uploadAction: () -> Void
+    
+    var body: some View {
+        CoachHubView(
+            selectedMode: $state.selectedMode,
+            detectedAngle: .constant(.side),
+            angleDetectionSource: .constant(.auto),
+            recordAction: recordAction,
+            uploadAction: uploadAction,
+            latestFocusTitle: state.selectedMode == .technique ? "Refine Toss Consistency" : nil,
+            latestFocusStrength: state.selectedMode == .technique ? "Stable leg drive detected" : nil,
+            latestFocusCorrection: state.selectedMode == .technique ? "Toss drifting too far left" : nil,
+            lastServeSpeed: state.selectedMode == .speed ? 178 : nil
+        )
+    }
+}
+
 
 class HomeViewController: UIViewController,
                           UIImagePickerControllerDelegate,
@@ -32,6 +58,10 @@ class HomeViewController: UIViewController,
     private var pendingCoachVideoURL: URL?
     private var iCloudDownloadOverlay: UIView?
     private var lastPickedAssetIdentifier: String?
+    private var coachHubSelectedMode: ServeMode = .technique
+    private var coachHubHostingController: UIHostingController<AnyView>?
+    private let coachHubState = CoachHubState()
+
 
 
 
@@ -322,6 +352,8 @@ class HomeViewController: UIViewController,
         currentHostingController = controller
     }
     
+    
+    
     private func showLessonDetailView(_ view: LessonDetailView) {
         let hosting = UIHostingController(rootView: AnyView(view))
         replaceRoot(
@@ -340,9 +372,63 @@ class HomeViewController: UIViewController,
         
         enableLessonSwipeBack()
     }
-    
-    
-    
+
+    private func showCoachHubView() {
+        let wrapper = CoachHubWrapper(
+            state: coachHubState,
+            recordAction: { [weak self] in
+                guard let self = self else { return }
+
+                print("🎬 [CoachHub] Record tapped with mode:", self.coachHubState.selectedMode)
+
+                switch self.coachHubState.selectedMode {
+                case .speed:
+                    print("🚀 [CoachHub] Opening Serve Speed flow")
+                    self.pendingUploadMode = .speed
+                    self.presentVideoPicker()
+
+                case .technique:
+                    print("🧠 [CoachHub] Opening Technique / AI Coach flow")
+                    self.activeTab = .coachUpload
+                    self.pendingUploadMode = .coach
+                    self.presentVideoPicker()
+                }
+            },
+            uploadAction: { [weak self] in
+                guard let self = self else { return }
+
+                print("📤 [CoachHub] Upload tapped with mode:", self.coachHubState.selectedMode)
+
+                switch self.coachHubState.selectedMode {
+                case .speed:
+                    print("🚀 [CoachHub] Uploading to Serve Speed")
+                    self.pendingUploadMode = .speed
+                    self.presentVideoPicker()
+
+                case .technique:
+                    print("🧠 [CoachHub] Uploading to Technique / AI Coach")
+                    self.activeTab = .coachUpload
+                    self.pendingUploadMode = .coach
+                    self.presentVideoPicker()
+                }
+            }
+        )
+
+        let hosting = UIHostingController(
+            rootView: AnyView(
+                NavigationStack {
+                    wrapper
+                }
+            )
+        )
+
+        coachHubHostingController = hosting
+        replaceRoot(with: hosting, title: "Coach Hub")
+        navigationItem.leftBarButtonItem = nil
+        disableLessonSwipeBack()
+        navigationController?.setNavigationBarHidden(false, animated: false)
+    }
+
     @objc private func handleBackToTheory() {
         popToTheoryView()
     }
@@ -380,26 +466,16 @@ class HomeViewController: UIViewController,
             self?.showFeedView()
         }
         
-        // SERVE SPEED
-        let speedButton = createButton(
+        // coach hub
+        let coachButton = createButton(
             systemName: "figure.tennis",
             isActive: activeTab == .speedUpload
         ) { [weak self] in
             self?.activeTab = .speedUpload
-            self?.pendingUploadMode = .speed
-            self?.presentVideoPicker()
+            self?.showCoachHubView()
         }
         
-        // AI COACH
-        let coachButton = createButton(
-            systemName: "sparkles",
-            isActive: activeTab == .coachUpload
-        ) { [weak self] in
-            self?.activeTab = .coachUpload
-            self?.pendingUploadMode = .coach
-            self?.presentVideoPicker()
-        }
-        
+
         // THEORY
         let theoryButton = createButton(
             systemName: "brain.head.profile",
@@ -419,7 +495,6 @@ class HomeViewController: UIViewController,
         }
         
         bar.addArrangedSubview(homeButton)
-        bar.addArrangedSubview(speedButton)
         bar.addArrangedSubview(coachButton)
         bar.addArrangedSubview(theoryButton)
         bar.addArrangedSubview(settingsButton)
