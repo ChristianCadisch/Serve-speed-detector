@@ -14,6 +14,8 @@ import Photos
 
 struct AICoachScreen: View {
     @ObservedObject var state = GameStateObserver.shared
+    @Environment(\.dismiss) private var dismiss
+
     
     var assetLocalIdentifier: String
     var initialVideoURL: URL?
@@ -43,8 +45,10 @@ struct AICoachScreen: View {
                 AICameraViewRepresentable(
                     videoURL: resolvedVideoURL,
                     frame: UIScreen.main.bounds,
+                    assetLocalIdentifier: assetLocalIdentifier,
                     controller: $controller
                 )
+
 
                 .frame(height: showHeroBanner ? UIScreen.main.bounds.height * 0.4 : UIScreen.main.bounds.height * 0.7)
                 .clipped()
@@ -197,6 +201,17 @@ struct AICoachScreen: View {
                 ShareSheet(items: [url])
             }
         }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(action: {
+                    dismiss()
+                }) {
+                    Image(systemName: "chevron.left")
+                        .font(.system(size: 17, weight: .semibold))
+                }
+            }
+        }
+
         .alert("Export Error", isPresented: .constant(exportError != nil)) {
             Button("OK") {
                 exportError = nil
@@ -506,12 +521,21 @@ extension View {
 struct AICameraViewRepresentable: UIViewControllerRepresentable {
     var videoURL: URL?
     var frame: CGRect
+    var assetLocalIdentifier: String
     @Binding var controller: AIcameraViewController?
     
     func makeUIViewController(context: Context) -> AIcameraViewController {
         let vc = AIcameraViewController(frame: frame)
-        if let url = videoURL { vc.setupWithVideoURL(url) }
-        DispatchQueue.main.async { self.controller = vc }
+
+
+        if let url = videoURL {
+            vc.setupWithVideoURL(url)
+        }
+
+        DispatchQueue.main.async {
+            self.controller = vc
+        }
+
         return vc
     }
     
@@ -525,8 +549,8 @@ struct AICameraViewRepresentable: UIViewControllerRepresentable {
             print("⚠️ [AI VIEW] updateUIViewController called with NIL videoURL")
         }
     }
-
 }
+
 
 
 // MARK: - DETAILS VIEW

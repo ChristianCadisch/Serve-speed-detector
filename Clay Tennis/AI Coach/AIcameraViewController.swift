@@ -504,18 +504,9 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
 
         
         // FIX: remove previous video view
-        print("🧹 [AI READER] Resetting previous video state")
-
-        displayLink?.invalidate()
-        displayLink = nil
-
-        playerItemOutput = nil
-
         VideoCoachRenderView?.player?.pause()
-        VideoCoachRenderView?.player?.replaceCurrentItem(with: nil)
         VideoCoachRenderView?.removeFromSuperview()
         VideoCoachRenderView = nil
-
         
         // Now create a single one
         VideoCoachRenderView = Clay_Tennis.VideoCoachRenderView(frame: view.bounds)

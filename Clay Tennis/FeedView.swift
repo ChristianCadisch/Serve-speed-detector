@@ -11,224 +11,336 @@ import UIKit
 
 
 struct FeedView: View {
-   
+    
     @State private var featuredThumbnail: UIImage?
     
     @State private var feedItems: [FeedItem] = []
     @State private var videoThumbnails: [String: UIImage] = [:]
     @State private var selectedAICoachItem: FeedItem?
     @State private var selectedQuizItem: FeedItem?
-
-
-
+    
+    
+    
     var onAddTapped: () -> Void
     var onSettingsTapped: () -> Void
     var onVideoSelected: (URL) -> Void
     var onAICoachSelected: (String) -> Void
     var onQuizSelected: (QuizIdentifier, QuizDifficulty) -> Void
-
-
+    
+    
     var body: some View {
-            VStack(spacing: 0) {
+        VStack(spacing: 0) {
+            
+            // MARK: - Top Bar
+            HStack(alignment: .firstTextBaseline) {
 
-                // MARK: - Top Bar
-                HStack {
-                    Text(NSLocalizedString("feed_title", tableName: "general", comment: ""))
-                        .font(.title3)
-                        .fontWeight(.bold)
+                Text("CLAY")
+                    .font(.caption.bold())
+                    .tracking(2)
+                    .foregroundStyle(.secondary)
 
-                    Spacer()
+                Spacer()
 
-                    HStack(spacing: 6) {
-                        Image(systemName: "tennisball")
-                        Text(
-                            String(
-                                format: NSLocalizedString(
-                                    "feed_serve_counter_format",
-                                    tableName: "general",
-                                    comment: ""
-                                ),
-                                //serveCounts.values.reduce(0, +)
-                            )
-                        )
-                        .font(.subheadline)
+                VStack(alignment: .trailing, spacing: 2) {
+                    Text("WEEKLY STREAK")
+                        .font(.caption2.bold())
+                        .tracking(1)
+                        .foregroundStyle(.secondary)
+
+                    Text("0")
+                        .font(.system(size: 28, weight: .heavy, design: .rounded))
+                }
+            }
+            .padding(.horizontal)
+            .padding(.top, -28)
+            .padding(.bottom, 6)
+            .background(Color(.systemBackground))
+
+            
+            
+            
+            // MARK: - Unified Feed List
+            List {
+                
+                // ✅ HERO
+                if let hero = editorialHero {
+                    featuredHero(hero)
+                }
+                
+                // ✅ PRESCRIBED NEXT STEPS (DIRECTLY UNDER HERO)
+                Section {
+                    prescribedTrainingCarousel
+                        .listRowInsets(.init())
+                        .listRowSeparator(.hidden)
+                        .background(Color.clear)
+                }
+                
+                // ✅ TIMELINE HISTORY
+                ForEach(groupedFeedItems, id: \.title) { section in
+                    Section(
+                        header:
+                            Text(section.title)
+                            .font(.caption.bold())
+                            .tracking(1)
+                            .foregroundStyle(.secondary)
+                            .textCase(nil)
+                            .padding(.leading)
+                    ) {
+                        ForEach(section.items) { item in
+                            switch item.type {
+                            case .serve:
+                                serveRow(item)
+                            case .quizResult:
+                                quizResultRow(item)
+                            case .aiCoach:
+                                aiCoachRow(item)
+                            }
+                        }
                     }
+                }
+            }
+            .listStyle(.plain)
+            .scrollContentBackground(.hidden)
+            .navigationDestination(item: $selectedAICoachItem) { item in
+                AICoachDetailView(
+                    item: item,
+                    onReplayAICoach: { _ in   // ✅ explicitly accept the required URL argument
+                        if let assetID = item.assetLocalIdentifier {
+                            onAICoachSelected(assetID)
+                        } else {
+                            print("❌ [FEED] Missing assetLocalIdentifier for AI Coach item")
+                        }
+                    }
+                )
+            }
+            
+            
+            
+            .navigationDestination(item: $selectedQuizItem) { item in
+                let topic = QuizIdentifier.allCases.first {
+                    $0.tableName == item.quizTopicKey
+                } ?? .serve
+                
+                let difficulty: QuizDifficulty = {
+                    switch item.quizDifficulty {
+                    case .easy: return .easy
+                    case .medium: return .medium
+                    case .hard: return .hard
+                    case .none: return .easy
+                    }
+                }()
+                
+                QuizResultView(
+                    score: item.quizCorrectAnswers ?? 0,
+                    total: item.quizTotalQuestions ?? 1,
+                    quizID: topic,
+                    difficulty: difficulty,
+                    onNextQuiz: { id in
+                        print("✅ [FEED → QUIZ] Next quiz tapped:", id.topic, id.difficulty)
+                        onQuizSelected(id.topic, id.difficulty)
+                    },
+                    shouldPostToFeed: false
+                )
+            }
+            
+            .listStyle(.plain)
+            .scrollContentBackground(.hidden)
+            .padding(.bottom, 4)
+            .environment(\.defaultMinListRowHeight, 0)
+            .onAppear {
+                loadFeedItems()
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .feedItemCreated)) { notification in
+                if let feedItem = notification.object as? FeedItem {
+                    
+                    print("🟢 [FEED] New item received:", feedItem.type)
+                    feedItems.append(feedItem)
+                    
+                    if let url = feedItem.thumbnailURL {
+                        print("🖼 [FEED] Generating thumbnail for new item:", url.lastPathComponent)
+                        generateAndCacheThumbnail(for: url)
+                    }
+                }
+            }
+            
+            
+            
+        }
+        .edgesIgnoringSafeArea(.bottom)
+    }
+    
+    // MARK: - Helper Methods
+    
+    
+    private var editorialHero: FeedItem? {
+        feedItems
+            .sorted(by: { $0.date > $1.date })
+            .first(where: { $0.fastestSpeedKmh != nil || $0.aiTipCount != nil })
+    }
+    
+    private var groupedFeedItems: [(title: String, items: [FeedItem])] {
+        let calendar = Calendar.current
+        let grouped = Dictionary(grouping: feedItems) { item -> String in
+            if calendar.isDateInToday(item.date) { return "TODAY" }
+            else if calendar.isDateInYesterday(item.date) { return "YESTERDAY" }
+            else { return "LAST WEEK" }
+        }
+        
+        return grouped
+            .map { ($0.key, $0.value.sorted(by: { $0.date > $1.date })) }
+            .sorted { $0.items.first!.date > $1.items.first!.date }
+    }
+    
+    private var prescribedTrainingCarousel: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            
+            Text("RECOMMENDED NEXT")
+                .font(.caption.bold())
+                .tracking(1)
+                .foregroundStyle(.secondary)
+                .padding(.horizontal)
+            
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 14) {
+                    
+                    trainingPrescriptionCard(
+                        title: "Refine Toss Release",
+                        subtitle: "Fix unstable timing",
+                        accent: .blue
+                    )
+                    
+                    trainingPrescriptionCard(
+                        title: "Add 10 km/h Power",
+                        subtitle: "Activate leg drive",
+                        accent: .orange
+                    )
+                    
+                    trainingPrescriptionCard(
+                        title: "Understand Serve Rhythm",
+                        subtitle: "Technique theory",
+                        accent: .purple
+                    )
+                    
+                    seeMoreTrainingCard
                 }
                 .padding(.horizontal)
-                .padding(.top, -45)
-                .padding(.bottom, 2)
-                .background(Color(.systemBackground))
-
-
-
-                // MARK: - Unified Feed List
-                List {
-
-                    // MARK: - Featured Serve (UNCHANGED)
-                    if let featured = feedItems.sorted(by: { $0.date > $1.date }).first {
-                        featuredHero(featured)
-                    }
-
-
-                   
-
-                    // MARK: - ✅ Quiz Results (NOW AT THE BOTTOM)
-                    if !feedItems.isEmpty {
-                        Section(
-                            header: Text(
-                                NSLocalizedString("feed_quiz_results_title", tableName: "general", comment: "")
-                            )
-                            .font(.headline)
-                            .foregroundStyle(.primary)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .textCase(nil)
-                        ) {
-                            ForEach(feedItems.sorted(by: { $0.date > $1.date }).dropFirst()) { item in
-                                switch item.type {
-                                case .serve:
-                                    serveRow(item)
-                                case .quizResult:
-                                    quizResultRow(item)
-                                case .aiCoach:
-                                    aiCoachRow(item)
-                                }
-                            }
-
-                        }
-                    }
-                }
-                .navigationDestination(item: $selectedAICoachItem) { item in
-                    AICoachDetailView(
-                        item: item,
-                        onReplayAICoach: { _ in   // ✅ explicitly accept the required URL argument
-                            if let assetID = item.assetLocalIdentifier {
-                                onAICoachSelected(assetID)
-                            } else {
-                                print("❌ [FEED] Missing assetLocalIdentifier for AI Coach item")
-                            }
-                        }
-                    )
-                }
-
-
-
-                .navigationDestination(item: $selectedQuizItem) { item in
-                    let topic = QuizIdentifier.allCases.first {
-                        $0.tableName == item.quizTopicKey
-                    } ?? .serve
-
-                    let difficulty: QuizDifficulty = {
-                        switch item.quizDifficulty {
-                        case .easy: return .easy
-                        case .medium: return .medium
-                        case .hard: return .hard
-                        case .none: return .easy
-                        }
-                    }()
-
-                    QuizResultView(
-                        score: item.quizCorrectAnswers ?? 0,
-                        total: item.quizTotalQuestions ?? 1,
-                        quizID: topic,
-                        difficulty: difficulty,
-                        onNextQuiz: { id in
-                            print("✅ [FEED → QUIZ] Next quiz tapped:", id.topic, id.difficulty)
-                            onQuizSelected(id.topic, id.difficulty)
-                        },
-                        shouldPostToFeed: false
-                    )
-                }
-
-                .listStyle(.plain)
-                .scrollContentBackground(.hidden)
-                .padding(.bottom, 4)
-                .environment(\.defaultMinListRowHeight, 0)
-                .onAppear {
-                    loadFeedItems()
-                }
-                .onReceive(NotificationCenter.default.publisher(for: .feedItemCreated)) { notification in
-                    if let feedItem = notification.object as? FeedItem {
-
-                        print("🟢 [FEED] New item received:", feedItem.type)
-                        feedItems.append(feedItem)
-
-                        if let url = feedItem.thumbnailURL {
-                            print("🖼 [FEED] Generating thumbnail for new item:", url.lastPathComponent)
-                            generateAndCacheThumbnail(for: url)
-                        }
-                    }
-                }
-
-
-
             }
-            .edgesIgnoringSafeArea(.bottom)
         }
+        .padding(.top, 8)
+    }
+    
+    private func trainingPrescriptionCard(
+        title: String,
+        subtitle: String,
+        accent: Color
+    ) -> some View {
 
-    // MARK: - Helper Methods
+        VStack(alignment: .leading, spacing: 10) {
 
+            Text("PRIORITY DRILL")
+                .font(.caption2.bold())
+                .tracking(1)
+                .foregroundStyle(.secondary)
+
+            Text(title)
+                .font(.system(size: 17, weight: .semibold))
+
+            Text(subtitle.uppercased())
+                .font(.caption2)
+                .tracking(1)
+                .foregroundStyle(.secondary)
+        }
+        .padding(18)
+        .frame(width: 210)
+        .background(
+            LinearGradient(
+                colors: [accent.opacity(0.25), accent.opacity(0.07)],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            ),
+            in: RoundedRectangle(cornerRadius: 18, style: .continuous)
+        )
+    }
+
+    
+    private var seeMoreTrainingCard: some View {
+        VStack(spacing: 10) {
+            
+            Image(systemName: "arrow.right.circle.fill")
+                .font(.system(size: 32))
+                .foregroundStyle(.secondary)
+            
+            Text("See All Training")
+                .font(.footnote.bold())
+                .foregroundStyle(.secondary)
+        }
+        .frame(width: 120, height: 120)
+        .background(
+            Color(.secondarySystemBackground),
+            in: RoundedRectangle(cornerRadius: 22, style: .continuous)
+        )
+        .onTapGesture {
+            onSettingsTapped()
+        }
+    }
+    
+    
     
     private func featuredHero(_ item: FeedItem) -> some View {
         ZStack(alignment: .bottomLeading) {
 
             GeometryReader { geo in
-                Group {
-                    // ✅ SERVE & AI COACH
-                    if let url = item.thumbnailURL,
-                       let image = videoThumbnails[url.path] {
+                if let url = item.thumbnailURL,
+                   let image = videoThumbnails[url.path] {
 
-                        Image(uiImage: image)
-                            .resizable()
-                            .scaledToFill()                 // ✅ FORCE FILL
-                            .frame(width: geo.size.width,  // ✅ HARD WIDTH CLAMP
-                                   height: 300)            // ✅ HARD HEIGHT CLAMP
-                            .clipped()                      // ✅ HARD CROP
-
-                    // ✅ QUIZ
-                    } else if item.type == .quizResult,
-                              let key = item.quizTopicKey,
-                              let topic = QuizIdentifier.allCases.first(where: { $0.tableName == key }) {
-
-                        Image(topic.thumbnailImageName)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: geo.size.width,
-                                   height: 300)
-                            .clipped()
-
-                    // ✅ FALLBACK
-                    } else {
-                        Rectangle()
-                            .fill(Color.gray.opacity(0.2))
-                            .frame(width: geo.size.width, height: 300)
-                    }
+                    Image(uiImage: image)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: geo.size.width, height: 380)
+                        .clipped()
                 }
             }
-            .frame(height: 300)
+            .overlay(
+                LinearGradient(
+                    colors: [
+                        .black.opacity(0.85),
+                        .black.opacity(0.45),
+                        .clear
+                    ],
+                    startPoint: .bottom,
+                    endPoint: .top
+                )
+            )
+            .frame(height: 380)
+            .clipShape(RoundedRectangle(cornerRadius: 36, style: .continuous))
 
+            VStack(alignment: .leading, spacing: 10) {
 
+                Text(item.type == .serve ? "TODAY’S PEAK OUTPUT" : "BIOMECHANICAL WARNING")
+                    .font(.caption.bold())
+                    .tracking(1.5)
+                    .foregroundStyle(.white.opacity(0.85))
 
-            VStack(alignment: .leading, spacing: 6) {
-                Text(item.title)
-                    .font(.headline)
-                    .foregroundColor(.white)
+                Text(item.primaryMetricText ?? item.title)
+                    .font(.system(size: 58, weight: .heavy, design: .rounded))
+                    .foregroundStyle(.white)
+                    .shadow(color: .black.opacity(0.5), radius: 12, x: 0, y: 6)
 
-                if let metric = item.primaryMetricText {
-                    Text(metric)
-                        .font(.largeTitle.bold())
-                        .foregroundColor(.white)
+                if let subtitle = item.subtitle {
+                    Text(subtitle.uppercased())
+                        .font(.caption)
+                        .tracking(1)
+                        .foregroundStyle(.white.opacity(0.85))
                 }
             }
-            .padding()
+            .padding(28)
         }
-        .cornerRadius(12)
-        .contentShape(Rectangle())
+        .padding(.horizontal)
+        .padding(.top, 10)
         .onTapGesture {
             switch item.type {
             case .serve:
-                if let url = item.thumbnailURL {
-                    onVideoSelected(url)
-                }
+                if let url = item.thumbnailURL { onVideoSelected(url) }
             case .aiCoach:
                 selectedAICoachItem = item
             case .quizResult:
@@ -237,85 +349,85 @@ struct FeedView: View {
         }
     }
 
-
-
+    
+    
+    
+    
     private func serveRow(_ item: FeedItem) -> some View {
-        HStack(spacing: 0) {
+        HStack(spacing: 14) {
 
             if let url = item.thumbnailURL,
                let thumbnail = videoThumbnails[url.path] {
+
                 Image(uiImage: thumbnail)
                     .resizable()
                     .scaledToFill()
-                    .frame(width: 120, height: 100)
-                    .clipped()
-                    .mask(RoundedRectangle(cornerRadius: 8, style: .continuous))
-            } else {
-                RoundedRectangle(cornerRadius: 8, style: .continuous)
-                    .fill(Color.gray.opacity(0.2))
-                    .frame(width: 120, height: 100)
+                    .frame(width: 96, height: 96)
+                    .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
             }
 
-            VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .leading, spacing: 6) {
+
+                Text(item.subtitle?.uppercased() ?? "SESSION SERVE")
+                    .font(.caption2.bold())
+                    .tracking(1)
+                    .foregroundStyle(.secondary)
+
                 Text(item.title)
-                    .font(.headline).bold()
-
-                if let subtitle = item.subtitle {
-                    Text(subtitle)
-                        .font(.footnote)
-                        .foregroundColor(.secondary)
-                }
+                    .font(.headline)
             }
-            .padding(.leading, 12)
 
             Spacer()
 
             if let speed = item.fastestSpeedKmh {
-                VStack(spacing: 2) {
+                VStack(spacing: 0) {
                     Text("\(Int(speed))")
-                        .font(.title3.bold())
-                    Text("km/h")
-                        .font(.caption2)
-                        .foregroundColor(.secondary)
+                        .font(.system(size: 34, weight: .heavy, design: .rounded))
+
+                    Text("KM/H")
+                        .font(.caption2.bold())
+                        .tracking(1)
+                        .foregroundStyle(.secondary)
                 }
-                .padding(.trailing, 10)
             }
         }
-        .frame(height: 100)
+        .padding(18)
         .background(
-            RoundedRectangle(cornerRadius: 8)
-                .fill(Color.blue.opacity(0.15))
+            Color(.secondarySystemBackground),
+            in: RoundedRectangle(cornerRadius: 22, style: .continuous)
         )
-        .clipShape(RoundedRectangle(cornerRadius: 8))
-        .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
+        .listRowInsets(.init(top: 8, leading: 16, bottom: 8, trailing: 16))
         .listRowSeparator(.hidden)
         .onTapGesture {
-            if let url = item.thumbnailURL {
-                    onVideoSelected(url)
-                }
+            if let url = item.thumbnailURL { onVideoSelected(url) }
         }
     }
 
+    
+    
+    
+    
+    
     private func loadFeedItems() {
         guard let data = UserDefaults.standard.data(forKey: "FeedItems"),
               let items = try? JSONDecoder().decode([FeedItem].self, from: data) else {
             feedItems = []
             return
         }
-
+        
         feedItems = items
-
+        
         for item in items {
             if let url = item.thumbnailURL,
                FileManager.default.fileExists(atPath: url.path) {
-
+                
                 generateAndCacheThumbnail(for: url)
-
+                
             } else if item.assetLocalIdentifier != nil {
-
+                
                 recoverVideoIfNeeded(for: item) { recoveredURL in
                     guard let recoveredURL else { return }
-
+                    
                     DispatchQueue.main.async {
                         if let index = feedItems.firstIndex(where: { $0.id == item.id }) {
                             feedItems[index] = FeedItem(
@@ -338,7 +450,7 @@ struct FeedView: View {
                                 quizCorrectAnswers: item.quizCorrectAnswers,
                                 quizTotalQuestions: item.quizTotalQuestions
                             )
-
+                            
                             generateAndCacheThumbnail(for: recoveredURL)
                             FeedItemStorage.save(feedItems)
                         }
@@ -346,91 +458,91 @@ struct FeedView: View {
                 }
             }
         }
-
-
+        
+        
     }
-
     
-
-
+    
+    
+    
     
     private func generateAndCacheThumbnail(for url: URL) {
         let key = url.path
-
+        
         guard videoThumbnails[key] == nil else {
             return
         }
-
+        
         DispatchQueue.global(qos: .userInitiated).async {
             let asset = AVAsset(url: url)
-
+            
             let imageGenerator = AVAssetImageGenerator(asset: asset)
             imageGenerator.appliesPreferredTrackTransform = true
-
+            
             do {
                 let cgImage = try imageGenerator.copyCGImage(at: .zero, actualTime: nil)
                 let image = UIImage(cgImage: cgImage)
-
+                
                 DispatchQueue.main.async {
                     videoThumbnails[key] = image
                 }
-
+                
             } catch {
                 print("❌ [THUMB] FAILURE for:", key)
                 print("❌ [THUMB] Error:", error.localizedDescription)
             }
         }
     }
-
-
-
-
     
-
+    
+    
+    
+    
+    
     
     private var emptyState: some View {
-           VStack(spacing: 24) {
-               Image(systemName: "plus.app")
-                   .font(.system(size: 60))
-                   .foregroundColor(.accentColor)
-                   .symbolRenderingMode(.hierarchical)
-
-               Text(NSLocalizedString("feed_empty_title", tableName: "general", comment: ""))
-                   .font(.title3)
-                   .bold()
-
-               Text(NSLocalizedString("feed_empty_subtitle", tableName: "general", comment: ""))
-                   .font(.body)
-                   .foregroundColor(.secondary)
-                   .multilineTextAlignment(.center)
-                   .padding(.horizontal, 40)
-
-               Button(action: { onAddTapped() }) {
-                   Text(
-                       NSLocalizedString(
-                           "feed_add_first_video",
-                           tableName: "general",
-                           comment: ""
-                       )
-                   )
-                   .font(.headline)
-                   .bold()
-                   .frame(maxWidth: .infinity)
-                   .padding()
-                   .background(Color.accentColor)
-                   .foregroundColor(.white)
-                   .cornerRadius(14)
-               }
-               .padding(.horizontal, 40)
-           }
-           .frame(maxWidth: .infinity, maxHeight: .infinity)
-           .padding(.bottom, 80)
-       }
+        VStack(spacing: 24) {
+            Image(systemName: "plus.app")
+                .font(.system(size: 60))
+                .foregroundColor(.accentColor)
+                .symbolRenderingMode(.hierarchical)
+            
+            Text(NSLocalizedString("feed_empty_title", tableName: "general", comment: ""))
+                .font(.title3)
+                .bold()
+            
+            Text(NSLocalizedString("feed_empty_subtitle", tableName: "general", comment: ""))
+                .font(.body)
+                .foregroundColor(.secondary)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, 40)
+            
+            Button(action: { onAddTapped() }) {
+                Text(
+                    NSLocalizedString(
+                        "feed_add_first_video",
+                        tableName: "general",
+                        comment: ""
+                    )
+                )
+                .font(.headline)
+                .bold()
+                .frame(maxWidth: .infinity)
+                .padding()
+                .background(Color.accentColor)
+                .foregroundColor(.white)
+                .cornerRadius(14)
+            }
+            .padding(.horizontal, 40)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .padding(.bottom, 80)
+    }
     
     // MARK: - Quiz Result Row
-
+    
     private func quizResultRow(_ item: FeedItem) -> some View {
-        HStack(spacing: 0) {
+        HStack(spacing: 14) {
 
             if let topicKey = item.quizTopicKey,
                let topic = QuizIdentifier.allCases.first(where: { $0.tableName == topicKey }) {
@@ -438,77 +550,51 @@ struct FeedView: View {
                 Image(topic.thumbnailImageName)
                     .resizable()
                     .scaledToFill()
-                    .frame(width: 120, height: 100)
-                    .clipped()
-                    .mask(
-                        RoundedRectangle(cornerRadius: 8, style: .continuous)
-                    )
-            } else {
-                RoundedRectangle(cornerRadius: 8, style: .continuous)
-                    .fill(Color.gray.opacity(0.2))
-                    .frame(width: 120, height: 100)
+                    .frame(width: 92, height: 92)
+                    .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
             }
 
             VStack(alignment: .leading, spacing: 8) {
+
                 Text(item.title)
                     .font(.headline)
-                    .fontWeight(.bold)
 
-                if let difficulty = item.quizDifficulty {
-                    difficultyBadge(difficulty)
-                }
+                Text(item.quizDifficulty?.localizedTitle.uppercased() ?? "")
+                    .font(.caption2.bold())
+                    .tracking(1)
+                    .foregroundStyle(.secondary)
 
-                if let correct = item.quizCorrectAnswers,
-                   let total = item.quizTotalQuestions {
+                if let c = item.quizCorrectAnswers,
+                   let t = item.quizTotalQuestions {
 
-                    quizProgressBar(
-                        progress: total == 0 ? 0 : Double(correct) / Double(total),
-                        color: difficultyColor(item.quizDifficulty)
-                    )
+                    let pct = Int((Double(c) / Double(max(t, 1))) * 100)
+
+                    Text("\(pct)% MASTERY")
+                        .font(.footnote.bold())
+                        .tracking(0.5)
+                        .foregroundStyle(pct >= 70 ? .primary : .secondary)
                 }
             }
-            .padding(.leading, 12)
 
             Spacer()
-
-            // ✅ Right-Side Performance Metric (Updated: "Solved")
-            if let correct = item.quizCorrectAnswers,
-               let total = item.quizTotalQuestions {
-
-                VStack(spacing: 2) {
-                    Text("\(Int(Double(correct) / Double(max(total, 1)) * 100))%")
-                        .font(.title3)
-                        .fontWeight(.bold)
-
-                    Text(NSLocalizedString("quiz_solved_label", tableName: "general", comment: "Solved"))
-                        .font(.caption2)
-                        .foregroundColor(.secondary)
-                }
-                .padding(.trailing, 10)
-            }
         }
-        .frame(height: 100)
+        .padding(16)
         .background(
-            RoundedRectangle(cornerRadius: 8, style: .continuous)
-                .fill(Color.blue.opacity(0.15))
+            .ultraThinMaterial,
+            in: RoundedRectangle(cornerRadius: 20, style: .continuous)
         )
-        .clipShape(
-            RoundedRectangle(cornerRadius: 8, style: .continuous)
-        )
-        .contentShape(Rectangle())
-        .listRowInsets(
-            EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16)
-        )
+        .listRowInsets(.init(top: 10, leading: 16, bottom: 10, trailing: 16))
         .listRowSeparator(.hidden)
         .onTapGesture {
             selectedQuizItem = item
         }
-
     }
 
-
+    
+    
+    
     // MARK: - Difficulty Badge
-
+    
     private func difficultyBadge(_ difficulty: FeedDifficulty) -> some View {
         Text(difficulty.localizedTitle.uppercased())
             .font(.caption2.bold())
@@ -520,16 +606,16 @@ struct FeedView: View {
             )
             .foregroundColor(difficultyColor(difficulty))
     }
-
-
+    
+    
     // MARK: - Reused Progress Bar (LessonDetailView Style)
-
+    
     private func quizProgressBar(progress: Double, color: Color) -> some View {
         GeometryReader { geo in
             ZStack(alignment: .leading) {
                 Capsule()
                     .fill(Color(.systemGray5))
-
+                
                 Capsule()
                     .fill(color)
                     .frame(width: geo.size.width * progress)
@@ -544,28 +630,28 @@ struct FeedView: View {
             completion(nil)
             return
         }
-
+        
         let assets = PHAsset.fetchAssets(withLocalIdentifiers: [assetID], options: nil)
         guard let asset = assets.firstObject else {
             completion(nil)
             return
         }
-
+        
         let manager = PHImageManager.default()
         let options = PHVideoRequestOptions()
         options.isNetworkAccessAllowed = true
         options.deliveryMode = .highQualityFormat
-
+        
         manager.requestAVAsset(forVideo: asset, options: options) { avAsset, _, _ in
             guard let urlAsset = avAsset as? AVURLAsset else {
                 completion(nil)
                 return
             }
-
+            
             let fm = FileManager.default
             let docs = fm.urls(for: .documentDirectory, in: .userDomainMask)[0]
             let newURL = docs.appendingPathComponent("recovered_\(UUID().uuidString).mov")
-
+            
             do {
                 try fm.copyItem(at: urlAsset.url, to: newURL)
                 completion(newURL)
@@ -574,11 +660,11 @@ struct FeedView: View {
             }
         }
     }
-
-
-
+    
+    
+    
     // MARK: - Difficulty Color Mapping
-
+    
     private func difficultyColor(_ difficulty: FeedDifficulty?) -> Color {
         switch difficulty {
         case .easy:
@@ -594,7 +680,7 @@ struct FeedView: View {
     
     
     private func aiCoachRow(_ item: FeedItem) -> some View {
-        HStack(spacing: 0) {
+        HStack(spacing: 14) {
 
             if let url = item.thumbnailURL,
                let thumbnail = videoThumbnails[url.path] {
@@ -602,71 +688,67 @@ struct FeedView: View {
                 Image(uiImage: thumbnail)
                     .resizable()
                     .scaledToFill()
-                    .frame(width: 120, height: 100)
-                    .clipped()
-                    .mask(
-                        RoundedRectangle(cornerRadius: 8, style: .continuous)
-                    )
-
-            } else {
-                RoundedRectangle(cornerRadius: 8, style: .continuous)
-                    .fill(Color.gray.opacity(0.2))
-                    .frame(width: 120, height: 100)
+                    .frame(width: 72, height: 72)
+                    .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
             }
 
-            VStack(alignment: .leading, spacing: 8) {
-                Text(item.title)
-                    .font(.headline)
-                    .fontWeight(.bold)
+            VStack(alignment: .leading, spacing: 6) {
 
-                if let subtitle = item.subtitle {
-                    HStack(spacing: 6) {
-                        Image(systemName: "tennisball")
-                            .font(.caption2)
-                        Text(subtitle)
-                            .font(.footnote)
-                            .foregroundColor(.secondary)
-                    }
+                Text("BIOMECHANICAL ALERT")
+                    .font(.caption2.bold())
+                    .tracking(1)
+                    .foregroundStyle(.secondary)
+
+                Text(item.title)
+                    .font(.system(size: 17, weight: .semibold))
+
+                if let tips = item.aiTipCount {
+                    Text("POWER LOSS • \(tips) REQUIRED CORRECTIONS")
+                        .font(.caption2)
+                        .tracking(0.5)
+                        .foregroundStyle(.secondary)
                 }
             }
-            .padding(.leading, 12)
 
             Spacer()
 
             if let tips = item.aiTipCount {
-                VStack(spacing: 2) {
+                VStack(spacing: 0) {
                     Text("\(tips)")
-                        .font(.title3)
-                        .fontWeight(.bold)
+                        .font(.system(size: 24, weight: .heavy, design: .rounded))
 
-                    Text("Tips")
-                        .font(.caption2)
-                        .foregroundColor(.secondary)
+                    Text("FIXES")
+                        .font(.caption2.bold())
+                        .tracking(1)
+                        .foregroundStyle(.secondary)
                 }
-                .padding(.trailing, 10)
             }
         }
-        .frame(height: 100)
-        .background(
-            RoundedRectangle(cornerRadius: 8, style: .continuous)
-                .fill(Color.purple.opacity(0.15))
-        )
-        .clipShape(
-            RoundedRectangle(cornerRadius: 8, style: .continuous)
-        )
-        .contentShape(Rectangle())
+        .padding(16)
+        .background {
+            ZStack(alignment: .leading) {
+
+                Color(.secondarySystemBackground)
+
+                Rectangle()
+                    .fill(
+                        LinearGradient(
+                            colors: [.red.opacity(0.9), .orange.opacity(0.7)],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                    )
+                    .frame(width: 6)
+            }
+            .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+        }
+        .listRowInsets(.init(top: 8, leading: 16, bottom: 8, trailing: 16))
+        .listRowSeparator(.hidden)
         .onTapGesture {
             selectedAICoachItem = item
         }
-        .listRowInsets(
-            EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16)
-        )
-        .listRowSeparator(.hidden)
     }
 
-
-
-    
 }
 
 
