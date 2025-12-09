@@ -23,6 +23,15 @@ struct CoachHubWrapper: View {
     @ObservedObject var state: CoachHubState
     let recordAction: () -> Void
     let uploadAction: () -> Void
+    let lastServeSpeed = FeedItemStorage
+        .load()
+        .filter { $0.type == .serve }
+        .compactMap { $0.fastestSpeedKmh }
+        .filter { $0 > 0 }
+        .sorted(by: >)
+        .first
+
+
     
     var body: some View {
         CoachHubView(
@@ -34,7 +43,7 @@ struct CoachHubWrapper: View {
             latestFocusTitle: state.selectedMode == .technique ? "Refine Toss Consistency" : nil,
             latestFocusStrength: state.selectedMode == .technique ? "Stable leg drive detected" : nil,
             latestFocusCorrection: state.selectedMode == .technique ? "Toss drifting too far left" : nil,
-            lastServeSpeed: state.selectedMode == .speed ? 178 : nil
+            lastServeSpeed: state.selectedMode == .speed ? lastServeSpeed : nil
         )
     }
 }

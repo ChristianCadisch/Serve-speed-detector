@@ -42,12 +42,17 @@ struct FeedView: View {
                 Spacer()
 
                 VStack(alignment: .trailing, spacing: 2) {
-                    Text("WEEKLY STREAK")
+
+                    let weekly = weeklyStreak()
+                    let daily = dailyStreak()
+                    let useDaily = daily > weekly
+
+                    Text(useDaily ? "DAILY STREAK" : "WEEKLY STREAK")
                         .font(.caption2.bold())
                         .tracking(1)
                         .foregroundStyle(.secondary)
 
-                    Text("0")
+                    Text("\(useDaily ? daily : weekly)")
                         .font(.system(size: 28, weight: .heavy, design: .rounded))
                 }
             }
@@ -171,6 +176,95 @@ struct FeedView: View {
     
     // MARK: - Helper Methods
     
+    // MARK: - Streak Calculations
+
+    private struct WeekKey: Hashable {
+        let year: Int
+        let week: Int
+    }
+
+    private func weeklyStreak() -> Int {
+        let calendar = Calendar.current
+
+        // Extract all unique year-week pairs
+        let uniqueWeeks = Set(
+            feedItems.map { item -> WeekKey in
+                let comp = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: item.date)
+                return WeekKey(
+                    year: comp.yearForWeekOfYear ?? 0,
+                    week: comp.weekOfYear ?? 0
+                )
+            }
+        )
+
+
+
+        // Convert to sorted array (latest first)
+        let sortedWeeks = uniqueWeeks.sorted {
+            ($0.year, $0.week) > ($1.year, $1.week)
+        }
+
+        guard let first = sortedWeeks.first else { return 0 }
+
+        var streak = 1
+        var expectedYear = first.year
+        var expectedWeek = first.week
+
+        for key in sortedWeeks.dropFirst() {
+            let year = key.year
+            let week = key.week
+
+            expectedWeek -= 1
+            if expectedWeek == 0 {
+                expectedYear -= 1
+                let weeksInPrevYear = calendar.range(
+                    of: .weekOfYear,
+                    in: .yearForWeekOfYear,
+                    for: Date()
+                )?.count ?? 52
+                expectedWeek = weeksInPrevYear
+            }
+
+            if year == expectedYear && week == expectedWeek {
+                streak += 1
+            } else {
+                break
+            }
+        }
+
+
+        return streak
+    }
+
+
+    private func dailyStreak() -> Int {
+        let calendar = Calendar.current
+
+        // Extract all unique days (midnight-normalized)
+        let uniqueDays = Set(
+            feedItems.map { calendar.startOfDay(for: $0.date) }
+        )
+        let sortedDays = uniqueDays.sorted(by: >)
+
+        guard let first = sortedDays.first else { return 0 }
+
+        var streak = 1
+        var expectedDate = first
+
+        for day in sortedDays.dropFirst() {
+            expectedDate = calendar.date(byAdding: .day, value: -1, to: expectedDate) ?? expectedDate
+
+            if calendar.isDate(day, inSameDayAs: expectedDate) {
+                streak += 1
+            } else {
+                break
+            }
+        }
+
+        // Only return when 1 ≤ streak < 100
+        return (streak >= 1 && streak < 100) ? streak : 0
+    }
+
     
     private var editorialHero: FeedItem? {
         feedItems

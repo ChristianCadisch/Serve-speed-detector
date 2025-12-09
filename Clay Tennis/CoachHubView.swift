@@ -275,11 +275,14 @@ struct CoachHubView: View {
             HStack(spacing: 12) {
                 Image(systemName: "bolt.fill")
                     .foregroundStyle(.yellow)
-                
-                Text("Great power!")
+
+                Text(selectedSlogan)
                     .font(.body.weight(.medium))
-                
+
                 Spacer()
+            }
+            .onAppear {
+                selectedSlogan = powerSlogans.randomElement() ?? "Great power!"
             }
         }
         .padding(22)
@@ -290,6 +293,17 @@ struct CoachHubView: View {
         )
         .transition(.move(edge: .bottom).combined(with: .opacity))
     }
+    
+    
+    @State private var selectedSlogan = ""
+    private let powerSlogans = [
+        "Great power!",
+        "Huge pop on contact!",
+        "Explosive acceleration!",
+        "Lightning-fast racket speed!"
+    ]
+
+
     
     
     // MARK: - Coaching Focus Card (Technique Mode)
