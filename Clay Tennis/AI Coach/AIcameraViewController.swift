@@ -1,10 +1,3 @@
-//
-//  AIcameraViewController.swift
-//  SwiftUI-Interface
-//
-//  Created by Christian on 12.05.2024.
-//
-
 /*
  See LICENSE folder for this sample’s licensing information.
  
@@ -21,6 +14,7 @@ import Vision
 struct CameraView: UIViewControllerRepresentable {
     var videoURL: URL?
     var frame: CGRect
+    var angle: ServeCameraAngle
     @Binding var controller: AIcameraViewController?
     
     func makeUIViewController(context: Context) -> AIcameraViewController {
@@ -35,14 +29,10 @@ struct CameraView: UIViewControllerRepresentable {
     }
     
     func updateUIViewController(_ uiViewController: AIcameraViewController, context: Context) {
+        print("📡 [AICamViewRep] updateUIViewController — angle:", angle)
         uiViewController.updateLayout(frame: frame)
-
-        if let videoURL {
-            print("🔄 [AI VIEW] Updating controller with video:", videoURL.lastPathComponent)
-            uiViewController.setupWithVideoURL(videoURL)
-        } else {
-            print("⚠️ [AI VIEW] updateUIViewController called with NIL videoURL")
-        }
+        uiViewController.serveAngle = angle
+        print("📡 [AICamViewRep] uiViewController.serveAngle now:", uiViewController.serveAngle)
     }
 
     
@@ -84,7 +74,12 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
     private var exportOverlayLayer = CALayer()
     private var exportQueue = DispatchQueue(label: "export.queue")
 
-    
+    var serveAngle: ServeCameraAngle = .side {
+        didSet {
+            print("🎯 [AIcameraVC] serveAngle updated to:", serveAngle)
+        }
+    }
+
     
     init(frame: CGRect) {
         super.init(nibName: nil, bundle: nil)
@@ -176,11 +171,6 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
                     endConfidence: endPoint.confidence
                 ))
             }
-
-            print("🦴 Caching joints — raw Vision normalized coordinates:")
-            for c in cachedJointConnections {
-                print("   start:", c.start, "end:", c.end)
-            }
             
             drawSkeletonFromCache()
             
@@ -197,13 +187,10 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
         
         guard let videoView = VideoCoachRenderView else { return }
 
-        print("🖼 drawSkeletonFromCache() — video bounds:", videoView.bounds)
         
         for connection in cachedJointConnections {
             let viewStart = videoView.viewPointConverted(fromNormalizedContentsPoint: connection.start)
             let viewEnd = videoView.viewPointConverted(fromNormalizedContentsPoint: connection.end)
-
-            print("   🎯 converted start:", viewStart, "end:", viewEnd)
             
             let startCircle = UIBezierPath(arcCenter: viewStart, radius: 2.0, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true)
             self.jointPath.append(startCircle)
@@ -395,14 +382,14 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
                     let verbose = false
                     
                     if self.gameManager.stateMachine.currentState is GameManager.TryDetectingServe {
-                        let (serveDetected, framesPrior) = self.aiCoach.detectServe(from: recognizedPoints, verbose: verbose)
+                        let (serveDetected, framesPrior) = self.aiCoach.detectServe(from: recognizedPoints, angle: self.serveAngle, verbose: verbose)
                         if serveDetected {
                             self.pauseVideoPlayback(multiplier: framesPrior)
                             self.gameManager.stateMachine.enter(GameManager.TryDetectingTrophyPose.self)
                             GameStateObserver.shared.serveFramePosition = GameStateObserver.shared.videoProgress
                         }
                     } else {
-                        let (trophyPoseDetected, framesPrior) = self.aiCoach.detectTrophyPose(from: recognizedPoints, verbose: verbose)
+                        let (trophyPoseDetected, framesPrior) = self.aiCoach.detectTrophyPose(from: recognizedPoints, angle: self.serveAngle, verbose: verbose)
                         if trophyPoseDetected {
                             self.pauseVideoPlayback(multiplier: framesPrior / 2)
                             self.gameManager.stateMachine.enter(GameManager.TryDetectingServe.self)
@@ -1144,16 +1131,12 @@ class VideoCoachRenderView: UIView, NormalizedGeometryConverting {
     func viewPointConverted(fromNormalizedContentsPoint normalizedPoint: CGPoint) -> CGPoint {
         let videoRect = renderLayer.videoRect
 
-        print("🔍 [Conversion] incoming normalized:", normalizedPoint)
-        print("🔍 [Conversion] videoRect:", videoRect)
 
         let flippedY = 1.0 - normalizedPoint.y
         let convertedPoint = CGPoint(
             x: videoRect.origin.x + normalizedPoint.x * videoRect.width,
             y: videoRect.origin.y + flippedY * videoRect.height
         )
-
-        print("🔍 [Conversion] converted:", convertedPoint)
 
         return convertedPoint
     }

@@ -15,7 +15,9 @@ import Combine
 
 class CoachHubState: ObservableObject {
     @Published var selectedMode: ServeMode = .technique
+    @Published var detectedAngle: ServeCameraAngle = .side
 }
+
 
 struct CoachHubWrapper: View {
     @ObservedObject var state: CoachHubState
@@ -25,8 +27,8 @@ struct CoachHubWrapper: View {
     var body: some View {
         CoachHubView(
             selectedMode: $state.selectedMode,
-            detectedAngle: .constant(.side),
-            angleDetectionSource: .constant(.auto),
+            detectedAngle: $state.detectedAngle,
+            angleDetectionSource: .constant(.manual), 
             recordAction: recordAction,
             uploadAction: uploadAction,
             latestFocusTitle: state.selectedMode == .technique ? "Refine Toss Consistency" : nil,
@@ -36,6 +38,7 @@ struct CoachHubWrapper: View {
         )
     }
 }
+
 
 
 class HomeViewController: UIViewController,
@@ -237,8 +240,10 @@ class HomeViewController: UIViewController,
 
         let view = AICoachScreen(
             assetLocalIdentifier: assetLocalIdentifier,
-            initialVideoURL: pendingCoachVideoURL   // ✅ PASS LOCAL FILE IF AVAILABLE
+            initialVideoURL: pendingCoachVideoURL,
+            selectedAngle: coachHubState.detectedAngle
         )
+
 
         let hosting = UIHostingController(
             rootView: AnyView(

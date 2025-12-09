@@ -109,49 +109,43 @@ struct CoachHubView: View {
                 .padding(.horizontal, 16)
                 .padding(.vertical, 10)
                 .background(
-                    Capsule()
-                        .fill(
-                            selectedMode == mode ?
-                            LinearGradient(
+                    Capsule().fill(
+                        selectedMode == mode
+                        ? (
+                            mode == .technique
+                            ? LinearGradient(
+                                colors: [.purple, .pink],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                              )
+                            : LinearGradient(
                                 colors: [.blue, .cyan],
                                 startPoint: .topLeading,
                                 endPoint: .bottomTrailing
-                            ) :
-                            LinearGradient(
-                                colors: [Color(.tertiarySystemBackground), Color(.tertiarySystemBackground)],
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
-                            )
-                        )
+                              )
+                          )
+                        : LinearGradient(
+                            colors: [Color(.tertiarySystemBackground), Color(.tertiarySystemBackground)],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                          )
+                    )
                 )
         }
         .buttonStyle(.plain)
     }
+
     
     
     // MARK: - Angle Chip
     
     private var angleChip: some View {
-        HStack {
-            HStack(spacing: 8) {
-                Circle()
-                    .fill(angleDetectionSource == .auto ? Color.green : Color.orange)
-                    .frame(width: 8, height: 8)
-                
-                Text("Angle:")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                
-                Text(detectedAngle.title)
-                    .font(.caption.bold())
-            }
-            
+        HStack(spacing: 8) {
+
+            angleButton(.side)
+            angleButton(.back)
+
             Spacer()
-            
-            Text(angleDetectionSource == .auto ? "AUTO" : "MANUAL")
-                .font(.caption2.bold())
-                .tracking(1)
-                .foregroundStyle(.secondary)
         }
         .padding(.horizontal, 18)
         .padding(.vertical, 12)
@@ -161,6 +155,37 @@ struct CoachHubView: View {
         )
         .transition(.move(edge: .top).combined(with: .opacity))
     }
+    private func angleButton(_ angle: ServeCameraAngle) -> some View {
+        Button(action: {
+            print("🎥 [CoachHub] Tapped angle:", angle)
+            detectedAngle = angle
+        }) {
+            Text(angle.title.uppercased())
+                .font(.caption.bold())
+                .tracking(1)
+                .foregroundStyle(detectedAngle == angle ? .white : .secondary)
+                .padding(.horizontal, 14)
+                .padding(.vertical, 8)
+                .background(
+                    Capsule().fill(
+                        detectedAngle == angle
+                        ? LinearGradient(
+                            colors: [.purple, .pink],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                        : LinearGradient(
+                            colors: [Color(.tertiarySystemBackground), Color(.tertiarySystemBackground)],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                )
+
+        }
+        .buttonStyle(.plain)
+    }
+
     
     
     // MARK: - Action Buttons

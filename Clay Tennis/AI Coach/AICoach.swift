@@ -3,20 +3,25 @@ import Vision
 class AICoach {
     
     let detectionThreshold: Int32 = 4
-
+    
     var rightElbowOverShoulder = false
     var leftElbowOverShoulder = false
     var prevYDifference: CGFloat = 0.0
-
+    
     var elbowOverShoulderCount = 0
     var wristHeightDecreasingCount = 0
     var framesSinceWristOverShoulder = 0
-
+    
     private var yDifferenceDerivative = 1.0
+    var cameraAngle: ServeCameraAngle = .side
 
+    
     var feedbackHandler: ((String, String) -> Void)?
-
-    func detectServe(from joints: [VNHumanBodyPoseObservation.JointName: VNRecognizedPoint], verbose: Bool = false) -> (Bool, Int32) {
+    
+    func detectServe(from joints: [VNHumanBodyPoseObservation.JointName: VNRecognizedPoint], angle: ServeCameraAngle, verbose: Bool = false) -> (Bool, Int32) {
+        print("🤖 [AICoach] detectServe called with angle:", angle)
+        self.cameraAngle = angle
+        
         guard let rightWristJoint = joints[.rightWrist],
               let rightShoulderJoint = joints[.rightShoulder],
               let rightElbowJoint = joints[.rightElbow] else {
@@ -53,7 +58,11 @@ class AICoach {
             
             if wristHeightDecreasingCount >= detectionThreshold {
                 print("Serve detected after \(framesSinceWristOverShoulder) frames since wrist was over shoulder")
-                provideFeedback(for: convertJointsToCGPoint(joints), pose: "Hit behind")
+                if cameraAngle == .side {
+                    provideFeedback(for: convertJointsToCGPoint(joints), pose: "Hit side")
+                } else {
+                    provideFeedback(for: convertJointsToCGPoint(joints), pose: "Hit behind")
+                }
                 rightElbowOverShoulder = false
                 wristHeightDecreasingCount = 0
                 elbowOverShoulderCount = 0
@@ -66,9 +75,12 @@ class AICoach {
         prevYDifference = yDifference
         return (false, 0)
     }
-
     
-    func detectTrophyPose(from joints: [VNHumanBodyPoseObservation.JointName: VNRecognizedPoint], verbose: Bool = false) -> (Bool, Int32) {
+    
+    func detectTrophyPose(from joints: [VNHumanBodyPoseObservation.JointName: VNRecognizedPoint], angle: ServeCameraAngle, verbose: Bool = false) -> (Bool, Int32) {
+        
+        print("🤖 [AICoach] detectTrophyPose called with angle:", angle)
+        self.cameraAngle = angle
         guard let leftWristJoint = joints[.leftWrist],
               let leftShoulderJoint = joints[.leftShoulder], let leftElbowJoint = joints[.leftElbow] else {
             return (false, 0)
@@ -106,11 +118,16 @@ class AICoach {
             
             if wristHeightDecreasingCount >= detectionThreshold {
                 print("Trophy detected")
-                provideFeedback(for: convertJointsToCGPoint(joints), pose: "Trophy behind")
+                if cameraAngle == .side {
+                    provideFeedback(for: convertJointsToCGPoint(joints), pose: "Trophy side")
+                    print("feedback side")
+                } else {
+                    provideFeedback(for: convertJointsToCGPoint(joints), pose: "Trophy behind")
+                    print("feedback back")
+
+                }
                 leftElbowOverShoulder = false
                 wristHeightDecreasingCount = 0
-                framesSinceWristOverShoulder = 0
-                prevYDifference = 0
                 elbowOverShoulderCount = 0
                 return (true, detectionThreshold)
             }
@@ -131,7 +148,7 @@ class AICoach {
         var feedbackArrayDetailed = [String]()
         
         if pose == "Trophy behind" {
-             
+            
             // Calculate knee angles
             guard let leftKneeAngle = calculateAngle(from: joints, joint1: .leftHip, joint2: .leftKnee, joint3: .leftAnkle),
                   let rightKneeAngle = calculateAngle(from: joints, joint1: .rightHip, joint2: .rightKnee, joint3: .rightAnkle) else {
@@ -174,7 +191,7 @@ class AICoach {
             feedbackHandler?(feedbackArray.joined(separator: "\n"), feedbackArrayDetailed.joined(separator: "\n"))
             
         } else if pose == "Hit behind" {
-             
+            
             guard let leftWrist = joints[.leftWrist],
                   let rightWrist = joints[.rightWrist],
                   let leftShoulder = joints[.leftShoulder],
@@ -225,7 +242,119 @@ class AICoach {
             }
             
             feedbackHandler?(feedbackArray.joined(separator: "\n"), feedbackArrayDetailed.joined(separator: "\n"))
+        } else if pose == "Trophy side" {
+            
+            guard
+                let leftShoulder = joints[.leftShoulder],
+                let leftElbow = joints[.leftElbow],
+                let leftWrist = joints[.leftWrist],
+                let rightShoulder = joints[.rightShoulder],
+                let rightElbow = joints[.rightElbow],
+                let rightWrist = joints[.rightWrist],
+                let leftHip = joints[.leftHip],
+                let leftKnee = joints[.leftKnee]
+            else {
+                feedbackArray.append("Missing joints for trophy-side analysis")
+                feedbackArrayDetailed.append("Not enough pose information to reliably analyze the trophy pose from the side")
+                feedbackHandler?(feedbackArray.joined(separator: "\n"), feedbackArrayDetailed.joined(separator: "\n"))
+                return
+            }
+            
+            if let elbowAngle = calculateAngle(from: joints, joint1: .leftShoulder, joint2: .leftElbow, joint3: .leftWrist) {
+                if elbowAngle > 25 {
+                    feedbackArray.append("Your tossing arm is not fully stretched")
+                    feedbackArrayDetailed.append("A straight tossing arm improves consistency and ball control")
+                }
+            }
+            
+            if let armDirection = calculateAngle(from: joints, joint1: .leftShoulder, joint2: .leftWrist, joint3: .rightShoulder) {
+                if abs(armDirection - 90) > 15 {
+                    feedbackArray.append("Your tossing arm should point more upwards")
+                    feedbackArrayDetailed.append("Directing the hand toward the ball improves toss precision and alignment")
+                }
+            }
+            
+            if (leftHip.x + 0.02) < leftKnee.x {
+                feedbackArray.append("Your hip should lead the body forward")
+                feedbackArrayDetailed.append("Driving the hip ahead of the knee creates proper body arch and energy transfer")
+            }
+            
+            if let shoulderLine = calculateAngle(from: joints, joint1: .leftShoulder, joint2: .rightShoulder, joint3: .rightElbow) {
+                if shoulderLine > 20 {
+                    feedbackArray.append("Your right elbow and shoulders should align horizontally")
+                    feedbackArrayDetailed.append("A straight shoulder–elbow line improves racket drop and power loading")
+                }
+            }
+            
+            if let rightElbowAngle = calculateAngle(from: joints, joint1: .rightShoulder, joint2: .rightElbow, joint3: .rightWrist) {
+                if rightElbowAngle > 80 {
+                    feedbackArray.append("Your hitting-arm elbow should be more bent")
+                    feedbackArrayDetailed.append("A tighter elbow angle brings the racket closer to the head for better acceleration")
+                }
+            }
+            
+            feedbackHandler?(feedbackArray.joined(separator: "\n"), feedbackArrayDetailed.joined(separator: "\n"))
+            
+            
+        } else if pose == "Hit side" {
+            
+            guard
+                let leftWrist = joints[.leftWrist],
+                let rightWrist = joints[.rightWrist],
+                let leftShoulder = joints[.leftShoulder],
+                let rightShoulder = joints[.rightShoulder],
+                let rightElbow = joints[.rightElbow],
+                let rightHip = joints[.rightHip]
+            else {
+                feedbackArray.append("Missing joints for hit-side analysis")
+                feedbackArrayDetailed.append("Not enough pose information to evaluate the hitting phase from the side")
+                feedbackHandler?(feedbackArray.joined(separator: "\n"), feedbackArrayDetailed.joined(separator: "\n"))
+                return
+            }
+            
+            let isLeftHigher = leftWrist.y < rightWrist.y
+            let hittingWrist = isLeftHigher ? leftWrist : rightWrist
+            let hittingShoulder = isLeftHigher ? leftShoulder : rightShoulder
+            let hittingElbow: CGPoint = isLeftHigher ? joints[.leftElbow]! : joints[.rightElbow]!
+            
+            if let armDirection = calculateAngle(from: joints, joint1: hittingShoulder == leftShoulder ? .leftShoulder : .rightShoulder,
+                                                 joint2: hittingWrist == leftWrist ? .leftWrist : .rightWrist,
+                                                 joint3: hittingElbow == joints[.leftElbow]! ? .leftElbow : .rightElbow) {
+                
+                if armDirection > 75 {
+                    feedbackArray.append("You should hit the ball slightly more in front")
+                    feedbackArrayDetailed.append("Contacting the ball earlier improves power transfer and reduces drag on the arm")
+                } else if armDirection < 55 {
+                    feedbackArray.append("You are contacting the ball too far in front")
+                    feedbackArrayDetailed.append("Ideal contact is just ahead of the body—not excessively forward")
+                }
+            }
+            
+            if let elbowAngle = calculateAngle(from: joints,
+                                               joint1: hittingShoulder == leftShoulder ? .leftShoulder : .rightShoulder,
+                                               joint2: hittingElbow == joints[.leftElbow]! ? .leftElbow : .rightElbow,
+                                               joint3: hittingWrist == leftWrist ? .leftWrist : .rightWrist) {
+                if elbowAngle > 30 {
+                    feedbackArray.append("Your hitting arm should be straighter at contact")
+                    feedbackArrayDetailed.append("A straight arm maximizes reach and upward extension through the ball")
+                }
+            }
+            
+            if let stretchAngle = calculateAngle(from: joints, joint1: .rightHip, joint2: .rightShoulder, joint3: .rightWrist) {
+                if stretchAngle > 20 {
+                    feedbackArray.append("Your upper body should form a straighter line")
+                    feedbackArrayDetailed.append("Hip–shoulder–wrist alignment improves energy transfer into the ball")
+                }
+            }
+            
+            if leftWrist.y > leftShoulder.y {
+                feedbackArray.append("Your non-hitting arm should stay lower during the hit")
+                feedbackArrayDetailed.append("Lowering the left arm supports torso rotation and prevents balance loss")
+            }
+            
+            feedbackHandler?(feedbackArray.joined(separator: "\n"), feedbackArrayDetailed.joined(separator: "\n"))
         }
+        
     }
     
     // Helper function to convert joints to CGPoint
