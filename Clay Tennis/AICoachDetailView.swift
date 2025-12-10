@@ -124,34 +124,32 @@ struct AICoachDetailView: View {
     
     private var strengthsCorrectionsSection: some View {
 
-        // 1) Extract all positives / negatives
         let positives = item.positiveAITips
         let negatives = item.aiTips
 
-        // 2) Compute the displayed list OUTSIDE the ViewBuilder
+
         let displayedInsights: [(title: String, text: String, icon: String, tint: Color)] = {
-            
+
+           
             var output: [(String, String, String, Color)] = []
 
-            if !positives.isEmpty {
-                // Show 1 positive + 1 negative (if available)
-                if let pos = positives.first {
-                    output.append(("Strength", pos, "checkmark.circle.fill", .green))
-                }
-                if let neg = negatives.first {
-                    output.append(("Correction", neg, "exclamationmark.triangle.fill", .orange))
-                }
-            } else {
-                // Show up to 2 negatives
-                for neg in negatives.prefix(2) {
-                    output.append(("Correction", neg, "exclamationmark.triangle.fill", .orange))
-                }
+            // Add ALL positive tips
+            for p in positives {
+                output.append(("Strength", p, "checkmark.circle.fill", .green))
+            }
+
+            // Add ALL negative tips
+            for n in negatives {
+                output.append(("Correction", n, "exclamationmark.triangle.fill", .orange))
+            }
+
+            output.forEach { (title, text, _, _) in
+                print(" - \(title): \(text)")
             }
 
             return output
         }()
 
-        // 3) Render the section
         return VStack(alignment: .leading, spacing: 22) {
 
             Text("What the Coach Saw")

@@ -158,11 +158,9 @@ struct FeedView: View {
             .onReceive(NotificationCenter.default.publisher(for: .feedItemCreated)) { notification in
                 if let feedItem = notification.object as? FeedItem {
                     
-                    print("🟢 [FEED] New item received:", feedItem.type)
                     feedItems.append(feedItem)
                     
                     if let url = feedItem.thumbnailURL {
-                        print("🖼 [FEED] Generating thumbnail for new item:", url.lastPathComponent)
                         generateAndCacheThumbnail(for: url)
                     }
                 }
@@ -410,11 +408,6 @@ struct FeedView: View {
 
             VStack(alignment: .leading, spacing: 10) {
 
-                Text(item.type == .serve ? "TODAY’S PEAK OUTPUT" : "BIOMECHANICAL WARNING")
-                    .font(.caption.bold())
-                    .tracking(1.5)
-                    .foregroundStyle(.white.opacity(0.85))
-
                 Text(item.primaryMetricText ?? item.title)
                     .font(.system(size: 58, weight: .heavy, design: .rounded))
                     .foregroundStyle(.white)
@@ -540,10 +533,11 @@ struct FeedView: View {
                                 aiTips: item.aiTips,
                                 aiTipsDetailed: item.aiTipsDetailed,
                                 positiveAITips: item.positiveAITips,
+                                side: item.side,
                                 quizTopicKey: item.quizTopicKey,
                                 quizDifficulty: item.quizDifficulty,
                                 quizCorrectAnswers: item.quizCorrectAnswers,
-                                quizTotalQuestions: item.quizTotalQuestions
+                                quizTotalQuestions: item.quizTotalQuestions,
                             )
                             
                             generateAndCacheThumbnail(for: recoveredURL)
@@ -789,20 +783,18 @@ struct FeedView: View {
 
             VStack(alignment: .leading, spacing: 6) {
 
-                Text("BIOMECHANICAL ALERT")
-                    .font(.caption2.bold())
-                    .tracking(1)
-                    .foregroundStyle(.secondary)
-
+                if let tips = item.aiTipCount {
+                    if let side = item.side{
+                        Text("ANALYSIS FROM \(side.uppercased())")
+                            .font(.caption2.bold())
+                            .tracking(1)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+                
                 Text(item.title)
                     .font(.system(size: 17, weight: .semibold))
 
-                if let tips = item.aiTipCount {
-                    Text("POWER LOSS • \(tips) REQUIRED CORRECTIONS")
-                        .font(.caption2)
-                        .tracking(0.5)
-                        .foregroundStyle(.secondary)
-                }
             }
 
             Spacer()
@@ -908,6 +900,7 @@ struct FeedItem: Identifiable, Codable, Hashable {
 
     // AI Coach–specific
     let aiTipCount: Int?
+    let side: String?
 
     // Quiz-specific
     let quizTopicKey: String?
@@ -937,6 +930,7 @@ struct FeedItem: Identifiable, Codable, Hashable {
         aiTipsDetailed: [String] = [],
         positiveAITips: [String] = [],
         keyword: [String] = [],
+        side: String? = nil,
 
 
         quizTopicKey: String? = nil,
@@ -960,11 +954,13 @@ struct FeedItem: Identifiable, Codable, Hashable {
         self.aiTipsDetailed = aiTipsDetailed
         self.positiveAITips = positiveAITips
         self.keyword = keyword
+        self.side = side
         self.quizTopicKey = quizTopicKey
         self.quizDifficulty = quizDifficulty
         self.quizCorrectAnswers = quizCorrectAnswers
         self.quizTotalQuestions = quizTotalQuestions
     }
+    
 }
 
 

@@ -19,7 +19,6 @@ class AICoach {
     var feedbackHandler: ((String, String, String, String) -> Void)?
     
     func detectServe(from joints: [VNHumanBodyPoseObservation.JointName: VNRecognizedPoint], angle: ServeCameraAngle, verbose: Bool = false) -> (Bool, Int32) {
-        print("🤖 [AICoach] detectServe called with angle:", angle)
         self.cameraAngle = angle
         
         guard let rightWristJoint = joints[.rightWrist],
@@ -79,7 +78,6 @@ class AICoach {
     
     func detectTrophyPose(from joints: [VNHumanBodyPoseObservation.JointName: VNRecognizedPoint], angle: ServeCameraAngle, verbose: Bool = false) -> (Bool, Int32) {
         
-        print("🤖 [AICoach] detectTrophyPose called with angle:", angle)
         self.cameraAngle = angle
         guard let leftWristJoint = joints[.leftWrist],
               let leftShoulderJoint = joints[.leftShoulder], let leftElbowJoint = joints[.leftElbow] else {

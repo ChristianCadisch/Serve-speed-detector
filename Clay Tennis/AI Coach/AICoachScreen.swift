@@ -202,8 +202,9 @@ struct AICoachScreen: View {
     
     
     private var displayedFeedback: [(text: String, isPositive: Bool)] {
-        let positives = state.positiveFeedbackArray
-        let negatives = state.feedbackArray
+        // Clean arrays → remove blank or whitespace-only entries
+        let positives = state.positiveFeedbackArray.filter { !$0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
+        let negatives = state.feedbackArray.filter { !$0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
 
         // CASE 1 → We have positive feedback
         if let pos = positives.first {
@@ -213,7 +214,6 @@ struct AICoachScreen: View {
                     (text: neg, isPositive: false)
                 ]
             } else {
-                // fallback → only positive
                 return positives
                     .prefix(2)
                     .map { (text: $0, isPositive: true) }
@@ -225,6 +225,7 @@ struct AICoachScreen: View {
             .prefix(2)
             .map { (text: $0, isPositive: false) }
     }
+
 
     
     private var continueButton: some View {
@@ -352,16 +353,21 @@ struct AICoachScreen: View {
             primaryMetricText: "\(state.feedbackArray.count + state.positiveFeedbackArray.count) tips",
             secondaryMetricText: nil,
             fastestSpeedKmh: nil,
-            aiTipCount: (state.feedbackArray.count + state.positiveFeedbackArray.count),
+            serveCount: nil,
+
+            aiTipCount: state.feedbackArray.count + state.positiveFeedbackArray.count,
             aiTips: state.feedbackArray,
             aiTipsDetailed: state.feedbackArrayDetailed,
             positiveAITips: state.positiveFeedbackArray,
             keyword: state.keywordArray,
+            side: selectedAngle.title,
+
             quizTopicKey: nil,
             quizDifficulty: nil,
             quizCorrectAnswers: nil,
             quizTotalQuestions: nil
         )
+
         
         
         var items = (try? JSONDecoder().decode(
