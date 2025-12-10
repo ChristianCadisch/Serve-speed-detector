@@ -151,11 +151,10 @@ typealias GameStateChangeObserverViewController = UIViewController & GameStateCh
 
 
 class GameStateObserver: ObservableObject {
-    @Published var feedbackText: String = "Hey James,\nSolid Serve! Let's analyze it: \n Your left arm is streched \n Knees and hip are arched towards the court\n Your racket points slighly forward \n Shoulder and and elbow are not in one line"
-    //  @Published var feedbackArray = [String]()
-    @Published var feedbackArray: [String] = ["Hoi du", " :) "]
-    @Published var feedbackArrayDetailed : [String] = ["Hoi du", " :) "]
-    @Published var positiveFeedbackArray: [String] = ["Hoi du", " :) "]
+    @Published var feedbackArray: [String] = []
+    @Published var feedbackArrayDetailed : [String] = []
+    @Published var positiveFeedbackArray: [String] = []
+    @Published var keywordArray: [String] = []
     @Published var videoProgress: CGFloat = 0.0
     @Published var trophyFramePosition: CGFloat? = nil
     @Published var serveFramePosition: CGFloat? = nil
@@ -171,10 +170,10 @@ class GameStateObserver: ObservableObject {
         guard let note = GameStateChangeNotification(notification: notification) else {
             return
         }
-        feedbackText = gameManager.playerStats.feedbackText
         feedbackArray = gameManager.playerStats.feedbackArray
         feedbackArrayDetailed = gameManager.playerStats.feedbackArrayDetailed
         positiveFeedbackArray = gameManager.playerStats.positiveFeedbackArray
+        keywordArray = gameManager.playerStats.keywordArray
     }
     
     deinit {
@@ -188,4 +187,5 @@ struct PlayerStats {
     var feedbackArray = [String]()
     var feedbackArrayDetailed = [String]()
     var positiveFeedbackArray = [String]()
+    var keywordArray = [String]()
 }

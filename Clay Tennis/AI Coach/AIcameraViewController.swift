@@ -103,11 +103,12 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
         
         setupLayers()
         aiCoach.feedbackHandler = {
-            short, detailed, positive in
+            short, detailed, positive, keyword in
             let gm = GameManager.shared
             gm.playerStats.feedbackArray = short.components(separatedBy: "\n")
             gm.playerStats.feedbackArrayDetailed = detailed.components(separatedBy: "\n")
             gm.playerStats.positiveFeedbackArray = positive.components(separatedBy: "\n")
+            gm.playerStats.keywordArray = keyword.components(separatedBy: "\n")
 
             NotificationCenter.default.post(
                 name: GameStateChangeNotification.name,

@@ -885,6 +885,7 @@ struct FeedItem: Identifiable, Codable, Hashable {
     var aiTips: [String]
     var aiTipsDetailed: [String]
     var positiveAITips: [String]
+    var keyword: [String]
 
     // Shared visuals
     let thumbnailURL: URL?          // cache only
@@ -935,7 +936,8 @@ struct FeedItem: Identifiable, Codable, Hashable {
         aiTips: [String] = [],
         aiTipsDetailed: [String] = [],
         positiveAITips: [String] = [],
-        
+        keyword: [String] = [],
+
 
         quizTopicKey: String? = nil,
         quizDifficulty: FeedDifficulty? = nil,
@@ -957,6 +959,7 @@ struct FeedItem: Identifiable, Codable, Hashable {
         self.aiTips = aiTips
         self.aiTipsDetailed = aiTipsDetailed
         self.positiveAITips = positiveAITips
+        self.keyword = keyword
         self.quizTopicKey = quizTopicKey
         self.quizDifficulty = quizDifficulty
         self.quizCorrectAnswers = quizCorrectAnswers
