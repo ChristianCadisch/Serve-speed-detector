@@ -216,8 +216,9 @@ class HomeViewController: UIViewController,
     private func showFeedView() {
         let feedView = FeedView(
             onAddTapped: { },
-            onSettingsTapped: { [weak self] in
-                self?.showSettingsView()
+            onTheorySelected: { [weak self] in
+                self?.activeTab = .theory
+                self?.showTheoryView()
             },
             onVideoSelected: { [weak self] videoURL in
                 self?.openContentAnalysis(for: videoURL)
@@ -313,25 +314,23 @@ class HomeViewController: UIViewController,
     
     
     
-    private func showTheoryView() {
+    private func showTheoryView(setActiveTab: Bool = false) {
+
+        if setActiveTab {
+            activeTab = .theory
+        }
+
         let theoryView = TheoryView(navigationDelegate: self)
-        let hosting = UIHostingController(
-            rootView: AnyView(theoryView)
-        )
-        
+        let hosting = UIHostingController(rootView: AnyView(theoryView))
+
         self.theoryHostingController = hosting
-        
-        
+
         replaceRoot(
             with: hosting,
             title: NSLocalizedString("technique_coach_title", tableName: "general", comment: "")
         )
-        navigationItem.leftBarButtonItem = nil
-        disableLessonSwipeBack()
-        
-        navigationController?.setNavigationBarHidden(false, animated: false)
     }
-    
+
     
     
     
@@ -547,29 +546,48 @@ class HomeViewController: UIViewController,
         popToTheoryView()
     }
     
+    private func ensureFullPhotoAccessOrPresentExplanation() -> Bool {
+        let status = PHPhotoLibrary.authorizationStatus(for: .readWrite)
+
+        switch status {
+        case .authorized:
+            return true
+
+        case .limited, .denied, .restricted, .notDetermined:
+            let view = FullAccessRequiredView()
+            let hosting = UIHostingController(rootView: view)
+            hosting.modalPresentationStyle = .formSheet
+            present(hosting, animated: true)
+            return false
+
+        @unknown default:
+            return false
+        }
+    }
+
+    
     
     func showQuiz(topic: QuizIdentifier, difficulty: QuizDifficulty) {
-        
+
+        activeTab = .theory   // ← NEW: update tab before building UI
+
         let quizView = QuizView(
             vm: QuizViewModel(questions: topic.questions(for: difficulty)),
             quizID: topic,
             onQuizFinished: { _, score, total in
                 let id = LessonQuizID(topic: topic, difficulty: difficulty)
                 let total = topic.totalQuestions(for: difficulty)
-                
+
                 let ratio = Double(score) / Double(max(total, 1))
-                
-                // Save best score
+
                 let previous = UserDefaults.standard.integer(forKey: id.userDefaultsKey)
                 if score > previous {
                     UserDefaults.standard.set(score, forKey: id.userDefaultsKey)
                 }
-                
-                // ✅ Unlock next level if ≥ 70%
+
                 if ratio >= 0.7 {
                     if let nextDifficulty = QuizDifficulty(rawValue: difficulty.rawValue + 1) {
                         let nextID = LessonQuizID(topic: topic, difficulty: nextDifficulty)
-                        
                         UserDefaults.standard.set(true, forKey: "Unlocked_\(nextID.userDefaultsKey)")
                     }
                 }
@@ -579,25 +597,27 @@ class HomeViewController: UIViewController,
             },
             navigationDelegate: self
         )
-        
+
         let hosting = UIHostingController(
             rootView: AnyView(
                 quizView
-                    .id("quiz_\(topic.rawValue)_\(difficulty.rawValue)")   // ✅ force new instance
+                    .id("quiz_\(topic.rawValue)_\(difficulty.rawValue)")
             )
         )
+
         self.currentHostingController = hosting
         replaceRoot(with: hosting, title: "\(topic.title) Quiz")
+
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             image: UIImage(systemName: "chevron.left"),
             style: .plain,
             target: self,
             action: #selector(handleBackToTheory)
         )
-        
+
         enableLessonSwipeBack()
     }
-    
+
     
     
     private func replaceSwiftUIView(with newView: AnyView) {
@@ -662,14 +682,21 @@ class HomeViewController: UIViewController,
     
     
     private func presentVideoPicker() {
+
+        // ⛔ Block if not full access
+        guard ensureFullPhotoAccessOrPresentExplanation() else {
+            return
+        }
+
         var configuration = PHPickerConfiguration(photoLibrary: .shared())
         configuration.filter = .videos
         configuration.preferredAssetRepresentationMode = .current
-        
+
         let picker = PHPickerViewController(configuration: configuration)
         picker.delegate = self
         present(picker, animated: true)
     }
+
     
     
     
@@ -762,6 +789,11 @@ extension HomeViewController: PHPickerViewControllerDelegate {
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         picker.dismiss(animated: true)
 
+        // 🔒 Permission re-check — user may have changed it in Settings
+        guard ensureFullPhotoAccessOrPresentExplanation() else {
+            return
+        }
+
         guard let result = results.first,
               let assetId = result.assetIdentifier else {
             print("❌ [PICKER] No asset identifier")
@@ -773,6 +805,7 @@ extension HomeViewController: PHPickerViewControllerDelegate {
         print("✅ [PICKER] Selected asset ID:", assetId)
         showICloudDownloadOverlay()
 
+        // 🔥 Works only with FULL ACCESS — now guaranteed because of the check
         let assets = PHAsset.fetchAssets(withLocalIdentifiers: [assetId], options: nil)
         guard let asset = assets.firstObject else {
             print("❌ [PICKER] PHAsset fetch failed")
@@ -801,12 +834,11 @@ extension HomeViewController: PHPickerViewControllerDelegate {
                 let originalURL = avURLAsset.url
 
                 print("✅ [iCLOUD] AVAsset delivered")
-                print("📍 [iCLOUD] isFileURL:", originalURL.isFileURL)
                 print("📍 [iCLOUD] Original URL:", originalURL)
                 print("📍 [iCLOUD] File exists:", FileManager.default.fileExists(atPath: originalURL.path))
 
-                let fileSize = (try? FileManager.default.attributesOfItem(atPath: originalURL.path)[.size] as? NSNumber)?.intValue ?? 0
-                print("📦 [iCLOUD] File size:", fileSize, "bytes")
+                let fileSize = (try? FileManager.default
+                    .attributesOfItem(atPath: originalURL.path)[.size] as? NSNumber)?.intValue ?? 0
 
                 guard fileSize > 0 else {
                     print("❌ [iCLOUD] Downloaded file is EMPTY — aborting")
@@ -818,48 +850,29 @@ extension HomeViewController: PHPickerViewControllerDelegate {
                 case .speed:
 
                     if let safeURL = self.prepareServeVideoForAnalysis(originalURL: originalURL) {
-
-                        print("✅ [SERVE] Copied to app storage:", safeURL.lastPathComponent)
-                        print("📁 [SERVE] Exists after copy:",
-                              FileManager.default.fileExists(atPath: safeURL.path))
-
                         self.pendingServeVideoURL = safeURL
                         self.openContentAnalysis(for: safeURL)
-
                     } else {
                         print("❌ [SERVE] Copy to app storage FAILED")
                     }
 
                 case .coach:
 
-                    guard fileSize > 0 else {
-                        print("❌ [AI] iCloud download returned empty file — abort")
-                        return
-                    }
-
                     if let safeURL = self.prepareServeVideoForAnalysis(originalURL: originalURL) {
-
-                        print("✅ [AI] Copied to app storage:", safeURL.lastPathComponent)
-                        print("📁 [AI] Exists after copy:",
-                              FileManager.default.fileExists(atPath: safeURL.path))
-
                         self.pendingCoachVideoURL = safeURL
                         guard let assetID = self.lastPickedAssetIdentifier else {
                             print("❌ [AI] Missing assetLocalIdentifier")
                             return
                         }
-
                         self.openAICoachSafe(assetLocalIdentifier: assetID)
-
-
                     } else {
                         print("❌ [AI] Copy to app storage FAILED")
                     }
-
                 }
             }
         }
     }
+
     
 }
 

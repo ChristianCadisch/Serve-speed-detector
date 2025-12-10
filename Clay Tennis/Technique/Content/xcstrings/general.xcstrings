@@ -897,13 +897,13 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Clay v1.0"
+            "value" : "Clay v2.0"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Clay v1.0"
+            "value" : "Clay v2.0"
           }
         }
       }

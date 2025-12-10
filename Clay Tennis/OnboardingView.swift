@@ -5,6 +5,7 @@
 
 import Foundation
 import SwiftUI
+import Photos
 
 struct OnboardingView: View {
     @Binding var hasSeenOnboarding: Bool
@@ -69,6 +70,10 @@ struct OnboardingView: View {
                                 } else {
                                     hasSeenOnboarding = true
                                     UserDefaults.standard.set(true, forKey: "HasSeenOnboarding")
+                                    PHPhotoLibrary.requestAuthorization(for: .readWrite) { status in
+                                        print("📸 Photo permission status after onboarding:", status)
+                                    }
+
                                 }
                             } else if currentPage > 0 {
                                 withAnimation { currentPage -= 1 }
@@ -96,6 +101,9 @@ struct OnboardingView: View {
                         Button {
                             hasSeenOnboarding = true
                             UserDefaults.standard.set(true, forKey: "HasSeenOnboarding")
+                            PHPhotoLibrary.requestAuthorization(for: .readWrite) { status in
+                                print("📸 Photo permission status after onboarding:", status)
+                            }
                             UIApplication.shared.connectedScenes
                                 .compactMap { ($0 as? UIWindowScene)?.keyWindow }
                                 .first?

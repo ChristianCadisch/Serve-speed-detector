@@ -22,7 +22,7 @@ struct FeedView: View {
     
     
     var onAddTapped: () -> Void
-    var onSettingsTapped: () -> Void
+    var onTheorySelected: () -> Void
     var onVideoSelected: (URL) -> Void
     var onAICoachSelected: (String) -> Void
     var onQuizSelected: (QuizIdentifier, QuizDifficulty) -> Void
@@ -296,22 +296,26 @@ struct FeedView: View {
                 HStack(spacing: 14) {
                     
                     trainingPrescriptionCard(
-                        title: "Refine Toss Release",
-                        subtitle: "Fix unstable timing",
-                        accent: .blue
+                        title: "Serve Fundamentals",
+                        subtitle: "Start the quiz",
+                        accent: .blue,
+                        destinationTopic: .serve
                     )
-                    
+
                     trainingPrescriptionCard(
-                        title: "Add 10 km/h Power",
-                        subtitle: "Activate leg drive",
-                        accent: .orange
+                        title: "Tactics Awareness",
+                        subtitle: "Improve decisions",
+                        accent: .orange,
+                        destinationTopic: .tactics
                     )
-                    
+
                     trainingPrescriptionCard(
-                        title: "Understand Serve Rhythm",
-                        subtitle: "Technique theory",
-                        accent: .purple
+                        title: "Forehand Technique",
+                        subtitle: "Master core mechanics",
+                        accent: .green,
+                        destinationTopic: .forehand
                     )
+
                     
                     seeMoreTrainingCard
                 }
@@ -324,7 +328,8 @@ struct FeedView: View {
     private func trainingPrescriptionCard(
         title: String,
         subtitle: String,
-        accent: Color
+        accent: Color,
+        destinationTopic: QuizIdentifier? = nil
     ) -> some View {
 
         VStack(alignment: .leading, spacing: 10) {
@@ -352,7 +357,15 @@ struct FeedView: View {
             ),
             in: RoundedRectangle(cornerRadius: 18, style: .continuous)
         )
+        .onTapGesture {
+            if let t = destinationTopic {
+                onQuizSelected(t, .easy) 
+            } else {
+                onTheorySelected()
+            }
+        }
     }
+
 
     
     private var seeMoreTrainingCard: some View {
@@ -372,7 +385,7 @@ struct FeedView: View {
             in: RoundedRectangle(cornerRadius: 22, style: .continuous)
         )
         .onTapGesture {
-            onSettingsTapped()
+            onTheorySelected()
         }
     }
     
@@ -449,8 +462,8 @@ struct FeedView: View {
                 Image(uiImage: thumbnail)
                     .resizable()
                     .scaledToFill()
-                    .frame(width: 96, height: 96)
-                    .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
+                    .frame(width: 72, height: 72)   // MATCH AI COACH
+                    .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
             }
 
             VStack(alignment: .leading, spacing: 6) {
@@ -461,7 +474,7 @@ struct FeedView: View {
                     .foregroundStyle(.secondary)
 
                 Text(item.title)
-                    .font(.headline)
+                    .font(.system(size: 17, weight: .semibold))
             }
 
             Spacer()
@@ -469,8 +482,7 @@ struct FeedView: View {
             if let speed = item.fastestSpeedKmh {
                 VStack(spacing: 0) {
                     Text("\(Int(speed))")
-                        .font(.system(size: 34, weight: .heavy, design: .rounded))
-
+                        .font(.system(size: 24, weight: .heavy, design: .rounded)) // MATCH AI
                     Text("KM/H")
                         .font(.caption2.bold())
                         .tracking(1)
@@ -478,17 +490,31 @@ struct FeedView: View {
                 }
             }
         }
-        .padding(18)
-        .background(
-            Color(.secondarySystemBackground),
-            in: RoundedRectangle(cornerRadius: 22, style: .continuous)
-        )
+        .padding(16)  // MATCH AI COACH
+        .background {
+            ZStack(alignment: .leading) {
+
+                Color(.secondarySystemBackground)
+
+                Rectangle()
+                    .fill(
+                        LinearGradient(
+                            colors: [.blue.opacity(0.85), .cyan.opacity(0.7)],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                    )
+                    .frame(width: 6)
+            }
+            .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+        }
         .listRowInsets(.init(top: 8, leading: 16, bottom: 8, trailing: 16))
         .listRowSeparator(.hidden)
         .onTapGesture {
             if let url = item.thumbnailURL { onVideoSelected(url) }
         }
     }
+
 
     
     
@@ -639,14 +665,14 @@ struct FeedView: View {
                 Image(topic.thumbnailImageName)
                     .resizable()
                     .scaledToFill()
-                    .frame(width: 92, height: 92)
-                    .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                    .frame(width: 72, height: 72)   // unified size
+                    .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
             }
 
-            VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .leading, spacing: 6) {
 
                 Text(item.title)
-                    .font(.headline)
+                    .font(.system(size: 17, weight: .semibold))
 
                 Text(item.quizDifficulty?.localizedTitle.uppercased() ?? "")
                     .font(.caption2.bold())
@@ -669,15 +695,17 @@ struct FeedView: View {
         }
         .padding(16)
         .background(
-            .ultraThinMaterial,
-            in: RoundedRectangle(cornerRadius: 20, style: .continuous)
+            Color(.secondarySystemBackground),
+            in: RoundedRectangle(cornerRadius: 18, style: .continuous)
         )
-        .listRowInsets(.init(top: 10, leading: 16, bottom: 10, trailing: 16))
+        .listRowInsets(.init(top: 8, leading: 16, bottom: 8, trailing: 16))
         .listRowSeparator(.hidden)
         .onTapGesture {
             selectedQuizItem = item
         }
     }
+
+
 
     
     
@@ -820,10 +848,11 @@ struct FeedView: View {
                 Rectangle()
                     .fill(
                         LinearGradient(
-                            colors: [.red.opacity(0.9), .orange.opacity(0.7)],
-                            startPoint: .top,
-                            endPoint: .bottom
+                            colors: [.purple, .pink],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
                         )
+
                     )
                     .frame(width: 6)
             }
