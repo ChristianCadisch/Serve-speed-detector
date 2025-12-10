@@ -15,7 +15,8 @@ struct CoachHubView: View {
     @Binding var selectedMode: ServeMode           // .speed | .technique
     @Binding var detectedAngle: ServeCameraAngle   // .side | .back
     @Binding var angleDetectionSource: AngleSource // .auto | .manual
-    
+    let latestTechniqueItem: FeedItem?
+
     let recordAction: () -> Void
     let uploadAction: () -> Void
     
@@ -309,38 +310,51 @@ struct CoachHubView: View {
     // MARK: - Coaching Focus Card (Technique Mode)
     
     private var coachingFocusCard: some View {
-        VStack(alignment: .leading, spacing: 18) {
-            
-            Text("CURRENT FOCUS")
-                .font(.caption.bold())
-                .tracking(1)
-                .foregroundStyle(.secondary)
-            
-            if let title = latestFocusTitle {
-                Text(title)
+
+        guard let item = latestTechniqueItem else { return AnyView(EmptyView()) }
+
+        let positive = item.positiveAITips.first
+        let negative = item.aiTips.first
+
+        return AnyView(
+            VStack(alignment: .leading, spacing: 18) {
+
+                Text("CURRENT FOCUS")
+                    .font(.caption.bold())
+                    .tracking(1)
+                    .foregroundStyle(.secondary)
+
+                Text(item.title)
                     .font(.title2.weight(.semibold))
+
+                if let p = positive {
+                    insightRow(
+                        icon: "checkmark.circle.fill",
+                        color: .green,
+                        text: p
+                    )
+                }
+
+                if let n = negative {
+                    insightRow(
+                        icon: "exclamationmark.triangle.fill",
+                        color: .orange,
+                        text: n
+                    )
+                }
             }
-            
-            if let strength = latestFocusStrength {
-                insightRow(icon: "checkmark.circle.fill",
-                           color: .green,
-                           text: strength)
-            }
-            
-            if let correction = latestFocusCorrection {
-                insightRow(icon: "exclamationmark.triangle.fill",
-                           color: .orange,
-                           text: correction)
-            }
-        }
-        .padding(22)
-        .background(
-            RoundedRectangle(cornerRadius: 26, style: .continuous)
-                .fill(.ultraThinMaterial)
-                .shadow(color: .black.opacity(0.12), radius: 16, y: 8)
+            .padding(22)
+            .background(
+                RoundedRectangle(cornerRadius: 26, style: .continuous)
+                    .fill(.ultraThinMaterial)
+                    .shadow(color: .black.opacity(0.12), radius: 16, y: 8)
+            )
+            .transition(.move(edge: .bottom).combined(with: .opacity))
         )
-        .transition(.move(edge: .bottom).combined(with: .opacity))
     }
+    
+    
+
     
     private func insightRow(icon: String, color: Color, text: String) -> some View {
         HStack(spacing: 12) {
@@ -360,7 +374,8 @@ struct CoachHubView: View {
     private var hasInsight: Bool {
         latestFocusTitle != nil ||
         latestFocusStrength != nil ||
-        latestFocusCorrection != nil
+        latestFocusCorrection != nil ||
+        latestTechniqueItem != nil
     }
 }
 
@@ -397,16 +412,3 @@ enum AngleSource {
 }
 
 
-#Preview {
-    CoachHubView(
-        selectedMode: .constant(.technique),
-        detectedAngle: .constant(.side),
-        angleDetectionSource: .constant(.auto),
-        recordAction: {},
-        uploadAction: {},
-        latestFocusTitle: "Refine Toss Consistency",
-        latestFocusStrength: "Stable leg drive detected",
-        latestFocusCorrection: "Toss drifting too far left",
-        lastServeSpeed: 178
-    )
-}

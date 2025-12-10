@@ -31,13 +31,20 @@ struct CoachHubWrapper: View {
         .sorted(by: >)
         .first
 
+    let lastTechnique = FeedItemStorage
+        .load()
+        .filter { $0.type == .aiCoach }
+        .sorted(by: { $0.date > $1.date })
+        .first
+
 
     
     var body: some View {
         CoachHubView(
             selectedMode: $state.selectedMode,
             detectedAngle: $state.detectedAngle,
-            angleDetectionSource: .constant(.manual), 
+            angleDetectionSource: .constant(.manual),
+            latestTechniqueItem: lastTechnique,
             recordAction: recordAction,
             uploadAction: uploadAction,
             latestFocusTitle: state.selectedMode == .technique ? "Refine Toss Consistency" : nil,

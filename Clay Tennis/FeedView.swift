@@ -539,6 +539,7 @@ struct FeedView: View {
                                 aiTipCount: item.aiTipCount,
                                 aiTips: item.aiTips,
                                 aiTipsDetailed: item.aiTipsDetailed,
+                                positiveAITips: item.positiveAITips,
                                 quizTopicKey: item.quizTopicKey,
                                 quizDifficulty: item.quizDifficulty,
                                 quizCorrectAnswers: item.quizCorrectAnswers,
@@ -883,6 +884,7 @@ struct FeedItem: Identifiable, Codable, Hashable {
     // ✅ NEW: AI feedback payload
     var aiTips: [String]
     var aiTipsDetailed: [String]
+    var positiveAITips: [String]
 
     // Shared visuals
     let thumbnailURL: URL?          // cache only
@@ -932,6 +934,8 @@ struct FeedItem: Identifiable, Codable, Hashable {
         aiTipCount: Int? = nil,
         aiTips: [String] = [],
         aiTipsDetailed: [String] = [],
+        positiveAITips: [String] = [],
+        
 
         quizTopicKey: String? = nil,
         quizDifficulty: FeedDifficulty? = nil,
@@ -952,6 +956,7 @@ struct FeedItem: Identifiable, Codable, Hashable {
         self.aiTipCount = aiTipCount
         self.aiTips = aiTips
         self.aiTipsDetailed = aiTipsDetailed
+        self.positiveAITips = positiveAITips
         self.quizTopicKey = quizTopicKey
         self.quizDifficulty = quizDifficulty
         self.quizCorrectAnswers = quizCorrectAnswers

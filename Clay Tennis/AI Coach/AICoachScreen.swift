@@ -324,6 +324,7 @@ struct AICoachScreen: View {
             aiTipCount: state.feedbackArray.count,
             aiTips: state.feedbackArray,
             aiTipsDetailed: state.feedbackArrayDetailed,
+            positiveAITips: state.positiveFeedbackArray,
             quizTopicKey: nil,
             quizDifficulty: nil,
             quizCorrectAnswers: nil,
