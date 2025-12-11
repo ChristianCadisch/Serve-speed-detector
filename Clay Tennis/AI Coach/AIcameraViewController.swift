@@ -60,6 +60,8 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
     private var jointSegmentLayer = CAShapeLayer()
     private var jointPath = UIBezierPath()
     private var jointSegmentPath = UIBezierPath()
+    private var highlightLayer = CAShapeLayer()
+
     
     private var overlayView: UIView!
     
@@ -110,13 +112,30 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
                 
         
         setupLayers()
-        aiCoach.feedbackHandler = {
-            short, detailed, positive, keyword in
+        aiCoach.feedbackHandler = { short, detailed, positive, keyword, highlights in
             let gm = GameManager.shared
+
             gm.playerStats.feedbackArray = short.components(separatedBy: "\n")
             gm.playerStats.feedbackArrayDetailed = detailed.components(separatedBy: "\n")
             gm.playerStats.positiveFeedbackArray = positive.components(separatedBy: "\n")
             gm.playerStats.keywordArray = keyword.components(separatedBy: "\n")
+            var map: [String: [HighlightInstruction]] = [:]
+
+            for (index, text) in gm.playerStats.feedbackArray.enumerated() {
+                if index < highlights.count {
+                    map[text] = [highlights[index]]
+                }
+            }
+
+            for (index, text) in gm.playerStats.positiveFeedbackArray.enumerated() {
+                // shift index if positives come before negatives
+                let globalIndex = index + gm.playerStats.feedbackArray.count
+                if globalIndex < highlights.count {
+                    map[text] = [highlights[globalIndex]]
+                }
+            }
+
+            GameStateObserver.shared.highlightMap = map
 
             NotificationCenter.default.post(
                 name: GameStateChangeNotification.name,
@@ -124,6 +143,7 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
                 userInfo: nil
             )
         }
+
     }
     
     
@@ -327,9 +347,63 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
         
         overlayView.layer.addSublayer(jointLayer)
         overlayView.layer.addSublayer(jointSegmentLayer)
+        highlightLayer.strokeColor = UIColor.systemRed.cgColor
+        highlightLayer.fillColor = UIColor.systemRed.withAlphaComponent(0.25).cgColor
+        highlightLayer.lineWidth = 4
+        highlightLayer.frame = overlayView.bounds
+        highlightLayer.zPosition = 3000   // above skeleton
+
+        overlayView.layer.addSublayer(highlightLayer)
+
         overlayView.layer.zPosition = 2000
     }
     
+    func drawHighlights(_ instructions: [HighlightInstruction]) {
+        guard let videoView = VideoCoachRenderView else { return }
+
+        let path = UIBezierPath()
+
+        for instr in instructions {
+
+            // --- Highlight joints ---
+            for joint in instr.joints {
+                if
+                    let points = try? lastObservation?.recognizedPoints(.all),
+                    let normalized = points[joint],
+                    normalized.confidence > 0.1
+                {
+                    let p = videoView.viewPointConverted(fromNormalizedContentsPoint: normalized.location)
+                    path.append(UIBezierPath(arcCenter: p, radius: 10, startAngle: 0, endAngle: .pi*2, clockwise: true))
+                }
+            }
+
+            // --- Highlight segments ---
+            for (a, b) in instr.segments {
+                if
+                    let points = try? lastObservation?.recognizedPoints(.all),
+                    let paN = points[a],
+                    let pbN = points[b],
+                    paN.confidence > 0.1,
+                    pbN.confidence > 0.1
+                {
+                    let pa = videoView.viewPointConverted(fromNormalizedContentsPoint: paN.location)
+                    let pb = videoView.viewPointConverted(fromNormalizedContentsPoint: pbN.location)
+
+                    path.move(to: pa)
+                    path.addLine(to: pb)
+                }
+            }
+        }
+
+        highlightLayer.path = path.cgPath
+    }
+
+    
+    func clearHighlights() {
+        highlightLayer.path = nil
+    }
+
+
     
     func setupVideoOutputView(_ videoOutputView: UIView) {
         videoOutputView.translatesAutoresizingMaskIntoConstraints = false

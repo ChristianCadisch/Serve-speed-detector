@@ -158,6 +158,8 @@ class GameStateObserver: ObservableObject {
     @Published var videoProgress: CGFloat = 0.0
     @Published var trophyFramePosition: CGFloat? = nil
     @Published var serveFramePosition: CGFloat? = nil
+    @Published var highlightInstructions: [HighlightInstruction] = []
+    @Published var highlightMap: [String: [HighlightInstruction]] = [:]
 
     let gameManager = GameManager.shared
     static let shared = GameStateObserver()

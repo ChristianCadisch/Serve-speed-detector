@@ -68,6 +68,8 @@ struct AICoachScreen: View {
             if progress >= 1.0 {
                 exportVideo()
             }
+            controller?.clearHighlights()
+
         }
         .onChange(of: state.trophyFramePosition) { newVal in
             handleTrophyEvent()
@@ -180,8 +182,23 @@ struct AICoachScreen: View {
                                 .onTapGesture {
                                     let newValue = !showOverlay
                                     showOverlay = newValue
+
                                     controller?.updateDarkeningVisibility(forceVisible: newValue)
+
+                                    if newValue {
+                                        if newValue {
+                                            if let highlights = state.highlightMap[item.text] {
+                                                controller?.drawHighlights(highlights)
+                                            }
+                                        } else {
+                                            controller?.clearHighlights()
+                                        }
+
+                                    } else {
+                                        controller?.clearHighlights()
+                                    }
                                 }
+
 
                         }
 
@@ -249,7 +266,9 @@ struct AICoachScreen: View {
             controller?.continuePlayback()
             showOverlay = false
             controller?.updateDarkeningVisibility(forceVisible: false)
+            controller?.clearHighlights()
             withAnimation(.spring()) { showHeroBanner = false }
+
         }) {
             HStack(spacing: 8) {
                 Text("Continue")
