@@ -74,11 +74,17 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
     private var exportOverlayLayer = CALayer()
     private var exportQueue = DispatchQueue(label: "export.queue")
 
-    var serveAngle: ServeCameraAngle = .side {
-        didSet {
-            print("🎯 [AIcameraVC] serveAngle updated to:", serveAngle)
-        }
-    }
+    var serveAngle: ServeCameraAngle = .side
+    
+    var darkeningLayer: UIView = {
+        let v = UIView()
+        v.backgroundColor = UIColor.black.withAlphaComponent(0.65)
+        v.isUserInteractionEnabled = false
+        v.isHidden = true            // ← Start hidden
+        return v
+    }()
+
+
 
     
     init(frame: CGRect) {
@@ -99,6 +105,8 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
         overlayView.translatesAutoresizingMaskIntoConstraints = false
         overlayView.backgroundColor = .clear
         overlayView.isUserInteractionEnabled = false  // Important: let touches pass through
+        overlayView.addSubview(darkeningLayer)
+
                 
         
         setupLayers()
@@ -176,6 +184,17 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
             
             drawSkeletonFromCache()
             
+            if let left = recognizedPoints[.leftShoulder],
+               let right = recognizedPoints[.rightShoulder],
+               left.confidence > 0.1, right.confidence > 0.1 {
+                
+                updateDarkeningMask(
+                    shoulderA: left.location,
+                    shoulderB: right.location
+                )
+            }
+
+            
         } catch {
             print("Error redrawing skeleton: \(error)")
         }
@@ -248,7 +267,46 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
         
         VideoCoachRenderView?.frame = self.view.bounds
         updateOverlayLayout()
+        darkeningLayer.frame = overlayView.bounds
+
     }
+    
+    private func updateDarkeningMask(shoulderA: CGPoint, shoulderB: CGPoint) {
+        guard overlayView.bounds.width > 0 else { return }
+
+        // Convert normalized Vision points → view points
+        let p1 = VideoCoachRenderView.viewPointConverted(fromNormalizedContentsPoint: shoulderA)
+        let p2 = VideoCoachRenderView.viewPointConverted(fromNormalizedContentsPoint: shoulderB)
+
+        // Midpoint of shoulders
+        let mid = CGPoint(x: (p1.x + p2.x) / 2, y: (p1.y + p2.y) / 2)
+
+        // Ellipse size: a bit larger than the shoulder distance
+        let shoulderDistance = hypot(p2.x - p1.x, p2.y - p1.y)
+        let ellipseWidth  = shoulderDistance * 2.2
+        let ellipseHeight = shoulderDistance * 0.9
+
+        let ellipseRect = CGRect(
+            x: mid.x - ellipseWidth / 2,
+            y: mid.y - ellipseHeight / 2,
+            width: ellipseWidth,
+            height: ellipseHeight
+        )
+
+        // Create mask with a punched-out hole
+        let path = UIBezierPath(rect: overlayView.bounds)
+        let ellipse = UIBezierPath(ovalIn: ellipseRect)
+        path.append(ellipse)
+        path.usesEvenOddFillRule = true
+
+        let maskLayer = CAShapeLayer()
+        maskLayer.frame = overlayView.bounds
+        maskLayer.path = path.cgPath
+        maskLayer.fillRule = .evenOdd
+
+        darkeningLayer.layer.mask = maskLayer
+    }
+
     
     
     func setupLayers() {
@@ -292,6 +350,8 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
         VideoCoachRenderView?.pausePlayback()
         displayLink?.invalidate()
         displayLink = nil
+        updateDarkeningVisibility()
+
 
         // First compute & store safeTime
         VideoCoachRenderView?.stepBackFrames(multiplier: multiplier)
@@ -349,6 +409,7 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
     func continuePlayback() {
         self.startDisplayLink()
         VideoCoachRenderView?.player?.play()
+        updateDarkeningVisibility()
     }
     
     func startDisplayLink() {
@@ -607,9 +668,35 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
         
         // Redraw using cached normalized positions with CURRENT geometry
         drawSkeletonFromCache()
+        darkeningLayer.frame = overlayView.bounds
+        if let last = lastObservation {
+            do {
+                let points = try last.recognizedPoints(.all)
+
+                if let left = points[.leftShoulder],
+                   let right = points[.rightShoulder],
+                   left.confidence > 0.1, right.confidence > 0.1 {
+
+                    updateDarkeningMask(
+                        shoulderA: left.location,
+                        shoulderB: right.location
+                    )
+                }
+            } catch {}
+        }
+
+
     }
     
-    
+    func updateDarkeningVisibility(forceVisible: Bool? = nil) {
+        print("update Darkening Visibility", forceVisible)
+        if let force = forceVisible {
+            darkeningLayer.isHidden = !force
+            return
+        }
+    }
+
+
     private func getVideoSizeAndTransform(from track: AVAssetTrack) -> (size: CGSize, transform: CGAffineTransform, isPortrait: Bool) {
         let naturalSize = track.naturalSize
         let transform = track.preferredTransform

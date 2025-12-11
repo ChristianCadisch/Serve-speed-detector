@@ -871,13 +871,13 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aufnahme-Anleitung"
+            "value" : "Tempo Aufnahme-Anleitung"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Recording setup guide"
+            "value" : "Speed Recording Setup"
           }
         }
       }

@@ -33,6 +33,8 @@ struct AICoachScreen: View {
     @State private var exportedVideoURL: URL?
     @State private var showShareSheet = false
     @State private var exportError: String?
+    @State private var showOverlay = false
+
     
     @Environment(\.colorScheme) private var colorScheme
     
@@ -174,11 +176,15 @@ struct AICoachScreen: View {
                             feedbackBubble(text: item.text, isPositive: item.isPositive)
                                 .opacity(animateFeedback ? 1 : 0)
                                 .offset(y: animateFeedback ? 0 : 8)
-                                .animation(
-                                    .spring(response: 0.45, dampingFraction: 0.85),
-                                    value: animateFeedback
-                                )
+                                .animation(.spring(response: 0.45, dampingFraction: 0.85), value: animateFeedback)
+                                .onTapGesture {
+                                    let newValue = !showOverlay
+                                    showOverlay = newValue
+                                    controller?.updateDarkeningVisibility(forceVisible: newValue)
+                                }
+
                         }
+
 
                     }
                 }
@@ -225,12 +231,24 @@ struct AICoachScreen: View {
             .prefix(2)
             .map { (text: $0, isPositive: false) }
     }
+    
+    func updateDarkeningVisibility(forceVisible: Bool? = nil) {
+
+        if let force = forceVisible {
+            controller?.darkeningLayer.isHidden = !force
+            return
+        }
+    }
+
+
 
 
     
     private var continueButton: some View {
         Button(action: {
             controller?.continuePlayback()
+            showOverlay = false
+            controller?.updateDarkeningVisibility(forceVisible: false)
             withAnimation(.spring()) { showHeroBanner = false }
         }) {
             HStack(spacing: 8) {
