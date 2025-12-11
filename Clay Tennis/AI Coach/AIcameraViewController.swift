@@ -11,33 +11,6 @@ import UIKit
 import AVFoundation
 import Vision
 
-struct CameraView: UIViewControllerRepresentable {
-    var videoURL: URL?
-    var frame: CGRect
-    var angle: ServeCameraAngle
-    @Binding var controller: AIcameraViewController?
-    
-    func makeUIViewController(context: Context) -> AIcameraViewController {
-        let controller = AIcameraViewController(frame: frame)
-        if let videoURL = videoURL {
-            controller.setupWithVideoURL(videoURL)
-        }
-        DispatchQueue.main.async {
-            self.controller = controller
-        }
-        return controller
-    }
-    
-    func updateUIViewController(_ uiViewController: AIcameraViewController, context: Context) {
-        print("📡 [AICamViewRep] updateUIViewController — angle:", angle)
-        uiViewController.updateLayout(frame: frame)
-        uiViewController.serveAngle = angle
-        print("📡 [AICamViewRep] uiViewController.serveAngle now:", uiViewController.serveAngle)
-    }
-
-    
-}
-
 
 class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
     
@@ -80,7 +53,7 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
     
     var darkeningLayer: UIView = {
         let v = UIView()
-        v.backgroundColor = UIColor.black.withAlphaComponent(0.65)
+        v.backgroundColor = UIColor.black.withAlphaComponent(0.0)
         v.isUserInteractionEnabled = false
         v.isHidden = true            // ← Start hidden
         return v
@@ -245,6 +218,11 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
         
         self.jointLayer.path = self.jointPath.cgPath
         self.jointSegmentLayer.path = self.jointSegmentPath.cgPath
+        
+        // Dynamic line width
+        let w = dynamicSkeletonLineWidth(from: cachedJointConnections, in: videoView)
+        self.jointLayer.lineWidth = w * 1.2
+        self.jointSegmentLayer.lineWidth = w
     }
 
     
@@ -331,14 +309,19 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
     
     func setupLayers() {
         // Nice bright green (tennis-style)
-        let accent = UIColor(red: 0.10, green: 0.95, blue: 0.45, alpha: 1).cgColor
-        
-        jointLayer.strokeColor = accent
-        jointLayer.fillColor = accent
+        // Premium Apple-like cyan–blue
+        let accentStart = UIColor(red: 0.25, green: 0.90, blue: 1.00, alpha: 1).cgColor   // #3FE0FF
+        let accentEnd   = UIColor(red: 0.00, green: 0.48, blue: 1.00, alpha: 1).cgColor   // #007BFF
+
+        // Plain fallback stroke color
+        jointLayer.strokeColor = accentEnd
+        jointLayer.fillColor = accentEnd
+
+        jointSegmentLayer.strokeColor = accentEnd
+        jointSegmentLayer.fillColor = nil
+
         jointLayer.lineWidth = 4    // thicker joint dots
         
-        jointSegmentLayer.strokeColor = accent
-        jointSegmentLayer.fillColor = nil
         jointSegmentLayer.lineWidth = 3.5   // thicker skeleton lines
         
         
@@ -358,26 +341,59 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
         overlayView.layer.zPosition = 2000
     }
     
+    private func dynamicSkeletonLineWidth(from connections: [JointConnection], in view: UIView) -> CGFloat {
+        guard !connections.isEmpty else { return 2.0 }
+
+        var maxDist: CGFloat = 0
+
+        for c in connections {
+            let dx = c.start.x - c.end.x
+            let dy = c.start.y - c.end.y
+            let dist = sqrt(dx*dx + dy*dy)
+            maxDist = max(maxDist, dist)
+        }
+
+        // Scale to screen
+        let normalized = maxDist * view.bounds.width
+
+        // Map to a premium range: thin for far body, thick for close
+        let width = 2.0 + normalized * 0.015
+        return min(max(width, 2.0), 10.0)
+    }
+
+    
     func drawHighlights(_ instructions: [HighlightInstruction]) {
         guard let videoView = VideoCoachRenderView else { return }
-
+        
         let path = UIBezierPath()
-
+        
         for instr in instructions {
-
-            // --- Highlight joints ---
+            
+            // --- Draw Joint Circles ---
             for joint in instr.joints {
                 if
                     let points = try? lastObservation?.recognizedPoints(.all),
-                    let normalized = points[joint],
-                    normalized.confidence > 0.1
+                    let jp = points[joint],
+                    jp.confidence > 0.1
                 {
-                    let p = videoView.viewPointConverted(fromNormalizedContentsPoint: normalized.location)
-                    path.append(UIBezierPath(arcCenter: p, radius: 10, startAngle: 0, endAngle: .pi*2, clockwise: true))
+                    let p = videoView.viewPointConverted(
+                        fromNormalizedContentsPoint: jp.location
+                    )
+                    
+                    // Small clean circle (no halo)
+                    let dot = UIBezierPath(
+                        arcCenter: p,
+                        radius: 4,              // smaller for true “dot” look
+                        startAngle: 0,
+                        endAngle: .pi * 2,
+                        clockwise: true
+                    )
+                    path.append(dot)
+
                 }
             }
-
-            // --- Highlight segments ---
+            
+            // --- Draw Thin Segments ---
             for (a, b) in instr.segments {
                 if
                     let points = try? lastObservation?.recognizedPoints(.all),
@@ -386,17 +402,50 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
                     paN.confidence > 0.1,
                     pbN.confidence > 0.1
                 {
-                    let pa = videoView.viewPointConverted(fromNormalizedContentsPoint: paN.location)
-                    let pb = videoView.viewPointConverted(fromNormalizedContentsPoint: pbN.location)
-
-                    path.move(to: pa)
-                    path.addLine(to: pb)
+                    let pa = videoView.viewPointConverted(
+                        fromNormalizedContentsPoint: paN.location
+                    )
+                    let pb = videoView.viewPointConverted(
+                        fromNormalizedContentsPoint: pbN.location
+                    )
+                    
+                    let seg = UIBezierPath()
+                    seg.move(to: pa)
+                    seg.addLine(to: pb)
+                    path.append(seg)
                 }
             }
         }
-
+        
+        // --- Apply Stroke Style ---
         highlightLayer.path = path.cgPath
+        highlightLayer.strokeColor = instrColor(for: instructions)
+            .withAlphaComponent(0.7)
+            .cgColor
+        highlightLayer.fillColor = UIColor.clear.cgColor
+        highlightLayer.lineWidth = 2          // clean premium line thickness
+        highlightLayer.lineCap = .round
+        highlightLayer.lineJoin = .round
+        highlightLayer.opacity = 1.0
     }
+
+
+    private func instrColor(for instructions: [HighlightInstruction]) -> UIColor {
+        guard let c = instructions.first?.color else { return .orange }
+        switch c {
+            case "green": return UIColor.systemGreen
+            case "orange": return UIColor.systemRed
+            case "red": return UIColor.systemRed
+            default: return UIColor.systemOrange
+        }
+    }
+    
+    func setSkeletonVisible(_ visible: Bool) {
+        jointLayer.isHidden = !visible
+        jointSegmentLayer.isHidden = !visible
+    }
+
+
 
     
     func clearHighlights() {
@@ -763,11 +812,11 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
     }
     
     func updateDarkeningVisibility(forceVisible: Bool? = nil) {
-        print("update Darkening Visibility", forceVisible)
         if let force = forceVisible {
-            darkeningLayer.isHidden = !force
-            return
-        }
+                darkeningLayer.isHidden = !force
+                setSkeletonVisible(!force)   // 👈 hide skeleton when overlay shown
+                return
+            }
     }
 
 
@@ -1306,3 +1355,29 @@ class VideoCoachRenderView: UIView, NormalizedGeometryConverting {
 
 }
 
+struct CameraView: UIViewControllerRepresentable {
+    var videoURL: URL?
+    var frame: CGRect
+    var angle: ServeCameraAngle
+    @Binding var controller: AIcameraViewController?
+    
+    func makeUIViewController(context: Context) -> AIcameraViewController {
+        let controller = AIcameraViewController(frame: frame)
+        if let videoURL = videoURL {
+            controller.setupWithVideoURL(videoURL)
+        }
+        DispatchQueue.main.async {
+            self.controller = controller
+        }
+        return controller
+    }
+    
+    func updateUIViewController(_ uiViewController: AIcameraViewController, context: Context) {
+        print("📡 [AICamViewRep] updateUIViewController — angle:", angle)
+        uiViewController.updateLayout(frame: frame)
+        uiViewController.serveAngle = angle
+        print("📡 [AICamViewRep] uiViewController.serveAngle now:", uiViewController.serveAngle)
+    }
+
+    
+}
