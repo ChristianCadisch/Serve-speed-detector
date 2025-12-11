@@ -230,6 +230,10 @@ class HomeViewController: UIViewController,
             onQuizSelected: { [weak self] topic, difficulty in
                 print("🏁 [HOME] Launching quiz from Feed:", topic, difficulty)
                 self?.showQuiz(topic: topic, difficulty: difficulty)
+            },
+            onCoachHubSelected: { [weak self] in
+                self?.activeTab = .speedUpload
+                self?.showCoachHubView()
             }
         )
 

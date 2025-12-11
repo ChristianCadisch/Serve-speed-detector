@@ -10,7 +10,7 @@ import Photos
 struct OnboardingView: View {
     @Binding var hasSeenOnboarding: Bool
     @State private var currentPage = 0
-    private let totalPages = 4
+    private let totalPages = 5
 
     var body: some View {
         GeometryReader { geo in
@@ -29,29 +29,36 @@ struct OnboardingView: View {
                     .tag(0)
 
                     OnboardingPage(
-                        name: "camera",
+                        name: "sparkles",
                         title: NSLocalizedString("onboarding_page2_title", tableName: "general", comment: ""),
-                        description: NSLocalizedString("onboarding_page2_desc", tableName: "general", comment: "")
+                        description: NSLocalizedString("onboarding_page2_desc", tableName: "general", comment: ""),
+                        cornerRadius: 30
                     )
                     .tag(1)
 
                     OnboardingPage(
-                        name: "setup",
-                        isSystemImage: false,
+                        name: "bolt.circle",
                         title: NSLocalizedString("onboarding_page3_title", tableName: "general", comment: ""),
-                        description: NSLocalizedString("onboarding_page3_desc", tableName: "general", comment: ""),
-                        size: CGSize(width: 300, height: 3000),
-                        cornerRadius: 30
+                        description: NSLocalizedString("onboarding_page3_desc", tableName: "general", comment: "")
                     )
                     .tag(2)
 
                     OnboardingPage(
-                        name: "chart.bar.fill",
+                        name: "checklist",
                         title: NSLocalizedString("onboarding_page4_title", tableName: "general", comment: ""),
-                        description: NSLocalizedString("onboarding_page4_desc", tableName: "general", comment: "")
+                        description: NSLocalizedString("onboarding_page4_desc", tableName: "general", comment: ""),
+                        cornerRadius: 30
                     )
                     .tag(3)
+
+                    OnboardingPage(
+                        name: "chart.bar.fill",
+                        title: NSLocalizedString("onboarding_page5_title", tableName: "general", comment: ""),
+                        description: NSLocalizedString("onboarding_page5_desc", tableName: "general", comment: "")
+                    )
+                    .tag(4)
                 }
+
                 .tabViewStyle(.page(indexDisplayMode: .never))
                 .ignoresSafeArea()
                 .contentShape(Rectangle())

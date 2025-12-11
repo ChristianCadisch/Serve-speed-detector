@@ -26,7 +26,7 @@ struct FeedView: View {
     var onVideoSelected: (URL) -> Void
     var onAICoachSelected: (String) -> Void
     var onQuizSelected: (QuizIdentifier, QuizDifficulty) -> Void
-    
+    var onCoachHubSelected: () -> Void
     
     var body: some View {
         VStack(spacing: 0) {
@@ -68,9 +68,10 @@ struct FeedView: View {
             List {
                 
                 // ✅ HERO
-                if let hero = editorialHero {
-                    featuredHero(hero)
-                }
+                heroSection
+                        .listRowInsets(.init())
+                        .listRowSeparator(.hidden)
+                        .background(Color.clear)
                 
                 // ✅ PRESCRIBED NEXT STEPS (DIRECTLY UNDER HERO)
                 Section {
@@ -180,6 +181,54 @@ struct FeedView: View {
         let year: Int
         let week: Int
     }
+    
+    private var emptyFeaturedHero: some View {
+        ZStack(alignment: .bottomLeading) {
+
+            // Background gradient
+            LinearGradient(
+                colors: [
+                    Color.blue.opacity(0.85),
+                    Color.cyan.opacity(0.65)
+                ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .frame(height: 380)
+            .clipShape(RoundedRectangle(cornerRadius: 36, style: .continuous))
+
+            VStack(alignment: .leading, spacing: 12) {
+
+                Text("Record Your First Serve")
+                    .font(.system(size: 44, weight: .heavy, design: .rounded))
+                    .foregroundColor(.white)
+                    .shadow(radius: 6)
+
+                Text("Start your training and unlock AI analysis")
+                    .font(.footnote.weight(.semibold))
+                    .tracking(1)
+                    .foregroundColor(.white.opacity(0.85))
+            }
+            .padding(28)
+        }
+        .padding(.horizontal)
+        .padding(.top, 10)
+        .onTapGesture {
+            onCoachHubSelected()
+        }
+    }
+    
+    private var heroSection: some View {
+        Group {
+            if feedItems.isEmpty {
+                emptyFeaturedHero
+            } else if let hero = editorialHero {
+                featuredHero(hero)
+            }
+        }
+    }
+
+
 
     private func weeklyStreak() -> Int {
         let calendar = Calendar.current

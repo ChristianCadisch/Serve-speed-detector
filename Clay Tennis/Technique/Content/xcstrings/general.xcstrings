@@ -371,150 +371,196 @@
         }
       }
     },
-    "onboarding_page1_desc" : {
-      "comment" : "Onboarding page 1 description",
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dein iPhone-Aufschlagsradar mit modernster KI-Technologie"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Your iPhone serve speed radar powered by the newest AI technology"
-          }
+    "onboarding_page1_title": {
+    "comment": "Onboarding page 1 title",
+    "extractionState": "manual",
+    "localizations": {
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Welcome to Clay"
+        }
+      },
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Willkommen bei Clay"
         }
       }
-    },
-    "onboarding_page1_title" : {
-      "comment" : "Onboarding page 1 title",
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Willkommen bei Clay"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Welcome to Clay"
-          }
+    }
+  },
+  "onboarding_page1_desc": {
+    "comment": "Onboarding page 1 description",
+    "extractionState": "manual",
+    "localizations": {
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Your AI-powered tennis trainer"
+        }
+      },
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Dein KI-gestützter Tennistrainer"
         }
       }
-    },
-    "onboarding_page2_desc" : {
-      "comment" : "Onboarding page 2 description",
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lege dein Handy auf den Boden und nutze Slow-Motion für präziseste Ergebnisse"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Record with your phone on the floor and use slow motion for the most precise results"
-          }
+    }
+  },
+
+  "onboarding_page2_title": {
+    "comment": "Onboarding page 2 title",
+    "extractionState": "manual",
+    "localizations": {
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "AI Technique Analysis"
+        }
+      },
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "KI Technikanalyse"
         }
       }
-    },
-    "onboarding_page2_title" : {
-      "comment" : "Onboarding page 2 title",
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kamera ruhig halten"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Keep the Camera Steady"
-          }
+    }
+  },
+
+  "onboarding_page2_desc": {
+    "comment": "Onboarding page 2 description",
+    "extractionState": "manual",
+    "localizations": {
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Clay provides you with feedback after every serve"
+        }
+      },
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Clay gibt dir klares Feedback nach jedem Aufschlag"
         }
       }
-    },
-    "onboarding_page3_desc" : {
-      "comment" : "Onboarding page 3 description",
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Der gesamte Aufschlag muss sichtbar sein: Ballwurf, Treffpunkt, Flugbahn und Landung"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Make sure the full serve is visible: toss, contact, trajectory and landing"
-          }
+    }
+  },
+
+
+  "onboarding_page3_title": {
+    "comment": "Onboarding page 3 title",
+    "extractionState": "manual",
+    "localizations": {
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Measure Your Serve Speed"
+        }
+      },
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Miss deine Aufschlaggeschwindigkeit"
         }
       }
-    },
-    "onboarding_page3_title" : {
-      "comment" : "Onboarding page 3 title",
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Den ganzen Aufschlag erfassen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Capture the Whole Serve"
-          }
+    }
+  },
+
+  "onboarding_page3_desc": {
+    "comment": "Onboarding page 3 description",
+    "extractionState": "manual",
+    "localizations": {
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Record in slow motion and break speed records"
+        }
+      },
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Filme in Zeitlupe und erstelle neue Rekorde"
         }
       }
-    },
-    "onboarding_page4_desc" : {
-      "comment" : "Onboarding page 4 description",
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lade deinen ersten Aufschlag hoch oder nimm ihn direkt auf"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Upload or record your first serve"
-          }
+    }
+  },
+
+  "onboarding_page4_title": {
+    "comment": "Onboarding page 4 title",
+    "extractionState": "manual",
+    "localizations": {
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Learn and Improve"
+        }
+      },
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Lerne dazu"
         }
       }
-    },
-    "onboarding_page4_title" : {
-      "comment" : "Onboarding page 4 title",
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Los geht’s"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Let’s Get Started"
-          }
+    }
+  },
+
+  "onboarding_page4_desc": {
+    "comment": "Onboarding page 4 description",
+    "extractionState": "manual",
+    "localizations": {
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Short lessons and quizzes help you learn proper techniquze"
+        }
+      },
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Kurze Lektionen und Quizfragen vermitteln dir saubere Technik"
         }
       }
-    },
+    }
+  },
+
+  "onboarding_page5_title": {
+    "comment": "Onboarding page 5 title",
+    "extractionState": "manual",
+    "localizations": {
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Get started"
+        }
+      },
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Los geht's"
+        }
+      }
+    }
+  },
+
+  "onboarding_page5_desc": {
+    "comment": "Onboarding page 5 description",
+    "extractionState": "manual",
+    "localizations": {
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Upload or record your first serve"
+        }
+      },
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Lade deinen ersten Aufschlag hoch oder nimm ihn direkt auf"
+        }
+      }
+    }
+  },
+
     "out_of_format" : {
       "comment" : "Score formatting",
       "extractionState" : "stale",
