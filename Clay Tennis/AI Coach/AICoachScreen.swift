@@ -17,7 +17,7 @@ struct AICoachScreen: View {
     @Environment(\.dismiss) private var dismiss
     
     
-    var assetLocalIdentifier: String
+    var assetLocalIdentifier: String?
     var initialVideoURL: URL?
     @State private var resolvedVideoURL: URL? = nil
     
@@ -51,14 +51,7 @@ struct AICoachScreen: View {
                 ShareSheet(items: [url])
             }
         }
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button(action: { dismiss() }) {
-                    Image(systemName: "chevron.left")
-                        .font(.system(size: 17, weight: .semibold))
-                }
-            }
-        }
+        
         .alert("Export Error", isPresented: .constant(exportError != nil)) {
             Button("OK") { exportError = nil }
         } message: {
@@ -289,12 +282,19 @@ struct AICoachScreen: View {
     
     private func handleVideoAppear() {
         if let url = initialVideoURL {
-            print("⚡️ [AI] Using pre-downloaded local file:", url.lastPathComponent)
-            self.resolvedVideoURL = url
-        } else {
-            recoverVideoFromAsset()
+            print("⚡️ [AI] Using local video file:", url.lastPathComponent)
+            resolvedVideoURL = url
+            return
         }
+
+        guard let assetID = assetLocalIdentifier else {
+            assertionFailure("❌ [AI] No video URL and no asset identifier")
+            return
+        }
+
+        recoverVideoFromAsset(assetID: assetID)
     }
+
     
     private func handleTrophyEvent() {
         guard state.trophyFramePosition != nil else { return }
@@ -322,13 +322,14 @@ struct AICoachScreen: View {
     
     
     
-    private func recoverVideoFromAsset() {
-        print("🔁 [AI] Recovering video from asset ID:", assetLocalIdentifier)
-        
+    private func recoverVideoFromAsset(assetID: String) {
+        print("🔁 [AI] Recovering video from asset ID:", assetID)
+
         let assets = PHAsset.fetchAssets(
-            withLocalIdentifiers: [assetLocalIdentifier],
+            withLocalIdentifiers: [assetID],
             options: nil
         )
+
         
         guard let asset = assets.firstObject else {
             print("❌ [AI] PHAsset not found")

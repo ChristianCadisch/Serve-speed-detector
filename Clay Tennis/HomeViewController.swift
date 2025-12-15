@@ -223,8 +223,8 @@ class HomeViewController: UIViewController,
             onVideoSelected: { [weak self] videoURL in
                 self?.openContentAnalysis(for: videoURL)
             },
-            onAICoachSelected: { [weak self] assetLocalIdentifier in
-                self?.openAICoachSafe(assetLocalIdentifier: assetLocalIdentifier)
+            onAICoachSelected: { [weak self] videoURL in
+                self?.openAICoachSafe(for: videoURL)
             },
 
             onQuizSelected: { [weak self] topic, difficulty in
@@ -255,28 +255,35 @@ class HomeViewController: UIViewController,
     
 
     
-    private func openAICoachSafe(assetLocalIdentifier: String) {
+    private func openAICoachSafe(for videoURL: URL) {
 
-        print("🤖 [AI OPEN] Requested asset ID:", assetLocalIdentifier)
+        guard FileManager.default.fileExists(atPath: videoURL.path) else {
+            assertionFailure("❌ [AI OPEN] Video file does not exist")
+            return
+        }
 
-        let view = AICoachScreen(
-            assetLocalIdentifier: assetLocalIdentifier,
-            initialVideoURL: pendingCoachVideoURL,
-            selectedAngle: coachHubState.detectedAngle
+        let fileSize = (try? FileManager.default
+            .attributesOfItem(atPath: videoURL.path)[.size] as? NSNumber)?
+            .intValue ?? 0
+
+        guard fileSize > 0 else {
+            assertionFailure("❌ [AI OPEN] Video file is empty")
+            return
+        }
+
+        let screen = AICoachScreen(
+            assetLocalIdentifier: nil,
+            initialVideoURL: videoURL,
+            selectedAngle: .back
         )
 
-
-        let hosting = UIHostingController(
-            rootView: AnyView(
-                NavigationStack {
-                    view
-                }
-            )
+        navigationController?.pushViewController(
+            UIHostingController(rootView: screen),
+            animated: true
         )
-
-        hosting.modalPresentationStyle = .fullScreen
-        present(hosting, animated: true)
     }
+
+
 
 
     
@@ -861,17 +868,14 @@ extension HomeViewController: PHPickerViewControllerDelegate {
                     }
 
                 case .coach:
-
+                    
                     if let safeURL = self.prepareServeVideoForAnalysis(originalURL: originalURL) {
                         self.pendingCoachVideoURL = safeURL
-                        guard let assetID = self.lastPickedAssetIdentifier else {
-                            print("❌ [AI] Missing assetLocalIdentifier")
-                            return
-                        }
-                        self.openAICoachSafe(assetLocalIdentifier: assetID)
+                        self.openAICoachSafe(for: safeURL)
                     } else {
-                        print("❌ [AI] Copy to app storage FAILED")
+                        print("❌ [SERVE] Copy to app storage FAILED")
                     }
+
                 }
             }
         }

@@ -24,7 +24,7 @@ struct FeedView: View {
     var onAddTapped: () -> Void
     var onTheorySelected: () -> Void
     var onVideoSelected: (URL) -> Void
-    var onAICoachSelected: (String) -> Void
+    var onAICoachSelected: (URL) -> Void
     var onQuizSelected: (QuizIdentifier, QuizDifficulty) -> Void
     var onCoachHubSelected: () -> Void
     
@@ -110,15 +110,14 @@ struct FeedView: View {
             .navigationDestination(item: $selectedAICoachItem) { item in
                 AICoachDetailView(
                     item: item,
-                    onReplayAICoach: { _ in   // ✅ explicitly accept the required URL argument
-                        if let assetID = item.assetLocalIdentifier {
-                            onAICoachSelected(assetID)
-                        } else {
-                            print("❌ [FEED] Missing assetLocalIdentifier for AI Coach item")
+                    onReplayAICoach: { _ in
+                        if let url = item.thumbnailURL {
+                            onAICoachSelected(url)
                         }
                     }
                 )
             }
+
             
             
             
