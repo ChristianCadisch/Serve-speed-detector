@@ -31,9 +31,9 @@ struct AICoachDetailView: View {
                         .padding(.top, 32)
                     
                     strengthsCorrectionsSection
-        
                     
-                    replayCTA
+                    
+                    
                 }
                 .padding(.bottom, 60)
             }
@@ -74,18 +74,35 @@ struct AICoachDetailView: View {
     // MARK: - Hero Header
     
     private var heroHeader: some View {
-        VStack(alignment: .leading, spacing: 18) {
+        VStack(alignment: .leading, spacing: 20) {
             
             HStack(spacing: 14) {
                 
                 RoundedRectangle(cornerRadius: 20, style: .continuous)
-                    .fill(Color.white.opacity(0.15))
+                    .fill(
+                        LinearGradient(
+                            colors: [
+                                Color.purple.opacity(colorScheme == .dark ? 0.45 : 0.30),
+                                Color.pink.opacity(colorScheme == .dark ? 0.45 : 0.30)
+                            ],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
                     .frame(width: 52, height: 52)
                     .overlay(
                         Image(systemName: "sparkles")
-                            .font(.title2.weight(.semibold))
-                            .foregroundStyle(.white.opacity(0.9))
+                            .font(.title2.weight(.bold))
+                            .foregroundStyle(
+                                LinearGradient(
+                                    colors: [.white, .white.opacity(0.85)],
+                                    startPoint: .top,
+                                    endPoint: .bottom
+                                )
+                            )
+                            .shadow(color: .black.opacity(0.25), radius: 2, y: 1)
                     )
+
                 
                 VStack(alignment: .leading, spacing: 4) {
                     Text("AI Coach Analysis")
@@ -104,11 +121,43 @@ struct AICoachDetailView: View {
                 .font(.system(size: 36, weight: .semibold, design: .rounded))
                 .foregroundStyle(.primary)
             
-            Text("Tennis serve analysis")
-                .font(.callout)
-                .foregroundStyle(.secondary)
             
-            
+            // PRIMARY CTA
+            Button {
+                onReplayAICoach(item)
+            } label: {
+                HStack(spacing: 12) {
+                    Image(systemName: "play.circle.fill")
+                        .font(.title3.weight(.semibold))
+
+                    Text("Reopen AI Analysis")
+                        .font(.headline.weight(.semibold))
+
+                    Spacer()
+
+                    Image(systemName: "arrow.right.circle.fill")
+                        .font(.title3.weight(.semibold))
+                }
+                .foregroundStyle(.white)
+                .padding(.horizontal, 22)
+                .frame(height: 56)
+                .background(
+                    LinearGradient(
+                        colors: [
+                            Color.purple,
+                            Color.pink
+                        ],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
+                .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                .shadow(color: .black.opacity(0.22), radius: 10, y: 6)
+            }
+            .buttonStyle(.plain)
+            .padding(.top, 8)
+
+
         }
         .padding(30)
         .background(
@@ -120,42 +169,43 @@ struct AICoachDetailView: View {
     }
     
     
+    
     // MARK: - Strengths / Corrections Section
     
     private var strengthsCorrectionsSection: some View {
-
+        
         let positives = item.positiveAITips
         let negatives = item.aiTips
-
-
+        
+        
         let displayedInsights: [(title: String, text: String, icon: String, tint: Color)] = {
-
-           
+            
+            
             var output: [(String, String, String, Color)] = []
-
+            
             // Add ALL positive tips
             for p in positives {
                 output.append(("Strength", p, "checkmark.circle.fill", .green))
             }
-
+            
             // Add ALL negative tips
             for n in negatives {
                 output.append(("Correction", n, "exclamationmark.triangle.fill", .orange))
             }
-
+            
             output.forEach { (title, text, _, _) in
                 print(" - \(title): \(text)")
             }
-
+            
             return output
         }()
-
+        
         return VStack(alignment: .leading, spacing: 22) {
-
+            
             Text("What the Coach Saw")
                 .font(.title3.weight(.semibold))
                 .padding(.horizontal, 22)
-
+            
             VStack(spacing: 18) {
                 ForEach(displayedInsights.indices, id: \.self) { index in
                     let insight = displayedInsights[index]
@@ -176,7 +226,7 @@ struct AICoachDetailView: View {
             .padding(.horizontal, 22)
         }
     }
-
+    
     
     
     // MARK: - Insight Row
@@ -284,33 +334,8 @@ struct AICoachDetailView: View {
         )
         .foregroundColor(.blue)
     }
-    
-    
-    // MARK: - Replay CTA
-    
-    private var replayCTA: some View {
-        Button {
-            onReplayAICoach(item)
-        } label: {
-            HStack(spacing: 12) {
-                Image(systemName: "play.circle.fill")
-                    .font(.title3.weight(.semibold))
-                
-                Text("Reopen AI Analysis")
-                    .font(.headline.weight(.semibold))
-                
-                Spacer()
-            }
-            .padding(.horizontal, 22)
-            .frame(height: 60)
-            .background(.ultraThinMaterial)
-            .cornerRadius(22)
-        }
-        .shadow(color: .black.opacity(0.16), radius: 18, y: 8)
-        .padding(.horizontal, 22)
-    }
 }
-
+    
 
 struct AICoachDetailView_Previews: PreviewProvider {
     static var previews: some View {
