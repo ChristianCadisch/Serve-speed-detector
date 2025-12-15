@@ -7,7 +7,7 @@ import SwiftUI
 import AVKit
 import AVFoundation
 
-struct RecordingSetupView: View {
+struct SpeedRecordingSetupView: View {
     @Binding var isPresented: Bool
     @State private var currentPage = 0
     @State private var isCameraErrorSource = false
@@ -51,7 +51,20 @@ struct RecordingSetupView: View {
                         description: NSLocalizedString("recording_page3_desc", tableName: "general", comment: "")
                     )
                     .tag(2)
+                    
+                    // PAGE 4 - SlowMo
+                    OnboardingPage(
+                        name: "timelapse",
+                        isSystemImage: true,
+                        title: "Camera settings",
+                        description: "Set your camera to slow motion for maximum accuracy",
+                        size: CGSize(width: 300, height: 300),
+                        cornerRadius: 30
+                    )
+                    .tag(3)
+                    
                 }
+                .gesture(swipeDownToDismiss)
                 .tabViewStyle(.page(indexDisplayMode: .never))
                 .ignoresSafeArea()
                 .simultaneousGesture(
@@ -113,12 +126,160 @@ struct RecordingSetupView: View {
             }
         }
     }
+    
+    private var swipeDownToDismiss: some Gesture {
+        DragGesture()
+            .onEnded { value in
+                // Strong downward intent
+                if value.translation.height > 120 &&
+                   abs(value.translation.width) < 80 {
+                    isPresented = false
+                    dismiss()
+                }
+            }
+    }
+
 }
+
+
+struct TechniqueRecordingSetupView: View {
+    @Binding var isPresented: Bool
+    @State private var currentPage = 0
+    @State private var isCameraErrorSource = false
+    @Environment(\.dismiss) private var dismiss
+    private let totalPages = 3
+
+    var body: some View {
+        GeometryReader { geo in
+            ZStack {
+                Color(uiColor: .systemBackground)
+                    .ignoresSafeArea()
+
+                TabView(selection: $currentPage) {
+
+                    // PAGE 1 — SIDE VS BACK
+                    OnboardingPage(
+                        name: "mode",
+                        isSystemImage: false,
+                        title: "Angle selection",
+                        description: "The AI coach analyzes your serve from the side or from behind - select the correct mode before uploading",
+                        size: CGSize(width: 350, height: 300),
+                        cornerRadius: 30
+                    )
+                    .tag(0)
+
+
+                    // PAGE 2 — CAMERA POSITION
+                    OnboardingPage(
+                        name: "player_visual",
+                        isSystemImage: false,
+                        title: "Recording position",
+                        description: "Stand directly behind or to the side of the player and keep the full body in frame",
+                        size: CGSize(width: 300, height: 300),
+                        cornerRadius: 30
+                    )
+                    .tag(1)
+
+
+                    // PAGE 3 — UNDERSTAND FEEDBAK
+                    OnboardingPage(
+                        name: "hand.tap",
+                        isSystemImage: true,
+                        title: "Understand your feedback",
+                        description: "Tap on any feedback to see exactly what the coach is referring to",
+                        size: CGSize(width: 200, height: 200),
+                        cornerRadius: 30
+                    )
+                    .tag(2)
+
+                    
+                }
+                .gesture(swipeDownToDismiss)
+                .tabViewStyle(.page(indexDisplayMode: .never))
+                .ignoresSafeArea()
+                .simultaneousGesture(
+                    DragGesture(minimumDistance: 0)
+                        .onEnded { value in
+                            let isTap =
+                                abs(value.translation.width) < 5 &&
+                                abs(value.translation.height) < 5
+                            guard isTap else { return }
+
+                            let midX = geo.size.width / 2
+                            if value.startLocation.x >= midX {
+                                if currentPage < totalPages - 1 {
+                                    withAnimation { currentPage += 1 }
+                                }
+                            } else if currentPage > 0 {
+                                withAnimation { currentPage -= 1 }
+                            }
+                        }
+                )
+
+                VStack {
+                    Spacer()
+
+                    // PAGE INDICATORS
+                    HStack(spacing: 8) {
+                        ForEach(0..<totalPages, id: \.self) { index in
+                            Capsule()
+                                .fill(index == currentPage
+                                      ? Color.accentColor
+                                      : Color.secondary.opacity(0.4))
+                                .frame(width: index == currentPage ? 24 : 8, height: 8)
+                                .animation(.easeInOut(duration: 0.2), value: currentPage)
+                        }
+                    }
+                    .padding(.bottom,
+                             (currentPage == totalPages - 1 ? 10 : -20)
+                    )
+
+                    // CLOSE BUTTON
+                    if currentPage == totalPages - 1 {
+                        Button {
+                            isPresented = false
+                            dismiss()
+                        } label: {
+                            Text(NSLocalizedString("recording_setup_done", tableName: "general", comment: ""))
+                                .fontWeight(.bold)
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color.accentColor)
+                                .foregroundColor(Color(uiColor: .systemBackground))
+                                .cornerRadius(12)
+                                .padding(.horizontal, 40)
+                                .padding(.bottom, 0)
+                        }
+                        .transition(.opacity)
+                    }
+                }
+            }
+        }
+    }
+    
+    private var swipeDownToDismiss: some Gesture {
+        DragGesture()
+            .onEnded { value in
+                // Strong downward intent
+                if value.translation.height > 120 &&
+                   abs(value.translation.width) < 80 {
+                    isPresented = false
+                    dismiss()
+                }
+            }
+    }
+
+}
+
+
+
+
 
 struct RecordingSetupVideoPage: View {
     let remoteURL: String
     let title: String
     let description: String
+    var frame_height: CGFloat = 260
 
     @State private var player: AVPlayer? = nil
 
@@ -128,7 +289,7 @@ struct RecordingSetupVideoPage: View {
 
             if let player = player {
                 AspectFillVideoPlayer(player: player)
-                    .frame(height: 260)
+                    .frame(height: frame_height)
                     .clipped()
                     .cornerRadius(16)
                     .onAppear {
@@ -186,5 +347,5 @@ struct AspectFillVideoPlayer: UIViewControllerRepresentable {
 
 
 #Preview {
-    RecordingSetupView(isPresented: .constant(true))
+    TechniqueRecordingSetupView(isPresented: .constant(true))
 }

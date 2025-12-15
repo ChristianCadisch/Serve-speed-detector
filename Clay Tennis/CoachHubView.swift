@@ -15,6 +15,11 @@ struct CoachHubView: View {
     @Binding var selectedMode: ServeMode           // .speed | .technique
     @Binding var detectedAngle: ServeCameraAngle   // .side | .back
     @Binding var angleDetectionSource: AngleSource // .auto | .manual
+    @State private var activeSetupMode: ServeMode?
+
+    private let hasSeenSpeedSetupKey = "hasSeenSpeedRecordingSetup"
+    private let hasSeenTechniqueSetupKey = "hasSeenTechniqueRecordingSetup"
+
     let latestTechniqueItem: FeedItem?
 
     let recordAction: () -> Void
@@ -48,7 +53,6 @@ struct CoachHubView: View {
             } else if selectedMode == .speed && lastServeSpeed != nil {
                 lastServeCard
             }
-            
             Spacer()
         }
         .padding(.horizontal, 22)
@@ -63,6 +67,28 @@ struct CoachHubView: View {
                 endPoint: .bottom
             )
         )
+        .sheet(item: $activeSetupMode) { mode in
+            switch mode {
+            case .speed:
+                SpeedRecordingSetupView(isPresented: Binding(
+                    get: { activeSetupMode != nil },
+                    set: { _ in activeSetupMode = nil }
+                ))
+                .onDisappear {
+                    UserDefaults.standard.set(true, forKey: hasSeenSpeedSetupKey)
+                }
+
+            case .technique:
+                TechniqueRecordingSetupView(isPresented: Binding(
+                    get: { activeSetupMode != nil },
+                    set: { _ in activeSetupMode = nil }
+                ))
+                .onDisappear {
+                    UserDefaults.standard.set(true, forKey: hasSeenTechniqueSetupKey)
+                }
+            }
+        }
+
     }
     
     
@@ -192,10 +218,28 @@ struct CoachHubView: View {
     // MARK: - Action Buttons
     
     private var actionButtons: some View {
-        VStack(spacing: 12) {
+        VStack(spacing: 10) {
+
+            // PRIMARY CTA
             Button(action: {
                 print("🎥 [CoachHub] Record tapped — selectedMode:", selectedMode)
-                recordAction()
+
+                // First-time interstitial logic (see section 2)
+                switch selectedMode {
+                    case .speed:
+                        if !UserDefaults.standard.bool(forKey: hasSeenSpeedSetupKey) {
+                            activeSetupMode = .speed
+                        } else {
+                            recordAction()
+                        }
+
+                    case .technique:
+                        if !UserDefaults.standard.bool(forKey: hasSeenTechniqueSetupKey) {
+                            activeSetupMode = .technique
+                        } else {
+                            recordAction()
+                        }
+                    }
             }) {
                 HStack(spacing: 12) {
                     Image(systemName: "video.fill")
@@ -226,8 +270,23 @@ struct CoachHubView: View {
                 .shadow(color: .black.opacity(0.25), radius: 12, y: 6)
             }
             .buttonStyle(.plain)
+
+            // CONTEXTUAL HELP LINK
+            Button {
+                activeSetupMode = selectedMode
+            } label: {
+                HStack(spacing: 6) {
+                    Image(systemName: "info.circle")
+                    Text("How to set up your phone")
+                }
+                .font(.footnote.weight(.medium))
+                .foregroundStyle(.secondary)
+            }
+
+            .buttonStyle(.plain)
         }
     }
+
 
     
     private var recordButtonTitle: String {
@@ -394,6 +453,11 @@ enum ServeMode: String {
     }
 }
 
+extension ServeMode: Identifiable {
+    var id: String { rawValue }
+}
+
+
 enum ServeCameraAngle: String {
     case side
     case back
@@ -412,3 +476,19 @@ enum AngleSource {
 }
 
 
+// MARK: - Preview
+
+#Preview {
+    CoachHubView(
+        selectedMode: .constant(.speed),
+        detectedAngle: .constant(.side),
+        angleDetectionSource: .constant(.auto),
+        latestTechniqueItem: nil,
+        recordAction: {},
+        uploadAction: {},
+        latestFocusTitle: "Trophy Position",
+        latestFocusStrength: "Good shoulder rotation",
+        latestFocusCorrection: "Raise your tossing arm longer",
+        lastServeSpeed: 172
+    )
+}

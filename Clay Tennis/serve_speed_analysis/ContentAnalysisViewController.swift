@@ -323,7 +323,7 @@ class ContentAnalysisViewController: UIViewController,
     // MARK: - Private Methods
     
     @objc private func openRecordingSetup() {
-        let vc = UIHostingController(rootView: RecordingSetupView(isPresented: .constant(true)
+        let vc = UIHostingController(rootView: SpeedRecordingSetupView(isPresented: .constant(true)
         ))
         navigationController?.pushViewController(vc, animated: true)
     }

@@ -136,7 +136,7 @@ struct SettingsView: View {
         }
 
         .fullScreenCover(isPresented: $showRecordingSetup) {
-            RecordingSetupView(isPresented: $showRecordingSetup)
+            SpeedRecordingSetupView(isPresented: $showRecordingSetup)
         }
     }
 }

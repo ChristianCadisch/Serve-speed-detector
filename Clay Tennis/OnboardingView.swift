@@ -19,6 +19,7 @@ struct OnboardingView: View {
                     .ignoresSafeArea()
 
                 TabView(selection: $currentPage) {
+                    
                     OnboardingPage(
                         name: "onboarding",
                         isSystemImage: false,
@@ -28,23 +29,25 @@ struct OnboardingView: View {
                     )
                     .tag(0)
 
-                    OnboardingPage(
-                        name: "sparkles",
+                    RecordingSetupVideoPage(
+                        remoteURL: "technique_coach_example",
                         title: NSLocalizedString("onboarding_page2_title", tableName: "general", comment: ""),
                         description: NSLocalizedString("onboarding_page2_desc", tableName: "general", comment: ""),
-                        cornerRadius: 30
+                        frame_height: 400,
                     )
                     .tag(1)
 
-                    OnboardingPage(
-                        name: "bolt.circle",
+                    RecordingSetupVideoPage(
+                        remoteURL: "example_serve",
                         title: NSLocalizedString("onboarding_page3_title", tableName: "general", comment: ""),
                         description: NSLocalizedString("onboarding_page3_desc", tableName: "general", comment: "")
+                    
                     )
                     .tag(2)
 
                     OnboardingPage(
-                        name: "checklist",
+                        name: "quiz",
+                        isSystemImage: false,
                         title: NSLocalizedString("onboarding_page4_title", tableName: "general", comment: ""),
                         description: NSLocalizedString("onboarding_page4_desc", tableName: "general", comment: ""),
                         cornerRadius: 30
