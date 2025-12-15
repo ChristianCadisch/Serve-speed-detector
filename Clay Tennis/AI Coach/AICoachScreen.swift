@@ -34,7 +34,7 @@ struct AICoachScreen: View {
     @State private var showShareSheet = false
     @State private var exportError: String?
     @State private var showOverlay = false
-
+    
     
     @Environment(\.colorScheme) private var colorScheme
     
@@ -62,7 +62,7 @@ struct AICoachScreen: View {
                 exportVideo()
             }
             controller?.clearHighlights()
-
+            
         }
         .onChange(of: state.trophyFramePosition) { newVal in
             handleTrophyEvent()
@@ -175,9 +175,9 @@ struct AICoachScreen: View {
                                 .onTapGesture {
                                     let newValue = !showOverlay
                                     showOverlay = newValue
-
+                                    
                                     controller?.updateDarkeningVisibility(forceVisible: newValue)
-
+                                    
                                     if newValue {
                                         if newValue {
                                             if let highlights = state.highlightMap[item.text] {
@@ -186,16 +186,16 @@ struct AICoachScreen: View {
                                         } else {
                                             controller?.clearHighlights()
                                         }
-
+                                        
                                     } else {
                                         controller?.clearHighlights()
                                     }
                                 }
-
-
+                            
+                            
                         }
-
-
+                        
+                        
                     }
                 }
                 .padding(30)
@@ -221,7 +221,7 @@ struct AICoachScreen: View {
         // Clean arrays → remove blank or whitespace-only entries
         let positives = state.positiveFeedbackArray.filter { !$0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
         let negatives = state.feedbackArray.filter { !$0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
-
+        
         // CASE 1 → We have positive feedback
         if let pos = positives.first {
             if let neg = negatives.first {
@@ -235,7 +235,7 @@ struct AICoachScreen: View {
                     .map { (text: $0, isPositive: true) }
             }
         }
-
+        
         // CASE 2 → No positives → show two negatives
         return negatives
             .prefix(2)
@@ -243,16 +243,16 @@ struct AICoachScreen: View {
     }
     
     func updateDarkeningVisibility(forceVisible: Bool? = nil) {
-
+        
         if let force = forceVisible {
             controller?.darkeningLayer.isHidden = !force
             return
         }
     }
-
-
-
-
+    
+    
+    
+    
     
     private var continueButton: some View {
         Button(action: {
@@ -261,7 +261,7 @@ struct AICoachScreen: View {
             controller?.updateDarkeningVisibility(forceVisible: false)
             controller?.clearHighlights()
             withAnimation(.spring()) { showHeroBanner = false }
-
+            
         }) {
             HStack(spacing: 8) {
                 Text("Continue")
@@ -286,15 +286,15 @@ struct AICoachScreen: View {
             resolvedVideoURL = url
             return
         }
-
+        
         guard let assetID = assetLocalIdentifier else {
             assertionFailure("❌ [AI] No video URL and no asset identifier")
             return
         }
-
+        
         recoverVideoFromAsset(assetID: assetID)
     }
-
+    
     
     private func handleTrophyEvent() {
         guard state.trophyFramePosition != nil else { return }
@@ -324,12 +324,12 @@ struct AICoachScreen: View {
     
     private func recoverVideoFromAsset(assetID: String) {
         print("🔁 [AI] Recovering video from asset ID:", assetID)
-
+        
         let assets = PHAsset.fetchAssets(
             withLocalIdentifiers: [assetID],
             options: nil
         )
-
+        
         
         guard let asset = assets.firstObject else {
             print("❌ [AI] PHAsset not found")
@@ -382,27 +382,27 @@ struct AICoachScreen: View {
         
         
         let feedItem = FeedItem(
-                type: .aiCoach,
-                date: Date(),
-                thumbnailURL: resolvedVideoURL,
-                assetLocalIdentifier: assetLocalIdentifier,  
-                title: "AI Coach Analysis",
-                subtitle: "Serve technique insights",
-                primaryMetricText: "\(state.feedbackArray.count + state.positiveFeedbackArray.count) tips",
-                secondaryMetricText: nil,
-                fastestSpeedKmh: nil,
-                serveCount: nil,
-                aiTipCount: state.feedbackArray.count + state.positiveFeedbackArray.count,
-                aiTips: state.feedbackArray,
-                aiTipsDetailed: state.feedbackArrayDetailed,
-                positiveAITips: state.positiveFeedbackArray,
-                keyword: state.keywordArray,
-                side: selectedAngle.title,
-                quizTopicKey: nil,
-                quizDifficulty: nil,
-                quizCorrectAnswers: nil,
-                quizTotalQuestions: nil
-            )
+            type: .aiCoach,
+            date: Date(),
+            thumbnailURL: resolvedVideoURL,
+            assetLocalIdentifier: assetLocalIdentifier,
+            title: "AI Coach Analysis",
+            subtitle: "Serve technique insights",
+            primaryMetricText: "\(state.feedbackArray.count + state.positiveFeedbackArray.count) tips",
+            secondaryMetricText: nil,
+            fastestSpeedKmh: nil,
+            serveCount: nil,
+            aiTipCount: state.feedbackArray.count + state.positiveFeedbackArray.count,
+            aiTips: state.feedbackArray,
+            aiTipsDetailed: state.feedbackArrayDetailed,
+            positiveAITips: state.positiveFeedbackArray,
+            keyword: state.keywordArray,
+            side: selectedAngle.title,
+            quizTopicKey: nil,
+            quizDifficulty: nil,
+            quizCorrectAnswers: nil,
+            quizTotalQuestions: nil
+        )
 
         
         
@@ -421,6 +421,13 @@ struct AICoachScreen: View {
             name: .feedItemCreated,
             object: feedItem
         )
+        
+        // ✅ POST NOTIFICATION TO SHOW DETAIL VIEW
+        NotificationCenter.default.post(
+            name: .showAICoachDetail,
+            object: feedItem
+        )
+        
         
         /*
          print("🚀 Export button tapped")
@@ -524,135 +531,138 @@ struct AICoachScreen: View {
     }
     
 }
+
+
+// MARK: - TIMELINE BAR
+
+struct TrophyTimelineBar: View {
+    var progress: CGFloat
     
+    var body: some View {
+        GeometryReader { geo in
+            ZStack(alignment: .leading) {
+                
+                Capsule()
+                    .fill(Color.gray.opacity(0.25))
+                
+                Capsule()
+                    .fill(Color.blue)
+                    .frame(width: geo.size.width * progress)
+            }
+        }
+        .frame(height: 4)
+    }
+}
+
+
+
+// MARK: - CORNER EXT
+
+struct RoundedCorner: Shape {
+    var radius: CGFloat = .infinity
+    var corners: UIRectCorner = .allCorners
     
-    // MARK: - TIMELINE BAR
+    func path(in rect: CGRect) -> Path {
+        let path = UIBezierPath(
+            roundedRect: rect,
+            byRoundingCorners: corners,
+            cornerRadii: CGSize(width: radius, height: radius)
+        )
+        return Path(path.cgPath)
+    }
+}
+
+extension View {
+    func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
+        clipShape(RoundedCorner(radius: radius, corners: corners))
+    }
+}
+
+
+// MARK: - WRAPPER
+
+struct AICameraViewRepresentable: UIViewControllerRepresentable {
+    var videoURL: URL?
+    var frame: CGRect
+    @Binding var controller: AIcameraViewController?
+    var angle: ServeCameraAngle
     
-    struct TrophyTimelineBar: View {
-        var progress: CGFloat
+    func makeUIViewController(context: Context) -> AIcameraViewController {
+        let vc = AIcameraViewController(frame: frame)
+        if let url = videoURL { vc.setupWithVideoURL(url) }
+        DispatchQueue.main.async { self.controller = vc }
+        return vc
+    }
+    
+    func updateUIViewController(_ uiViewController: AIcameraViewController, context: Context) {
+        uiViewController.updateLayout(frame: frame)
+        uiViewController.serveAngle = angle
         
-        var body: some View {
-            GeometryReader { geo in
-                ZStack(alignment: .leading) {
-                    
-                    Capsule()
-                        .fill(Color.gray.opacity(0.25))
-                    
-                    Capsule()
-                        .fill(Color.blue)
-                        .frame(width: geo.size.width * progress)
+        if let videoURL {
+            print("🔄 [AI VIEW] Updating controller with video:", videoURL.lastPathComponent)
+            uiViewController.setupWithVideoURL(videoURL)
+        } else {
+            print("⚠️ [AI VIEW] updateUIViewController called with NIL videoURL")
+        }
+    }
+    
+}
+
+
+// MARK: - DETAILS VIEW
+
+struct AICoachDetailsView: View {
+    var details: [String]
+    
+    var body: some View {
+        List {
+            ForEach(details, id: \.self) { d in
+                HStack(alignment: .top, spacing: 12) {
+                    Image(systemName: "info.circle")
+                        .foregroundColor(.blue)
+                    Text(d)
                 }
-            }
-            .frame(height: 4)
-        }
-    }
-    
-    
-    
-    // MARK: - CORNER EXT
-    
-    struct RoundedCorner: Shape {
-        var radius: CGFloat = .infinity
-        var corners: UIRectCorner = .allCorners
-        
-        func path(in rect: CGRect) -> Path {
-            let path = UIBezierPath(
-                roundedRect: rect,
-                byRoundingCorners: corners,
-                cornerRadii: CGSize(width: radius, height: radius)
-            )
-            return Path(path.cgPath)
-        }
-    }
-    
-    extension View {
-        func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
-            clipShape(RoundedCorner(radius: radius, corners: corners))
-        }
-    }
-    
-    
-    // MARK: - WRAPPER
-    
-    struct AICameraViewRepresentable: UIViewControllerRepresentable {
-        var videoURL: URL?
-        var frame: CGRect
-        @Binding var controller: AIcameraViewController?
-        var angle: ServeCameraAngle
-        
-        func makeUIViewController(context: Context) -> AIcameraViewController {
-            let vc = AIcameraViewController(frame: frame)
-            if let url = videoURL { vc.setupWithVideoURL(url) }
-            DispatchQueue.main.async { self.controller = vc }
-            return vc
-        }
-        
-        func updateUIViewController(_ uiViewController: AIcameraViewController, context: Context) {
-            uiViewController.updateLayout(frame: frame)
-            uiViewController.serveAngle = angle
-            
-            if let videoURL {
-                print("🔄 [AI VIEW] Updating controller with video:", videoURL.lastPathComponent)
-                uiViewController.setupWithVideoURL(videoURL)
-            } else {
-                print("⚠️ [AI VIEW] updateUIViewController called with NIL videoURL")
+                .padding(.vertical, 6)
             }
         }
-        
+        .navigationTitle("Detailed Analysis")
     }
+}
+
+
+// MARK: - Share Sheet
+
+struct ShareSheet: UIViewControllerRepresentable {
+    let items: [Any]
     
-    
-    // MARK: - DETAILS VIEW
-    
-    struct AICoachDetailsView: View {
-        var details: [String]
-        
-        var body: some View {
-            List {
-                ForEach(details, id: \.self) { d in
-                    HStack(alignment: .top, spacing: 12) {
-                        Image(systemName: "info.circle")
-                            .foregroundColor(.blue)
-                        Text(d)
-                    }
-                    .padding(.vertical, 6)
-                }
+    func makeUIViewController(context: Context) -> UIActivityViewController {
+        // For file URLs, we need to ensure they're accessible
+        let activityItems: [Any] = items.map { item in
+            if let url = item as? URL {
+                // Return the URL directly - iOS will handle it
+                return url
             }
-            .navigationTitle("Detailed Analysis")
-        }
-    }
-    
-    
-    // MARK: - Share Sheet
-    
-    struct ShareSheet: UIViewControllerRepresentable {
-        let items: [Any]
-        
-        func makeUIViewController(context: Context) -> UIActivityViewController {
-            // For file URLs, we need to ensure they're accessible
-            let activityItems: [Any] = items.map { item in
-                if let url = item as? URL {
-                    // Return the URL directly - iOS will handle it
-                    return url
-                }
-                return item
-            }
-            
-            let controller = UIActivityViewController(
-                activityItems: activityItems,
-                applicationActivities: nil
-            )
-            
-            // Exclude some activities that don't make sense for videos
-            controller.excludedActivityTypes = [
-                .addToReadingList,
-                .assignToContact,
-                .print
-            ]
-            
-            return controller
+            return item
         }
         
-        func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
+        let controller = UIActivityViewController(
+            activityItems: activityItems,
+            applicationActivities: nil
+        )
+        
+        // Exclude some activities that don't make sense for videos
+        controller.excludedActivityTypes = [
+            .addToReadingList,
+            .assignToContact,
+            .print
+        ]
+        
+        return controller
     }
     
+    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
+}
+
+extension Notification.Name {
+    static let showAICoachDetail = Notification.Name("ShowAICoachDetail")
+}

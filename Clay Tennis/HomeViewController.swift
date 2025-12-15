@@ -210,6 +210,54 @@ class HomeViewController: UIViewController,
     override func viewDidLoad() {
         super.viewDidLoad()
         showFeedView()
+        NotificationCenter.default.addObserver(
+                self,
+                selector: #selector(handleShowAICoachDetail(_:)),
+                name: .showAICoachDetail,
+                object: nil
+            )
+    }
+    
+    @objc private func handleShowAICoachDetail(_ notification: Notification) {
+        guard let feedItem = notification.object as? FeedItem else {
+            print("❌ [DETAIL] No feed item in notification")
+            return
+        }
+        
+        print("✅ [DETAIL] Showing AI Coach detail for item:", feedItem.id)
+        
+        // Ensure we're on the home/feed tab
+        if activeTab != .home {
+            activeTab = .home
+            showFeedView()
+        }
+        
+        // ✅ FIRST: Pop the AICoachScreen off the stack
+        navigationController?.popViewController(animated: false)
+        
+        // ✅ THEN: Push the detail view (small delay to ensure pop completes)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.showAICoachDetailView(feedItem)
+        }
+    }
+
+    // Keep this method as is
+    private func showAICoachDetailView(_ item: FeedItem) {
+        let detailView = AICoachDetailView(
+            item: item,
+            onReplayAICoach: { [weak self] url in
+                self?.openAICoachSafe(for: url)
+            }
+        )
+        
+        let hosting = UIHostingController(rootView: AnyView(detailView))
+        
+        // Push onto navigation stack
+        navigationController?.pushViewController(hosting, animated: true)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     
