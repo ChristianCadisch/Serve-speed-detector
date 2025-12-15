@@ -470,6 +470,21 @@ enum ServeCameraAngle: String {
     }
 }
 
+extension ServeCameraAngle {
+    init?(feedSide: String?) {
+        guard let feedSide else { return nil }
+        self.init(rawValue: feedSide)
+    }
+}
+extension ServeCameraAngle {
+    init?(storedValue: String?) {
+        guard let value = storedValue?.lowercased() else { return nil }
+        self.init(rawValue: value)
+    }
+}
+
+
+
 enum AngleSource {
     case auto
     case manual

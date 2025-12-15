@@ -24,7 +24,7 @@ struct FeedView: View {
     var onAddTapped: () -> Void
     var onTheorySelected: () -> Void
     var onVideoSelected: (URL) -> Void
-    var onAICoachSelected: (URL) -> Void
+    var onAICoachSelected: (FeedItem) -> Void
     var onQuizSelected: (QuizIdentifier, QuizDifficulty) -> Void
     var onCoachHubSelected: () -> Void
     
@@ -110,11 +110,10 @@ struct FeedView: View {
             .navigationDestination(item: $selectedAICoachItem) { item in
                 AICoachDetailView(
                     item: item,
-                    onReplayAICoach: { _ in
-                        if let url = item.thumbnailURL {
-                            onAICoachSelected(url)
-                        }
+                    onReplayAICoach: { item in
+                        onAICoachSelected(item)
                     }
+
                 )
             }
 

@@ -241,20 +241,30 @@ class HomeViewController: UIViewController,
         }
     }
 
-    // Keep this method as is
     private func showAICoachDetailView(_ item: FeedItem) {
         let detailView = AICoachDetailView(
             item: item,
-            onReplayAICoach: { [weak self] url in
-                self?.openAICoachSafe(for: url)
+            onReplayAICoach: { [weak self] _ in
+                guard
+                    let url = item.thumbnailURL,
+                    let angle = ServeCameraAngle(storedValue: item.side)
+                else {
+                    assertionFailure("❌ [AI REPLAY] Missing or invalid camera angle")
+                    return
+                }
+
+                self?.openAICoachSafe(
+                    for: url,
+                    selectedAngle: angle
+                )
             }
         )
-        
+
         let hosting = UIHostingController(rootView: AnyView(detailView))
-        
-        // Push onto navigation stack
         navigationController?.pushViewController(hosting, animated: true)
     }
+
+
     
     deinit {
         NotificationCenter.default.removeObserver(self)
@@ -271,9 +281,18 @@ class HomeViewController: UIViewController,
             onVideoSelected: { [weak self] videoURL in
                 self?.openContentAnalysis(for: videoURL)
             },
-            onAICoachSelected: { [weak self] videoURL in
-                self?.openAICoachSafe(for: videoURL)
-            },
+            onAICoachSelected: { [weak self] item in
+                        guard let url = item.thumbnailURL,
+                              let angle = ServeCameraAngle(rawValue: item.side ?? "") else {
+                            assertionFailure("❌ [FEED] Missing AI Coach angle or URL")
+                            return
+                        }
+
+                        self?.openAICoachSafe(
+                            for: url,
+                            selectedAngle: angle
+                        )
+                    },
 
             onQuizSelected: { [weak self] topic, difficulty in
                 print("🏁 [HOME] Launching quiz from Feed:", topic, difficulty)
@@ -303,7 +322,7 @@ class HomeViewController: UIViewController,
     
 
     
-    private func openAICoachSafe(for videoURL: URL) {
+    private func openAICoachSafe(for videoURL: URL, selectedAngle: ServeCameraAngle) {
         guard FileManager.default.fileExists(atPath: videoURL.path) else {
             assertionFailure("❌ [AI OPEN] Video file does not exist")
             return
@@ -321,7 +340,7 @@ class HomeViewController: UIViewController,
         let screen = AICoachScreen(
             assetLocalIdentifier: lastPickedAssetIdentifier,
             initialVideoURL: videoURL,
-            selectedAngle: .back
+            selectedAngle: selectedAngle
         )
 
         navigationController?.pushViewController(
@@ -917,7 +936,7 @@ extension HomeViewController: PHPickerViewControllerDelegate {
                 case .coach:
                         if let safeURL = self.prepareServeVideoForAnalysis(originalURL: originalURL) {
                             self.pendingCoachVideoURL = safeURL
-                            self.openAICoachSafe(for: safeURL)  // ✅ This now has access to lastPickedAssetIdentifier
+                            self.openAICoachSafe(for: safeURL, selectedAngle: self.coachHubState.detectedAngle)  
                         }
 
                 }

@@ -10,7 +10,7 @@ import SwiftUI
 struct AICoachDetailView: View {
     
     let item: FeedItem
-    let onReplayAICoach: (URL) -> Void
+    let onReplayAICoach: (FeedItem) -> Void
     
     @Environment(\.colorScheme) private var colorScheme
     @State private var animateInsights = false
@@ -290,9 +290,7 @@ struct AICoachDetailView: View {
     
     private var replayCTA: some View {
         Button {
-            if let url = item.thumbnailURL {
-                onReplayAICoach(url)
-            }
+            onReplayAICoach(item)
         } label: {
             HStack(spacing: 12) {
                 Image(systemName: "play.circle.fill")

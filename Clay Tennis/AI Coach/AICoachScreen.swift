@@ -397,7 +397,7 @@ struct AICoachScreen: View {
             aiTipsDetailed: state.feedbackArrayDetailed,
             positiveAITips: state.positiveFeedbackArray,
             keyword: state.keywordArray,
-            side: selectedAngle.title,
+            side: selectedAngle.rawValue,
             quizTopicKey: nil,
             quizDifficulty: nil,
             quizCorrectAnswers: nil,
