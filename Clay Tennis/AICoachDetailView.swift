@@ -82,8 +82,8 @@ struct AICoachDetailView: View {
                     .fill(
                         LinearGradient(
                             colors: [
-                                Color.purple.opacity(colorScheme == .dark ? 0.45 : 0.30),
-                                Color.pink.opacity(colorScheme == .dark ? 0.45 : 0.30)
+                                Color(.systemGray5),
+                                Color(.systemGray4)
                             ],
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
@@ -92,16 +92,10 @@ struct AICoachDetailView: View {
                     .frame(width: 52, height: 52)
                     .overlay(
                         Image(systemName: "sparkles")
-                            .font(.title2.weight(.bold))
-                            .foregroundStyle(
-                                LinearGradient(
-                                    colors: [.white, .white.opacity(0.85)],
-                                    startPoint: .top,
-                                    endPoint: .bottom
-                                )
-                            )
-                            .shadow(color: .black.opacity(0.25), radius: 2, y: 1)
+                            .font(.title3.weight(.semibold))
+                            .foregroundColor(Color(.systemGray))
                     )
+
 
                 
                 VStack(alignment: .leading, spacing: 4) {

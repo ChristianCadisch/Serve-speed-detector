@@ -34,6 +34,8 @@ struct AICoachScreen: View {
     @State private var showShareSheet = false
     @State private var exportError: String?
     @State private var showOverlay = false
+    @State private var expandedTip: String? = nil
+
     
     
     @Environment(\.colorScheme) private var colorScheme
@@ -107,6 +109,8 @@ struct AICoachScreen: View {
         .id("videoLayer")
     }
     
+
+    
     private var floatingBanner: some View {
         VStack {
             HStack(spacing: 10) {
@@ -161,36 +165,34 @@ struct AICoachScreen: View {
                             .font(.title3.weight(.semibold))
                             .fontDesign(.rounded)
                     }
-                    
+                                        
                     VStack(alignment: .leading, spacing: 12) {
                         
                         // ---------------------------------------------------------
                         // ✨ NEW LOGIC FOR 1 POSITIVE + 1 NEGATIVE OR 2 NEGATIVES
                         // ---------------------------------------------------------
                         ForEach(displayedFeedback, id: \.text) { item in
-                            feedbackBubble(text: item.text, isPositive: item.isPositive)
-                                .opacity(animateFeedback ? 1 : 0)
-                                .offset(y: animateFeedback ? 0 : 8)
-                                .animation(.spring(response: 0.45, dampingFraction: 0.85), value: animateFeedback)
-                                .onTapGesture {
-                                    let newValue = !showOverlay
-                                    showOverlay = newValue
-                                    
-                                    controller?.updateDarkeningVisibility(forceVisible: newValue)
-                                    
-                                    if newValue {
-                                        if newValue {
-                                            if let highlights = state.highlightMap[item.text] {
-                                                controller?.drawHighlights(highlights)
-                                            }
-                                        } else {
-                                            controller?.clearHighlights()
-                                        }
-                                        
-                                    } else {
-                                        controller?.clearHighlights()
-                                    }
+                            feedbackBubble(
+                                text: item.text,
+                                isPositive: item.isPositive,
+                                isExpanded: expandedTip == item.text,
+                                detailedText: detailedText(for: item.text)
+                            )
+                            .onTapGesture {
+                                let isSame = expandedTip == item.text
+                                expandedTip = isSame ? nil : item.text
+
+                                let show = !isSame
+                                showOverlay = show
+                                controller?.updateDarkeningVisibility(forceVisible: show)
+
+                                if show, let highlights = state.highlightMap[item.text] {
+                                    controller?.drawHighlights(highlights)
+                                } else {
+                                    controller?.clearHighlights()
                                 }
+                            }
+
                             
                             
                         }
@@ -216,6 +218,17 @@ struct AICoachScreen: View {
         }
     }
     
+    private func detailedText(for tip: String) -> String? {
+        let allTips = state.positiveFeedbackArray + state.feedbackArray
+        guard
+            let index = allTips.firstIndex(of: tip),
+            index < state.feedbackArrayDetailed.count
+        else {
+            return nil
+        }
+        return state.feedbackArrayDetailed[index]
+    }
+
     
     private var displayedFeedback: [(text: String, isPositive: Bool)] {
         // Clean arrays → remove blank or whitespace-only entries
@@ -503,23 +516,46 @@ struct AICoachScreen: View {
     
     // MARK: - FEEDBACK BUBBLE
     
-    private func feedbackBubble(text: String, isPositive: Bool) -> some View {
-        HStack(alignment: .top, spacing: 8) {
-            
-            Image(systemName: isPositive ? "checkmark.circle.fill" : "exclamationmark.triangle.fill")
-                .foregroundColor(isPositive ? .green : .orange)
-                .font(.subheadline)
-            
-            Text(text)
-                .font(.callout)
-                .fontDesign(.rounded)
-                .foregroundColor(.primary)
+    private func feedbackBubble(
+        text: String,
+        isPositive: Bool,
+        isExpanded: Bool,
+        detailedText: String?
+    ) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+
+            HStack(alignment: .top, spacing: 8) {
+                Image(systemName: isPositive ? "checkmark.circle.fill" : "exclamationmark.triangle.fill")
+                    .foregroundColor(isPositive ? .green : .orange)
+                    .font(.subheadline)
+
+                Text(text)
+                    .font(.callout)
+                    .fontDesign(.rounded)
+
+                Spacer()
+
+                Image(systemName: isExpanded ? "chevron.down" : "chevron.up")
+                    .font(.system(size: 11, weight: .semibold))
+                    .rotationEffect(isExpanded ? .degrees(0) : .degrees(90))
+                    .foregroundColor(Color.pink)
+                    .animation(.easeInOut(duration: 0.2), value: isExpanded)
+            }
+
+            if isExpanded, let detailedText {
+                Divider()
+
+                Text(detailedText)
+                    .font(.footnote)
+                    .foregroundColor(.secondary)
+                    .transition(.opacity.combined(with: .move(edge: .top)))
+            }
         }
         .padding(12)
         .background(
             (colorScheme == .dark
-             ? Color.white.opacity(0.08)
-             : Color.white.opacity(0.14))
+             ? Color.white.opacity(isExpanded ? 0.12 : 0.08)
+             : Color.white.opacity(isExpanded ? 0.18 : 0.14))
         )
         .overlay(
             Rectangle()
@@ -528,7 +564,9 @@ struct AICoachScreen: View {
             alignment: .leading
         )
         .cornerRadius(12)
+        .animation(.spring(response: 0.45, dampingFraction: 0.85), value: isExpanded)
     }
+
     
 }
 

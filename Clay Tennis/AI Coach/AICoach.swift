@@ -157,8 +157,8 @@ class AICoach {
 
                     highlightInstructions.append(
                         HighlightInstruction(
-                            joints: [.leftShoulder, .leftWrist],
-                            segments: [(.leftShoulder, .leftWrist)],
+                            joints: [.rightShoulder, .rightWrist],
+                            segments: [(.rightShoulder, .rightWrist)],
                             color: "orange"
                         )
                     )
