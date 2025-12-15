@@ -12,7 +12,7 @@ struct SpeedRecordingSetupView: View {
     @State private var currentPage = 0
     @State private var isCameraErrorSource = false
     @Environment(\.dismiss) private var dismiss
-    private let totalPages = 3
+    private let totalPages = 4
 
     var body: some View {
         GeometryReader { geo in

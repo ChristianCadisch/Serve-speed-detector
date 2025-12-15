@@ -256,7 +256,6 @@ class HomeViewController: UIViewController,
 
     
     private func openAICoachSafe(for videoURL: URL) {
-
         guard FileManager.default.fileExists(atPath: videoURL.path) else {
             assertionFailure("❌ [AI OPEN] Video file does not exist")
             return
@@ -272,7 +271,7 @@ class HomeViewController: UIViewController,
         }
 
         let screen = AICoachScreen(
-            assetLocalIdentifier: nil,
+            assetLocalIdentifier: lastPickedAssetIdentifier,
             initialVideoURL: videoURL,
             selectedAngle: .back
         )
@@ -868,13 +867,10 @@ extension HomeViewController: PHPickerViewControllerDelegate {
                     }
 
                 case .coach:
-                    
-                    if let safeURL = self.prepareServeVideoForAnalysis(originalURL: originalURL) {
-                        self.pendingCoachVideoURL = safeURL
-                        self.openAICoachSafe(for: safeURL)
-                    } else {
-                        print("❌ [SERVE] Copy to app storage FAILED")
-                    }
+                        if let safeURL = self.prepareServeVideoForAnalysis(originalURL: originalURL) {
+                            self.pendingCoachVideoURL = safeURL
+                            self.openAICoachSafe(for: safeURL)  // ✅ This now has access to lastPickedAssetIdentifier
+                        }
 
                 }
             }

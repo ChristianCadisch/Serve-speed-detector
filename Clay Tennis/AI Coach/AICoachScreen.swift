@@ -382,29 +382,27 @@ struct AICoachScreen: View {
         
         
         let feedItem = FeedItem(
-            type: .aiCoach,
-            date: Date(),
-            thumbnailURL: resolvedVideoURL,
-            assetLocalIdentifier: assetLocalIdentifier,
-            title: "AI Coach Analysis",
-            subtitle: "Serve technique insights",
-            primaryMetricText: "\(state.feedbackArray.count + state.positiveFeedbackArray.count) tips",
-            secondaryMetricText: nil,
-            fastestSpeedKmh: nil,
-            serveCount: nil,
-
-            aiTipCount: state.feedbackArray.count + state.positiveFeedbackArray.count,
-            aiTips: state.feedbackArray,
-            aiTipsDetailed: state.feedbackArrayDetailed,
-            positiveAITips: state.positiveFeedbackArray,
-            keyword: state.keywordArray,
-            side: selectedAngle.title,
-
-            quizTopicKey: nil,
-            quizDifficulty: nil,
-            quizCorrectAnswers: nil,
-            quizTotalQuestions: nil
-        )
+                type: .aiCoach,
+                date: Date(),
+                thumbnailURL: resolvedVideoURL,
+                assetLocalIdentifier: assetLocalIdentifier,  
+                title: "AI Coach Analysis",
+                subtitle: "Serve technique insights",
+                primaryMetricText: "\(state.feedbackArray.count + state.positiveFeedbackArray.count) tips",
+                secondaryMetricText: nil,
+                fastestSpeedKmh: nil,
+                serveCount: nil,
+                aiTipCount: state.feedbackArray.count + state.positiveFeedbackArray.count,
+                aiTips: state.feedbackArray,
+                aiTipsDetailed: state.feedbackArrayDetailed,
+                positiveAITips: state.positiveFeedbackArray,
+                keyword: state.keywordArray,
+                side: selectedAngle.title,
+                quizTopicKey: nil,
+                quizDifficulty: nil,
+                quizCorrectAnswers: nil,
+                quizTotalQuestions: nil
+            )
 
         
         
