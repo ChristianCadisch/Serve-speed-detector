@@ -9,103 +9,16 @@ import SwiftUI
 import FoundationModels
 import Observation
 
-// MARK: - Chat Message
-
-struct ChatMessage: Identifiable, Equatable {
-    let id: UUID
-    let role: Role
-    let text: String
-
-    enum Role {
-        case user
-        case assistant
-    }
-
-    init(id: UUID = UUID(), role: Role, text: String) {
-        self.id = id
-        self.role = role
-        self.text = text
-    }
-}
-
-// MARK: - Navigation Actions
-
-struct CoachActions {
-    let openTheory: () -> Void
-    let openRealCoach: () -> Void
-}
-
-// MARK: - View Model
-
-@Observable
-@MainActor
-final class ModelChatViewModel {
-
-    private let session: LanguageModelSession
-    private(set) var messages: [ChatMessage] = []
-    private(set) var isGenerating = false
-    var error: Error?
-
-    init() {
-        self.session = LanguageModelSession(
-            instructions: Instructions {
-                """
-                You are a professional tennis coach.
-                Be concise, confident, and directive.
-                Always guide the user toward a concrete training action.
-                Never exceed three short paragraphs.
-                """
-            }
-        )
-    }
-
-    func send(_ text: String) {
-        let userMessage = ChatMessage(role: .user, text: text)
-        messages.append(userMessage)
-
-        isGenerating = true
-        error = nil
-
-        Task {
-            do {
-                let assistantID = UUID()
-                messages.append(ChatMessage(id: assistantID, role: .assistant, text: ""))
-
-                let stream = session.streamResponse(to: text)
-                for try await partial in stream {
-                    if let idx = messages.firstIndex(where: { $0.id == assistantID }) {
-                        messages[idx] = ChatMessage(
-                            id: assistantID,
-                            role: .assistant,
-                            text: partial.content
-                        )
-                    }
-                }
-
-                isGenerating = false
-            } catch {
-                self.error = error
-                self.isGenerating = false
-            }
-        }
-    }
-
-    func prewarm() {
-        session.prewarm()
-    }
-}
-
-// MARK: - Main View
 
 struct ChatView: View {
-
+    
     let actions: CoachActions
-
+    
     @State private var viewModel = ModelChatViewModel()
     @State private var inputText = ""
     @FocusState private var isFocused: Bool
     @State private var navigateToFindCoach = false
-
+    
     var body: some View {
         NavigationStack{
             VStack(spacing: 0) {
@@ -117,11 +30,6 @@ struct ChatView: View {
                                 VStack(alignment: .leading, spacing: 16) {
                                     
                                     if isFocused == false {
-                                        Text("START TRAINING")
-                                            .font(.caption.bold())
-                                            .tracking(1.2)
-                                            .foregroundStyle(.secondary)
-                                            .padding(.horizontal, 4)
                                         
                                         CoachEntryCards(
                                             onTalkToClay: {
@@ -135,7 +43,7 @@ struct ChatView: View {
                                             }
                                         )
                                     }
-                                   
+                                    
                                 }
                                 .padding(.top, 20)
                             }
@@ -173,21 +81,33 @@ struct ChatView: View {
         .navigationDestination(isPresented: $navigateToFindCoach) {
             FindCoach()
         }
-
+        
     }
-
+    
     // MARK: - Message Bubble
-
+    
     @ViewBuilder
     private func messageBubble(_ message: ChatMessage) -> some View {
         HStack(alignment: .top) {
             if message.role == .assistant {
-                Text(message.text)
-                    .padding(14)
-                    .background(.thinMaterial)
-                    .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+                VStack(alignment: .leading, spacing: 12) {
+                    
+                    Text(message.cleanedText)
+                        .padding(14)
+                        .background(.thinMaterial)
+                        .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+                    
+                    if let link = message.parsedCoachLink {
+                        CoachLinkCard(link: link) {
+                            // Route based on link.type & link.topic
+                            // e.g. open quiz or theory
+                        }
+                    }
+                }
+                
                 Spacer(minLength: 40)
-            } else {
+            }
+            else {
                 Spacer(minLength: 40)
                 Text(message.text)
                     .padding(14)
@@ -202,14 +122,14 @@ struct ChatView: View {
 // MARK: - Entry Cards
 
 private struct CoachEntryCards: View {
-
+    
     let onTalkToClay: () -> Void
     let onTheory: () -> Void
     let onRealCoach: () -> Void
-
+    
     var body: some View {
         VStack(spacing: 18) {
-
+            
             // 1️⃣ Talk to Clay AI — primary, indigo
             NavigationActionCard(
                 title: "Talk to Clay AI",
@@ -222,7 +142,7 @@ private struct CoachEntryCards: View {
                 isPrimary: true,
                 action: onTalkToClay
             )
-
+            
             // 2️⃣ Theory & Quizzes — secondary, green
             NavigationActionCard(
                 title: "Theory & Quizzes",
@@ -232,7 +152,7 @@ private struct CoachEntryCards: View {
                 isPrimary: false,
                 action: onTheory
             )
-
+            
             // 3️⃣ Work with a Real Coach — escalation, orange
             NavigationActionCard(
                 title: "Work with a Real Coach",
@@ -250,18 +170,18 @@ private struct CoachEntryCards: View {
 // MARK: - Navigation Action Card
 
 private struct NavigationActionCard: View {
-
+    
     let title: String
     let subtitle: String
     let icon: String
     let gradient: [Color]
     let isPrimary: Bool
     let action: () -> Void
-
+    
     var body: some View {
         Button(action: action) {
             HStack(spacing: 18) {
-
+                
                 Image(systemName: icon)
                     .font(.title2.weight(.semibold))
                     .foregroundStyle(.white)
@@ -274,18 +194,18 @@ private struct NavigationActionCard: View {
                         ),
                         in: RoundedRectangle(cornerRadius: 14, style: .continuous)
                     )
-
+                
                 VStack(alignment: .leading, spacing: 6) {
                     Text(title)
                         .font(.headline)
-
+                    
                     Text(subtitle)
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                 }
-
+                
                 Spacer()
-
+                
                 Image(systemName: "chevron.right")
                     .font(.footnote.weight(.semibold))
                     .foregroundStyle(.secondary)
@@ -308,17 +228,17 @@ private struct NavigationActionCard: View {
 // MARK: - Input Bar
 
 private struct InputBar: View {
-
+    
     @Binding var text: String
     let isGenerating: Bool
     let onSend: () -> Void
-
+    
     var body: some View {
         VStack(spacing: 0) {
             Divider()
-
+            
             HStack(spacing: 12) {
-
+                
                 TextField("Ask your coach anything…", text: $text, axis: .vertical)
                     .lineLimit(1...4)
                     .padding(.vertical, 10)
@@ -327,7 +247,7 @@ private struct InputBar: View {
                         RoundedRectangle(cornerRadius: 18, style: .continuous)
                             .fill(Color(.secondarySystemBackground))
                     )
-
+                
                 Button(action: onSend) {
                     Image(systemName: "arrow.up.circle.fill")
                         .font(.system(size: 28))
@@ -346,6 +266,76 @@ private struct InputBar: View {
         }
     }
 }
+
+private struct CoachLinkCard: View {
+    
+    let link: CoachLink
+    let onTap: () -> Void
+    
+    private var gradient: [Color] {
+        switch link.type {
+        case .quiz:
+            return [.green, Color.green.opacity(0.7)]
+        case .theory:
+            return [.teal, Color.teal.opacity(0.7)]
+        }
+    }
+    
+    private var title: String {
+        link.type == .quiz ? "Test your knowledge" : "Learn the fundamentals"
+    }
+    
+    private var subtitle: String {
+        "\(link.topic.capitalized) \(link.type.rawValue.capitalized)"
+    }
+    
+    private var icon: String {
+        link.type == .quiz ? "checkmark.circle.fill" : "book.fill"
+    }
+    
+    var body: some View {
+        Button(action: onTap) {
+            HStack(spacing: 16) {
+                
+                Image(systemName: icon)
+                    .font(.title2)
+                    .foregroundStyle(.white)
+                    .frame(width: 46, height: 46)
+                    .background(
+                        LinearGradient(
+                            colors: gradient,
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        ),
+                        in: RoundedRectangle(cornerRadius: 14, style: .continuous)
+                    )
+                
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(title)
+                        .font(.headline)
+                    
+                    Text(subtitle)
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+                
+                Spacer()
+                
+                Image(systemName: "chevron.right")
+                    .font(.footnote.weight(.semibold))
+                    .foregroundStyle(.secondary)
+            }
+            .padding(18)
+            .background(
+                RoundedRectangle(cornerRadius: 22, style: .continuous)
+                    .fill(.thinMaterial)
+            )
+            .shadow(color: .black.opacity(0.15), radius: 18, y: 8)
+        }
+        .buttonStyle(.plain)
+    }
+}
+
 
 #Preview {
     ChatView(
