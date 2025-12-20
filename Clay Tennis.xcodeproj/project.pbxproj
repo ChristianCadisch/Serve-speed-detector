@@ -19,6 +19,7 @@
 		AA3D55C62EC4BB400017CD7B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3D55C52EC4BB400017CD7B /* SettingsView.swift */; };
 		AA58BEC72ECA4D500032B602 /* RecordingSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA58BEC62ECA4D500032B602 /* RecordingSetupView.swift */; };
 		AA6BF5F62EF6EB8000776902 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA6BF5F52EF6EB8000776902 /* ChatView.swift */; };
+		AA6BF5F82EF7153900776902 /* FindCoach.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA6BF5F72EF7153900776902 /* FindCoach.swift */; };
 		AA71D1AE2C5353A800E66284 /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA71D1AD2C5353A800E66284 /* FeedView.swift */; };
 		AAA572652EE5DBB4008081E9 /* AICoachDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA572642EE5DBB4008081E9 /* AICoachDetailView.swift */; };
 		AAA572672EE755F8008081E9 /* CoachHubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA572662EE755F8008081E9 /* CoachHubView.swift */; };
@@ -47,6 +48,7 @@
 		AA3D55C52EC4BB400017CD7B /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		AA58BEC62ECA4D500032B602 /* RecordingSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingSetupView.swift; sourceTree = "<group>"; };
 		AA6BF5F52EF6EB8000776902 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
+		AA6BF5F72EF7153900776902 /* FindCoach.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindCoach.swift; sourceTree = "<group>"; };
 		AA71D1AD2C5353A800E66284 /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
 		AAA572642EE5DBB4008081E9 /* AICoachDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AICoachDetailView.swift; sourceTree = "<group>"; };
 		AAA572662EE755F8008081E9 /* CoachHubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachHubView.swift; sourceTree = "<group>"; };
@@ -108,6 +110,7 @@
 			isa = PBXGroup;
 			children = (
 				956B529C26B2ACA400F7E865 /* HomeViewController.swift */,
+				AA6BF5F72EF7153900776902 /* FindCoach.swift */,
 				AA6BF5F52EF6EB8000776902 /* ChatView.swift */,
 				AA71D1AD2C5353A800E66284 /* FeedView.swift */,
 				AAA572662EE755F8008081E9 /* CoachHubView.swift */,
@@ -266,6 +269,7 @@
 				AA71D1AE2C5353A800E66284 /* FeedView.swift in Sources */,
 				AAA572652EE5DBB4008081E9 /* AICoachDetailView.swift in Sources */,
 				956B52B126B2CF6D00F7E865 /* Animations.swift in Sources */,
+				AA6BF5F82EF7153900776902 /* FindCoach.swift in Sources */,
 				AA3D55C62EC4BB400017CD7B /* SettingsView.swift in Sources */,
 				956B529B26B2ACA400F7E865 /* SceneDelegate.swift in Sources */,
 				F0C8C1FB2919915B00CF6186 /* AppError.swift in Sources */,

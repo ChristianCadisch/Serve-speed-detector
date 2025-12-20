@@ -100,9 +100,6 @@ struct CoachHubView: View {
                 .font(.caption.bold())
                 .tracking(2)
                 .foregroundStyle(.secondary)
-            
-            Text("Training Hub")
-                .font(.system(size: 34, weight: .heavy, design: .rounded))
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }

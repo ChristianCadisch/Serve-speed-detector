@@ -28,11 +28,13 @@ struct ChatMessage: Identifiable, Equatable {
     }
 }
 
-// MARK: - Navigation Actions (Injected from HomeViewController)
+// MARK: - Navigation Actions
 
 struct CoachActions {
     let openCoachHub: () -> Void
+    let openQuiz: (QuizIdentifier, QuizDifficulty) -> Void
     let openTheory: () -> Void
+    let openRealCoach: () -> Void
 }
 
 // MARK: - View Model
@@ -71,16 +73,13 @@ final class ModelChatViewModel {
                 let assistantID = UUID()
                 messages.append(ChatMessage(id: assistantID, role: .assistant, text: ""))
 
-                var accumulated = ""
                 let stream = session.streamResponse(to: text)
-
                 for try await partial in stream {
-                    accumulated = partial.content
                     if let idx = messages.firstIndex(where: { $0.id == assistantID }) {
                         messages[idx] = ChatMessage(
                             id: assistantID,
                             role: .assistant,
-                            text: accumulated
+                            text: partial.content
                         )
                     }
                 }
@@ -109,7 +108,6 @@ struct ChatView: View {
     @FocusState private var isFocused: Bool
     @State private var showTrainingPrescription = false
 
-
     var body: some View {
         VStack(spacing: 0) {
             ScrollViewReader { proxy in
@@ -119,55 +117,36 @@ struct ChatView: View {
                         if viewModel.messages.isEmpty {
                             VStack(alignment: .leading, spacing: 16) {
 
+                                Text("START TRAINING")
+                                    .font(.caption.bold())
+                                    .tracking(1.2)
+                                    .foregroundStyle(.secondary)
+                                    .padding(.horizontal, 4)
 
                                 if showTrainingPrescription {
-                                    
-                                    Text("YOUR TRAINING PLAN")
-                                        .font(.caption.bold())
-                                        .tracking(1.2)
-                                        .foregroundStyle(.secondary)
-                                        .padding(.horizontal, 4)
-                                    
                                     TrainingPrescriptionActions(
-                                        onTechnique: {
-                                            actions.openCoachHub()
+                                        onQuiz: {
+                                            actions.openQuiz(.serve, .easy)
                                         },
-                                        onTheory: {
-                                            actions.openTheory()
+                                        onChatView: {
+                                            isFocused = true
                                         },
                                         onRealCoach: {
-                                            // placeholder for future integration
+                                            actions.openRealCoach()
                                         }
                                     )
-                                    
                                 } else {
-                                    
-                                    Text("START TRAINING")
-                                        .font(.caption.bold())
-                                        .tracking(1.2)
-                                        .foregroundStyle(.secondary)
-                                        .padding(.horizontal, 4)
-                                    
                                     CoachEntryCards(
-                                        onCoachHub: {
-                                            actions.openCoachHub()
-                                        },
-                                        onTheory: {
-                                            actions.openTheory()
-                                        },
+                                        onCoachHub: actions.openCoachHub,
+                                        onTheory: actions.openTheory,
                                         onPlan: {
                                             showTrainingPrescription = true
                                         }
                                     )
                                 }
-
-                                
                             }
                             .padding(.top, 20)
                         }
-                        
-                        
-
 
                         ForEach(viewModel.messages) { message in
                             messageBubble(message)
@@ -181,13 +160,8 @@ struct ChatView: View {
                         proxy.scrollTo(last.id, anchor: .bottom)
                     }
                 }
-                
                 .scrollDismissesKeyboard(.interactively)
-                .onTapGesture {
-                    isFocused = false
-                }
-
-
+                .onTapGesture { isFocused = false }
             }
 
             InputBar(
@@ -201,40 +175,7 @@ struct ChatView: View {
                 }
             )
             .focused($isFocused)
-
         }
-        .overlay(alignment: .topLeading) {
-            if showTrainingPrescription {
-                Button {
-                    withAnimation(.spring(response: 0.45, dampingFraction: 0.85)) {
-                        showTrainingPrescription = false
-                    }
-                } label: {
-                    Image(systemName: "chevron.left")
-                        .font(.system(size: 15, weight: .semibold))
-                        .foregroundStyle(.primary)
-                        .padding(10)
-                        .background(
-                            Capsule()
-                                .fill(.ultraThinMaterial)
-                                .overlay(
-                                    Capsule()
-                                        .strokeBorder(
-                                            Color.white.opacity(0.15),
-                                            lineWidth: 0.5
-                                        )
-                                )
-                        )
-                }
-                .padding(.leading, 14)
-                .padding(.top, 10)
-                .transition(
-                    .move(edge: .leading)
-                    .combined(with: .opacity)
-                )
-            }
-        }
-
         .task { viewModel.prewarm() }
     }
 
@@ -261,37 +202,41 @@ struct ChatView: View {
     }
 }
 
+// MARK: - Training Prescription
+
 private struct TrainingPrescriptionActions: View {
 
-    let onTechnique: () -> Void
-    let onTheory: () -> Void
+    let onQuiz: () -> Void
+    let onChatView: () -> Void
     let onRealCoach: () -> Void
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
 
-
             PrescriptionButton(
                 title: "Test your knowledge",
                 subtitle: "Go to the quizzes",
-                icon: "brain.head.profile",
-                action: onTheory
+                icon: "checklist",
+                tint: .green,
+                action: onQuiz
             )
-            
+
             PrescriptionButton(
                 title: "Talk to Clay AI",
                 subtitle: "Your AI Tennis coach",
                 icon: "sparkles",
-                action: onTheory
+                tint: Color(red: 79/255, green: 70/255, blue: 229/255), // indigo
+                action: onChatView
             )
 
             PrescriptionButton(
                 title: "Work with a Real Coach",
                 subtitle: "Find a tennis coach near you",
-                icon: "person.crop.circle.badge.plus",
-                action: onRealCoach,
-                isSecondary: true
+                icon: "person.fill.checkmark",
+                tint: .orange,
+                action: onRealCoach
             )
+
         }
         .padding(.horizontal)
     }
@@ -302,8 +247,8 @@ private struct PrescriptionButton: View {
     let title: String
     let subtitle: String
     let icon: String
+    let tint: Color
     let action: () -> Void
-    var isSecondary: Bool = false
 
     var body: some View {
         Button(action: action) {
@@ -315,7 +260,7 @@ private struct PrescriptionButton: View {
                     .frame(width: 40, height: 40)
                     .background(
                         RoundedRectangle(cornerRadius: 12, style: .continuous)
-                            .fill(isSecondary ? Color.gray : Color.accentColor)
+                            .fill(tint)
                     )
 
                 VStack(alignment: .leading, spacing: 2) {
@@ -344,8 +289,6 @@ private struct PrescriptionButton: View {
 }
 
 
-
-
 // MARK: - Entry Cards
 
 private struct CoachEntryCards: View {
@@ -360,7 +303,6 @@ private struct CoachEntryCards: View {
             NavigationActionCard(
                 title: "Coach Hub",
                 subtitle: "Measure speed & get AI technique feedback",
-                cta: "Go to Coach Hub",
                 icon: "figure.tennis",
                 gradient: [.purple, .pink],
                 isPrimary: true,
@@ -370,7 +312,6 @@ private struct CoachEntryCards: View {
             NavigationActionCard(
                 title: "Theory & Quizzes",
                 subtitle: "Build fundamentals off-court",
-                cta: "Go to Theory",
                 icon: "brain.head.profile",
                 gradient: [.green, Color.green.opacity(0.7)],
                 isPrimary: false,
@@ -394,7 +335,6 @@ private struct NavigationActionCard: View {
 
     let title: String
     let subtitle: String
-    let cta: String
     let icon: String
     let gradient: [Color]
     let isPrimary: Bool
@@ -424,11 +364,6 @@ private struct NavigationActionCard: View {
                     Text(subtitle)
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
-
-                    Text(cta.uppercased())
-                        .font(.caption.weight(.semibold))
-                        .foregroundStyle(.secondary)
-                        .padding(.top, 2)
                 }
 
                 Spacer()
@@ -452,7 +387,7 @@ private struct NavigationActionCard: View {
     }
 }
 
-// MARK: - Conversational Action Card
+// MARK: - Conversational Action Card (Deep Violet)
 
 private struct ConversationalActionCard: View {
 
@@ -460,6 +395,11 @@ private struct ConversationalActionCard: View {
     let subtitle: String
     let icon: String
     let action: () -> Void
+
+    private let violetGradient: [Color] = [
+        Color(red: 79/255, green: 70/255, blue: 229/255),   // indigo
+        Color(red: 91/255, green: 33/255, blue: 182/255)    // deep violet
+    ]
 
     var body: some View {
         Button(action: action) {
@@ -470,8 +410,12 @@ private struct ConversationalActionCard: View {
                     .foregroundStyle(.white)
                     .frame(width: 44, height: 44)
                     .background(
-                        RoundedRectangle(cornerRadius: 12, style: .continuous)
-                            .fill(Color(.systemGray))
+                        LinearGradient(
+                            colors: violetGradient,
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        ),
+                        in: RoundedRectangle(cornerRadius: 12, style: .continuous)
                     )
 
                 VStack(alignment: .leading, spacing: 6) {
@@ -488,7 +432,7 @@ private struct ConversationalActionCard: View {
             .padding(18)
             .background(
                 RoundedRectangle(cornerRadius: 22, style: .continuous)
-                    .fill(Color(.secondarySystemBackground))
+                    .fill(.thinMaterial)
             )
         }
         .buttonStyle(.plain)
@@ -498,6 +442,7 @@ private struct ConversationalActionCard: View {
 // MARK: - Input Bar
 
 private struct InputBar: View {
+
     @Binding var text: String
     let isGenerating: Bool
     let onSend: () -> Void
@@ -526,9 +471,7 @@ private struct InputBar: View {
                     text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || isGenerating
                 )
                 .foregroundStyle(
-                    isGenerating
-                    ? .secondary
-                    : Color.accentColor.opacity(0.9)
+                    isGenerating ? .secondary : Color.accentColor.opacity(0.9)
                 )
             }
             .padding(.horizontal)
@@ -542,7 +485,9 @@ private struct InputBar: View {
     ChatView(
         actions: CoachActions(
             openCoachHub: {},
-            openTheory: {}
+            openQuiz: { _, _ in },
+            openTheory: {},
+            openRealCoach: {}
         )
     )
 }
