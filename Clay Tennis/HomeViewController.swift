@@ -146,19 +146,6 @@ class HomeViewController: UIViewController,
         
         let chatView = ChatView(
             actions: CoachActions(
-                openCoachHub: { [weak self] in
-                    guard let self = self else { return }
-                    self.activeTab = .speedUpload
-                    self.showCoachHubView()
-                },
-                openQuiz: { [weak self] quizID, difficulty in
-                    guard let self = self else { return }
-                    self.showQuiz(
-                        topic: quizID,
-                        difficulty: difficulty
-                    )
-                    
-                },
                 openTheory: { [weak self] in
                     guard let self = self else { return }
                     self.activeTab = .theory
