@@ -99,10 +99,20 @@ struct ChatView: View {
                     
                     if let link = message.parsedCoachLink {
                         CoachLinkCard(link: link) {
-                            // Route based on link.type & link.topic
-                            // e.g. open quiz or theory
+                            switch link.type {
+                            case .quiz:
+                                let topic = QuizIdentifier.allCases.first {
+                                    $0.tableName == link.topic
+                                } ?? .serve
+                                
+                                actions.openQuiz(topic, .easy)
+
+                            case .theory:
+                                actions.openTheory()
+                            }
                         }
                     }
+
                 }
                 
                 Spacer(minLength: 40)
@@ -337,11 +347,3 @@ private struct CoachLinkCard: View {
 }
 
 
-#Preview {
-    ChatView(
-        actions: CoachActions(
-            openTheory: {},
-            openRealCoach: {}
-        )
-    )
-}

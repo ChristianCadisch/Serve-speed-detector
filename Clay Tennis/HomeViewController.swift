@@ -166,6 +166,9 @@ class HomeViewController: UIViewController,
                             self.navigationItem.leftBarButtonItem = nil
                             self.disableLessonSwipeBack()
                             self.navigationController?.setNavigationBarHidden(false, animated: false)
+                        },
+                openQuiz: { [weak self] topic, difficulty in
+                            self?.showQuiz(topic: topic, difficulty: difficulty)
                         }
             )
         )
