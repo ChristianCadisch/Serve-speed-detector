@@ -141,6 +141,39 @@ class HomeViewController: UIViewController,
         iCloudDownloadOverlay = nil
         print("✅ [iCLOUD] Download overlay hidden")
     }
+    
+    private func showChatView() {
+
+        let chatView = ChatView(
+            actions: CoachActions(
+                openCoachHub: { [weak self] in
+                    guard let self = self else { return }
+                    self.activeTab = .speedUpload
+                    self.showCoachHubView()
+                },
+                openTheory: { [weak self] in
+                    guard let self = self else { return }
+                    self.activeTab = .theory
+                    self.showTheoryView()
+                }
+            )
+        )
+
+        let hosting = UIHostingController(
+            rootView: AnyView(
+                NavigationStack {
+                    chatView
+                }
+            )
+        )
+
+        replaceRoot(with: hosting, title: "Coach")
+        navigationItem.leftBarButtonItem = nil
+        disableLessonSwipeBack()
+        navigationController?.setNavigationBarHidden(false, animated: false)
+    }
+
+
 
 
 
@@ -148,11 +181,14 @@ class HomeViewController: UIViewController,
     private enum ActiveTab {
         case home
         case speedUpload
+        case chat
         case coachUpload
         case theory
         case settings
     }
     
+   
+
     
     private enum UploadMode {
         case speed
@@ -572,6 +608,16 @@ class HomeViewController: UIViewController,
             self?.showCoachHubView()
         }
         
+        // CHAT 
+        let chatButton = createButton(
+            systemName: "sparkles",
+            isActive: activeTab == .chat
+        ) { [weak self] in
+            self?.activeTab = .chat
+            self?.showChatView()
+        }
+
+        
 
         // THEORY
         let theoryButton = createButton(
@@ -593,6 +639,7 @@ class HomeViewController: UIViewController,
         
         bar.addArrangedSubview(homeButton)
         bar.addArrangedSubview(coachButton)
+        bar.addArrangedSubview(chatButton)
         bar.addArrangedSubview(theoryButton)
         bar.addArrangedSubview(settingsButton)
         

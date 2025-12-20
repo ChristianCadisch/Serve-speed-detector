@@ -333,7 +333,7 @@ struct FeedView: View {
     private var prescribedTrainingCarousel: some View {
         VStack(alignment: .leading, spacing: 12) {
             
-            Text("RECOMMENDED NEXT")
+            Text("RECOMMENDED THEORY")
                 .font(.caption.bold())
                 .tracking(1)
                 .foregroundStyle(.secondary)
