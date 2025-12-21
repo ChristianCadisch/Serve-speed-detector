@@ -14,6 +14,7 @@ struct AICoachDetailView: View {
     
     @Environment(\.colorScheme) private var colorScheme
     @State private var animateInsights = false
+    @State private var showVideoUpload = false
     
     private var positiveTips: [String]? { item.positiveAITips }
     private var negativeTips: [String]? { item.aiTipsDetailed }
@@ -150,6 +151,51 @@ struct AICoachDetailView: View {
             }
             .buttonStyle(.plain)
             .padding(.top, 8)
+            
+            // SECONDARY CTA — Upload New Video
+            Button {
+                showVideoUpload = true
+            } label: {
+                HStack(spacing: 12) {
+                    Image(systemName: "arrow.up.circle.fill")
+                        .font(.title3.weight(.semibold))
+
+                    Text("Upload New Video")
+                        .font(.headline.weight(.semibold))
+
+                    Spacer()
+
+                    Image(systemName: "chevron.right")
+                        .font(.subheadline.weight(.semibold))
+                        .opacity(0.8)
+                }
+                .foregroundStyle(.primary)
+                .padding(.horizontal, 22)
+                .frame(height: 52)
+                .background(
+                    RoundedRectangle(cornerRadius: 18, style: .continuous)
+                        .fill(
+                            colorScheme == .dark
+                            ? Color.white.opacity(0.08)
+                            : Color.white.opacity(0.75)
+                        )
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: 18, style: .continuous)
+                        .stroke(Color.primary.opacity(0.08), lineWidth: 1)
+                )
+            }
+            .buttonStyle(.plain)
+            .navigationDestination(isPresented: $showVideoUpload) {
+                let url = item.thumbnailURL
+                VideoUploadView(initialVideoURL: url)
+                    .onAppear {
+                        print("🎥 [UPLOAD NAV] Passing initialVideoURL:", url?.absoluteString ?? "nil")
+                    }
+            }
+
+
+
 
 
         }
@@ -161,6 +207,10 @@ struct AICoachDetailView: View {
         .shadow(color: .black.opacity(0.22), radius: 22, y: 10)
         .padding(.horizontal, 22)
     }
+    
+    
+
+
     
     
     

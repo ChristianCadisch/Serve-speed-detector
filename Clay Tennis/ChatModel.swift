@@ -121,7 +121,6 @@ final class ModelChatViewModel {
                     Example (earned theory):
                     Good question. Before drilling it, it helps to know what “correct” actually looks like.
                     #serve theory
-
                     Example (explicit quiz request → link only):
                     Perfect. Time to put your game IQ under pressure 💪
                     #forehand quiz

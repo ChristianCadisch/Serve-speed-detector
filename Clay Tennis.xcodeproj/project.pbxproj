@@ -21,8 +21,12 @@
 		AA6BF5F62EF6EB8000776902 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA6BF5F52EF6EB8000776902 /* ChatView.swift */; };
 		AA6BF5F82EF7153900776902 /* FindCoach.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA6BF5F72EF7153900776902 /* FindCoach.swift */; };
 		AA6BF5FA2EF7279C00776902 /* ChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA6BF5F92EF7279C00776902 /* ChatModel.swift */; };
+		AA6BF6DA2EF7FAB500776902 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = AA6BF6D92EF7FAB500776902 /* FirebaseAnalytics */; };
+		AA6BF6DC2EF7FAB500776902 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = AA6BF6DB2EF7FAB500776902 /* FirebaseCore */; };
+		AA6BF6DE2EF7FAB500776902 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = AA6BF6DD2EF7FAB500776902 /* FirebaseStorage */; };
+		AA6BF6E02EF7FAE200776902 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AA6BF6DF2EF7FAE200776902 /* GoogleService-Info.plist */; };
+		AA6BF6E62EF7FE6500776902 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = AA6BF6E52EF7FE6500776902 /* FirebaseAuth */; };
 		AA71D1AE2C5353A800E66284 /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA71D1AD2C5353A800E66284 /* FeedView.swift */; };
-		AAA572652EE5DBB4008081E9 /* AICoachDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA572642EE5DBB4008081E9 /* AICoachDetailView.swift */; };
 		AAA572672EE755F8008081E9 /* CoachHubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA572662EE755F8008081E9 /* CoachHubView.swift */; };
 		AAA5726B2EF00A1F008081E9 /* technique_coach_example.mov in Resources */ = {isa = PBXBuildFile; fileRef = AAA5726A2EF00A1F008081E9 /* technique_coach_example.mov */; };
 		AADF48FE2ECB3E9B0003ED95 /* example_serve.mov in Resources */ = {isa = PBXBuildFile; fileRef = AADF48FD2ECB3E9B0003ED95 /* example_serve.mov */; };
@@ -51,8 +55,8 @@
 		AA6BF5F52EF6EB8000776902 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		AA6BF5F72EF7153900776902 /* FindCoach.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindCoach.swift; sourceTree = "<group>"; };
 		AA6BF5F92EF7279C00776902 /* ChatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModel.swift; sourceTree = "<group>"; };
+		AA6BF6DF2EF7FAE200776902 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		AA71D1AD2C5353A800E66284 /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
-		AAA572642EE5DBB4008081E9 /* AICoachDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AICoachDetailView.swift; sourceTree = "<group>"; };
 		AAA572662EE755F8008081E9 /* CoachHubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachHubView.swift; sourceTree = "<group>"; };
 		AAA5726A2EF00A1F008081E9 /* technique_coach_example.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = technique_coach_example.mov; sourceTree = "<group>"; };
 		AADF48FD2ECB3E9B0003ED95 /* example_serve.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = example_serve.mov; sourceTree = "<group>"; };
@@ -73,6 +77,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA6BF6DA2EF7FAB500776902 /* FirebaseAnalytics in Frameworks */,
+				AA6BF6E62EF7FE6500776902 /* FirebaseAuth in Frameworks */,
+				AA6BF6DE2EF7FAB500776902 /* FirebaseStorage in Frameworks */,
+				AA6BF6DC2EF7FAB500776902 /* FirebaseCore in Frameworks */,
 				956B52B426B2D8C100F7E865 /* SpriteKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -117,7 +125,6 @@
 				AA6BF5F92EF7279C00776902 /* ChatModel.swift */,
 				AA71D1AD2C5353A800E66284 /* FeedView.swift */,
 				AAA572662EE755F8008081E9 /* CoachHubView.swift */,
-				AAA572642EE5DBB4008081E9 /* AICoachDetailView.swift */,
 				AA3D55C52EC4BB400017CD7B /* SettingsView.swift */,
 				AA3D55C12EC4A6DD0017CD7B /* OnboardingView.swift */,
 				AA58BEC62ECA4D500032B602 /* RecordingSetupView.swift */,
@@ -156,6 +163,7 @@
 				AAA5726A2EF00A1F008081E9 /* technique_coach_example.mov */,
 				956B52A126B2ACA500F7E865 /* Assets.xcassets */,
 				AADF48FD2ECB3E9B0003ED95 /* example_serve.mov */,
+				AA6BF6DF2EF7FAE200776902 /* GoogleService-Info.plist */,
 				956B52A626B2ACA500F7E865 /* Info.plist */,
 			);
 			path = Resources;
@@ -202,6 +210,10 @@
 			);
 			name = "Clay Tennis";
 			packageProductDependencies = (
+				AA6BF6D92EF7FAB500776902 /* FirebaseAnalytics */,
+				AA6BF6DB2EF7FAB500776902 /* FirebaseCore */,
+				AA6BF6DD2EF7FAB500776902 /* FirebaseStorage */,
+				AA6BF6E52EF7FE6500776902 /* FirebaseAuth */,
 			);
 			productName = "Vision Trajectory API Demo";
 			productReference = 956B529526B2ACA400F7E865 /* Clay Tennis.app */;
@@ -233,6 +245,7 @@
 			);
 			mainGroup = 956B528C26B2ACA400F7E865;
 			packageReferences = (
+				AA6BF6D82EF7FAB500776902 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = 956B529626B2ACA400F7E865 /* Products */;
 			projectDirPath = "";
@@ -253,6 +266,7 @@
 				956B52A526B2ACA500F7E865 /* LaunchScreen.storyboard in Resources */,
 				AADF48FE2ECB3E9B0003ED95 /* example_serve.mov in Resources */,
 				956B52A226B2ACA500F7E865 /* Assets.xcassets in Resources */,
+				AA6BF6E02EF7FAE200776902 /* GoogleService-Info.plist in Resources */,
 				956B52A026B2ACA400F7E865 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -271,7 +285,6 @@
 				AA6BF5FA2EF7279C00776902 /* ChatModel.swift in Sources */,
 				AA6BF5F62EF6EB8000776902 /* ChatView.swift in Sources */,
 				AA71D1AE2C5353A800E66284 /* FeedView.swift in Sources */,
-				AAA572652EE5DBB4008081E9 /* AICoachDetailView.swift in Sources */,
 				956B52B126B2CF6D00F7E865 /* Animations.swift in Sources */,
 				AA6BF5F82EF7153900776902 /* FindCoach.swift in Sources */,
 				AA3D55C62EC4BB400017CD7B /* SettingsView.swift in Sources */,
@@ -537,6 +550,40 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		AA6BF6D82EF7FAB500776902 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.7.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AA6BF6D92EF7FAB500776902 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AA6BF6D82EF7FAB500776902 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		AA6BF6DB2EF7FAB500776902 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AA6BF6D82EF7FAB500776902 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+		AA6BF6DD2EF7FAB500776902 /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AA6BF6D82EF7FAB500776902 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
+		AA6BF6E52EF7FE6500776902 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AA6BF6D82EF7FAB500776902 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 956B528D26B2ACA400F7E865 /* Project object */;
 }
