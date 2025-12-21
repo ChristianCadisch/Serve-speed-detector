@@ -152,40 +152,42 @@ struct AICoachDetailView: View {
             .buttonStyle(.plain)
             .padding(.top, 8)
             
-            // SECONDARY CTA — Upload New Video
+            // SECONDARY CTA — Coach Review
             Button {
                 showVideoUpload = true
             } label: {
                 HStack(spacing: 12) {
-                    Image(systemName: "arrow.up.circle.fill")
+                    Image(systemName: "person.fill.checkmark")
                         .font(.title3.weight(.semibold))
 
-                    Text("Upload New Video")
+                    Text("Submit to Coach")
                         .font(.headline.weight(.semibold))
 
                     Spacer()
 
-                    Image(systemName: "chevron.right")
-                        .font(.subheadline.weight(.semibold))
-                        .opacity(0.8)
+                    Image(systemName: "arrow.right.circle.fill")
+                        .font(.title3.weight(.semibold))
                 }
-                .foregroundStyle(.primary)
+                .foregroundStyle(.white)
                 .padding(.horizontal, 22)
-                .frame(height: 52)
+                .frame(height: 56)
                 .background(
-                    RoundedRectangle(cornerRadius: 18, style: .continuous)
-                        .fill(
-                            colorScheme == .dark
-                            ? Color.white.opacity(0.08)
-                            : Color.white.opacity(0.75)
-                        )
+                    LinearGradient(
+                        colors: [
+                            Color.orange,
+                            Color.orange.opacity(0.8)
+                        ],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
                 )
-                .overlay(
-                    RoundedRectangle(cornerRadius: 18, style: .continuous)
-                        .stroke(Color.primary.opacity(0.08), lineWidth: 1)
-                )
+                .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                .shadow(color: .black.opacity(0.18), radius: 10, y: 6)
             }
             .buttonStyle(.plain)
+
+
+
             .navigationDestination(isPresented: $showVideoUpload) {
                 let url = item.thumbnailURL
                 VideoUploadView(initialVideoURL: url)
@@ -193,9 +195,6 @@ struct AICoachDetailView: View {
                         print("🎥 [UPLOAD NAV] Passing initialVideoURL:", url?.absoluteString ?? "nil")
                     }
             }
-
-
-
 
 
         }
