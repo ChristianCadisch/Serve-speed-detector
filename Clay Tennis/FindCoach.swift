@@ -97,7 +97,7 @@ struct FindCoach: View {
 
     private var header: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("WORK WITH A REAL COACH")
+            Text("REQUEST OFFER FROM REAL COACH")
                 .font(.caption.bold())
                 .tracking(1.4)
                 .foregroundStyle(.secondary)

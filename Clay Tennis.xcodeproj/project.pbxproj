@@ -26,6 +26,7 @@
 		AA6BF6DE2EF7FAB500776902 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = AA6BF6DD2EF7FAB500776902 /* FirebaseStorage */; };
 		AA6BF6E02EF7FAE200776902 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AA6BF6DF2EF7FAE200776902 /* GoogleService-Info.plist */; };
 		AA6BF6E62EF7FE6500776902 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = AA6BF6E52EF7FE6500776902 /* FirebaseAuth */; };
+		AA6BF6E82EF8164400776902 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = AA6BF6E72EF8164400776902 /* FirebaseFirestore */; };
 		AA71D1AE2C5353A800E66284 /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA71D1AD2C5353A800E66284 /* FeedView.swift */; };
 		AAA572672EE755F8008081E9 /* CoachHubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA572662EE755F8008081E9 /* CoachHubView.swift */; };
 		AAA5726B2EF00A1F008081E9 /* technique_coach_example.mov in Resources */ = {isa = PBXBuildFile; fileRef = AAA5726A2EF00A1F008081E9 /* technique_coach_example.mov */; };
@@ -82,6 +83,7 @@
 				AA6BF6DE2EF7FAB500776902 /* FirebaseStorage in Frameworks */,
 				AA6BF6DC2EF7FAB500776902 /* FirebaseCore in Frameworks */,
 				956B52B426B2D8C100F7E865 /* SpriteKit.framework in Frameworks */,
+				AA6BF6E82EF8164400776902 /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -214,6 +216,7 @@
 				AA6BF6DB2EF7FAB500776902 /* FirebaseCore */,
 				AA6BF6DD2EF7FAB500776902 /* FirebaseStorage */,
 				AA6BF6E52EF7FE6500776902 /* FirebaseAuth */,
+				AA6BF6E72EF8164400776902 /* FirebaseFirestore */,
 			);
 			productName = "Vision Trajectory API Demo";
 			productReference = 956B529526B2ACA400F7E865 /* Clay Tennis.app */;
@@ -582,6 +585,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = AA6BF6D82EF7FAB500776902 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAuth;
+		};
+		AA6BF6E72EF8164400776902 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AA6BF6D82EF7FAB500776902 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

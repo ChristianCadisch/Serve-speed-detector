@@ -2,18 +2,13 @@
 //  VideoUploadView.swift
 //  Clay Tennis
 //
-//  Two-step coach review flow:
-//  1) Information & trust-building
-//  2) Submission form + video
-//
 
 import SwiftUI
 import PhotosUI
 import FirebaseStorage
+import FirebaseFirestore
 import UniformTypeIdentifiers
-import FirebaseAuth
 import AVFoundation
-
 
 struct VideoUploadView: View {
 
@@ -31,6 +26,11 @@ struct VideoUploadView: View {
     @State private var uploadProgress: Double = 0
     @State private var errorMessage: String?
 
+    @State private var showCelebration: Bool = false
+
+    /// Stable ID for this submission (used for Storage + Firestore)
+    @State private var submissionId = UUID().uuidString
+
     private enum FlowStep {
         case info
         case form
@@ -43,36 +43,46 @@ struct VideoUploadView: View {
     }
 
     var body: some View {
-        ScrollView {
-            VStack(spacing: 28) {
-                switch step {
-                case .info:
-                    infoStep
-                        .transition(.move(edge: .bottom).combined(with: .opacity))
-
-                case .form:
-                    formStep
-                        .transition(.move(edge: .bottom).combined(with: .opacity))
+        ZStack {
+            ScrollView {
+                VStack(spacing: 28) {
+                    switch step {
+                    case .info:
+                        infoStep
+                    case .form:
+                        formStep
+                    }
                 }
+                .padding(.top, 32)
+                .padding(.bottom, 44)
             }
-            .padding(.top, 32)
-            .padding(.bottom, 44)
-        }
-        .navigationTitle("Review")
-        .navigationBarTitleDisplayMode(.inline)
-        .animation(.easeInOut(duration: 0.25), value: step)
-        .onAppear {
-            guard localVideoURL == nil else { return }
-            guard let initialVideoURL,
-                  FileManager.default.fileExists(atPath: initialVideoURL.path),
-                  !initialVideoURL.hasDirectoryPath
-            else { return }
+            .navigationTitle("Review")
+            .navigationBarTitleDisplayMode(.inline)
+            .animation(.easeInOut(duration: 0.25), value: step)
+            .onAppear {
+                print("👀 [VIEW] onAppear")
+                guard localVideoURL == nil else { return }
+                guard let initialVideoURL,
+                      FileManager.default.fileExists(atPath: initialVideoURL.path),
+                      !initialVideoURL.hasDirectoryPath
+                else { return }
 
-            localVideoURL = initialVideoURL
+                print("🎥 [VIDEO] Using initial video URL")
+                localVideoURL = initialVideoURL
+            }
+            .onChange(of: showCelebration) { value in
+                print("🎬 [STATE] showCelebration =", value)
+            }
+
+            if showCelebration {
+                SubmissionCelebrationOverlay()
+                    .transition(.opacity)
+                    .zIndex(10)
+            }
         }
     }
 
-    // MARK: - Step 1: Info
+    // MARK: - Step 1
 
     private var infoStep: some View {
         VStack(spacing: 28) {
@@ -82,62 +92,28 @@ struct VideoUploadView: View {
                 .multilineTextAlignment(.center)
 
             VStack(alignment: .leading, spacing: 16) {
-
-                Label {
-                    Text("Your serve is assigned to a licensed tennis coach. You’ll see their profile before confirming.")
-                } icon: {
-                    Image(systemName: "person.fill.checkmark")
-                }
-
-                Label {
-                    Text("You receive clear pricing before anything is charged.")
-                } icon: {
-                    Image(systemName: "tag.fill")
-                }
-
-                Label {
-                    Text("Nothing happens unless you explicitly confirm.")
-                } icon: {
-                    Image(systemName: "checkmark.circle.fill")
-                }
-
-                Label {
-                    Text("Payment and feedback delivery happen outside the app.")
-                } icon: {
-                    Image(systemName: "arrow.up.right.square")
-                }
-
-                Label {
-                    Text("Your video is shared only with your assigned coach.")
-                } icon: {
-                    Image(systemName: "lock.fill")
-                }
+                Label("Assigned to a licensed tennis coach", systemImage: "person.fill.checkmark")
+                Label("Clear pricing before confirmation", systemImage: "tag.fill")
+                Label("Nothing happens without confirmation", systemImage: "checkmark.circle.fill")
+                Label("Payment happens outside the app", systemImage: "arrow.up.right.square")
+                Label("Video shared only with your coach", systemImage: "lock.fill")
             }
-            .font(.body)
             .foregroundStyle(.secondary)
 
             Button {
+                print("➡️ [FLOW] Proceed to form")
                 step = .form
             } label: {
                 Text("Proceed")
-                    .font(.headline.weight(.semibold))
                     .frame(maxWidth: .infinity, minHeight: 56)
-                    .background(
-                        LinearGradient(
-                            colors: [.orange, Color.orange.opacity(0.8)],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
-                    .foregroundStyle(.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
-                    .shadow(color: .orange.opacity(0.3), radius: 14, y: 8)
             }
+            .buttonStyle(.borderedProminent)
+            .tint(.orange)
         }
         .padding(.horizontal)
     }
 
-    // MARK: - Step 2: Form
+    // MARK: - Step 2
 
     private var formStep: some View {
         VStack(spacing: 28) {
@@ -156,45 +132,36 @@ struct VideoUploadView: View {
 
             if let errorMessage {
                 Text(errorMessage)
-                    .font(.footnote)
                     .foregroundStyle(.red)
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal)
             }
 
             submitButton
         }
     }
 
-
     // MARK: - Video Preview
 
     private func videoPreview(url: URL) -> some View {
         VStack(alignment: .leading, spacing: 10) {
-
             Text("Video to be reviewed")
                 .font(.caption.weight(.semibold))
                 .foregroundStyle(.secondary)
 
             VideoThumbnailView(videoURL: url)
                 .frame(height: 250)
-                .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
-                .shadow(color: .black.opacity(0.15), radius: 16, y: 8)
+                .clipShape(RoundedRectangle(cornerRadius: 22))
         }
         .padding(.horizontal)
     }
 
-    // MARK: - Form Section
+    // MARK: - Form
 
     private var formSection: some View {
         VStack(spacing: 18) {
-
             TextField("Your full name", text: $fullName)
-                .textContentType(.name)
                 .textFieldStyle(.roundedBorder)
 
             TextField("Email or phone number", text: $contactInfo)
-                .textContentType(.emailAddress)
                 .textFieldStyle(.roundedBorder)
 
             TextField(
@@ -208,34 +175,69 @@ struct VideoUploadView: View {
         .padding(.horizontal)
     }
 
-
-    // MARK: - Submit Button
+    // MARK: - Submit
 
     private var submitButton: some View {
         Button {
             guard let url = localVideoURL else { return }
+            print("⬆️ [UPLOAD] Submit tapped")
             uploadVideo(at: url)
         } label: {
-            HStack {
-                Spacer()
-                Text(isUploading ? "Submitting…" : "Submit for Coach Review")
-                    .font(.headline.weight(.semibold))
-                Spacer()
-            }
-            .frame(height: 60)
-            .background(
-                LinearGradient(
-                    colors: [.orange, Color.orange.opacity(0.8)],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                )
-            )
-            .foregroundStyle(.white)
-            .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
-            .shadow(color: .orange.opacity(0.3), radius: 14, y: 8)
+            Text(isUploading ? "Submitting…" : "Submit for Coach Review")
+                .frame(maxWidth: .infinity, minHeight: 60)
         }
+        .buttonStyle(.borderedProminent)
+        .tint(.orange)
         .disabled(isUploading || fullName.isEmpty || contactInfo.isEmpty)
         .padding(.horizontal)
+    }
+
+    // MARK: - Google Forms
+
+    private func notifyCoachViaGoogleForm() {
+        print("📨 [FORMS] Sending Google Form")
+
+        guard let url = URL(string: "https://docs.google.com/forms/d/e/1FAIpQLSeaUDXD_pr1T-3wmLqXidubKfQ7f8Wn9nOP-KVreLGdvy-vBA/formResponse") else {
+            print("❌ [FORMS] Invalid URL")
+            return
+        }
+
+        let body = [
+            "entry.1911828782=\(fullName)",
+            "entry.883454228=\(contactInfo)",
+            "entry.617357663=Video review sent"
+        ]
+        .joined(separator: "&")
+        .data(using: .utf8)
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        request.httpBody = body
+
+        URLSession.shared.dataTask(with: request) { _, _, error in
+            if let error {
+                print("❌ [FORMS] Error:", error.localizedDescription)
+            } else {
+                print("✅ [FORMS] Submitted")
+            }
+        }.resume()
+    }
+
+    // MARK: - Firestore
+
+    private func createCoachRequest(videoPath: String) async throws {
+        print("📄 [FIRESTORE] Creating coach request")
+        let db = Firestore.firestore()
+
+        try await db.collection("coachRequests").addDocument(data: [
+            "fullName": fullName,
+            "contactInfo": contactInfo,
+            "focusNotes": focusNotes,
+            "videoPath": videoPath,
+            "createdAt": Timestamp(date: Date()),
+            "status": "submitted"
+        ])
     }
 
     // MARK: - Upload Logic
@@ -245,14 +247,58 @@ struct VideoUploadView: View {
         uploadProgress = 0
         errorMessage = nil
 
-        // keep your existing Firebase upload logic here
+        let storagePath = "coachReviews/\(submissionId).mov"
+        let ref = Storage.storage().reference(withPath: storagePath)
+
+        print("📦 [UPLOAD] Starting:", storagePath)
+
+        let uploadTask = ref.putFile(from: url)
+
+        uploadTask.observe(.progress) { snapshot in
+            guard let progress = snapshot.progress else { return }
+            uploadProgress = progress.fractionCompleted
+            print("📊 [UPLOAD] Progress:", uploadProgress)
+        }
+
+        uploadTask.observe(.failure) { snapshot in
+            print("❌ [UPLOAD] Failed")
+            isUploading = false
+            errorMessage = snapshot.error?.localizedDescription
+        }
+
+        uploadTask.observe(.success) { _ in
+            print("✅ [UPLOAD] Completed")
+
+            Task {
+                do {
+                    try await createCoachRequest(videoPath: storagePath)
+                    notifyCoachViaGoogleForm()
+
+                    await MainActor.run {
+                        print("🎉 [UI] Showing celebration")
+                        showCelebration = true
+                    }
+
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                        print("🚪 [UI] Dismissing view")
+                        dismiss()
+                    }
+
+                } catch {
+                    print("❌ [ERROR] Submission failed:", error.localizedDescription)
+                    await MainActor.run {
+                        isUploading = false
+                        errorMessage = "Submission failed."
+                    }
+                }
+            }
+        }
     }
 }
 
-// MARK: - Video Thumbnail
+// MARK: - Thumbnail
 
 struct VideoThumbnailView: View {
-
     let videoURL: URL
     @State private var thumbnail: UIImage?
 
@@ -263,31 +309,43 @@ struct VideoThumbnailView: View {
                     .resizable()
                     .scaledToFill()
             } else {
-                Color(.secondarySystemBackground)
                 ProgressView()
             }
         }
-        .clipped()
         .onAppear {
-            generateThumbnailIfNeeded()
+            let asset = AVAsset(url: videoURL)
+            let generator = AVAssetImageGenerator(asset: asset)
+            generator.appliesPreferredTrackTransform = true
+            if let cgImage = try? generator.copyCGImage(at: .init(seconds: 0.5, preferredTimescale: 600), actualTime: nil) {
+                thumbnail = UIImage(cgImage: cgImage)
+            }
         }
     }
+}
 
-    private func generateThumbnailIfNeeded() {
-        guard thumbnail == nil else { return }
+// MARK: - Celebration Overlay
 
-        let asset = AVAsset(url: videoURL)
-        let generator = AVAssetImageGenerator(asset: asset)
-        generator.appliesPreferredTrackTransform = true
-        generator.maximumSize = CGSize(width: 800, height: 800)
+private struct SubmissionCelebrationOverlay: View {
+    @State private var animate = false
 
-        let time = CMTime(seconds: 0.5, preferredTimescale: 600)
+    var body: some View {
+        ZStack {
+            Color.black.opacity(0.3).ignoresSafeArea()
 
-        DispatchQueue.global(qos: .userInitiated).async {
-            if let cgImage = try? generator.copyCGImage(at: time, actualTime: nil) {
-                let uiImage = UIImage(cgImage: cgImage)
-                DispatchQueue.main.async {
-                    self.thumbnail = uiImage
+            VStack(spacing: 12) {
+                Image(systemName: "checkmark.circle.fill")
+                    .font(.system(size: 56))
+                Text("Video Submitted")
+                    .font(.system(size: 30, weight: .heavy))
+                Text("Your coach will reach out shortly")
+            }
+            .foregroundStyle(.white)
+            .scaleEffect(animate ? 1 : 0.8)
+            .opacity(animate ? 1 : 0)
+            .onAppear {
+                print("✨ [ANIMATION] Celebration started")
+                withAnimation(.spring()) {
+                    animate = true
                 }
             }
         }
