@@ -1,0 +1,281 @@
+[
+  {
+    "id": "serve_basics_55s",
+    "youtubeId": "dIptTnc5pMU",
+    "category": "serve",
+    "title": "Tennis Serve Basics",
+    "durationSeconds": 55,
+    "type": "technique",
+    "level": "beginner"
+  },
+  {
+    "id": "serve_djokovic_30s",
+    "youtubeId": "AQP4YQpD3VA",
+    "category": "serve",
+    "title": "Djokovic Serve",
+    "durationSeconds": 30,
+    "type": "technique",
+    "level": "advanced"
+  },
+  {
+    "id": "serve_kick_36s",
+    "youtubeId": "y-HODjYgll8",
+    "category": "serve",
+    "title": "The Kick Serve",
+    "durationSeconds": 36,
+    "type": "technique",
+    "level": "advanced"
+  },
+  {
+    "id": "serve_ball_toss_41s",
+    "youtubeId": "28UxoyEKB8I",
+    "category": "serve",
+    "title": "Ball Toss",
+    "durationSeconds": 41,
+    "type": "technique",
+    "level": "beginner"
+  },
+  {
+    "id": "serve_basics_drill_33s",
+    "youtubeId": "sbPkwnU92wE",
+    "category": "serve",
+    "title": "Tennis Serve Basics",
+    "durationSeconds": 33,
+    "type": "drill",
+    "level": "beginner"
+  },
+  {
+    "id": "serve_kick_21s",
+    "youtubeId": "1iu6iPW2wDM",
+    "category": "serve",
+    "title": "Kick Serve",
+    "durationSeconds": 21,
+    "type": "technique",
+    "level": "advanced"
+  },
+  {
+    "id": "serve_kick_48s",
+    "youtubeId": "e5kKEu9h15I",
+    "category": "serve",
+    "title": "Kick Serve",
+    "durationSeconds": 48,
+    "type": "technique",
+    "level": "advanced"
+  },
+  {
+    "id": "serve_timing_45s",
+    "youtubeId": "PV6EgbBVVVI",
+    "category": "serve",
+    "title": "Timing",
+    "durationSeconds": 45,
+    "type": "technique",
+    "level": "beginner"
+  },
+  {
+    "id": "serve_basics_drill_37s",
+    "youtubeId": "iHs_UfrXsMc",
+    "category": "serve",
+    "title": "Tennis Serve Basics",
+    "durationSeconds": 37,
+    "type": "drill",
+    "level": "beginner"
+  },
+  {
+    "id": "serve_kick_41s",
+    "youtubeId": "vf6JKDnriIE",
+    "category": "serve",
+    "title": "Kick Serve",
+    "durationSeconds": 41,
+    "type": "technique",
+    "level": "advanced"
+  },
+  {
+    "id": "forehand_basics_39s",
+    "youtubeId": "gcbh1hKavx0",
+    "category": "forehand",
+    "title": "Tennis Forehand Basics",
+    "durationSeconds": 39,
+    "type": "technique",
+    "level": "beginner"
+  },
+  {
+    "id": "forehand_basics_10s",
+    "youtubeId": "mdKJAZqz1tU",
+    "category": "forehand",
+    "title": "Tennis Forehand Basics",
+    "durationSeconds": 10,
+    "type": "technique",
+    "level": "beginner"
+  },
+  {
+    "id": "forehand_basics_33s",
+    "youtubeId": "bt2xtajWf7g",
+    "category": "forehand",
+    "title": "Tennis Forehand Basics",
+    "durationSeconds": 33,
+    "type": "technique",
+    "level": "beginner"
+  },
+  {
+    "id": "forehand_drill_55s",
+    "youtubeId": "uYNYjCytAeU",
+    "category": "forehand",
+    "title": "Forehand drill",
+    "durationSeconds": 55,
+    "type": "drill",
+    "level": "beginner"
+  },
+  {
+    "id": "forehand_djokovic_11s",
+    "youtubeId": "G7ZJNaszMrc",
+    "category": "forehand",
+    "title": "Djokovic Forehand",
+    "durationSeconds": 11,
+    "type": "technique",
+    "level": "beginner"
+  },
+  {
+    "id": "backhand_zverev_30s",
+    "youtubeId": "B6WtMYV0jaw",
+    "category": "backhand",
+    "title": "Zverev Backhand",
+    "durationSeconds": 30,
+    "type": "technique",
+    "level": "beginner"
+  },
+  {
+    "id": "backhand_alcaraz_10s",
+    "youtubeId": "UsR2o_koFyU",
+    "category": "backhand",
+    "title": "Alcaraz Backhand",
+    "durationSeconds": 10,
+    "type": "technique",
+    "level": "beginner"
+  },
+  {
+    "id": "backhand_basics_29s",
+    "youtubeId": "AxUx7_lPFSo",
+    "category": "backhand",
+    "title": "Backhand Basics",
+    "durationSeconds": 29,
+    "type": "technique",
+    "level": "beginner"
+  },
+  {
+    "id": "backhand_one_handed_31s",
+    "youtubeId": "02wh2q7d2s8",
+    "category": "backhand",
+    "title": "One-handed Backhand",
+    "durationSeconds": 31,
+    "type": "technique",
+    "level": "beginner"
+  },
+  {
+    "id": "volley_basics_32s",
+    "youtubeId": "Qr5DSqeUR0A",
+    "category": "volley",
+    "title": "Volley Basics",
+    "durationSeconds": 32,
+    "type": "technique",
+    "level": "beginner"
+  },
+  {
+    "id": "serve_alcaraz_43s",
+    "youtubeId": "lz3u0",
+    "category": "serve",
+    "title": "Alcaraz Serve",
+    "durationSeconds": 43,
+    "type": "technique",
+    "level": "beginner"
+  },
+  {
+    "id": "volley_basics_28s",
+    "youtubeId": "R8SPjm7WkGk",
+    "category": "volley",
+    "title": "Volley Basics",
+    "durationSeconds": 28,
+    "type": "technique",
+    "level": "beginner"
+  },
+  {
+    "id": "volley_forehand_51s",
+    "youtubeId": "MlWQ_-RgSd4",
+    "category": "volley",
+    "title": "Forehand Volley",
+    "durationSeconds": 51,
+    "type": "technique",
+    "level": "beginner"
+  },
+  {
+    "id": "volley_basics_56s",
+    "youtubeId": "tvI36sQb7RA",
+    "category": "volley",
+    "title": "Volley Basics",
+    "durationSeconds": 56,
+    "type": "technique",
+    "level": "beginner"
+  },
+  {
+    "id": "serve_drill_28s",
+    "youtubeId": "RzSYR45Smn0",
+    "category": "volley",
+    "title": "Serve Drill",
+    "durationSeconds": 28,
+    "type": "drill",
+    "level": "beginner"
+  },
+  {
+    "id": "mental_confidence_54s",
+    "youtubeId": "yFWmCER0Bn8",
+    "category": "mental",
+    "title": "Confidence Building",
+    "durationSeconds": 54,
+    "type": "technique",
+    "level": "beginner"
+  },
+  {
+    "id": "mental_bad_days_38s",
+    "youtubeId": "8f979Bjg7AI",
+    "category": "mental",
+    "title": "Bad Days",
+    "durationSeconds": 38,
+    "type": "technique",
+    "level": "beginner"
+  },
+  {
+    "id": "serve_toss_57s",
+    "youtubeId": "yxgNsd9H4Lw",
+    "category": "serve",
+    "title": "Serve Toss",
+    "durationSeconds": 57,
+    "type": "technique",
+    "level": "beginner"
+  },
+  {
+    "id": "mental_djokovic_tips_50s",
+    "youtubeId": "NcmWIyAR",
+    "category": "mental",
+    "title": "Djokovic Tips",
+    "durationSeconds": 50,
+    "type": "technique",
+    "level": "beginner"
+  },
+  {
+    "id": "serve_ball_toss_59s",
+    "youtubeId": "XVZrALN596g",
+    "category": "serve",
+    "title": "Ball Toss",
+    "durationSeconds": 59,
+    "type": "technique",
+    "level": "beginner"
+  },
+  {
+    "id": "forehand_gain_strength_46s",
+    "youtubeId": "Lk9vYmWum04",
+    "category": "forehand",
+    "title": "Gain Strength",
+    "durationSeconds": 46,
+    "type": "technique",
+    "level": "beginner"
+  }
+]

@@ -222,20 +222,6 @@ class HomeViewController: UIViewController,
     }
     
     
-    func showLessonDetail(
-        topic: QuizIdentifier,
-        highScores: Binding<[LessonQuizID: Int]>,
-        onHighScoreUpdated: @escaping (LessonQuizID, Int) -> Void
-    ){
-        let detailView = LessonDetailView(
-            topic: topic,
-            highScores: highScores,
-            onHighScoreUpdated: onHighScoreUpdated,
-            navigationDelegate: self
-        )
-        
-        showLessonDetailView(detailView)
-    }
     
     
     func popToTheoryView() {
@@ -500,25 +486,7 @@ class HomeViewController: UIViewController,
     }
     
     
-    
-    private func showLessonDetailView(_ view: LessonDetailView) {
-        let hosting = UIHostingController(rootView: AnyView(view))
-        replaceRoot(
-            with: hosting,
-            title: NSLocalizedString("lesson_overview_title", tableName: "general", comment: "")
-        )
-        
-        navigationController?.setNavigationBarHidden(false, animated: false)
-        
-        navigationItem.leftBarButtonItem = UIBarButtonItem(
-            image: UIImage(systemName: "chevron.left"),
-            style: .plain,
-            target: self,
-            action: #selector(handleBackToTheory)
-        )
-        
-        enableLessonSwipeBack()
-    }
+
     
     private func showCoachHubView() {
         let wrapper = CoachHubWrapper(
@@ -677,7 +645,7 @@ class HomeViewController: UIViewController,
            let hosting = theoryHostingController,
            var rootView = hosting.rootView as? TheoryView {
             
-            rootView.forceRefresh()
+            //rootView.forceRefresh()
             hosting.rootView = AnyView(rootView)
         }
         
@@ -1043,11 +1011,6 @@ extension Notification.Name {
 
 
 protocol HomeNavigationDelegate: AnyObject {
-    func showLessonDetail(
-        topic: QuizIdentifier,
-        highScores: Binding<[LessonQuizID: Int]>,
-        onHighScoreUpdated: @escaping (LessonQuizID, Int) -> Void
-    )
     
     func popToTheoryView()
     func popToLessonView(refresh: Bool)

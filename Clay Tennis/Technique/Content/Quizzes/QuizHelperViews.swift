@@ -408,6 +408,40 @@ struct ConfettiView: View {
     }
 }
 
+struct HeroProgressBar: View {
+    let progress: Double
+    let label: String
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            GeometryReader { geo in
+                ZStack(alignment: .leading) {
+                    Capsule()
+                        .fill(Color.white.opacity(0.25))
+
+                    Capsule()
+                        .fill(
+                            LinearGradient(
+                                colors: progress >= 0.8
+                                    ? [.green, .mint]
+                                    : [.white, .cyan],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
+                        )
+                        .frame(width: geo.size.width * progress)
+                        .animation(.easeOut(duration: 0.6), value: progress)
+                }
+            }
+            .frame(height: 8)
+
+            Text(label)
+                .font(.caption.weight(.semibold))
+                .foregroundColor(.white.opacity(0.9))
+        }
+    }
+}
+
 struct ConfettiParticle: Identifiable {
     let id = UUID()
     var position: CGPoint
@@ -693,16 +727,7 @@ enum QuizIdentifier: Int, CaseIterable, Hashable {
     
     var isMirrored: Bool { self == .backhand }
     
-    var stories: [Story] {
-        switch self {
-        case .serve: return serveStories
-        case .tactics: return tacticsStories
-        case .forehand: return forehandStories
-        case .backhand: return backhandStories
-        case .volley: return volleyStories
-        case .legwork: return legworkStories
-        }
-    }
+
     
     var progressionIndex: Int {
         Self.progression.firstIndex(of: self) ?? rawValue

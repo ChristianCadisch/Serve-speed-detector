@@ -2,423 +2,422 @@
 //  TheoryView.swift
 //  Clay Tennis
 //
-//  Created by Christian on 19.11.2025.
-//  Copyright © 2025 Apple.
+//  Calm, Editorial Training Hub
 //
-
 import SwiftUI
 
 struct TheoryView: View {
 
-    @Environment(\.dismiss) var dismiss
-    @State private var highScores: [LessonQuizID: Int] = [:]
-    @State private var refreshToken = UUID()
-
-    private let passThreshold: Double = 0.7
-    private let topics = QuizIdentifier.progression
+    // MARK: - Navigation
     weak var navigationDelegate: HomeNavigationDelegate?
 
+    // MARK: - State
+    @State private var selectedTopic: QuizIdentifier = .serve
+    @State private var highScores: [LessonQuizID: Int] = [:]
+
+    private let passThreshold: Double = 0.7
+    @State private var allVideos: [TrainingVideo] = []
+    @State private var selectedVideo: TrainingVideo?
+
+
+
+    // MARK: - Body
     var body: some View {
-        
-            ScrollView {
-                VStack(spacing: 22) {
+        NavigationStack {
+            content
+                .navigationDestination(item: $selectedVideo) { video in
+                    ShortsPlayer(
+                        youtubeId: video.youtubeId,
+                        title: video.title,
+                        subtitle: "\(video.durationSeconds)-second technique tip"
+                    )
+                    .navigationTitle(video.title)
+                    .navigationBarTitleDisplayMode(.inline)
+                }
 
-                    featuredCard
+        }
+    }
 
-                    Text(NSLocalizedString("all_topics", tableName: "general", comment: ""))
-                        .font(.headline)
-                        .padding(.horizontal)
-                        .frame(maxWidth: .infinity, alignment: .leading)
+    private var content: some View {
+        ScrollView {
+            VStack(spacing: 28) {
+                topicFilter
+                learnSection
+                validateSection
+                Spacer(minLength: 40)
+            }
+            .padding(.top, 16)
+        }
+        .onAppear {
+            loadHighScores()
+            loadVideos()
+        }
+        .onChange(of: selectedTopic) { _ in
+            withAnimation(.easeOut(duration: 0.2)) { }
+        }
+        .background(
+            LinearGradient(
+                colors: [
+                    Color(.systemGray6).opacity(0.35),
+                    Color(.systemBackground)
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+        )
+    }
 
-                    VStack(spacing: 14) {
-                        ForEach(topics, id: \.self) { topic in
-                            Button {
-                                navigationDelegate?.showLessonDetail(
-                                    topic: topic,
-                                    highScores: $highScores,
-                                    onHighScoreUpdated: updateHighScore(for:newScore:)
-                                )
-                            } label: {
-                                LessonRow(
-                                    topic: topic,
-                                    highScores: highScores
-                                )
-                            }
-                            .buttonStyle(PressableCardButtonStyle())
 
+    // MARK: - Topic Filter
+    private var topicFilter: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 10) {
+                ForEach(QuizIdentifier.progression, id: \.self) { topic in
+                    TopicFilterPill(
+                        title: topic.title,
+                        isSelected: selectedTopic == topic
+                    ) {
+                        withAnimation(.easeOut(duration: 0.25)) {
+                            selectedTopic = topic
                         }
                     }
                 }
-                .padding(.top, 12)
             }
-            .id(refreshToken)
-            .navigationTitle(NSLocalizedString("technique_coach_title", tableName: "general", comment: ""))
-            .navigationBarTitleDisplayMode(.inline)
-            .onAppear { loadHighScores() }
-            .background(
-                LinearGradient(
-                    colors: [
-                        Color.blue.opacity(0.05),
-                        Color(.systemBackground)
-                    ],
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
-            )
-        
+            .padding(.horizontal)
+        }
     }
     
-    func forceRefresh() {
-        refreshToken = UUID()
+    private func loadVideos() {
+        guard let url = Bundle.main.url(forResource: "shorts", withExtension: "json"),
+              let data = try? Data(contentsOf: url),
+              let decoded = try? JSONDecoder().decode([TrainingVideo].self, from: data)
+        else {
+            return
+        }
+
+        allVideos = decoded
     }
 
     
-    private var featuredCard: some View {
-        let id = featuredLessonQuiz
-        let topic = id.topic
-        let difficulty = id.difficulty
-        let score = highScores[id, default: 0]
-        let total = topic.totalQuestions(for: difficulty)
-        let progress = total == 0 ? 0 : Double(score) / Double(total)
+    fileprivate struct TopicFilterPill: View {
+        let title: String
+        let isSelected: Bool
+        let onTap: () -> Void
 
-        return VStack(alignment: .leading, spacing: 12) {
-            Text(NSLocalizedString("recommended_lesson", tableName: "general", comment: ""))
-                .font(.headline)
-                .padding(.horizontal)
-                .frame(maxWidth: .infinity, alignment: .leading)
+        var body: some View {
+            Button(action: onTap) {
+                Text(title)
+                    .font(.caption.weight(.semibold))
+                    .padding(.horizontal, 14)
+                    .padding(.vertical, 8)
+                    .background(background)
+                    .foregroundColor(isSelected ? .white : .secondary)
+                    .shadow(
+                        color: isSelected ? Color.green.opacity(0.25) : .clear,
+                        radius: 6,
+                        y: 2
+                    )
+            }
+        }
 
-            Button {
-                navigationDelegate?.showLessonDetail(
-                    topic: topic,
-                    highScores: $highScores,
-                    onHighScoreUpdated: updateHighScore(for:newScore:)
-                )
-            } label: {
-
-                ZStack(alignment: .bottomLeading) {
-
-                    Image(topic.thumbnailImageName)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(height: 305)
-                        .clipped()
-                        .cornerRadius(24)
-
+        @ViewBuilder
+        private var background: some View {
+            if isSelected {
+                Capsule().fill(
                     LinearGradient(
                         colors: [
-                            Color.black.opacity(0.55),
-                            Color.black.opacity(0.05)
+                            Color.green.opacity(0.9),
+                            Color.mint.opacity(0.9)
                         ],
-                        startPoint: .bottom,
-                        endPoint: .top
+                        startPoint: .leading,
+                        endPoint: .trailing
                     )
-                    .cornerRadius(24)
+                )
+            } else {
+                Capsule().fill(Color(.systemGray6))
+            }
+        }
+    }
 
-                    VStack(alignment: .leading, spacing: 12) {
-                        HStack(spacing: 14) {
-                            ZStack {
-                                Circle()
-                                    .fill(topic.tintColor.opacity(0.22))
-                                    .frame(width: 58, height: 58)
 
-                                Image(systemName: topic.iconName)
-                                    .font(.system(size: 28))
-                                    .foregroundColor(.white)
-                                    .mirroredHorizontally(topic.isMirrored)
-                            }
 
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text(topic.title)
-                                    .font(.title3.bold())
-                                    .foregroundColor(.white)
+    // MARK: - Learn Section (Videos)
+    private var learnSection: some View {
+        let videos = filteredVideos
 
-                                Text(
-                                    String(
-                                        format: NSLocalizedString("next_up", tableName: "general", comment: ""),
-                                        difficulty.localizedTitle
-                                    )
-                                )
-                                    .font(.caption.weight(.semibold))
-                                    .foregroundColor(.white.opacity(0.9))
-                            }
+        return VStack(alignment: .leading, spacing: 14) {
 
-                            Spacer()
+            Text("Learn")
+                .font(.headline)
+                .padding(.horizontal)
 
-                            Image(systemName: "chevron.right.circle.fill")
-                                .font(.system(size: 22))
-                                .foregroundColor(.white.opacity(0.9))
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 16) {
+                    ForEach(videos) { video in
+                        Button {
+                            selectedVideo = video
+                        } label: {
+                            LargeVideoCard(video: video)
                         }
-
-                        HeroProgressBar(
-                            progress: progress,
-                            label: String(
-                                format: NSLocalizedString("solved_counter_format", tableName: "general", comment: ""),
-                                score,
-                                total
-                            )
-                        )
+                        .buttonStyle(.plain)
                     }
-                    .padding()
                 }
                 .padding(.horizontal)
             }
-            .buttonStyle(PressableCardButtonStyle())
         }
     }
 
-    private func heroProgressBar(progress: Double, label: String) -> some View {
-        VStack(alignment: .leading, spacing: 6) {
-            GeometryReader { geo in
-                ZStack(alignment: .leading) {
-                    Capsule()
-                        .fill(Color.white.opacity(0.25))
+    // MARK: - Validate Section (Quizzes)
+    private var validateSection: some View {
+        let next = nextActionDifficulty(for: selectedTopic)
 
-                    Capsule()
-                        .fill(
-                            LinearGradient(
-                                colors: progress >= 0.8 ? [.green, .mint] : [.white, .cyan],
-                                startPoint: .leading,
-                                endPoint: .trailing
-                            )
+        return VStack(alignment: .leading, spacing: 14) {
+
+            Text("Check your understanding")
+                .font(.headline)
+                .padding(.horizontal)
+
+            VStack(spacing: 10) {
+                ForEach(QuizDifficulty.allCases, id: \.self) { (difficulty: QuizDifficulty) in
+                    let state = quizState(for: selectedTopic, difficulty: difficulty)
+                    let isNext = (difficulty == next) && state == .unlocked
+
+                    QuizRow(
+                        title: "\(difficulty.localizedAdjective) Quiz",
+                        subtitle: quizSubtitle(
+                            for: selectedTopic,
+                            difficulty: difficulty,
+                            state: state
+                        ),
+                        progress: quizProgress(
+                            for: selectedTopic,
+                            difficulty: difficulty
+                        ),
+                        state: state,
+                        isPrimary: isNext
+                    ) {
+                        navigationDelegate?.showQuiz(
+                            topic: selectedTopic,
+                            difficulty: difficulty
                         )
-                        .frame(width: geo.size.width * progress)
-                        .animation(.easeOut(duration: 0.6), value: progress)
-                }
-            }
-            .frame(height: 8)
-
-            Text(label)
-                .font(.caption.weight(.semibold))
-                .foregroundColor(.white.opacity(0.9))
-        }
-    }
-
-    private var featuredLessonQuiz: LessonQuizID {
-        for topic in topics {
-            for difficulty in QuizDifficulty.allCases {
-                let id = LessonQuizID(topic: topic, difficulty: difficulty)
-                let score = highScores[id, default: 0]
-                let total = topic.totalQuestions(for: difficulty)
-
-                let progress = total == 0 ? 0.0 : Double(score) / Double(total)
-
-                // Replace "score < total" with 70% check
-                if total == 0 || progress < passThreshold {
-                    return id
+                    }
                 }
             }
         }
-        return LessonQuizID(topic: topics.last!, difficulty: .hard)
+    }
+    
+    private var filteredVideos: [TrainingVideo] {
+        allVideos
+            .filter { $0.category == selectedTopic.shortsCategory }
+            .sorted { $0.durationSeconds < $1.durationSeconds }
     }
 
-   
+
+    // MARK: - Quiz Logic
+    private func highScore(for topic: QuizIdentifier, difficulty: QuizDifficulty) -> Int {
+        highScores[LessonQuizID(topic: topic, difficulty: difficulty), default: 0]
+    }
+
+    private func quizProgress(for topic: QuizIdentifier, difficulty: QuizDifficulty) -> Double {
+        let score = highScore(for: topic, difficulty: difficulty)
+        let total = topic.totalQuestions(for: difficulty)
+        return total == 0 ? 0 : Double(score) / Double(total)
+    }
+
+    private func quizState(for topic: QuizIdentifier, difficulty: QuizDifficulty) -> DifficultyState {
+        let progress = quizProgress(for: topic, difficulty: difficulty)
+        if progress >= passThreshold {
+            return .completed
+        }
+
+        switch difficulty {
+        case .easy:
+            return .unlocked
+        case .medium:
+            return quizState(for: topic, difficulty: .easy) == .completed ? .unlocked : .locked
+        case .hard:
+            return quizState(for: topic, difficulty: .medium) == .completed ? .unlocked : .locked
+        }
+    }
+
+    private func nextActionDifficulty(for topic: QuizIdentifier) -> QuizDifficulty? {
+        QuizDifficulty.allCases.first {
+            quizState(for: topic, difficulty: $0) == .unlocked
+        }
+    }
+
+    private func quizSubtitle(
+        for topic: QuizIdentifier,
+        difficulty: QuizDifficulty,
+        state: DifficultyState
+    ) -> String {
+        let score = highScore(for: topic, difficulty: difficulty)
+        let total = topic.totalQuestions(for: difficulty)
+
+        switch state {
+        case .completed:
+            return "Completed"
+        case .locked:
+            return "Complete previous quiz to unlock"
+        case .unlocked:
+            return "\(score)/\(total) questions solved"
+        }
+    }
 
     private func loadHighScores() {
         var loaded: [LessonQuizID: Int] = [:]
-
         for topic in QuizIdentifier.allCases {
             for difficulty in QuizDifficulty.allCases {
                 let id = LessonQuizID(topic: topic, difficulty: difficulty)
                 loaded[id] = UserDefaults.standard.integer(forKey: id.userDefaultsKey)
             }
         }
-
         highScores = loaded
-
-        print("📥 Loaded high scores:")
-        for topic in topics {
-            for difficulty in QuizDifficulty.allCases {
-                let id = LessonQuizID(topic: topic, difficulty: difficulty)
-                let score = loaded[id, default: 0]
-                let total = topic.totalQuestions(for: difficulty)
-                let progress = total == 0 ? 0 : Double(score) / Double(total)
-            }
-        }
-    }
-
-    func updateHighScore(for id: LessonQuizID, newScore: Int) {
-        let current = highScores[id, default: 0]
-        guard newScore > current else { return }
-
-        highScores[id] = newScore
-        UserDefaults.standard.set(newScore, forKey: id.userDefaultsKey)
-
     }
 }
 
+//
+// MARK: - Large Video Card (3:4 + Shade)
+//
 
+fileprivate struct LargeVideoCard: View {
+    let video: TrainingVideo
 
-struct HeroProgressBar: View {
-    let progress: Double
-    let label: String
+    private let cardWidth: CGFloat = 220
+    private let aspectRatio: CGFloat = 3.0 / 4.0   // width : height
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            GeometryReader { geo in
-                ZStack(alignment: .leading) {
-                    Capsule()
-                        .fill(Color.white.opacity(0.25))
+        ZStack(alignment: .bottomLeading) {
 
-                    Capsule()
-                        .fill(
-                            LinearGradient(
-                                colors: progress >= 0.8
-                                    ? [.green, .mint]
-                                    : [.white, .cyan],
-                                startPoint: .leading,
-                                endPoint: .trailing
-                            )
-                        )
-                        .frame(width: geo.size.width * progress)
-                        .animation(.easeOut(duration: 0.6), value: progress)
+            AsyncImage(url: video.thumbnailURL) { phase in
+                switch phase {
+                case .success(let image):
+                    image
+                        .resizable()
+                        .scaledToFill()
+                default:
+                    Color(.systemGray5)
                 }
             }
-            .frame(height: 8)
+            .frame(
+                width: cardWidth,
+                height: cardWidth / aspectRatio
+            )
+            .clipped()
 
-            Text(label)
-                .font(.caption.weight(.semibold))
-                .foregroundColor(.white.opacity(0.9))
+            // Bottom readability shade
+            LinearGradient(
+                colors: [
+                    Color.black.opacity(0.75),
+                    Color.black.opacity(0.35),
+                    .clear
+                ],
+                startPoint: .bottom,
+                endPoint: .top
+            )
+            .frame(height: 96)
+            .frame(maxWidth: .infinity, alignment: .bottom)
+
+            VStack(alignment: .leading, spacing: 6) {
+                Text(video.title)
+                    .font(.headline)
+                    .foregroundColor(.white)
+                    .lineLimit(2)
+
+                Text(video.durationText)
+                    .font(.caption.weight(.semibold))
+                    .foregroundColor(.white.opacity(0.9))
+            }
+            .padding()
         }
+        .cornerRadius(22)
     }
 }
 
+//
+// MARK: - Quiz Row
+//
 
-
-// MARK: - UPDATED LessonRow (tiny dots + per-topic tint + nicer copy)
-
-struct LessonRow: View {
-    let topic: QuizIdentifier
-    let highScores: [LessonQuizID: Int]
-    private let passThreshold: Double = 0.7
-
-    private func score(for difficulty: QuizDifficulty) -> Int {
-        highScores[LessonQuizID(topic: topic, difficulty: difficulty), default: 0]
-    }
-
-    private func total(for difficulty: QuizDifficulty) -> Int {
-        topic.totalQuestions(for: difficulty)
-    }
-
-    private func dotState(_ d: QuizDifficulty) -> DifficultyState {
-        let s = score(for: d)
-        let t = total(for: d)
-        let progress = t == 0 ? 0.0 : Double(s) / Double(t)
-
-        if t > 0 && progress >= passThreshold {
-            return .completed
-        }
-
-        switch d {
-        case .easy:
-            return .unlocked
-
-        case .medium:
-            let easyScore = score(for: .easy)
-            let easyTotal = total(for: .easy)
-            let easyProgress = easyTotal == 0 ? 0.0 : Double(easyScore) / Double(easyTotal)
-            return easyTotal == 0 || easyProgress >= passThreshold ? .unlocked : .locked
-
-        case .hard:
-            let mediumScore = score(for: .medium)
-            let mediumTotal = total(for: .medium)
-            let mediumProgress = mediumTotal == 0 ? 0.0 : Double(mediumScore) / Double(mediumTotal)
-            return mediumTotal == 0 || mediumProgress >= passThreshold ? .unlocked : .locked
-        }
-    }
-
-    private var isTopicCompleted: Bool {
-        QuizDifficulty.allCases.allSatisfy { d in
-            let s = score(for: d)
-            let t = total(for: d)
-            let progress = t == 0 ? 0.0 : Double(s) / Double(t)
-
-            return t == 0 || progress >= passThreshold
-        }
-    }
-
-    private var nextDifficultyText: String {
-        for d in QuizDifficulty.allCases {
-            if dotState(d) != .completed {
-                return String(
-                    format: NSLocalizedString("next_up", tableName: "general", comment: ""),
-                    d.localizedTitle
-                )
-            }
-        }
-        return "Mastered"
-    }
+fileprivate struct QuizRow: View {
+    let title: String
+    let subtitle: String
+    let progress: Double
+    let state: DifficultyState
+    let isPrimary: Bool
+    let onTap: () -> Void
 
     var body: some View {
-        HStack(spacing: 14) {
-            ZStack {
-                Circle()
-                    .fill(topic.tintColor.opacity(0.14))
-                    .frame(width: 46, height: 46)
+        Button(action: onTap) {
+            VStack(alignment: .leading, spacing: 8) {
 
-                Image(systemName: topic.iconName)
-                    .font(.system(size: 22))
-                    .foregroundColor(topic.tintColor)
-                    .mirroredHorizontally(topic.isMirrored)
-            }
+                HStack {
+                    Text(title)
+                        .font(.body.weight(.semibold))
 
-            VStack(alignment: .leading, spacing: 4) {
-                Text(topic.title)
-                    .font(.headline)
+                    Spacer()
 
-                Text(
-                    isTopicCompleted
-                    ? NSLocalizedString("all_levels_completed", tableName: "general", comment: "")
-                    : nextDifficultyText
-                )
+                    Image(systemName: iconName)
+                        .foregroundColor(.secondary)
+                }
+
+                if state == .unlocked {
+                    GeometryReader { geo in
+                        ZStack(alignment: .leading) {
+                            Capsule().fill(Color(.systemGray4))
+                            Capsule()
+                                .fill(Color.primary.opacity(isPrimary ? 0.45 : 0.28))
+                                .frame(width: geo.size.width * progress)
+                        }
+                    }
+                    .frame(height: 5)
+                }
+
+                Text(subtitle)
                     .font(.caption)
                     .foregroundColor(.secondary)
             }
-
-            Spacer()
-
-            HStack(spacing: 6) {
-                difficultyDot(.easy)
-                difficultyDot(.medium)
-                difficultyDot(.hard)
-            }
-
-            Image(systemName: "chevron.right")
-                .foregroundColor(.secondary)
-                .padding(.leading, 4)
+            .padding()
+            .background(
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(Color(.systemGray6))
+            )
+            .opacity(state == .unlocked ? 1.0 : 0.6)
+            .padding(.horizontal)
         }
-        .padding()
-        .background(
-            RoundedRectangle(cornerRadius: 18)
-                .fill(Color(.systemGray6))
-        )
-        .padding(.horizontal)
+        .disabled(state == .locked)
+        .buttonStyle(.plain)
     }
 
-    @ViewBuilder
-    private func difficultyDot(_ d: QuizDifficulty) -> some View {
-        let st = dotState(d)
-        let c: Color = {
-            switch d {
-            case .easy: return .green
-            case .medium: return .blue
-            case .hard: return .purple
-            }
-        }()
-
-        Circle()
-            .fill(st == .completed ? c : Color.clear)
-            .overlay(
-                Circle()
-                    .stroke(
-                        st == .locked ? Color.gray.opacity(0.5) : c.opacity(0.9),
-                        lineWidth: 1.5
-                    )
-            )
-            .frame(width: 9, height: 9)
-            .opacity(st == .locked ? 0.6 : 1.0)
+    private var iconName: String {
+        switch state {
+        case .completed: return "checkmark.circle.fill"
+        case .locked: return "lock.fill"
+        case .unlocked: return "chevron.right"
+        }
     }
 }
 
+//
+// MARK: - Video Model + Data
+//
+
+struct TrainingVideo: Identifiable, Decodable, Hashable {
+    let id: String
+    let youtubeId: String
+    let category: String
+    let title: String
+    let durationSeconds: Int
+    let type: String
+    let level: String
+
+    var durationText: String {
+        "\(durationSeconds)s"
+    }
+
+    var thumbnailURL: URL {
+        URL(string: "https://img.youtube.com/vi/\(youtubeId)/hqdefault.jpg")!
+    }
+}
 
 
 // NEW: per-difficulty state inside a topic
@@ -426,54 +425,6 @@ enum DifficultyState {
     case locked
     case unlocked
     case completed
-}
-
-
-struct QuizProgressCardBar: View {
-    let quizTitle: String
-    let highScore: Int
-    let total: Int
-
-    private var progress: Double {
-        total == 0 ? 0 : Double(highScore) / Double(total)
-    }
-
-    var body: some View {
-        VStack(spacing: 8) {
-            GeometryReader { geo in
-                ZStack(alignment: .leading) {
-                    Capsule()
-                        .fill(Color(.systemGray5))
-
-                    Capsule()
-                        .fill(
-                            LinearGradient(
-                                colors: progress >= 0.8 ? [.green, .mint] : [.blue, .cyan],
-                                startPoint: .leading,
-                                endPoint: .trailing
-                            )
-                        )
-                        .frame(width: geo.size.width * progress)
-                        .animation(.easeOut(duration: 0.4), value: progress)
-                }
-            }
-            .frame(height: 8)
-
-            HStack {
-                Text("\(quizTitle) · \(highScore)/\(total)")
-                    .font(.caption.weight(.semibold))
-                    .foregroundColor(.secondary)
-
-                Spacer()
-
-                if progress >= 1.0 {
-                    Image(systemName: "crown.fill")
-                        .foregroundColor(.yellow)
-                        .font(.caption)
-                }
-            }
-        }
-    }
 }
 
 extension QuizIdentifier {
@@ -517,6 +468,26 @@ extension QuizIdentifier {
         NSLocalizedString(self.titleKey, tableName: "general", comment: "")
     }
 }
+
+extension QuizIdentifier {
+    var shortsCategory: String {
+        switch self {
+        case .serve: return "serve"
+        case .forehand: return "forehand"
+        case .backhand: return "backhand"
+        case .volley: return "volley"
+        case .tactics: return "mental"
+        case .legwork: return "legwork"
+        }
+    }
+}
+
+extension QuizDifficulty {
+    var localizedAdjective: String {
+        NSLocalizedString(self.titleKeyAdjective, tableName: "general", comment: "")
+    }
+}
+
 
 
 struct PressableCardButtonStyle: ButtonStyle {
