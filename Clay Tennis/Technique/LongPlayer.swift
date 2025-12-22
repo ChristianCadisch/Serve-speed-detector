@@ -2,169 +2,293 @@
 //  LongPlayer.swift
 //  Clay Tennis
 //
-//  Fullscreen long-form YouTube player
+//  Premium lesson-style UI for long-form videos.
+//  Bullets only, bottom primary CTA, gradient style consistent with CoachHub.
 //
 
 import SwiftUI
 import WebKit
-import UIKit
+
+// MARK: - Notification
+
+extension Notification.Name {
+    static let requestLongLessonFullscreen = Notification.Name("requestLongLessonFullscreen")
+}
+
+// MARK: - LongPlayer
 
 struct LongPlayer: View {
 
     let youtubeId: String
+    let title: String
+    let subtitle: String
+    let durationText: String
+    let learningPoints: [String]
 
-    @Environment(\.dismiss) private var dismiss
+    // Accent (match Clay Tennis theme)
+    private let gradientColors: [Color] = [.green, .mint]
 
     var body: some View {
         ZStack {
 
-            Color.black
+            Color(.systemBackground)
                 .ignoresSafeArea()
 
-            YouTubeEmbedView(youtubeId: youtubeId)
-                .ignoresSafeArea()
+            VStack(spacing: 0) {
 
-            // MARK: - Close button
-            VStack {
-                HStack {
-                    Button {
-                        dismiss()
-                    } label: {
-                        Image(systemName: "xmark")
-                            .font(.system(size: 16, weight: .semibold))
-                            .foregroundStyle(.white)
-                            .padding(12)
-                            .background(
-                                Circle()
-                                    .fill(Color.black.opacity(0.6))
-                            )
+                // MARK: - Hero Poster (non-interactive)
+                ZStack {
+
+                    RoundedRectangle(cornerRadius: 22, style: .continuous)
+                        .fill(Color(.secondarySystemBackground))
+                        .shadow(color: .black.opacity(0.12), radius: 28, y: 18)
+
+                    ZStack {
+                        YouTubePosterWebView(youtubeId: youtubeId)
+                            .allowsHitTesting(false) // ⬅️ non-interactive
+
+                        // Demote YouTube chrome
+                        LinearGradient(
+                            colors: [
+                                Color.black.opacity(0.55),
+                                Color.black.opacity(0.15),
+                                Color.clear
+                            ],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
                     }
-                    .padding(.leading, 20)
-                    .padding(.top, 20)
-
-                    Spacer()
+                    .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                    .padding(6)
                 }
+                .aspectRatio(16.0 / 9.0, contentMode: .fit)
+                .padding(.horizontal, 20)
+                .padding(.top, 20)
+
+                // MARK: - Lesson Meta
+                VStack(alignment: .leading, spacing: 14) {
+
+                    Text(subtitle.uppercased())
+                        .font(.caption.bold())
+                        .tracking(1)
+                        .foregroundStyle(.secondary)
+
+                    Text(title)
+                        .font(.title2.weight(.semibold))
+
+                    HStack(spacing: 6) {
+                        Image(systemName: "clock")
+                        Text(durationText)
+                    }
+                    .font(.subheadline.weight(.medium))
+                    .foregroundStyle(.secondary)
+
+                    // MARK: - Learning Bullets
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("You’ll learn")
+                            .font(.subheadline.weight(.semibold))
+
+                        ForEach(learningPoints, id: \.self) { point in
+                            HStack(alignment: .top, spacing: 10) {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .foregroundStyle(.green)
+                                Text(point)
+                                    .font(.subheadline)
+                            }
+                        }
+                    }
+                    .padding(.top, 6)
+                }
+                .padding(.horizontal, 24)
+                .padding(.top, 22)
+
                 Spacer()
+
+                // MARK: - Bottom Primary CTA (consistent style)
+                Button {
+                    NotificationCenter.default.post(
+                        name: .requestLongLessonFullscreen,
+                        object: nil
+                    )
+                } label: {
+                    HStack(spacing: 12) {
+                        Image(systemName: "play.fill")
+                            .font(.title3.weight(.semibold))
+
+                        Text("START LESSON")
+                            .font(.headline.weight(.semibold))
+
+                        Spacer()
+
+                    }
+                    .foregroundStyle(.white)
+                    .padding(.horizontal, 22)
+                    .frame(height: 64)
+                    .background(
+                        LinearGradient(
+                            colors: gradientColors,
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                    .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
+                    .shadow(color: .black.opacity(0.25), radius: 12, y: 6)
+                }
+                .buttonStyle(.plain)
+                .padding(.horizontal, 22)
+                .padding(.bottom, 24)
             }
         }
+        .background(
+            LongLessonFullscreenBridge(youtubeId: youtubeId)
+                .opacity(0)
+        )
     }
 }
 
-//
-// MARK: - YouTube Embed WebView
-//
+// MARK: - Poster WebView (static)
 
-private struct YouTubeEmbedView: UIViewRepresentable {
+struct YouTubePosterWebView: UIViewRepresentable {
 
     let youtubeId: String
+
+    func makeUIView(context: Context) -> WKWebView {
+        let config = WKWebViewConfiguration()
+        let prefs = WKWebpagePreferences()
+        prefs.allowsContentJavaScript = true
+        config.defaultWebpagePreferences = prefs
+
+        let webView = WKWebView(frame: .zero, configuration: config)
+        webView.isOpaque = false
+        webView.backgroundColor = .black
+        webView.scrollView.isScrollEnabled = false
+        webView.scrollView.bounces = false
+        webView.allowsBackForwardNavigationGestures = false
+
+        let url = URL(string: "https://www.youtube.com/shorts/\(youtubeId)")!
+        webView.load(URLRequest(url: url))
+
+        return webView
+    }
+
+    func updateUIView(_ uiView: WKWebView, context: Context) {}
+}
+
+// MARK: - Fullscreen Bridge (same strategy as ShortsPlayer)
+
+struct LongLessonFullscreenBridge: UIViewRepresentable {
+
+    let youtubeId: String
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator()
+    }
 
     func makeUIView(context: Context) -> WKWebView {
 
         let config = WKWebViewConfiguration()
         config.allowsInlineMediaPlayback = true
         config.mediaTypesRequiringUserActionForPlayback = []
-        
-        if #available(iOS 14.0, *) {
-            config.allowsPictureInPictureMediaPlayback = true
-        }
 
         let prefs = WKWebpagePreferences()
         prefs.allowsContentJavaScript = true
         config.defaultWebpagePreferences = prefs
 
         let webView = WKWebView(frame: .zero, configuration: config)
-        webView.backgroundColor = .black
         webView.isOpaque = false
+        webView.backgroundColor = .black
         webView.scrollView.isScrollEnabled = false
-        webView.scrollView.bounces = false
+        webView.navigationDelegate = context.coordinator
 
-        let html = embedHTML(for: youtubeId)
+        context.coordinator.webView = webView
 
-        webView.loadHTMLString(
-            html,
-            baseURL: URL(string: "https://www.youtube.com")
-        )
+        let url = URL(string: "https://www.youtube.com/shorts/\(youtubeId)")!
+        webView.load(URLRequest(url: url))
 
         return webView
     }
 
-    func updateUIView(_ uiView: WKWebView, context: Context) {}
+    func updateUIView(_ webView: WKWebView, context: Context) {}
 
-    private func embedHTML(for id: String) -> String {
-        """
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-            <style>
-                * {
-                    margin: 0;
-                    padding: 0;
-                    box-sizing: border-box;
+    final class Coordinator: NSObject, WKNavigationDelegate {
+
+        weak var webView: WKWebView?
+        private var pageLoaded = false
+
+        override init() {
+            super.init()
+            NotificationCenter.default.addObserver(
+                self,
+                selector: #selector(enterFullscreen),
+                name: .requestLongLessonFullscreen,
+                object: nil
+            )
+        }
+
+        deinit {
+            NotificationCenter.default.removeObserver(self)
+        }
+
+        func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+            pageLoaded = true
+
+            webView.evaluateJavaScript("""
+            document.querySelectorAll('video').forEach(v => {
+                v.pause();
+                v.currentTime = 0;
+                v.muted = true;
+            });
+            """)
+        }
+
+
+        @objc
+        private func enterFullscreen() {
+            guard pageLoaded, let webView else { return }
+
+            webView.evaluateJavaScript("""
+            (function() {
+                const video = document.querySelector('video');
+                if (!video) return;
+
+                video.muted = false;
+                video.volume = 1.0;
+
+                const playPromise = video.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        if (video.webkitEnterFullscreen) {
+                            video.webkitEnterFullscreen();
+                        }
+                    }).catch(() => {
+                        if (video.webkitEnterFullscreen) {
+                            video.webkitEnterFullscreen();
+                        }
+                    });
+                } else {
+                    if (video.webkitEnterFullscreen) {
+                        video.webkitEnterFullscreen();
+                    }
                 }
-                html, body {
-                    width: 100%;
-                    height: 100%;
-                    background-color: black;
-                    overflow: hidden;
-                }
-                iframe {
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    border: none;
-                }
-            </style>
-        </head>
-        <body>
-            <iframe
-                src="https://www.youtube-nocookie.com/embed/\(id)?playsinline=1&autoplay=0&rel=0&modestbranding=1"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
-                frameborder="0">
-            </iframe>
-        </body>
-        </html>
-        """
+            })();
+            """)
+
+        }
     }
 }
 
-
-//
-// MARK: - Orientation Manager
-//
-
-enum OrientationManager {
-
-    static func lockLandscape() {
-        let orientation = UIInterfaceOrientation.landscapeRight
-        UIDevice.current.setValue(orientation.rawValue, forKey: "orientation")
-        UINavigationController.attemptRotationToDeviceOrientation()
-    }
-
-    static func unlockOrientation() {
-        let orientation = UIInterfaceOrientation.portrait
-        UIDevice.current.setValue(orientation.rawValue, forKey: "orientation")
-        UINavigationController.attemptRotationToDeviceOrientation()
-    }
-}
-
+// MARK: - Preview
 
 #Preview {
-    let longVideo = TrainingVideo(
-        id: "serve_masterclass_beginners",
+    LongPlayer(
         youtubeId: "IiRGdagtOKE",
-        category: "serve",
-        title: "Serve Technique Masterclass for Beginners",
-        durationSeconds: 780,
-        type: "technique",
-        level: "advanced",
-        filetype: "longform"
+        title: "Build a Reliable Tennis Serve from Scratch",
+        subtitle: "Serve · Technique",
+        durationText: "17 min",
+        learningPoints: [
+            "Correct continental grip",
+            "Simple, repeatable service motion",
+            "Building rhythm and consistency"
+        ]
     )
-
-    return NavigationStack {
-        LongPlayer(youtubeId: longVideo.youtubeId)
-    }
 }

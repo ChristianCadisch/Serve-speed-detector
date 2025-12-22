@@ -26,16 +26,28 @@ struct TheoryView: View {
         NavigationStack {
             content
                 .navigationDestination(item: $selectedVideo) { video in
-                    ShortsPlayer(
-                        videoId: video.id,
-                        youtubeId: video.youtubeId,
-                        title: video.title,
-                        subtitle: "\(video.durationSeconds)-second technique tip",
-                        filetype: video.filetype
-                    )
-                    .navigationTitle(video.title)
-                    .navigationBarTitleDisplayMode(.inline)
+                    if video.filetype == "long" {
+                        LongPlayer(
+                            youtubeId: video.youtubeId,
+                            title: video.title,
+                            subtitle: "\(video.category.uppercased()) · \(video.level.uppercased())",
+                            durationText: video.durationText,
+                            learningPoints: video.learningPoints ?? [""]
+                        )
+                        .navigationTitle(video.title)
+                        .navigationBarTitleDisplayMode(.inline)
+                    } else {
+                        ShortsPlayer(
+                            videoId: video.id,
+                            youtubeId: video.youtubeId,
+                            title: video.title,
+                            subtitle: "\(video.durationSeconds)-second technique tip"
+                        )
+                        .navigationTitle(video.title)
+                        .navigationBarTitleDisplayMode(.inline)
+                    }
                 }
+
 
         }
     }
@@ -90,15 +102,23 @@ struct TheoryView: View {
     }
     
     private func loadVideos() {
-        guard let url = Bundle.main.url(forResource: "videos", withExtension: "json"),
-              let data = try? Data(contentsOf: url),
-              let decoded = try? JSONDecoder().decode([TrainingVideo].self, from: data)
-        else {
+        guard let url = Bundle.main.url(forResource: "videos", withExtension: "json") else {
+            print("❌ [TheoryView] videos.json not found")
             return
         }
 
-        allVideos = decoded
+        do {
+            let data = try Data(contentsOf: url)
+            let decoded = try JSONDecoder().decode([TrainingVideo].self, from: data)
+            allVideos = decoded
+            print("✅ [TheoryView] Loaded \(decoded.count) videos")
+        } catch {
+            print("❌ [TheoryView] Failed to decode videos.json:")
+            print(error)
+            allVideos = []
+        }
     }
+
 
     
     fileprivate struct TopicFilterPill: View {
@@ -465,13 +485,26 @@ struct TrainingVideo: Identifiable, Decodable, Hashable {
     let type: String
     let level: String
     let filetype: String
+    let learningPoints: [String]?
 
     var durationText: String {
-        "\(durationSeconds)s"
+        if filetype == "short" {
+            return "\(durationSeconds)s"
+        } else {
+            return "\(durationSeconds) min"
+        }
     }
 
     var thumbnailURL: URL {
         URL(string: "https://img.youtube.com/vi/\(youtubeId)/hqdefault.jpg")!
+    }
+
+    var isLongForm: Bool {
+        filetype == "long"
+    }
+
+    var resolvedLearningPoints: [String] {
+        learningPoints ?? []
     }
 }
 

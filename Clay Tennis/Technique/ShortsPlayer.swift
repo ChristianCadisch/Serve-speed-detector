@@ -11,15 +11,16 @@ import SwiftUI
 import Foundation
 import Observation
 
+
+// MARK: - ShortsPlayer
+
 struct ShortsPlayer: View {
 
     let videoId: String
     let youtubeId: String
     let title: String
     let subtitle: String
-    let filetype: String
 
-    @State private var showFullscreen = false
     @State private var isVisible = true
 
     @Environment(\.dismiss) private var dismiss
@@ -27,13 +28,6 @@ struct ShortsPlayer: View {
     // Clay Tennis accent
     private let accentGreen = Color.green.opacity(0.85)
 
-    private var isLongForm: Bool {
-        filetype == "long"
-    }
-
-    private var cardAspectRatio: CGFloat {
-        isLongForm ? 9.0 / 9.0 : 9.0 / 16.0
-    }
 
     var body: some View {
         ZStack {
@@ -82,34 +76,10 @@ struct ShortsPlayer: View {
                     .clipShape(RoundedRectangle(cornerRadius: 28))
                     .padding(6)
                 }
-                .aspectRatio(cardAspectRatio, contentMode: .fit)
+                .aspectRatio(9.0 / 16.0, contentMode: .fit)
                 .padding(.horizontal, 16)
-                .padding(.bottom, 28)
+                .padding(.bottom, 20)
 
-                Spacer()
-            }
-
-            // MARK: - Fullscreen affordance for long-form
-            if isLongForm {
-                VStack {
-                    HStack {
-                        Spacer()
-                        Button {
-                            showFullscreen = true
-                        } label: {
-                            Image(systemName: "arrow.up.left.and.arrow.down.right")
-                                .font(.system(size: 14, weight: .semibold))
-                                .foregroundStyle(.white)
-                                .padding(10)
-                                .background(
-                                    Circle()
-                                        .fill(Color.black.opacity(0.45))
-                                )
-                        }
-                        .padding(12)
-                    }
-                    Spacer()
-                }
             }
         }
         .onAppear {
@@ -224,6 +194,7 @@ struct YouTubeWebView: UIViewRepresentable {
             """)
         }
     }
+
 }
 
 // MARK: - Watched Video Store
@@ -270,6 +241,5 @@ final class WatchedVideoStore {
         videoId: "gagii",
         youtubeId: "QdiU1ElVxb8",
     title: "hoi",
-    subtitle: "du",
-    filetype: "long")
+    subtitle: "du")
 }

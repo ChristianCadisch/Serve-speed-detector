@@ -1,15 +1,5 @@
 [
-    {
-      "id": "idunno",
-      "youtubeId": "IiRGdagtOKE",
-      "category": "serve",
-      "title": "Long",
-      "durationSeconds": 30,
-      "durationMinutes": 13,
-      "type": "technique",
-      "level": "advanced",
-      "filetype": "long"
-    },
+   
 
   {
     "id": "serve_basics_55s",
@@ -21,6 +11,23 @@
     "type": "technique",
     "level": "beginner"
   },
+  
+  {
+    "id": "serve_lesson_reliable_serve_001",
+    "youtubeId": "IiRGdagtOKE",
+    "category": "serve",
+    "title": "Build a Reliable Tennis Serve from Scratch",
+    "durationSeconds": 780,
+    "type": "technique",
+    "level": "advanced",
+    "filetype": "long",
+    "learningPoints": [
+      "Correct continental grip",
+      "Simple, repeatable service motion",
+      "Building rhythm and consistency"
+    ]
+  },
+  
   {
     "id": "serve_djokovic_30s",
     "youtubeId": "AQP4YQpD3VA",
