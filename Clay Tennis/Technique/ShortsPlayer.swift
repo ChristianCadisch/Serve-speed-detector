@@ -7,21 +7,33 @@
 //
 
 import WebKit
-
 import SwiftUI
+import Foundation
+import Observation
 
 struct ShortsPlayer: View {
 
+    let videoId: String
     let youtubeId: String
     let title: String
     let subtitle: String
+    let filetype: String
 
+    @State private var showFullscreen = false
     @State private var isVisible = true
-    @Environment(\.dismiss) private var dismiss
 
+    @Environment(\.dismiss) private var dismiss
 
     // Clay Tennis accent
     private let accentGreen = Color.green.opacity(0.85)
+
+    private var isLongForm: Bool {
+        filetype == "long"
+    }
+
+    private var cardAspectRatio: CGFloat {
+        isLongForm ? 9.0 / 9.0 : 9.0 / 16.0
+    }
 
     var body: some View {
         ZStack {
@@ -70,24 +82,47 @@ struct ShortsPlayer: View {
                     .clipShape(RoundedRectangle(cornerRadius: 28))
                     .padding(6)
                 }
+                .aspectRatio(cardAspectRatio, contentMode: .fit)
                 .padding(.horizontal, 16)
                 .padding(.bottom, 28)
 
                 Spacer()
             }
+
+            // MARK: - Fullscreen affordance for long-form
+            if isLongForm {
+                VStack {
+                    HStack {
+                        Spacer()
+                        Button {
+                            showFullscreen = true
+                        } label: {
+                            Image(systemName: "arrow.up.left.and.arrow.down.right")
+                                .font(.system(size: 14, weight: .semibold))
+                                .foregroundStyle(.white)
+                                .padding(10)
+                                .background(
+                                    Circle()
+                                        .fill(Color.black.opacity(0.45))
+                                )
+                        }
+                        .padding(12)
+                    }
+                    Spacer()
+                }
+            }
         }
-        .onAppear { isVisible = true }
-        .onDisappear { isVisible = false }
+        .onAppear {
+            isVisible = true
+            WatchedVideoStore.shared.markWatched(videoId)
+        }
+        .onDisappear {
+            isVisible = false
+        }
     }
-
-
 }
 
-
-
-
 // MARK: - YouTube WebView Wrapper
-
 
 struct YouTubeWebView: UIViewRepresentable {
 
@@ -114,7 +149,6 @@ struct YouTubeWebView: UIViewRepresentable {
         webView.scrollView.backgroundColor = .black
         webView.navigationDelegate = context.coordinator
 
-        // Disable all scrolling / gestures inside the WebView
         webView.scrollView.isScrollEnabled = false
         webView.scrollView.bounces = false
         webView.scrollView.alwaysBounceVertical = false
@@ -151,8 +185,6 @@ struct YouTubeWebView: UIViewRepresentable {
             disableYouTubeNavigation(webView)
         }
 
-        // MARK: Playback control
-
         func play(_ webView: WKWebView) {
             guard pageLoaded else { return }
 
@@ -175,8 +207,6 @@ struct YouTubeWebView: UIViewRepresentable {
             """)
         }
 
-        // MARK: Disable Shorts swipe / scroll navigation
-
         private func disableYouTubeNavigation(_ webView: WKWebView) {
             webView.evaluateJavaScript("""
             document.documentElement.style.overflow = 'hidden';
@@ -196,13 +226,50 @@ struct YouTubeWebView: UIViewRepresentable {
     }
 }
 
+// MARK: - Watched Video Store
+
+@Observable
+final class WatchedVideoStore {
+
+    static let shared = WatchedVideoStore()
+
+    private let storageKey = "WatchedTrainingVideos"
+    private(set) var watchedIDs: Set<String> = []
+
+    private init() {
+        load()
+    }
+
+    func markWatched(_ id: String) {
+        guard !watchedIDs.contains(id) else { return }
+        watchedIDs.insert(id)
+        persist()
+    }
+
+    func isWatched(_ id: String) -> Bool {
+        watchedIDs.contains(id)
+    }
+
+    private func load() {
+        let ids = UserDefaults.standard.stringArray(forKey: storageKey) ?? []
+        watchedIDs = Set(ids)
+    }
+
+    private func persist() {
+        UserDefaults.standard.set(Array(watchedIDs), forKey: storageKey)
+    }
+}
+
 
 
 
 // MARK: - Preview
 
 #Preview {
-    ShortsPlayer(youtubeId: "y-HODjYgll8",
+    ShortsPlayer(
+        videoId: "gagii",
+        youtubeId: "QdiU1ElVxb8",
     title: "hoi",
-    subtitle: "du")
+    subtitle: "du",
+    filetype: "long")
 }

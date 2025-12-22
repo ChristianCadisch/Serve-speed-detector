@@ -27,9 +27,11 @@ struct TheoryView: View {
             content
                 .navigationDestination(item: $selectedVideo) { video in
                     ShortsPlayer(
+                        videoId: video.id,
                         youtubeId: video.youtubeId,
                         title: video.title,
-                        subtitle: "\(video.durationSeconds)-second technique tip"
+                        subtitle: "\(video.durationSeconds)-second technique tip",
+                        filetype: video.filetype
                     )
                     .navigationTitle(video.title)
                     .navigationBarTitleDisplayMode(.inline)
@@ -88,7 +90,7 @@ struct TheoryView: View {
     }
     
     private func loadVideos() {
-        guard let url = Bundle.main.url(forResource: "shorts", withExtension: "json"),
+        guard let url = Bundle.main.url(forResource: "videos", withExtension: "json"),
               let data = try? Data(contentsOf: url),
               let decoded = try? JSONDecoder().decode([TrainingVideo].self, from: data)
         else {
@@ -295,10 +297,17 @@ fileprivate struct LargeVideoCard: View {
                     image
                         .resizable()
                         .scaledToFill()
+                        .saturation(isWatched ? 0.35 : 1.0)
+                        .overlay {
+                            if isWatched {
+                                Color.black.opacity(0.15)
+                            }
+                        }
                 default:
                     Color(.systemGray5)
                 }
             }
+
             .frame(
                 width: cardWidth,
                 height: cardWidth / aspectRatio
@@ -323,6 +332,11 @@ fileprivate struct LargeVideoCard: View {
                     .font(.headline)
                     .foregroundColor(.white)
                     .lineLimit(2)
+                
+                if isWatched {
+                    watchedBadge
+                }
+
 
                 Text(video.durationText)
                     .font(.caption.weight(.semibold))
@@ -332,6 +346,47 @@ fileprivate struct LargeVideoCard: View {
         }
         .cornerRadius(22)
     }
+    
+    private var isWatched: Bool {
+        WatchedVideoStore.shared.isWatched(video.id)
+    }
+
+    private var watchedOverlay: some View {
+        ZStack {
+            Color.black.opacity(0.18)
+
+            VStack {
+                HStack {
+                    Spacer()
+                    Image(systemName: "checkmark.circle.fill")
+                        .font(.system(size: 18, weight: .semibold))
+                        .foregroundStyle(.white.opacity(0.85))
+                        .padding(8)
+                }
+                Spacer()
+            }
+        }
+    }
+    private var watchedBadge: some View {
+        HStack(spacing: 6) {
+            Image(systemName: "checkmark")
+                .font(.system(size: 11, weight: .semibold))
+
+            Text("Watched")
+                .font(.caption2.weight(.semibold))
+        }
+        .foregroundStyle(.white)
+        .padding(.horizontal, 10)
+        .padding(.vertical, 6)
+        .background(
+            Capsule()
+                .fill(.ultraThinMaterial)
+        )
+    }
+
+    
+    
+    
 }
 
 //
@@ -409,6 +464,7 @@ struct TrainingVideo: Identifiable, Decodable, Hashable {
     let durationSeconds: Int
     let type: String
     let level: String
+    let filetype: String
 
     var durationText: String {
         "\(durationSeconds)s"
