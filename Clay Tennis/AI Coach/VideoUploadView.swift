@@ -81,6 +81,22 @@ struct VideoUploadView: View {
             }
         }
     }
+    
+    private func isVideoSizeValid(_ url: URL) -> Bool {
+        guard let values = try? url.resourceValues(forKeys: [.fileSizeKey]),
+              let fileSize = values.fileSize else {
+            print("❌ [SIZE] Could not determine video size")
+            return false
+        }
+
+        let maxSizeBytes = 250 * 1024 * 1024 // 250 MB
+        let sizeMB = Double(fileSize) / (1024 * 1024)
+
+        print("📏 [SIZE] Video size: \(String(format: "%.1f", sizeMB)) MB")
+
+        return fileSize <= maxSizeBytes
+    }
+
 
     // MARK: - Step 1
 
@@ -181,6 +197,17 @@ struct VideoUploadView: View {
         Button {
             guard let url = localVideoURL else { return }
             print("⬆️ [UPLOAD] Submit tapped")
+            
+            guard isVideoSizeValid(url) else {
+                    errorMessage = """
+                    This video is larger than 250 MB.
+
+                    Tip: Short serve clips (5–8 seconds around contact) upload fastest and work best for coach review.
+                    """
+                    print("❌ [SIZE] Video too large — upload blocked")
+                    return
+                }
+            
             uploadVideo(at: url)
         } label: {
             Text(isUploading ? "Submitting…" : "Submit for Coach Review")

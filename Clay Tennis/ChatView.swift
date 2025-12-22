@@ -35,9 +35,6 @@ struct ChatView: View {
                                             onTalkToClay: {
                                                 isFocused = true
                                             },
-                                            onTheory: {
-                                                actions.openTheory()
-                                            },
                                             onRealCoach: {
                                                 navigateToFindCoach = true
                                             }
@@ -134,7 +131,6 @@ struct ChatView: View {
 private struct CoachEntryCards: View {
     
     let onTalkToClay: () -> Void
-    let onTheory: () -> Void
     let onRealCoach: () -> Void
     
     var body: some View {
@@ -153,15 +149,6 @@ private struct CoachEntryCards: View {
                 action: onTalkToClay
             )
             
-            // 2️⃣ Theory & Quizzes — secondary, green
-            NavigationActionCard(
-                title: "Theory & Quizzes",
-                subtitle: "Build fundamentals off-court",
-                icon: "brain.head.profile",
-                gradient: [.green, Color.green.opacity(0.7)],
-                isPrimary: false,
-                action: onTheory
-            )
             
             // 3️⃣ Work with a Real Coach — escalation, orange
             NavigationActionCard(
