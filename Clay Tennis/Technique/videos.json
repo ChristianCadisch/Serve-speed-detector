@@ -7,17 +7,32 @@
     "category": "serve",
     "filetype": "shorts",
     "title": "Tennis Serve Basics",
-    "durationSeconds": 55,
+    "duration": 55,
     "type": "technique",
     "level": "beginner"
   },
   
   {
+    "id": "serve_lesson_reliable_serve_002",
+    "youtubeId": "mOlf4pcvUxM",
+    "category": "serve",
+    "title": "9 tips to Serve Like a Pro",
+    "duration": 4,
+    "type": "technique",
+    "level": "advanced",
+    "filetype": "long",
+    "learningPoints": [
+      "Correct continental grip",
+      "Simple, repeatable service motion",
+      "Building rhythm and consistency"
+    ]
+  },
+  {
     "id": "serve_lesson_reliable_serve_001",
     "youtubeId": "IiRGdagtOKE",
     "category": "serve",
-    "title": "Build a Reliable Tennis Serve from Scratch",
-    "durationSeconds": 780,
+    "title": "Build a Reliable Serve",
+    "duration": 19,
     "type": "technique",
     "level": "advanced",
     "filetype": "long",
@@ -34,7 +49,7 @@
     "category": "serve",
     "filetype": "shorts",
     "title": "Djokovic Serve",
-    "durationSeconds": 30,
+    "duration": 30,
     "type": "technique",
     "level": "advanced"
   },
@@ -44,7 +59,7 @@
     "category": "serve",
     "filetype": "shorts",
     "title": "The Kick Serve",
-    "durationSeconds": 36,
+    "duration": 36,
     "type": "technique",
     "level": "advanced"
   },
@@ -54,7 +69,7 @@
     "category": "serve",
     "filetype": "shorts",
     "title": "Ball Toss",
-    "durationSeconds": 41,
+    "duration": 41,
     "type": "technique",
     "level": "beginner"
   },
@@ -64,7 +79,7 @@
     "category": "serve",
     "filetype": "shorts",
     "title": "Tennis Serve Basics",
-    "durationSeconds": 33,
+    "duration": 33,
     "type": "drill",
     "level": "beginner"
   },
@@ -74,7 +89,7 @@
     "category": "serve",
     "filetype": "shorts",
     "title": "Kick Serve",
-    "durationSeconds": 21,
+    "duration": 21,
     "type": "technique",
     "level": "advanced"
   },
@@ -84,7 +99,7 @@
     "category": "serve",
     "filetype": "shorts",
     "title": "Kick Serve",
-    "durationSeconds": 48,
+    "duration": 48,
     "type": "technique",
     "level": "advanced"
   },
@@ -94,7 +109,7 @@
     "category": "serve",
     "filetype": "shorts",
     "title": "Timing",
-    "durationSeconds": 45,
+    "duration": 45,
     "type": "technique",
     "level": "beginner"
   },
@@ -104,7 +119,7 @@
     "category": "serve",
     "filetype": "shorts",
     "title": "Tennis Serve Basics",
-    "durationSeconds": 37,
+    "duration": 37,
     "type": "drill",
     "level": "beginner"
   },
@@ -114,7 +129,7 @@
     "category": "serve",
     "filetype": "shorts",
     "title": "Kick Serve",
-    "durationSeconds": 41,
+    "duration": 41,
     "type": "technique",
     "level": "advanced"
   },
@@ -124,7 +139,7 @@
     "category": "forehand",
     "filetype": "shorts",
     "title": "Tennis Forehand Basics",
-    "durationSeconds": 39,
+    "duration": 39,
     "type": "technique",
     "level": "beginner"
   },
@@ -134,7 +149,7 @@
     "category": "forehand",
     "filetype": "shorts",
     "title": "Tennis Forehand Basics",
-    "durationSeconds": 10,
+    "duration": 10,
     "type": "technique",
     "level": "beginner"
   },
@@ -144,7 +159,7 @@
     "category": "forehand",
     "filetype": "shorts",
     "title": "Tennis Forehand Basics",
-    "durationSeconds": 33,
+    "duration": 33,
     "type": "technique",
     "level": "beginner"
   },
@@ -154,7 +169,7 @@
     "category": "forehand",
     "filetype": "shorts",
     "title": "Forehand drill",
-    "durationSeconds": 55,
+    "duration": 55,
     "type": "drill",
     "level": "beginner"
   },
@@ -164,7 +179,7 @@
     "category": "forehand",
     "filetype": "shorts",
     "title": "Djokovic Forehand",
-    "durationSeconds": 11,
+    "duration": 11,
     "type": "technique",
     "level": "beginner"
   },
@@ -174,7 +189,7 @@
     "category": "backhand",
     "filetype": "shorts",
     "title": "Zverev Backhand",
-    "durationSeconds": 30,
+    "duration": 30,
     "type": "technique",
     "level": "beginner"
   },
@@ -184,7 +199,7 @@
     "category": "backhand",
     "filetype": "shorts",
     "title": "Alcaraz Backhand",
-    "durationSeconds": 10,
+    "duration": 10,
     "type": "technique",
     "level": "beginner"
   },
@@ -194,7 +209,7 @@
     "category": "backhand",
     "filetype": "shorts",
     "title": "Backhand Basics",
-    "durationSeconds": 29,
+    "duration": 29,
     "type": "technique",
     "level": "beginner"
   },
@@ -204,7 +219,7 @@
     "category": "backhand",
     "filetype": "shorts",
     "title": "One-handed Backhand",
-    "durationSeconds": 31,
+    "duration": 31,
     "type": "technique",
     "level": "beginner"
   },
@@ -214,7 +229,7 @@
     "category": "volley",
     "filetype": "shorts",
     "title": "Volley Basics",
-    "durationSeconds": 32,
+    "duration": 32,
     "type": "technique",
     "level": "beginner"
   },
@@ -224,7 +239,7 @@
     "category": "serve",
     "filetype": "shorts",
     "title": "Alcaraz Serve",
-    "durationSeconds": 43,
+    "duration": 43,
     "type": "technique",
     "level": "beginner"
   },
@@ -234,7 +249,7 @@
     "category": "volley",
     "filetype": "shorts",
     "title": "Volley Basics",
-    "durationSeconds": 28,
+    "duration": 28,
     "type": "technique",
     "level": "beginner"
   },
@@ -244,7 +259,7 @@
     "category": "volley",
     "filetype": "shorts",
     "title": "Forehand Volley",
-    "durationSeconds": 51,
+    "duration": 51,
     "type": "technique",
     "level": "beginner"
   },
@@ -254,7 +269,7 @@
     "category": "volley",
     "filetype": "shorts",
     "title": "Volley Basics",
-    "durationSeconds": 56,
+    "duration": 56,
     "type": "technique",
     "level": "beginner"
   },
@@ -264,7 +279,7 @@
     "category": "volley",
     "filetype": "shorts",
     "title": "Serve Drill",
-    "durationSeconds": 28,
+    "duration": 28,
     "type": "drill",
     "level": "beginner"
   },
@@ -274,7 +289,7 @@
     "category": "mental",
     "filetype": "shorts",
     "title": "Confidence Building",
-    "durationSeconds": 54,
+    "duration": 54,
     "type": "technique",
     "level": "beginner"
   },
@@ -284,7 +299,7 @@
     "category": "mental",
     "filetype": "shorts",
     "title": "Bad Days",
-    "durationSeconds": 38,
+    "duration": 38,
     "type": "technique",
     "level": "beginner"
   },
@@ -294,7 +309,7 @@
     "category": "serve",
     "filetype": "shorts",
     "title": "Serve Toss",
-    "durationSeconds": 57,
+    "duration": 57,
     "type": "technique",
     "level": "beginner"
   },
@@ -304,7 +319,7 @@
     "category": "mental",
     "filetype": "shorts",
     "title": "Djokovic Tips",
-    "durationSeconds": 50,
+    "duration": 50,
     "type": "technique",
     "level": "beginner"
   },
@@ -314,7 +329,7 @@
     "category": "serve",
     "filetype": "shorts",
     "title": "Ball Toss",
-    "durationSeconds": 59,
+    "duration": 59,
     "type": "technique",
     "level": "beginner"
   },
@@ -324,7 +339,7 @@
     "category": "forehand",
     "filetype": "shorts",
     "title": "Gain Strength",
-    "durationSeconds": 46,
+    "duration": 46,
     "type": "technique",
     "level": "beginner"
   }

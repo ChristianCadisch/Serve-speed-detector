@@ -2,8 +2,9 @@
 //  TheoryView.swift
 //  Clay Tennis
 //
-//  Calm, Editorial Training Hub
+//  Unified, Editorial Learning Hub
 //
+
 import SwiftUI
 
 struct TheoryView: View {
@@ -18,7 +19,7 @@ struct TheoryView: View {
     private let passThreshold: Double = 0.7
     @State private var allVideos: [TrainingVideo] = []
     @State private var selectedVideo: TrainingVideo?
-
+    @State private var showLessons = false
 
 
     // MARK: - Body
@@ -32,7 +33,7 @@ struct TheoryView: View {
                             title: video.title,
                             subtitle: "\(video.category.uppercased()) · \(video.level.uppercased())",
                             durationText: video.durationText,
-                            learningPoints: video.learningPoints ?? [""]
+                            learningPoints: video.learningPoints ?? []
                         )
                         .navigationTitle(video.title)
                         .navigationBarTitleDisplayMode(.inline)
@@ -41,22 +42,107 @@ struct TheoryView: View {
                             videoId: video.id,
                             youtubeId: video.youtubeId,
                             title: video.title,
-                            subtitle: "\(video.durationSeconds)-second technique tip"
+                            subtitle: "\(video.duration)-second technique tip"
                         )
                         .navigationTitle(video.title)
                         .navigationBarTitleDisplayMode(.inline)
                     }
                 }
-
+                .navigationDestination(isPresented: $showLessons) {
+                    LessonsView(
+                        topic: selectedTopic,
+                        videos: allVideos
+                    )
+                }
 
         }
     }
+    
+    // MARK: - More Lessons Card (FIXED: stronger CTA)
+
+    // MARK: - More Lessons Card (Balanced, Confident CTA)
+
+    fileprivate struct MoreLessonsCard: View {
+
+        private let accentGreen = Color.green
+        private let cardWidth: CGFloat = 220
+        private let aspectRatio: CGFloat = 3.0 / 4.0
+
+        var body: some View {
+            VStack(alignment: .leading, spacing: 14) {
+
+                HStack {
+                    Text("MORE LESSONS")
+                        .font(.caption2.bold())
+                        .tracking(1)
+                        .foregroundStyle(Color.white.opacity(0.85))
+                        .textCase(.uppercase)
+
+                    Spacer()
+
+                    Image(systemName: "chevron.right")
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(Color.white.opacity(0.85))
+                }
+
+                Text("Explore full library")
+                    .font(.system(size: 16, weight: .semibold))
+                    .foregroundStyle(Color.white)
+
+                Text("All short tips and in-depth lessons for this topic.")
+                    .font(.caption)
+                    .foregroundStyle(Color.white.opacity(0.9))
+                    .lineLimit(2)
+
+                Spacer(minLength: 0)
+
+                // Grounded CTA row
+                HStack(spacing: 6) {
+                    Text("Continue learning")
+                        .font(.caption.weight(.semibold))
+                    Image(systemName: "arrow.right")
+                        .font(.caption.weight(.semibold))
+                }
+                .foregroundStyle(Color.white)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 8)
+                .background(
+                    Color.black.opacity(0.18),
+                    in: Capsule()
+                )
+            }
+            .padding(18)
+            .frame(
+                width: cardWidth,
+                height: cardWidth / aspectRatio,
+                alignment: .leading
+            )
+            .background(
+                LinearGradient(
+                    colors: [
+                        accentGreen.opacity(0.78),
+                        accentGreen.opacity(0.45)
+                    ],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                ),
+                in: RoundedRectangle(cornerRadius: 22, style: .continuous)
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 22, style: .continuous)
+                    .stroke(Color.black.opacity(0.08), lineWidth: 0.5)
+            )
+        }
+    }
+
+
+
 
     private var content: some View {
         ScrollView {
-            VStack(spacing: 28) {
+            VStack(spacing: 32) {
                 topicFilter
-                learnSection
+                unifiedLearnSection
                 validateSection
                 Spacer(minLength: 40)
             }
@@ -65,9 +151,6 @@ struct TheoryView: View {
         .onAppear {
             loadHighScores()
             loadVideos()
-        }
-        .onChange(of: selectedTopic) { _ in
-            withAnimation(.easeOut(duration: 0.2)) { }
         }
         .background(
             LinearGradient(
@@ -80,7 +163,6 @@ struct TheoryView: View {
             )
         )
     }
-
 
     // MARK: - Topic Filter
     private var topicFilter: some View {
@@ -100,96 +182,71 @@ struct TheoryView: View {
             .padding(.horizontal)
         }
     }
-    
-    private func loadVideos() {
-        guard let url = Bundle.main.url(forResource: "videos", withExtension: "json") else {
-            print("❌ [TheoryView] videos.json not found")
-            return
-        }
 
-        do {
-            let data = try Data(contentsOf: url)
-            let decoded = try JSONDecoder().decode([TrainingVideo].self, from: data)
-            allVideos = decoded
-            print("✅ [TheoryView] Loaded \(decoded.count) videos")
-        } catch {
-            print("❌ [TheoryView] Failed to decode videos.json:")
-            print(error)
-            allVideos = []
-        }
-    }
-
+    // MARK: - Unified Learn Section (Shorts + Long)
 
     
-    fileprivate struct TopicFilterPill: View {
-        let title: String
-        let isSelected: Bool
-        let onTap: () -> Void
+    private var unifiedLearnSection: some View {
+        let videos = unifiedVideos
 
-        var body: some View {
-            Button(action: onTap) {
-                Text(title)
-                    .font(.caption.weight(.semibold))
-                    .padding(.horizontal, 14)
-                    .padding(.vertical, 8)
-                    .background(background)
-                    .foregroundColor(isSelected ? .white : .secondary)
-                    .shadow(
-                        color: isSelected ? Color.green.opacity(0.25) : .clear,
-                        radius: 6,
-                        y: 2
-                    )
+        return VStack(alignment: .leading, spacing: 12) {
+
+            HStack(alignment: .firstTextBaseline) {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Learn")
+                        .font(.headline)
+
+                    Text("Tips and video tutorials")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+
+                Spacer()
+
+                Button {
+                    showLessons = true
+                } label: {
+                    HStack(spacing: 4) {
+                        Text("Explore all")
+                            .font(.caption)
+                        Image(systemName: "chevron.right")
+                            .font(.caption2.weight(.semibold))
+                    }
+                    .foregroundStyle(.secondary)
+                }
+                .buttonStyle(.plain)
             }
-        }
-
-        @ViewBuilder
-        private var background: some View {
-            if isSelected {
-                Capsule().fill(
-                    LinearGradient(
-                        colors: [
-                            Color.green.opacity(0.9),
-                            Color.mint.opacity(0.9)
-                        ],
-                        startPoint: .leading,
-                        endPoint: .trailing
-                    )
-                )
-            } else {
-                Capsule().fill(Color(.systemGray6))
-            }
-        }
-    }
-
-
-
-    // MARK: - Learn Section (Videos)
-    private var learnSection: some View {
-        let videos = filteredVideos
-
-        return VStack(alignment: .leading, spacing: 14) {
-
-            Text("Learn")
-                .font(.headline)
-                .padding(.horizontal)
+            .padding(.horizontal)
 
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 16) {
+
                     ForEach(videos) { video in
                         Button {
                             selectedVideo = video
                         } label: {
-                            LargeVideoCard(video: video)
+                            UnifiedVideoCard(video: video)
                         }
                         .buttonStyle(.plain)
                     }
+
+                    Button {
+                        showLessons = true
+                    } label: {
+                        MoreLessonsCard()
+                    }
+                    .buttonStyle(.plain)
                 }
                 .padding(.horizontal)
             }
         }
     }
 
+
+
+
     // MARK: - Validate Section (Quizzes)
+
     private var validateSection: some View {
         let next = nextActionDifficulty(for: selectedTopic)
 
@@ -200,7 +257,7 @@ struct TheoryView: View {
                 .padding(.horizontal)
 
             VStack(spacing: 10) {
-                ForEach(QuizDifficulty.allCases, id: \.self) { (difficulty: QuizDifficulty) in
+                ForEach(QuizDifficulty.allCases, id: \.self) { difficulty in
                     let state = quizState(for: selectedTopic, difficulty: difficulty)
                     let isNext = (difficulty == next) && state == .unlocked
 
@@ -227,15 +284,58 @@ struct TheoryView: View {
             }
         }
     }
-    
-    private var filteredVideos: [TrainingVideo] {
-        allVideos
-            .filter { $0.category == selectedTopic.shortsCategory }
-            .sorted { $0.durationSeconds < $1.durationSeconds }
+
+    // MARK: - Video Filtering
+
+    private var unifiedVideos: [TrainingVideo] {
+        let longs = allVideos
+            .filter {
+                $0.category == selectedTopic.shortsCategory &&
+                $0.filetype == "long"
+            }
+            .sorted { $0.duration < $1.duration }
+
+        let shorts = allVideos
+            .filter {
+                $0.category == selectedTopic.shortsCategory &&
+                $0.filetype == "shorts"
+            }
+            .sorted { $0.duration < $1.duration }
+
+        var result: [TrainingVideo] = []
+
+        if let firstLong = longs.first {
+            result.append(firstLong)
+        }
+
+        result.append(contentsOf: shorts.prefix(2))
+
+        return result
     }
 
 
+
+    // MARK: - Data Loading
+
+    private func loadVideos() {
+        guard let url = Bundle.main.url(forResource: "videos", withExtension: "json") else {
+            print("❌ [TheoryView] videos.json not found")
+            return
+        }
+
+        do {
+            let data = try Data(contentsOf: url)
+            allVideos = try JSONDecoder().decode([TrainingVideo].self, from: data)
+            print("✅ [TheoryView] Loaded \(allVideos.count) videos")
+        } catch {
+            print("❌ [TheoryView] Failed to decode videos.json")
+            print(error)
+            allVideos = []
+        }
+    }
+
     // MARK: - Quiz Logic
+
     private func highScore(for topic: QuizIdentifier, difficulty: QuizDifficulty) -> Int {
         highScores[LessonQuizID(topic: topic, difficulty: difficulty), default: 0]
     }
@@ -248,9 +348,7 @@ struct TheoryView: View {
 
     private func quizState(for topic: QuizIdentifier, difficulty: QuizDifficulty) -> DifficultyState {
         let progress = quizProgress(for: topic, difficulty: difficulty)
-        if progress >= passThreshold {
-            return .completed
-        }
+        if progress >= passThreshold { return .completed }
 
         switch difficulty {
         case .easy:
@@ -297,6 +395,211 @@ struct TheoryView: View {
         highScores = loaded
     }
 }
+
+
+// MARK: - Unified Video Card (FIXED)
+
+fileprivate struct UnifiedVideoCard: View {
+    let video: TrainingVideo
+
+    private let cardWidth: CGFloat = 220
+    private let aspectRatio: CGFloat = 3.0 / 4.0
+    private let accentGreen = Color.green
+    
+    private var cardHeight: CGFloat {
+        cardWidth / aspectRatio
+    }
+
+    private var longThumbHeight: CGFloat {
+        cardHeight * 0.52
+    }
+
+
+    var body: some View {
+        Group {
+            if video.isLongForm {
+                longCard
+            } else {
+                shortCard
+            }
+        }
+        .frame(width: cardWidth, height: cardHeight)
+        .background(Color(.systemGray6))
+        .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
+    }
+
+    // MARK: - Shorts
+
+    private var shortCard: some View {
+        ZStack(alignment: .bottomLeading) {
+            AsyncImage(url: video.thumbnailURL) { phase in
+                if case let .success(image) = phase {
+                    image
+                        .resizable()
+                        .scaledToFill()
+                } else {
+                    Color(.systemGray5)
+                }
+            }
+            .frame(width: cardWidth, height: cardHeight)
+            .clipped()
+
+            // Bottom readability only (no full dark overlay)
+            LinearGradient(
+                colors: [
+                    Color.black.opacity(0.75),
+                    Color.black.opacity(0.30),
+                    .clear
+                ],
+                startPoint: .bottom,
+                endPoint: .top
+            )
+            .frame(height: 120)
+            .frame(maxWidth: .infinity, alignment: .bottom)
+
+            VStack(alignment: .leading, spacing: 6) {
+                Text(video.title)
+                    .font(.headline)
+                    .foregroundColor(.white)
+                    .lineLimit(2)
+
+                Text(video.durationText)
+                    .font(.caption.weight(.semibold))
+                    .foregroundColor(.white.opacity(0.92))
+            }
+            .padding()
+        }
+    }
+
+    // MARK: - Long Lessons
+
+    private var longCard: some View {
+        HStack(spacing: 0) {
+
+            // Full-height accent stripe
+            Rectangle()
+                .fill(accentGreen)
+                .frame(width: 4)
+            
+            
+            
+
+            VStack(alignment: .leading, spacing: 14) {
+                
+                
+                // MARK: - Thumbnail (secondary)
+                AsyncImage(url: video.thumbnailURL) { phase in
+                    if case let .success(image) = phase {
+                        image
+                            .resizable()
+                            .scaledToFill()
+                    } else {
+                        Color(.systemGray5)
+                    }
+                }
+                .frame(height: 92)
+                .clipped()
+                .cornerRadius(12)
+
+                // MARK: - Editorial Header
+                HStack(spacing: 6) {
+                    Image(systemName: "star.fill")
+                        .font(.system(size: 11, weight: .semibold))
+                    Text("RECOMMENDED LESSON")
+                        .font(.caption2.bold())
+                        .tracking(0.8)
+                }
+                .foregroundStyle(.secondary)
+
+                // MARK: - Core Content
+                VStack(alignment: .leading, spacing: 6) {
+
+                    Text(video.title)
+                        .font(.system(size: 17, weight: .semibold))
+                        .foregroundStyle(.primary)
+                        .lineLimit(2)
+
+                    HStack(spacing: 6) {
+                        Image(systemName: "graduationcap.fill")
+                            .font(.caption)
+
+                        Text("Coach lesson · \(video.durationText)")
+                            .font(.caption.weight(.semibold))
+
+                    }
+
+                    ProgressView(value: 0)
+                        .progressViewStyle(.linear)
+                        .tint(accentGreen.opacity(0.9))
+                        .frame(height: 4)
+                        .padding(.top, 4)
+                }
+
+
+            }
+            .padding(16)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(Color(.systemGray6))
+        }
+        .frame(width: cardWidth, height: cardHeight)
+        .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
+    }
+
+
+
+
+}
+
+
+
+
+
+// MARK: - Topic Filter Pill
+
+fileprivate struct TopicFilterPill: View {
+    let title: String
+    let isSelected: Bool
+    let onTap: () -> Void
+
+    var body: some View {
+        Button(action: onTap) {
+            Text(title)
+                .font(.caption.weight(.semibold))
+                .padding(.horizontal, 14)
+                .padding(.vertical, 8)
+                .foregroundColor(isSelected ? .white : .secondary)
+                .background(background)
+                .shadow(
+                    color: isSelected ? Color.green.opacity(0.25) : .clear,
+                    radius: 6,
+                    y: 2
+                )
+        }
+        .buttonStyle(.plain)
+    }
+
+    @ViewBuilder
+    private var background: some View {
+        if isSelected {
+            Capsule()
+                .fill(
+                    LinearGradient(
+                        colors: [
+                            Color.green.opacity(0.9),
+                            Color.mint.opacity(0.9)
+                        ],
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    )
+                )
+        } else {
+            Capsule()
+                .fill(Color(.systemGray6))
+        }
+    }
+}
+
+
 
 //
 // MARK: - Large Video Card (3:4 + Shade)
@@ -481,17 +784,17 @@ struct TrainingVideo: Identifiable, Decodable, Hashable {
     let youtubeId: String
     let category: String
     let title: String
-    let durationSeconds: Int
+    let duration: Int
     let type: String
     let level: String
     let filetype: String
     let learningPoints: [String]?
 
     var durationText: String {
-        if filetype == "short" {
-            return "\(durationSeconds)s"
+        if filetype == "shorts" {
+            return "\(duration) seconds"
         } else {
-            return "\(durationSeconds) min"
+            return "\(duration) min"
         }
     }
 

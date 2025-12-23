@@ -66,40 +66,44 @@ struct LongPlayer: View {
                 .padding(.top, 20)
 
                 // MARK: - Lesson Meta
-                VStack(alignment: .leading, spacing: 14) {
+                HStack {
+                    VStack(alignment: .leading, spacing: 14) {
 
-                    Text(subtitle.uppercased())
-                        .font(.caption.bold())
-                        .tracking(1)
+                        Text(subtitle.uppercased())
+                            .font(.caption.bold())
+                            .tracking(1)
+                            .foregroundStyle(.secondary)
+
+                        Text(title)
+                            .font(.title2.weight(.semibold))
+
+                        HStack(spacing: 6) {
+                            Image(systemName: "clock")
+                            Text(durationText)
+                        }
+                        .font(.subheadline.weight(.medium))
                         .foregroundStyle(.secondary)
 
-                    Text(title)
-                        .font(.title2.weight(.semibold))
+                        // MARK: - Learning Bullets
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text("You'll learn")
+                                .font(.subheadline.weight(.semibold))
 
-                    HStack(spacing: 6) {
-                        Image(systemName: "clock")
-                        Text(durationText)
-                    }
-                    .font(.subheadline.weight(.medium))
-                    .foregroundStyle(.secondary)
-
-                    // MARK: - Learning Bullets
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("You’ll learn")
-                            .font(.subheadline.weight(.semibold))
-
-                        ForEach(learningPoints, id: \.self) { point in
-                            HStack(alignment: .top, spacing: 10) {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .foregroundStyle(.green)
-                                Text(point)
-                                    .font(.subheadline)
+                            ForEach(learningPoints, id: \.self) { point in
+                                HStack(alignment: .top, spacing: 10) {
+                                    Image(systemName: "checkmark.circle.fill")
+                                        .foregroundStyle(.green)
+                                    Text(point)
+                                        .font(.subheadline)
+                                }
                             }
                         }
+                        .padding(.top, 6)
                     }
-                    .padding(.top, 6)
+                    
+                    Spacer()  // ⬅️ Push everything to the left
                 }
-                .padding(.horizontal, 24)
+                .padding(.horizontal, 32)
                 .padding(.top, 22)
 
                 Spacer()
