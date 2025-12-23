@@ -29,6 +29,7 @@ struct TheoryView: View {
                 .navigationDestination(item: $selectedVideo) { video in
                     if video.filetype == "long" {
                         LongPlayer(
+                            videoId: video.id, 
                             youtubeId: video.youtubeId,
                             title: video.title,
                             subtitle: "\(video.category.uppercased()) · \(video.level.uppercased())",
@@ -528,7 +529,7 @@ fileprivate struct UnifiedVideoCard: View {
 
                     }
 
-                    ProgressView(value: 0)
+                    ProgressView(value: LongLessonProgressStore.shared.progress(for: video.id))
                         .progressViewStyle(.linear)
                         .tint(accentGreen.opacity(0.9))
                         .frame(height: 4)
@@ -550,6 +551,11 @@ fileprivate struct UnifiedVideoCard: View {
 
 }
 
+extension TrainingVideo {
+    var isCompleted: Bool {
+        LongLessonProgressStore.shared.progress(for: id) >= 0.9
+    }
+}
 
 
 

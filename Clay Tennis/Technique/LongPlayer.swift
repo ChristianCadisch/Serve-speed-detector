@@ -19,11 +19,14 @@ extension Notification.Name {
 
 struct LongPlayer: View {
 
+    let videoId: String
     let youtubeId: String
     let title: String
     let subtitle: String
     let durationText: String
     let learningPoints: [String]
+    private let progressThresholdCompletion = 0.0
+
 
     // Accent (match Clay Tennis theme)
     private let gradientColors: [Color] = [.green, .mint]
@@ -144,7 +147,7 @@ struct LongPlayer: View {
             }
         }
         .background(
-            LongLessonFullscreenBridge(youtubeId: youtubeId)
+            LongLessonFullscreenBridge(youtubeId: youtubeId, videoId: videoId)
                 .opacity(0)
         )
     }
@@ -183,14 +186,21 @@ struct YouTubePosterWebView: UIViewRepresentable {
 struct LongLessonFullscreenBridge: UIViewRepresentable {
 
     let youtubeId: String
+    let videoId: String   // ✅ canonical ID from TrainingVideo.id
 
     func makeCoordinator() -> Coordinator {
-        Coordinator()
+        Coordinator(videoId: videoId)
     }
 
     func makeUIView(context: Context) -> WKWebView {
 
         let config = WKWebViewConfiguration()
+
+        let controller = WKUserContentController()
+        controller.add(context.coordinator, name: "progress")
+        controller.add(context.coordinator, name: "completed")
+        config.userContentController = controller
+
         config.allowsInlineMediaPlayback = true
         config.mediaTypesRequiringUserActionForPlayback = []
 
@@ -199,10 +209,8 @@ struct LongLessonFullscreenBridge: UIViewRepresentable {
         config.defaultWebpagePreferences = prefs
 
         let webView = WKWebView(frame: .zero, configuration: config)
-        webView.isOpaque = false
-        webView.backgroundColor = .black
-        webView.scrollView.isScrollEnabled = false
         webView.navigationDelegate = context.coordinator
+        webView.scrollView.isScrollEnabled = false
 
         context.coordinator.webView = webView
 
@@ -214,12 +222,16 @@ struct LongLessonFullscreenBridge: UIViewRepresentable {
 
     func updateUIView(_ webView: WKWebView, context: Context) {}
 
-    final class Coordinator: NSObject, WKNavigationDelegate {
+    // MARK: - Coordinator
+
+    final class Coordinator: NSObject, WKNavigationDelegate, WKScriptMessageHandler {
 
         weak var webView: WKWebView?
+        private let videoId: String
         private var pageLoaded = false
 
-        override init() {
+        init(videoId: String) {
+            self.videoId = videoId
             super.init()
             NotificationCenter.default.addObserver(
                 self,
@@ -237,14 +249,40 @@ struct LongLessonFullscreenBridge: UIViewRepresentable {
             pageLoaded = true
 
             webView.evaluateJavaScript("""
-            document.querySelectorAll('video').forEach(v => {
-                v.pause();
-                v.currentTime = 0;
-                v.muted = true;
-            });
+            (function() {
+                const video = document.querySelector('video');
+                if (!video) return;
+
+                video.addEventListener('timeupdate', () => {
+                    if (!video.duration) return;
+                    const progress = video.currentTime / video.duration;
+                    window.webkit.messageHandlers.progress.postMessage(progress);
+                });
+
+                video.addEventListener('ended', () => {
+                    window.webkit.messageHandlers.completed.postMessage(true);
+                });
+            })();
             """)
         }
 
+        func userContentController(
+            _ userContentController: WKUserContentController,
+            didReceive message: WKScriptMessage
+        ) {
+            if message.name == "progress",
+               let value = message.body as? Double {
+
+                LongLessonProgressStore.shared.updateProgress(
+                    videoId: videoId,
+                    progress: value
+                )
+            }
+
+            if message.name == "completed" {
+                LongLessonProgressStore.shared.markCompleted(videoId: videoId)
+            }
+        }
 
         @objc
         private func enterFullscreen() {
@@ -258,33 +296,28 @@ struct LongLessonFullscreenBridge: UIViewRepresentable {
                 video.muted = false;
                 video.volume = 1.0;
 
-                const playPromise = video.play();
-                if (playPromise !== undefined) {
-                    playPromise.then(() => {
-                        if (video.webkitEnterFullscreen) {
-                            video.webkitEnterFullscreen();
-                        }
-                    }).catch(() => {
-                        if (video.webkitEnterFullscreen) {
-                            video.webkitEnterFullscreen();
-                        }
-                    });
+                const p = video.play();
+                if (p !== undefined) {
+                    p.then(() => video.webkitEnterFullscreen && video.webkitEnterFullscreen())
+                     .catch(() => video.webkitEnterFullscreen && video.webkitEnterFullscreen());
                 } else {
-                    if (video.webkitEnterFullscreen) {
-                        video.webkitEnterFullscreen();
-                    }
+                    video.webkitEnterFullscreen && video.webkitEnterFullscreen();
                 }
             })();
             """)
-
         }
     }
 }
+
+
+
+
 
 // MARK: - Preview
 
 #Preview {
     LongPlayer(
+        videoId: "hjoi",
         youtubeId: "IiRGdagtOKE",
         title: "Build a Reliable Tennis Serve from Scratch",
         subtitle: "Serve · Technique",

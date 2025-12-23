@@ -40,6 +40,7 @@ struct LessonsView: View {
             .navigationDestination(item: $selectedVideo) { video in
                 if video.filetype == "long" {
                     LongPlayer(
+                        videoId: video.id,
                         youtubeId: video.youtubeId,
                         title: video.title,
                         subtitle: "\(video.category.uppercased()) · \(video.level.uppercased())",
@@ -258,8 +259,7 @@ fileprivate struct DeepLessonCard: View {
     }
     
     private var progress: Double {
-        // Placeholder – wire to real progress later
-        0.3
+        LongLessonProgressStore.shared.progress(for: video.id)
     }
 
 }

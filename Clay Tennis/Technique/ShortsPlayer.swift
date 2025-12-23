@@ -232,6 +232,44 @@ final class WatchedVideoStore {
 }
 
 
+@Observable
+final class LongLessonProgressStore {
+
+    static let shared = LongLessonProgressStore()
+
+    private let storageKey = "LongLessonProgress"
+    private(set) var progressByID: [String: Double] = [:]
+
+    private init() {
+        load()
+    }
+
+    func updateProgress(videoId: String, progress: Double) {
+        let clamped = min(max(progress, 0), 1)
+        progressByID[videoId] = max(progressByID[videoId] ?? 0, clamped)
+        persist()
+    }
+
+    func progress(for videoId: String) -> Double {
+        progressByID[videoId] ?? 0
+    }
+
+    func markCompleted(videoId: String) {
+        progressByID[videoId] = 1.0
+        persist()
+    }
+
+    private func load() {
+        let raw = UserDefaults.standard.dictionary(forKey: storageKey) as? [String: Double] ?? [:]
+        progressByID = raw
+    }
+
+    private func persist() {
+        UserDefaults.standard.set(progressByID, forKey: storageKey)
+    }
+}
+
+
 
 
 // MARK: - Preview
