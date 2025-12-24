@@ -17,6 +17,8 @@ struct CoachHubView: View {
     @Binding var angleDetectionSource: AngleSource // .auto | .manual
     @State private var activeSetupMode: ServeMode?
     @State private var showAngleSelectionSheet = false
+    @State private var pendingRecordAfterAngleSelection = false
+
 
 
     private let hasSeenSpeedSetupKey = "hasSeenSpeedRecordingSetup"
@@ -86,9 +88,17 @@ struct CoachHubView: View {
                 }
             }
         }
+        
         .sheet(isPresented: $showAngleSelectionSheet) {
             angleSelectionSheet
+                .onDisappear {
+                    if pendingRecordAfterAngleSelection {
+                        pendingRecordAfterAngleSelection = false
+                        recordAction()
+                    }
+                }
         }
+
 
 
     }
@@ -160,9 +170,9 @@ struct CoachHubView: View {
             detectedAngle = angle
             angleDetectionSource = .manual
 
+            pendingRecordAfterAngleSelection = true
             showAngleSelectionSheet = false
-            recordAction()
-        } label: {
+        }  label: {
             HStack(spacing: 16) {
 
                 Image(systemName: angle == .side ? "figure.walk" : "figure.stand")

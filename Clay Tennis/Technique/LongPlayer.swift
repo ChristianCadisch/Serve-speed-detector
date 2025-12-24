@@ -26,6 +26,10 @@ struct LongPlayer: View {
     let durationText: String
     let learningPoints: [String]
     private let progressThresholdCompletion = 0.0
+    
+    private var hasProgress: Bool {
+        LongLessonProgressStore.shared.progress(for: videoId) > 0.01
+    }
 
 
     // Accent (match Clay Tennis theme)
@@ -122,7 +126,7 @@ struct LongPlayer: View {
                         Image(systemName: "play.fill")
                             .font(.title3.weight(.semibold))
 
-                        Text("START LESSON")
+                        Text(hasProgress ? "CONTINUE LESSON" : "START LESSON")
                             .font(.headline.weight(.semibold))
 
                         Spacer()
@@ -151,6 +155,8 @@ struct LongPlayer: View {
                 .opacity(0)
         )
     }
+    
+    
 }
 
 // MARK: - Poster WebView (static)
@@ -248,10 +254,18 @@ struct LongLessonFullscreenBridge: UIViewRepresentable {
         func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
             pageLoaded = true
 
+            let savedProgress = LongLessonProgressStore.shared.progress(for: videoId)
+
             webView.evaluateJavaScript("""
             (function() {
                 const video = document.querySelector('video');
                 if (!video) return;
+
+                // Restore progress if available
+                const savedProgress = \(savedProgress);
+                if (savedProgress > 0 && video.duration) {
+                    video.currentTime = video.duration * savedProgress;
+                }
 
                 video.addEventListener('timeupdate', () => {
                     if (!video.duration) return;
@@ -265,6 +279,9 @@ struct LongLessonFullscreenBridge: UIViewRepresentable {
             })();
             """)
         }
+
+        
+
 
         func userContentController(
             _ userContentController: WKUserContentController,
