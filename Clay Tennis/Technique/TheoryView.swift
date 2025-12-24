@@ -58,9 +58,8 @@ struct TheoryView: View {
 
         }
     }
-    
-    // MARK: - More Lessons Card (FIXED: stronger CTA)
 
+    
     // MARK: - More Lessons Card (Balanced, Confident CTA)
 
     fileprivate struct MoreLessonsCard: View {
@@ -190,16 +189,47 @@ struct TheoryView: View {
     private var unifiedLearnSection: some View {
         let videos = unifiedVideos
 
+        // Progress calculation (topic-scoped)
+        let topicVideos = allVideos.filter {
+            $0.category == selectedTopic.shortsCategory
+        }
+
+        let completedCount = topicVideos.filter { $0.isCompleted }.count
+        let totalCount = max(topicVideos.count, 1)
+        let progress = Double(completedCount) / Double(totalCount)
+
         return VStack(alignment: .leading, spacing: 12) {
 
             HStack(alignment: .firstTextBaseline) {
+
                 VStack(alignment: .leading, spacing: 4) {
                     Text("Learn")
                         .font(.headline)
 
-                    Text("Tips and video tutorials")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+                    HStack(spacing: 8) {
+
+                        // Minuscule progress ring
+                        ZStack {
+                            Circle()
+                                .stroke(Color.secondary.opacity(0.25), lineWidth: 2)
+
+                            Circle()
+                                .trim(from: 0, to: progress)
+                                .stroke(
+                                    Color.green,
+                                    style: StrokeStyle(
+                                        lineWidth: 2,
+                                        lineCap: .round
+                                    )
+                                )
+                                .rotationEffect(.degrees(-90))
+                        }
+                        .frame(width: 12, height: 12)
+
+                        Text("\(completedCount) of \(totalCount) lessons completed")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
                 }
 
                 Spacer()
@@ -242,6 +272,7 @@ struct TheoryView: View {
             }
         }
     }
+
 
 
 
@@ -552,10 +583,16 @@ fileprivate struct UnifiedVideoCard: View {
 }
 
 extension TrainingVideo {
+
     var isCompleted: Bool {
-        LongLessonProgressStore.shared.progress(for: id) >= 0.9
+        if filetype == "long" {
+            return LongLessonProgressStore.shared.progress(for: id) >= 0.9
+        } else {
+            return WatchedVideoStore.shared.isWatched(id)
+        }
     }
 }
+
 
 
 

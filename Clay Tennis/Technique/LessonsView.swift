@@ -79,7 +79,11 @@ struct LessonsView: View {
     // MARK: - Quick Tips (Grid)
 
     private var quickTipsGrid: some View {
-        let shorts = filteredVideos.filter { $0.filetype == "shorts" }
+        let shorts = filteredVideos
+            .filter { $0.filetype == "shorts" }
+            .sorted { lhs, rhs in
+                lhs.isCompleted == false && rhs.isCompleted == true
+            }
 
         return LazyVGrid(
             columns: [
@@ -104,7 +108,11 @@ struct LessonsView: View {
     // MARK: - Deep Lessons (List)
 
     private var deepLessonsList: some View {
-        let longs = filteredVideos.filter { $0.filetype == "long" }
+        let longs = filteredVideos
+            .filter { $0.filetype == "long" }
+            .sorted { lhs, rhs in
+                lhs.isCompleted == false && rhs.isCompleted == true
+            }
 
         return LazyVStack(spacing: 20) {
             ForEach(longs) { video in
@@ -151,18 +159,27 @@ fileprivate struct QuickTipCard: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
 
-            AsyncImage(url: video.thumbnailURL) { phase in
-                if case let .success(image) = phase {
-                    image
-                        .resizable()
-                        .scaledToFill()
-                } else {
-                    Color(.systemGray5)
+            ZStack {
+                AsyncImage(url: video.thumbnailURL) { phase in
+                    if case let .success(image) = phase {
+                        image
+                            .resizable()
+                            .scaledToFill()
+                            .saturation(video.isCompleted ? 0.1 : 1.0)
+                    } else {
+                        Color(.systemGray5)
+                    }
+                }
+                .frame(height: 140)
+                .clipped()
+                .cornerRadius(14)
+
+
+                if video.isCompleted {
+                    CompletedOverlay()
+                        .cornerRadius(14)
                 }
             }
-            .frame(height: 140)
-            .clipped()
-            .cornerRadius(14)
 
             Text(video.title)
                 .font(.body.weight(.semibold))
@@ -174,6 +191,7 @@ fileprivate struct QuickTipCard: View {
         }
     }
 }
+
 
 // MARK: - Deep Lesson Row
 
@@ -193,6 +211,7 @@ fileprivate struct DeepLessonCard: View {
                             image
                                 .resizable()
                                 .scaledToFill()
+                                .saturation(video.isCompleted ? 0.1 : 1.0)
                         } else {
                             Color(.systemGray5)
                         }
@@ -200,7 +219,8 @@ fileprivate struct DeepLessonCard: View {
                     .frame(height: 180)
                     .clipped()
 
-                    // Editorial fade for readability
+
+                    // Editorial fade
                     LinearGradient(
                         colors: [
                             Color.black.opacity(0.55),
@@ -211,7 +231,12 @@ fileprivate struct DeepLessonCard: View {
                         endPoint: .top
                     )
                     .frame(height: 100)
+
+                    if video.isCompleted {
+                        CompletedOverlay()
+                    }
                 }
+
 
                 // MARK: - Progress Bar (Commitment Signal)
                 ProgressView(value: progress)
@@ -264,6 +289,43 @@ fileprivate struct DeepLessonCard: View {
 
 }
 
+fileprivate struct CompletedOverlay: View {
+
+    private let accentGreen = Color.green
+
+    var body: some View {
+        ZStack {
+            // Soft dim
+            Color.black.opacity(0.22)
+
+            VStack {
+                HStack {
+                    Spacer()
+
+                    HStack(spacing: 6) {
+                        Image(systemName: "checkmark.circle.fill")
+                            .font(.system(size: 14, weight: .semibold))
+
+                        Text("Completed")
+                            .font(.caption.weight(.semibold))
+                    }
+                    .foregroundStyle(.white)
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 6)
+                    .background(
+                        Capsule()
+                            .fill(accentGreen)
+                    )
+                    .shadow(color: .black.opacity(0.25), radius: 6, y: 3)
+                    .padding(10)
+                }
+
+                Spacer()
+            }
+        }
+        .allowsHitTesting(false)
+    }
+}
 
 
 
