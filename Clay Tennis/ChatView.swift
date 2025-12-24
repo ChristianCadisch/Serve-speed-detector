@@ -9,7 +9,7 @@ import SwiftUI
 import FoundationModels
 import Observation
 
-
+@available(iOS 26, *)
 struct ChatView: View {
     
     let actions: CoachActions

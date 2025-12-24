@@ -16,6 +16,8 @@ struct CoachHubView: View {
     @Binding var detectedAngle: ServeCameraAngle   // .side | .back
     @Binding var angleDetectionSource: AngleSource // .auto | .manual
     @State private var activeSetupMode: ServeMode?
+    @State private var showAngleSelectionSheet = false
+
 
     private let hasSeenSpeedSetupKey = "hasSeenSpeedRecordingSetup"
     private let hasSeenTechniqueSetupKey = "hasSeenTechniqueRecordingSetup"
@@ -41,10 +43,6 @@ struct CoachHubView: View {
             
             modeSelector
             
-            // Only show angle chip in technique mode
-            if selectedMode == .technique {
-                angleChip
-            }
             
             actionButtons
             
@@ -88,9 +86,116 @@ struct CoachHubView: View {
                 }
             }
         }
+        .sheet(isPresented: $showAngleSelectionSheet) {
+            angleSelectionSheet
+        }
+
 
     }
     
+    
+    
+    
+    private var angleSelectionSheet: some View {
+        VStack(spacing: 22) {
+
+            Capsule()
+                .fill(Color.secondary.opacity(0.4))
+                .frame(width: 40, height: 5)
+                .padding(.top, 8)
+
+            VStack(spacing: 6) {
+                Text("How was your video filmed?")
+                    .font(.headline.weight(.semibold))
+
+                HStack(spacing: 6) {
+                    Text("This helps the AI analyze your serve correctly")
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+
+                    Button {
+                        activeSetupMode = .technique
+                    } label: {
+                        Image(systemName: "info.circle")
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+
+
+            VStack(spacing: 12) {
+
+                angleSelectionButton(
+                    angle: .side,
+                    title: "Filmed from the side",
+                    subtitle: "Best for knee bend & trophy pose"
+                )
+
+                angleSelectionButton(
+                    angle: .back,
+                    title: "Filmed from the back",
+                    subtitle: "Best for arm path & pronation"
+                )
+            }
+
+            Spacer(minLength: 20)
+        }
+        .padding(.horizontal, 22)
+        .presentationDetents([.medium])
+        .presentationDragIndicator(.visible)
+    }
+    
+    
+    private func angleSelectionButton(
+        angle: ServeCameraAngle,
+        title: String,
+        subtitle: String
+    ) -> some View {
+
+        Button {
+            print("🎥 [CoachHub] Selected angle:", angle)
+
+            detectedAngle = angle
+            angleDetectionSource = .manual
+
+            showAngleSelectionSheet = false
+            recordAction()
+        } label: {
+            HStack(spacing: 16) {
+
+                Image(systemName: angle == .side ? "figure.walk" : "figure.stand")
+                    .font(.title2)
+                    .foregroundStyle(
+                        LinearGradient(
+                            colors: [.purple, .pink],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(title)
+                        .font(.headline.weight(.semibold))
+
+                    Text(subtitle)
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                }
+
+                Spacer()
+            }
+            .padding(18)
+            .background(
+                RoundedRectangle(cornerRadius: 18, style: .continuous)
+                    .fill(.ultraThinMaterial)
+            )
+        }
+        .buttonStyle(.plain)
+    }
+
+
     
     // MARK: - Header
     
@@ -161,55 +266,6 @@ struct CoachHubView: View {
 
     
     
-    // MARK: - Angle Chip
-    
-    private var angleChip: some View {
-        HStack(spacing: 8) {
-
-            angleButton(.side)
-            angleButton(.back)
-
-            Spacer()
-        }
-        .padding(.horizontal, 18)
-        .padding(.vertical, 12)
-        .background(
-            .ultraThinMaterial,
-            in: Capsule()
-        )
-        .transition(.move(edge: .top).combined(with: .opacity))
-    }
-    private func angleButton(_ angle: ServeCameraAngle) -> some View {
-        Button(action: {
-            print("🎥 [CoachHub] Tapped angle:", angle)
-            detectedAngle = angle
-        }) {
-            Text(angle.title.uppercased())
-                .font(.caption.bold())
-                .tracking(1)
-                .foregroundStyle(detectedAngle == angle ? .white : .secondary)
-                .padding(.horizontal, 14)
-                .padding(.vertical, 8)
-                .background(
-                    Capsule().fill(
-                        detectedAngle == angle
-                        ? LinearGradient(
-                            colors: [.purple, .pink],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                        : LinearGradient(
-                            colors: [Color(.tertiarySystemBackground), Color(.tertiarySystemBackground)],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
-                )
-
-        }
-        .buttonStyle(.plain)
-    }
-
     
     
     // MARK: - Action Buttons
@@ -221,23 +277,23 @@ struct CoachHubView: View {
             Button(action: {
                 print("🎥 [CoachHub] Record tapped — selectedMode:", selectedMode)
 
-                // First-time interstitial logic (see section 2)
                 switch selectedMode {
-                    case .speed:
-                        if !UserDefaults.standard.bool(forKey: hasSeenSpeedSetupKey) {
-                            activeSetupMode = .speed
-                        } else {
-                            recordAction()
-                        }
 
-                    case .technique:
-                        if !UserDefaults.standard.bool(forKey: hasSeenTechniqueSetupKey) {
-                            activeSetupMode = .technique
-                        } else {
-                            recordAction()
-                        }
+                case .speed:
+                    if !UserDefaults.standard.bool(forKey: hasSeenSpeedSetupKey) {
+                        activeSetupMode = .speed
+                    } else {
+                        recordAction()
                     }
-            }) {
+
+                case .technique:
+                    if !UserDefaults.standard.bool(forKey: hasSeenTechniqueSetupKey) {
+                        activeSetupMode = .technique
+                    } else {
+                        showAngleSelectionSheet = true
+                    }
+                }
+            })  {
                 HStack(spacing: 12) {
                     Image(systemName: "video.fill")
                         .font(.title3.weight(.semibold))

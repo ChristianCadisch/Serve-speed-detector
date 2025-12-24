@@ -142,6 +142,7 @@ class HomeViewController: UIViewController,
         print("✅ [iCLOUD] Download overlay hidden")
     }
     
+    @available(iOS 26, *)
     private func showChatView() {
         
         let chatView = ChatView(
@@ -580,6 +581,7 @@ class HomeViewController: UIViewController,
             self?.activeTab = .home
             self?.showFeedView()
         }
+        bar.addArrangedSubview(homeButton)
         
         // coach hub
         let coachButton = createButton(
@@ -589,15 +591,21 @@ class HomeViewController: UIViewController,
             self?.activeTab = .speedUpload
             self?.showCoachHubView()
         }
+        bar.addArrangedSubview(coachButton)
         
         // CHAT
-        let chatButton = createButton(
-            systemName: "sparkles",
-            isActive: activeTab == .chat
-        ) { [weak self] in
-            self?.activeTab = .chat
-            self?.showChatView()
+        if #available(iOS 26, *) {
+            let chatButton = createButton(
+                systemName: "sparkles",
+                isActive: activeTab == .chat
+            ) { [weak self] in
+                self?.activeTab = .chat
+                self?.showChatView()
+            }
+
+            bar.addArrangedSubview(chatButton)
         }
+
         
         
         
@@ -609,6 +617,7 @@ class HomeViewController: UIViewController,
             self?.activeTab = .theory
             self?.showTheoryView()
         }
+        bar.addArrangedSubview(theoryButton)
         
         // SETTINGS
         let settingsButton = createButton(
@@ -618,12 +627,11 @@ class HomeViewController: UIViewController,
             self?.activeTab = .settings
             self?.showSettingsView()
         }
-        
-        bar.addArrangedSubview(homeButton)
-        bar.addArrangedSubview(coachButton)
-        bar.addArrangedSubview(chatButton)
-        bar.addArrangedSubview(theoryButton)
         bar.addArrangedSubview(settingsButton)
+        
+        
+        
+        
         
         container.addSubview(bar)
         

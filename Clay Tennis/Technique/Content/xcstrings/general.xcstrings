@@ -37,24 +37,6 @@
         }
       }
     },
-    "quiz_try_again" : {
-      "comment" : "Button title to show all quiz topics",
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nochmal versuchen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Try again"
-          }
-        }
-      }
-    },
     "continue_button" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -106,6 +88,23 @@
         }
       }
     },
+    "difficulty_easy_adjective" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einfaches"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Easy"
+          }
+        }
+      }
+    },
     "difficulty_hard" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -123,6 +122,23 @@
         }
       }
     },
+    "difficulty_hard_adjective" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schweres"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hard"
+          }
+        }
+      }
+    },
     "difficulty_medium" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -130,6 +146,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mittel"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Medium"
+          }
+        }
+      }
+    },
+    "difficulty_medium_adjective" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mittleres"
           }
         },
         "en" : {
@@ -319,6 +352,40 @@
         }
       }
     },
+    "lesson_overview_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kursübersicht"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lesson overview"
+          }
+        }
+      }
+    },
+    "next_quiz_button" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nächstes Quiz"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next Quiz"
+          }
+        }
+      }
+    },
     "next_quiz_label" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -371,196 +438,186 @@
         }
       }
     },
-    "onboarding_page1_title": {
-    "comment": "Onboarding page 1 title",
-    "extractionState": "manual",
-    "localizations": {
-      "en": {
-        "stringUnit": {
-          "state": "translated",
-          "value": "Welcome to Clay"
-        }
-      },
-      "de": {
-        "stringUnit": {
-          "state": "translated",
-          "value": "Willkommen bei Clay"
-        }
-      }
-    }
-  },
-  "onboarding_page1_desc": {
-    "comment": "Onboarding page 1 description",
-    "extractionState": "manual",
-    "localizations": {
-      "en": {
-        "stringUnit": {
-          "state": "translated",
-          "value": "Your AI-powered tennis trainer"
-        }
-      },
-      "de": {
-        "stringUnit": {
-          "state": "translated",
-          "value": "Dein KI-gestützter Tennistrainer"
+    "onboarding_page1_desc" : {
+      "comment" : "Onboarding page 1 description",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dein KI-gestützter Tennistrainer"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your AI-powered tennis trainer"
+          }
         }
       }
-    }
-  },
-
-  "onboarding_page2_title": {
-    "comment": "Onboarding page 2 title",
-    "extractionState": "manual",
-    "localizations": {
-      "en": {
-        "stringUnit": {
-          "state": "translated",
-          "value": "AI Technique Analysis"
-        }
-      },
-      "de": {
-        "stringUnit": {
-          "state": "translated",
-          "value": "KI Technikanalyse"
-        }
-      }
-    }
-  },
-
-  "onboarding_page2_desc": {
-    "comment": "Onboarding page 2 description",
-    "extractionState": "manual",
-    "localizations": {
-      "en": {
-        "stringUnit": {
-          "state": "translated",
-          "value": "Clay provides you with feedback after every serve"
-        }
-      },
-      "de": {
-        "stringUnit": {
-          "state": "translated",
-          "value": "Clay gibt dir klares Feedback nach jedem Aufschlag"
+    },
+    "onboarding_page1_title" : {
+      "comment" : "Onboarding page 1 title",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Willkommen bei Clay"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Welcome to Clay"
+          }
         }
       }
-    }
-  },
-
-
-  "onboarding_page3_title": {
-    "comment": "Onboarding page 3 title",
-    "extractionState": "manual",
-    "localizations": {
-      "en": {
-        "stringUnit": {
-          "state": "translated",
-          "value": "Measure Your Serve Speed"
-        }
-      },
-      "de": {
-        "stringUnit": {
-          "state": "translated",
-          "value": "Miss deine Aufschlaggeschwindigkeit"
+    },
+    "onboarding_page2_desc" : {
+      "comment" : "Onboarding page 2 description",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clay gibt dir klares Feedback nach jedem Aufschlag"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clay provides you with feedback after every serve"
+          }
         }
       }
-    }
-  },
-
-  "onboarding_page3_desc": {
-    "comment": "Onboarding page 3 description",
-    "extractionState": "manual",
-    "localizations": {
-      "en": {
-        "stringUnit": {
-          "state": "translated",
-          "value": "Record in slow motion and break speed records"
-        }
-      },
-      "de": {
-        "stringUnit": {
-          "state": "translated",
-          "value": "Filme in Zeitlupe und erstelle neue Rekorde"
-        }
-      }
-    }
-  },
-
-  "onboarding_page4_title": {
-    "comment": "Onboarding page 4 title",
-    "extractionState": "manual",
-    "localizations": {
-      "en": {
-        "stringUnit": {
-          "state": "translated",
-          "value": "Learn and Improve"
-        }
-      },
-      "de": {
-        "stringUnit": {
-          "state": "translated",
-          "value": "Lerne dazu"
+    },
+    "onboarding_page2_title" : {
+      "comment" : "Onboarding page 2 title",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "KI Technikanalyse"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AI Technique Analysis"
+          }
         }
       }
-    }
-  },
-
-  "onboarding_page4_desc": {
-    "comment": "Onboarding page 4 description",
-    "extractionState": "manual",
-    "localizations": {
-      "en": {
-        "stringUnit": {
-          "state": "translated",
-          "value": "Short lessons and quizzes help you learn proper techniquze"
-        }
-      },
-      "de": {
-        "stringUnit": {
-          "state": "translated",
-          "value": "Kurze Lektionen und Quizfragen vermitteln dir saubere Technik"
-        }
-      }
-    }
-  },
-
-  "onboarding_page5_title": {
-    "comment": "Onboarding page 5 title",
-    "extractionState": "manual",
-    "localizations": {
-      "en": {
-        "stringUnit": {
-          "state": "translated",
-          "value": "Get started"
-        }
-      },
-      "de": {
-        "stringUnit": {
-          "state": "translated",
-          "value": "Los geht's"
+    },
+    "onboarding_page3_desc" : {
+      "comment" : "Onboarding page 3 description",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filme in Zeitlupe und erstelle neue Rekorde"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Record in slow motion and break speed records"
+          }
         }
       }
-    }
-  },
-
-  "onboarding_page5_desc": {
-    "comment": "Onboarding page 5 description",
-    "extractionState": "manual",
-    "localizations": {
-      "en": {
-        "stringUnit": {
-          "state": "translated",
-          "value": "Upload or record your first serve"
-        }
-      },
-      "de": {
-        "stringUnit": {
-          "state": "translated",
-          "value": "Lade deinen ersten Aufschlag hoch oder nimm ihn direkt auf"
+    },
+    "onboarding_page3_title" : {
+      "comment" : "Onboarding page 3 title",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Miss deine Aufschlaggeschwindigkeit"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Measure Your Serve Speed"
+          }
         }
       }
-    }
-  },
-
+    },
+    "onboarding_page4_desc" : {
+      "comment" : "Onboarding page 4 description",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kurze Lektionen und Quizfragen vermitteln dir saubere Technik"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Short lessons and quizzes help you learn proper techniquze"
+          }
+        }
+      }
+    },
+    "onboarding_page4_title" : {
+      "comment" : "Onboarding page 4 title",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lerne dazu"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Learn and Improve"
+          }
+        }
+      }
+    },
+    "onboarding_page5_desc" : {
+      "comment" : "Onboarding page 5 description",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lade deinen ersten Aufschlag hoch oder nimm ihn direkt auf"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Upload or record your first serve"
+          }
+        }
+      }
+    },
+    "onboarding_page5_title" : {
+      "comment" : "Onboarding page 5 title",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los geht's"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Get started"
+          }
+        }
+      }
+    },
     "out_of_format" : {
       "comment" : "Score formatting",
       "extractionState" : "stale",
@@ -615,6 +672,74 @@
         }
       }
     },
+    "quiz_completed_format" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d von %d Quizzes gelöst"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d of %d Quizzes solved"
+          }
+        }
+      }
+    },
+    "quiz_locked_easy" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieses Quiz ist gesperrt."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This quiz is locked."
+          }
+        }
+      }
+    },
+    "quiz_locked_hard" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Löse zuerst 70% des mittelschweren Quiz, um Schwer freizuschalten."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solve 70% of the Medium Quiz first to unlock Hard."
+          }
+        }
+      }
+    },
+    "quiz_locked_medium" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Löse zuerst 70% des einfachen Quiz, um Mittel freizuschalten."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solve 70% of the Easy Quiz first to unlock Medium."
+          }
+        }
+      }
+    },
     "quiz_result_excellent" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -662,6 +787,75 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Keep practicing!"
+          }
+        }
+      }
+    },
+    "quiz_solved_label" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gelöst"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solved"
+          }
+        }
+      }
+    },
+    "quiz_solved_label_format" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d/%d gelöst"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d/%d solved"
+          }
+        }
+      }
+    },
+    "quiz_solved_progress" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d von %d Fragen gelöst"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d of %d questions solved"
+          }
+        }
+      }
+    },
+    "quiz_try_again" : {
+      "comment" : "Button title to show all quiz topics",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nochmal versuchen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try again"
           }
         }
       }
@@ -1033,13 +1227,13 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Technik Coach"
+            "value" : "Theorie"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Technique Coach"
+            "value" : "Theory"
           }
         }
       }
@@ -1134,6 +1328,23 @@
         }
       }
     },
+    "topic_theory_format" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ Theorie lernen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ Theory cards"
+          }
+        }
+      }
+    },
     "topic_volley" : {
       "comment" : "Quiz topic title: Volley",
       "extractionState" : "stale",
@@ -1151,371 +1362,7 @@
           }
         }
       }
-    },
-
-
-    "technique_coach_title" : {
-      "comment" : "Navigation bar title for the Technique Coach screen",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Technik Coach"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Technique Coach"
-          }
-        }
-      }
-    },
-    "topic_backhand" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rückhand"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Backhand"
-          }
-        }
-      }
-    },
-    "topic_forehand" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vorhand"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Forehand"
-          }
-        }
-      }
-    },
-    "topic_legwork" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Beinarbeit"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Leg Work"
-          }
-        }
-      }
-    },
-    "topic_serve" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aufschlag"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Serve"
-          }
-        }
-      }
-    },
-    "topic_tactics" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Taktik"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tactics"
-          }
-        }
-      }
-    },
-    "topic_volley" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Volley"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Volley"
-          }
-        }
-      }
-    },
-
-
-
-"quiz_locked_easy" : {
-  "extractionState" : "manual",
-  "localizations" : {
-    "en" : {
-      "stringUnit" : {
-        "state" : "translated",
-        "value" : "This quiz is locked."
-      }
-    },
-    "de" : {
-      "stringUnit" : {
-        "state" : "translated",
-        "value" : "Dieses Quiz ist gesperrt."
-      }
     }
-  }
-},
-
-
-"quiz_locked_medium" : {
-  "extractionState" : "manual",
-  "localizations" : {
-    "en" : {
-      "stringUnit" : {
-        "state" : "translated",
-        "value" : "Solve 70% of the Easy Quiz first to unlock Medium."
-      }
-    },
-    "de" : {
-      "stringUnit" : {
-        "state" : "translated",
-        "value" : "Löse zuerst 70% des einfachen Quiz, um Mittel freizuschalten."
-      }
-    }
-  }
-},
-
-"quiz_locked_hard" : {
-  "extractionState" : "manual",
-  "localizations" : {
-    "en" : {
-      "stringUnit" : {
-        "state" : "translated",
-        "value" : "Solve 70% of the Medium Quiz first to unlock Hard."
-      }
-    },
-    "de" : {
-      "stringUnit" : {
-        "state" : "translated",
-        "value" : "Löse zuerst 70% des mittelschweren Quiz, um Schwer freizuschalten."
-      }
-    }
-  }
-},
-
-"quiz_solved_label" : {
-  "extractionState" : "manual",
-  "localizations" : {
-    "en" : {
-      "stringUnit" : {
-        "state" : "translated",
-        "value" : "Solved"
-      }
-    },
-    "de" : {
-      "stringUnit" : {
-        "state" : "translated",
-        "value" : "Gelöst"
-      }
-    }
-  }
-},
-
-
-"difficulty_easy_adjective" : {
-  "extractionState" : "manual",
-  "localizations" : {
-    "en" : {
-      "stringUnit" : {
-        "state" : "translated",
-        "value" : "Easy"
-      }
-    },
-    "de" : {
-      "stringUnit" : {
-        "state" : "translated",
-        "value" : "Einfaches"
-      }
-    }
-  }
-},
-
-
-"difficulty_medium_adjective" : {
-  "extractionState" : "manual",
-  "localizations" : {
-    "en" : {
-      "stringUnit" : {
-        "state" : "translated",
-        "value" : "Medium"
-      }
-    },
-    "de" : {
-      "stringUnit" : {
-        "state" : "translated",
-        "value" : "Mittleres"
-      }
-    }
-  }
-},
-
-"difficulty_hard_adjective" : {
-  "extractionState" : "manual",
-  "localizations" : {
-    "en" : {
-      "stringUnit" : {
-        "state" : "translated",
-        "value" : "Hard"
-      }
-    },
-    "de" : {
-      "stringUnit" : {
-        "state" : "translated",
-        "value" : "Schweres"
-      }
-    }
-  }
-},
-
-"quiz_completed_format" : {
-  "extractionState" : "manual",
-  "localizations" : {
-    "en" : {
-      "stringUnit" : {
-        "state" : "translated",
-        "value" : "%d of %d Quizzes solved"
-      }
-    },
-    "de" : {
-      "stringUnit" : {
-        "state" : "translated",
-        "value" : "%d von %d Quizzes gelöst"
-      }
-    }
-  }
-},
-
-"quiz_solved_progress" : {
-  "extractionState" : "manual",
-  "localizations" : {
-    "en" : {
-      "stringUnit" : {
-        "state" : "translated",
-        "value" : "%d of %d questions solved"
-      }
-    },
-    "de" : {
-      "stringUnit" : {
-        "state" : "translated",
-        "value" : "%d von %d Fragen gelöst"
-      }
-    }
-  }
-},
-
-"lesson_overview_title" : {
-  "extractionState" : "manual",
-  "localizations" : {
-    "en" : {
-      "stringUnit" : {
-        "state" : "translated",
-        "value" : "Lesson overview"
-      }
-    },
-    "de" : {
-      "stringUnit" : {
-        "state" : "translated",
-        "value" : "Kursübersicht"
-      }
-    }
-  }
-},
-
-"quiz_solved_label_format" : {
-  "extractionState" : "manual",
-  "localizations" : {
-    "en" : {
-      "stringUnit" : {
-        "state" : "translated",
-        "value" : "%d/%d solved"
-      }
-    },
-    "de" : {
-      "stringUnit" : {
-        "state" : "translated",
-        "value" : "%d/%d gelöst"
-      }
-    }
-  }
-},
-
-
-"next_quiz_button" : {
-  "extractionState" : "manual",
-  "localizations" : {
-    "en" : {
-      "stringUnit" : {
-        "state" : "translated",
-        "value" : "Next Quiz"
-      }
-    },
-    "de" : {
-      "stringUnit" : {
-        "state" : "translated",
-        "value" : "Nächstes Quiz"
-      }
-    }
-  }
-},
-
-
-"topic_theory_format" : {
-  "extractionState" : "manual",
-  "localizations" : {
-    "en" : {
-      "stringUnit" : {
-        "state" : "translated",
-        "value" : "%@ Theory cards"
-      }
-    },
-    "de" : {
-      "stringUnit" : {
-        "state" : "translated",
-        "value" : "%@ Theorie lernen"
-      }
-    }
-  }
-},
-
-
   },
   "version" : "1.1"
 }
