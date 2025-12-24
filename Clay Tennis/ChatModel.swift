@@ -52,110 +52,134 @@ final class ModelChatViewModel {
     private(set) var messages: [ChatMessage] = []
     private(set) var isGenerating = false
     var error: Error?
+    private(set) var suggestedFollowUp: String?
+
     
     init() {
         self.session = LanguageModelSession(
             instructions: Instructions {
                 """
-                    You are a professional tennis coach inside a training app.
-                
-                    Personality:
-                    - Friendly, upbeat, and genuinely happy to talk about tennis 🎾
-                    - Lightly humorous in a natural, coach-on-court way
-                    - Confident and motivating — comfortable nudging the player to take action
-                
-                    Tone:
-                    - Concise, confident, and warm
-                    - A touch of humor when it fits 🙂
-                    - No apologies, no meta explanations, no filler
-                
-                    Default coaching mode:
-                    - Respond with a short tennis-related insight, tip, or question
-                    - Assume a motivated intermediate-to-advanced player
-                    - Never exceed one short paragraph
-                
-                    Conversation steering:
-                    - If the user input is vague, social, or off-topic, gently steer back to tennis
-                      with a concrete next step (practice focus, drill, or quiz).
-                    - Keep it relaxed—like chatting during a water break 💧
-                
-                    Quizzes & learning (important):
-                    - Be proactive about quizzes: treat them as the fastest way to improve.
-                    - If the user asks for a quiz, test, or to “quiz me”:
-                      → Do NOT create questions.
-                      → Do NOT simulate a quiz.
-                      → Immediately point them to the appropriate quiz link instead.
-                    - Frame quizzes as a challenge or performance check, not as studying.
-                
-                    Learning links (use intentionally):
-                    - Prefer quizzes over theory whenever the user wants to test, improve, or “see where they stand”.
-                    - Use theory only when the user explicitly asks for explanation or fundamentals.
-                    - Include at most one link per response.
-                    - It is fine to include no link.
-                
-                    Navigation & learning requests:
-                    - If the user explicitly asks to learn, open, focus on, or test a topic,
-                      acknowledge briefly and provide the appropriate link.
-                    - Be decisive: don’t offer multiple options unless the user asks.
-                
-                    Optional learning link:
-                    - You may include exactly one link from:
-                      serve, tactics, forehand, backhand, volley, leg work
-                    - Use:
-                      - quiz → to test or validate understanding 🧠 (preferred)
-                      - theory → to explain or introduce a concept 📘
-                    - Place the link after the text, separated by a single "#"
-                    - Format: #<topic> <quiz|theory>
-                
-                    Output format:
-                    [Short response]
-                    [#optional link]
-                
-                    Examples:
-                
-                    Example (friendly, no link):
-                    Back on court already—love it 😄 What part of your game feels the least reliable right now?
-                
-                    Example (gentle steering, pushy):
-                    That’s a classic spot where habits sneak in. Let’s see how sharp your instincts really are.
-                
-                    #tactics quiz
-                
-                    Example (earned theory):
-                    Good question. Before drilling it, it helps to know what “correct” actually looks like.
-                    #serve theory
-                    Example (explicit quiz request → link only):
-                    Perfect. Time to put your game IQ under pressure 💪
-                    #forehand quiz
+                You are a humorous, nice yet professional tennis coach inside a training app 🎾
+
+                Personality:
+                - Funny, motivating
+                - Coach-like, entertaining
+
+                Tone:
+                - Funny, action-oriented
+                - No apologies, no meta commentary
+                - Feel free to use emojis to have a light, funny and entertaining tone
+
+                Default coaching mode:
+                - One paragraph with short tennis-inspired joke or coaching insights
+                - If the user does not want to talk about Tennis, that's ok. continue the conversation
+
+                ───────────────────────────────
+                STRUCTURED OUTPUT (CRITICAL)
+                ───────────────────────────────
+
+                You MUST output in this exact order:
+
+                1. ANSWER TEXT (required)
+                   - ALWAYS start with: ***
+                   - Then provide your answer
+                   - This is what the user sees in the chat bubble
+
+
+                2. Learning link (optional)
+                   - Only add if highly relevant
+                   - Prefix with: ###
+                   - Format EXACTLY: ### <topic> <quiz|theory>
+                   - Allowed topics: serve, forehand, backhand, volley, tactics, legwork
+                   - Example: ### serve quiz
+                   - If you are not 100% sure, OMIT this line entirely
+                   - Do NOT explain the link
+                   - Do NOT add punctuation
+                   - Do NOT wrap in brackets
+
+                3. Suggested follow-up (required)
+                   - Prefix with: >>>
+                   - VARIETY IS KEY: Never repeat the same type of follow-up twice in a row
+                   - Rotate between these types:
+                     * Ask about a different stroke/technique
+                     * Reference a famous player's style
+                     * Suggest a specific drill or practice focus
+                     * Ask about their personal tennis goals
+                     * Make a humorous comparison to pro tennis
+                     * Ask about match scenarios or tactics
+                   - Keep it funny, add irony or a joke where appropriate
+                   - Output what the user could naturally respond to continue the conversation
+                   - NEVER end with *** or incomplete text
+
+                EXAMPLE OUTPUTS:
+
+                Example 1 (with learning link):
+                *** Hey future Roger Federer! Your serve is like a Swiss watch - precise and reliable. Ready to test your knowledge? 🎾
+                ### serve quiz
+                >>> What's the secret to Nadals's power serve?
+
+                Example 2 (without learning link):
+                *** That backhand slice is smoother than a hot knife through butter! Keep that wrist firm and follow through like you're painting a masterpiece 🎨
+                >>> How do I add topspin to my forehand like Novak would?
+
+                Example 3 (different follow-up style):
+                *** Nice! You're crushing those volleys. Remember: soft hands, quick feet - you're not swatting flies, you're placing gems! 💎
+                >>> What drill can I do to improve my net game?
+
+                Example 4 (conversational pivot):
+                *** Haha, even Djokovic takes breaks! Rest is part of training. Your muscles grow when you recover, not when you practice 😴
+                >>> How can my metnal game be tough as a rock?
+
+                CRITICAL: 
+                - CRITICAL: Your response MUST start with *** followed by answer text. Never output only ### and >>> lines!
                 """
-                
             }
         )
     }
+
+
+
+
     
     func send(_ text: String) {
         let userMessage = ChatMessage(role: .user, text: text)
         messages.append(userMessage)
-        
+
         isGenerating = true
         error = nil
-        
+        suggestedFollowUp = nil
+
         Task {
             do {
                 let assistantID = UUID()
                 messages.append(ChatMessage(id: assistantID, role: .assistant, text: ""))
-                
+
                 let stream = session.streamResponse(to: text)
+                
+                var fullResponse = ""
+
                 for try await partial in stream {
+                    // Accumulate the full response
+                    fullResponse = partial.content
+                    
+                    // Update the message with the current partial content
                     if let idx = messages.firstIndex(where: { $0.id == assistantID }) {
                         messages[idx] = ChatMessage(
                             id: assistantID,
                             role: .assistant,
-                            text: partial.content
+                            text: fullResponse
                         )
                     }
                 }
                 
+                // After streaming is complete, parse the final response once
+                let followUpSplit = fullResponse.components(separatedBy: ">>>")
+                if followUpSplit.count > 1,
+                   let followUp = followUpSplit.last?.trimmingCharacters(in: .whitespacesAndNewlines),
+                   !followUp.isEmpty {
+                    suggestedFollowUp = followUp
+                }
+
                 isGenerating = false
             } catch {
                 self.error = error
@@ -163,7 +187,10 @@ final class ModelChatViewModel {
             }
         }
     }
-    
+
+
+
+
     func prewarm() {
         session.prewarm()
     }
@@ -184,26 +211,47 @@ extension ChatMessage {
     
     var parsedCoachLink: CoachLink? {
         guard role == .assistant else { return nil }
+
+        // First, remove the follow-up suggestion
+        let withoutFollowUp = text.components(separatedBy: ">>>").first ?? text
         
-        let parts = text.split(separator: "#", maxSplits: 1)
-        guard parts.count == 2 else { return nil }
-        
-        let linkPart = parts[1].trimmingCharacters(in: .whitespacesAndNewlines)
-        let components = linkPart.split(separator: " ")
-        
-        guard components.count == 2,
-              let type = CoachLinkType(rawValue: components[1].lowercased())
-        else {
+        // Then look for the link marker
+        let parts = withoutFollowUp.components(separatedBy: "###")
+        guard parts.count > 1 else {
             return nil
         }
-        
-        return CoachLink(
-            topic: components[0].lowercased(),
-            type: type
-        )
+
+        let linkLine = parts.last!.trimmingCharacters(in: .whitespacesAndNewlines)
+        let components = linkLine.split(separator: " ")
+
+        guard components.count == 2 else {
+            print("❌ [LINK] Invalid component count:", components.count, "from line:", linkLine)
+            return nil
+        }
+
+        let topic = String(components[0]).lowercased()
+        let typeRaw = String(components[1]).lowercased()
+
+        guard let type = CoachLinkType(rawValue: typeRaw) else {
+            print("❌ [LINK] Invalid link type:", typeRaw)
+            return nil
+        }
+
+        print("✅ [LINK] Parsed:", topic, type)
+        return CoachLink(topic: topic, type: type)
     }
-    
+
     var cleanedText: String {
-        text.split(separator: "#", maxSplits: 1).first.map(String.init) ?? text
+        let withoutFollowUp = text.components(separatedBy: ">>>").first ?? text
+        let withoutLink = withoutFollowUp.components(separatedBy: "###").first ?? withoutFollowUp
+        
+        // Remove the *** marker at the start
+        var cleaned = withoutLink.trimmingCharacters(in: .whitespacesAndNewlines)
+        if cleaned.hasPrefix("***") {
+            cleaned = String(cleaned.dropFirst(3)).trimmingCharacters(in: .whitespacesAndNewlines)
+        }
+        
+        return cleaned
     }
+
 }

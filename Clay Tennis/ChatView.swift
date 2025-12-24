@@ -18,6 +18,16 @@ struct ChatView: View {
     @State private var inputText = ""
     @FocusState private var isFocused: Bool
     @State private var navigateToFindCoach = false
+    @State private var initialSuggestion: String
+    
+    init(actions: CoachActions) {
+        self.actions = actions
+        
+        // Randomly select a topic for the initial suggestion
+        let topics = ["serve", "forehand", "backhand", "volley", "tactics"]
+        let randomTopic = topics.randomElement() ?? "serve"
+        _initialSuggestion = State(initialValue: "Teach me the \(randomTopic) fundamentals")
+    }
     
     var body: some View {
         NavigationStack{
@@ -60,6 +70,39 @@ struct ChatView: View {
                     .scrollDismissesKeyboard(.interactively)
                     .onTapGesture { isFocused = false }
                 }
+                
+                // Show suggested follow-up either from model or default first message
+                if let suggestion = viewModel.suggestedFollowUp ?? (viewModel.messages.isEmpty ? initialSuggestion : nil),
+                   !viewModel.isGenerating {
+
+                    VStack(alignment: .trailing, spacing: 6) {
+
+                        Text(viewModel.messages.isEmpty ? "Suggested conversation starter 🎾" : "Suggested next step 🎾")
+                            .font(.caption.weight(.semibold))
+                            .foregroundStyle(.secondary)
+                            .padding(.trailing, 4)
+
+                        Button {
+                            viewModel.send(suggestion)
+                        } label: {
+                            HStack {
+                                Spacer(minLength: 40)
+
+                                Text(suggestion)
+                                    .font(.subheadline.weight(.medium))
+                                    .padding(.horizontal, 14)
+                                    .padding(.vertical, 10)
+                                    .background(
+                                        Capsule()
+                                            .fill(Color.accentColor.opacity(0.18))
+                                    )
+                            }
+                        }
+                    }
+                    .padding(.horizontal)
+                    .padding(.bottom, 6)
+                }
+
                 
                 InputBar(
                     text: $inputText,
