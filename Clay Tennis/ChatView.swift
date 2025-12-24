@@ -62,11 +62,13 @@ struct ChatView: View {
                         }
                         .padding()
                     }
-                    .onChange(of: viewModel.messages.count) {
-                        if let last = viewModel.messages.last {
+                    .onChange(of: viewModel.messages.last?.text) { _ in
+                        guard let last = viewModel.messages.last else { return }
+                        withAnimation(.easeOut(duration: 0.15)) {
                             proxy.scrollTo(last.id, anchor: .bottom)
                         }
                     }
+
                     .scrollDismissesKeyboard(.interactively)
                     .onTapGesture { isFocused = false }
                 }
