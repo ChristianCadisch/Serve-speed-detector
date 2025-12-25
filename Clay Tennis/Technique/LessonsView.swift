@@ -27,6 +27,14 @@ struct LessonsView: View {
                 modeToggle
 
                 ScrollView {
+
+                    LessonsProgressCard(
+                        title: progressTitle,
+                        completed: completedCount,
+                        total: totalCount
+                    )
+                    .padding(.top, 4)
+
                     switch mode {
                     case .shorts:
                         quickTipsGrid
@@ -34,6 +42,7 @@ struct LessonsView: View {
                         deepLessonsList
                     }
                 }
+
             }
             .navigationTitle("Lessons")
             .navigationBarTitleDisplayMode(.large)
@@ -128,6 +137,25 @@ struct LessonsView: View {
         .padding(.horizontal)
         .padding(.top, 8)
     }
+    
+    private var progressVideos: [TrainingVideo] {
+        filteredVideos.filter {
+            mode == .longs ? $0.filetype == "long" : $0.filetype == "shorts"
+        }
+    }
+
+    private var completedCount: Int {
+        progressVideos.filter { $0.isCompleted }.count
+    }
+
+    private var totalCount: Int {
+        progressVideos.count
+    }
+
+    private var progressTitle: String {
+        mode == .longs ? "Deep Lessons Progress" : "Quick Tips Progress"
+    }
+
 
 
     // MARK: - Filtering
@@ -324,6 +352,135 @@ fileprivate struct CompletedOverlay: View {
             }
         }
         .allowsHitTesting(false)
+    }
+}
+
+
+fileprivate struct LessonsProgressCard: View {
+
+    let title: String
+    let completed: Int
+    let total: Int
+
+    private let gradient = LinearGradient(
+        colors: [Color.green, Color.mint],
+        startPoint: .topLeading,
+        endPoint: .bottomTrailing
+    )
+
+    @State private var animatedProgress: Double = 0
+
+    private var targetProgress: Double {
+        guard total > 0 else { return 0 }
+        return Double(completed) / Double(total)
+    }
+
+    private var motivationalLine: String {
+        guard total > 0 else {
+            return "Let’s get started 🎾"
+        }
+
+        // Completed everything
+        if completed >= total {
+            return "All done. That’s discipline 🌱"
+        }
+
+        // Few-lesson tracks (≤ 10)
+        if total <= 10 {
+            switch completed {
+            case 0:
+                return "The first one is the hardest 🎾"
+            case 1:
+                return "Good start 👏"
+            case 2:
+                return "Momentum building 🚀"
+            case 3:
+                return "Solid consistency ⭐️"
+            case 4:
+                return "Habits forming 💪"
+            case 5:
+                return "Halfway there 🔥"
+            case 6:
+                return "Most stop here. You didn’t 😤"
+            case 7:
+                return "This is getting serious 👀"
+            case 8:
+                return "Elite focus 🎯"
+            default:
+                return "Almost there 🏁"
+            }
+        }
+
+        // Longer tracks (> 10): phase-based messaging
+        let progress = Double(completed) / Double(total)
+
+        switch progress {
+        case ..<0.1:
+            return "The first step counts 🎾"
+        case ..<0.25:
+            return "Building momentum 🚀"
+        case ..<0.5:
+            return "Consistency over time ⭐️"
+        case ..<0.75:
+            return "Real progress showing 💪"
+        case ..<0.95:
+            return "Strong finish coming up 🔥"
+        default:
+            return "Almost complete 🏁"
+        }
+    }
+
+
+    var body: some View {
+        HStack(spacing: 16) {
+
+            // Progress ring
+            ZStack {
+                Circle()
+                    .stroke(Color.secondary.opacity(0.18), lineWidth: 4)
+
+                Circle()
+                    .trim(from: 0, to: animatedProgress)
+                    .stroke(
+                        gradient,
+                        style: StrokeStyle(
+                            lineWidth: 5,
+                            lineCap: .round
+                        )
+                    )
+                    .rotationEffect(.degrees(-90))
+                    .animation(
+                        .spring(response: 0.6, dampingFraction: 0.8),
+                        value: animatedProgress
+                    )
+            }
+            .frame(width: 44, height: 44)
+
+            VStack(alignment: .leading, spacing: 6) {
+                Text(title)
+                    .font(.headline)
+
+                Text("\(completed) of \(total) completed")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+
+                Text(motivationalLine)
+                    .font(.caption.weight(.medium))
+                    .foregroundStyle(Color.green.opacity(0.85))
+            }
+
+            Spacer()
+        }
+        .padding(16)
+        .background(Color(.systemGray6))
+        .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+        .padding(.horizontal)
+        .onAppear {
+            animatedProgress = targetProgress
+        }
+        .onChange(of: targetProgress) { _, newValue in
+            animatedProgress = newValue
+        }
     }
 }
 
