@@ -23,6 +23,7 @@ struct CoachHubWrapper: View {
     @ObservedObject var state: CoachHubState
     let recordAction: () -> Void
     let uploadAction: () -> Void
+    let onReplayServe: (URL) -> Void
     let lastServeSpeed = FeedItemStorage
         .load()
         .filter { $0.type == .serve }
@@ -41,17 +42,18 @@ struct CoachHubWrapper: View {
     
     var body: some View {
         CoachHubView(
-            selectedMode: $state.selectedMode,
-            detectedAngle: $state.detectedAngle,
-            angleDetectionSource: .constant(.manual),
-            latestTechniqueItem: lastTechnique,
-            recordAction: recordAction,
-            uploadAction: uploadAction,
-            latestFocusTitle: state.selectedMode == .technique ? "Refine Toss Consistency" : nil,
-            latestFocusStrength: state.selectedMode == .technique ? "Stable leg drive detected" : nil,
-            latestFocusCorrection: state.selectedMode == .technique ? "Toss drifting too far left" : nil,
-            lastServeSpeed: state.selectedMode == .speed ? lastServeSpeed : nil
-        )
+                    selectedMode: $state.selectedMode,
+                    detectedAngle: $state.detectedAngle,
+                    angleDetectionSource: .constant(.manual),
+                    latestTechniqueItem: lastTechnique,
+                    recordAction: recordAction,
+                    uploadAction: uploadAction,
+                    onReplayServe: onReplayServe, // ✅ NEW
+                    latestFocusTitle: state.selectedMode == .technique ? "Refine Toss Consistency" : nil,
+                    latestFocusStrength: state.selectedMode == .technique ? "Stable leg drive detected" : nil,
+                    latestFocusCorrection: state.selectedMode == .technique ? "Toss drifting too far left" : nil,
+                    lastServeSpeed: state.selectedMode == .speed ? lastServeSpeed : nil
+                )
     }
 }
 
@@ -518,15 +520,15 @@ class HomeViewController: UIViewController,
             state: coachHubState,
             recordAction: { [weak self] in
                 guard let self = self else { return }
-                
+
                 print("🎬 [CoachHub] Record tapped with mode:", self.coachHubState.selectedMode)
-                
+
                 switch self.coachHubState.selectedMode {
                 case .speed:
                     print("🚀 [CoachHub] Opening Serve Speed flow")
                     self.pendingUploadMode = .speed
                     self.presentVideoPicker()
-                    
+
                 case .technique:
                     print("🧠 [CoachHub] Opening Technique / AI Coach flow")
                     self.activeTab = .coachUpload
@@ -536,15 +538,15 @@ class HomeViewController: UIViewController,
             },
             uploadAction: { [weak self] in
                 guard let self = self else { return }
-                
+
                 print("📤 [CoachHub] Upload tapped with mode:", self.coachHubState.selectedMode)
-                
+
                 switch self.coachHubState.selectedMode {
                 case .speed:
                     print("🚀 [CoachHub] Uploading to Serve Speed")
                     self.pendingUploadMode = .speed
                     self.presentVideoPicker()
-                    
+
                 case .technique:
                     print("🧠 [CoachHub] Uploading to Technique / AI Coach")
                     self.activeTab = .coachUpload
@@ -552,8 +554,20 @@ class HomeViewController: UIViewController,
                     self.presentVideoPicker()
                 }
             },
+            onReplayServe: { [weak self] (url: URL) in
+                guard let self = self else { return }
+
+                print("🎬 [CoachHub → Replay] Opening:", url.lastPathComponent)
+
+                if self.activeTab != .home {
+                    self.activeTab = .home
+                    self.showFeedView()
+                }
+
+                self.openContentAnalysis(for: url) // ✅ matches FeedView behavior
+            }
         )
-        
+
         let hosting = UIHostingController(
             rootView: AnyView(
                 NavigationStack {
@@ -561,13 +575,15 @@ class HomeViewController: UIViewController,
                 }
             )
         )
-        
+
         coachHubHostingController = hosting
         replaceRoot(with: hosting, title: "Training Hub")
         navigationItem.leftBarButtonItem = nil
         disableLessonSwipeBack()
         navigationController?.setNavigationBarHidden(false, animated: false)
     }
+
+
     
     @objc private func handleBackToTheory() {
         popToTheoryView()

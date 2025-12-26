@@ -9,42 +9,46 @@
 import SwiftUI
 
 struct CoachHubView: View {
-    
+
     // MARK: - Public State (inject from parent)
-    
+
     @Binding var selectedMode: ServeMode           // .speed | .technique
     @Binding var detectedAngle: ServeCameraAngle   // .side | .back
     @Binding var angleDetectionSource: AngleSource // .auto | .manual
     @State private var activeSetupMode: ServeMode?
     @State private var showAngleSelectionSheet = false
     @State private var pendingRecordAfterAngleSelection = false
-    
-    
-    
+
     private let hasSeenSpeedSetupKey = "hasSeenSpeedRecordingSetup"
     private let hasSeenTechniqueSetupKey = "hasSeenTechniqueRecordingSetup"
-    
+
     let latestTechniqueItem: FeedItem?
-    
+
     let recordAction: () -> Void
     let uploadAction: () -> Void
-    
+
+    // ✅ NEW: parent-provided replay hook (URL-based, like FeedView)
+    let onReplayServe: (URL) -> Void
+
     let latestFocusTitle: String?
     let latestFocusStrength: String?
     let latestFocusCorrection: String?
-    
+
     // Speed mode data
     let lastServeSpeed: Double?  // in km/h
-    
-    private var recentServeSpeeds: [Double] {
+
+    private var recentServeItems: [FeedItem] {
         FeedItemStorage
             .load()
             .filter { $0.type == .serve }
             .sorted { $0.date < $1.date }
-            .compactMap { $0.fastestSpeedKmh }
             .suffix(10)
     }
-    
+
+    private var recentServeSpeeds: [Double] {
+        recentServeItems.compactMap { $0.fastestSpeedKmh }
+    }
+
     
     // MARK: - View
     
@@ -62,13 +66,21 @@ struct CoachHubView: View {
                 coachingFocusCard
             } else if selectedMode == .speed && lastServeSpeed != nil {
                 ServeSpeedTrendCard(
-                    speeds: recentServeSpeeds,
+                    speeds: recentServeItems.compactMap { $0.fastestSpeedKmh },
                     onSelectIndex: { index in
-                        print("🎾 [Serve Trend] Selected serve index:", index)
-                        print("🎾 [Serve Trend] Speed:", recentServeSpeeds[index], "km/h")
+                        print("🎾 [Serve Trend] Selected index:", index)
                     },
                     onReplayServe: { index in
-                        print("🎬 Replaying serve #\(index + 1)")
+                        guard
+                            index < recentServeItems.count,
+                            let url = recentServeItems[index].thumbnailURL
+                        else {
+                            print("❌ [CoachHub] Missing serve URL for replay")
+                            return
+                        }
+
+                        print("🎬 [CoachHub] Replaying serve:", url.lastPathComponent)
+                        onReplayServe(url)
                     }
                 )
             }
@@ -123,14 +135,7 @@ struct CoachHubView: View {
         
     }
     
-    private var recentServeItems: [FeedItem] {
-        FeedItemStorage
-            .load()
-            .filter { $0.type == .serve }
-            .sorted { $0.date < $1.date }
-            .suffix(10)
-    }
-    
+
     
     
     private var angleSelectionSheet: some View {
@@ -1026,20 +1031,5 @@ struct ServeSpeedTrendCard: View {
     )
     .padding()
     .background(Color(.systemBackground))
-}
-
-#Preview {
-    CoachHubView(
-        selectedMode: .constant(.speed),
-        detectedAngle: .constant(.side),
-        angleDetectionSource: .constant(.auto),
-        latestTechniqueItem: nil,
-        recordAction: {},
-        uploadAction: {},
-        latestFocusTitle: "Trophy Position",
-        latestFocusStrength: "Good shoulder rotation",
-        latestFocusCorrection: "Raise your tossing arm longer",
-        lastServeSpeed: 172
-    )
 }
 
