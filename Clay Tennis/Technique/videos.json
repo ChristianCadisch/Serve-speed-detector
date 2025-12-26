@@ -13,18 +13,18 @@
   },
   
   {
-    "id": "serve_lesson_reliable_serve_002",
-    "youtubeId": "mOlf4pcvUxM",
+    "id": "Feel_tennis",
+    "youtubeId": "CXgfNBnetzQ",
     "category": "serve",
-    "title": "9 tips to Serve Like a Pro",
-    "duration": 4,
+    "title": "7 tips to Serve Like a Pro",
+    "duration": 21,
     "type": "technique",
     "level": "advanced",
     "filetype": "long",
     "learningPoints": [
-      "Correct continental grip",
-      "Simple, repeatable service motion",
-      "Building rhythm and consistency"
+      "Backswing & toss",
+      "Power generation",
+      "Pronation"
     ]
   },
   {
@@ -342,7 +342,203 @@
     "duration": 46,
     "type": "technique",
     "level": "beginner"
-  }
+  },
+  {
+    "id": "fritz",
+    "youtubeId": "T_5osrG-fGI",
+    "category": "serve",
+    "title": "Serve Tips with Tylor Fritz",
+    "duration": 4,
+    "type": "technique",
+    "level": "advanced",
+    "filetype": "long",
+    "learningPoints": [
+      "Knee bend",
+      "Ball Toss",
+      "Bringing everything together"
+    ]
+  },
+  {
+    "id": "3_steps_forehand",
+    "youtubeId": "5arVdubK9Pg",
+    "category": "forehand",
+    "title": "3 steps to the perfect forehand",
+    "duration": 13,
+    "type": "technique",
+    "level": "advanced",
+    "filetype": "long",
+    "learningPoints": [
+      "The take-back",
+      "The contact",
+      "The finish"
+    ]
+  },
+  {
+    "id": "forehand_serena",
+    "youtubeId": "mXy0jJl8Pnc",
+    "category": "forehand",
+    "title": "How To Hit Forehand with Venus Williams",
+    "duration": 11,
+    "type": "technique",
+    "level": "advanced",
+    "filetype": "long",
+    "learningPoints": [
+      "Foot placement and stance",
+      "Create spin",
+      "Stroke finishing"
+    ]
+  },
+  {
+    "id": "forehand_serena",
+    "youtubeId": "aZj7DIEftPg",
+    "category": "forehand",
+    "title": "The Perfect Forehand",
+    "duration": 14,
+    "type": "technique",
+    "level": "advanced",
+    "filetype": "long",
+    "learningPoints": [
+      "Ready position",
+      "Coiling the body",
+      "Racket lag",
+      "Follow through",
+    ]
+  },
+  {
+    "id": "backhand_3_steps",
+    "youtubeId": "i1k8MLOsOwI",
+    "category": "backhand",
+    "title": "Two Handed Backhand in 3 Steps",
+    "duration": 11,
+    "type": "technique",
+    "level": "advanced",
+    "filetype": "long",
+    "learningPoints": [
+      "The Perfect Grip",
+      "The perfect power position",
+      "Contact point and finish"
+    ]
+  },
+  {
+    "id": "backhand_one_handed_3_steps",
+    "youtubeId": "hKSr14cUn9Q",
+    "category": "backhand",
+    "title": "Modern One Handed Backhand",
+    "duration": 5,
+    "type": "technique",
+    "level": "advanced",
+    "filetype": "long",
+    "learningPoints": [
+      "Unit turn",
+      "Power position",
+      "Follow through and finish"
+    ]
+  },
+  {
+    "id": "volley_1",
+    "youtubeId": "Ac3ttQ-UaRk",
+    "category": "volley",
+    "title": "Transform Your Volleys",
+    "duration": 14,
+    "type": "technique",
+    "level": "advanced",
+    "filetype": "long",
+    "learningPoints": [
+      "Timing",
+      "Footwork patterns",
+      "How to aim"
+    ]
+  },
+  {
+    "id": "volley_2",
+    "youtubeId": "qBvDzUnyHKE",
+    "category": "volley",
+    "title": "3 Quick Fixes ",
+    "duration": 8,
+    "type": "technique",
+    "level": "advanced",
+    "filetype": "long",
+    "learningPoints": [
+      "The perfect grip",
+      "Swing curve",
+      "Joint positioning"
+    ]
+  },
+  {
+    "id": "volley_3",
+    "youtubeId": "xhSk2q2FR28",
+    "category": "volley",
+    "title": "The perfect volley",
+    "duration": 8,
+    "type": "technique",
+    "level": "advanced",
+    "filetype": "long",
+    "learningPoints": [
+      "The ready position",
+      "Volley preparation",
+      "The perfect footwork"
+    ]
+  },
+  {
+      "id": "mental_3",
+      "youtubeId": "1vV3qyO84K0",
+      "category": "mental",
+      "title": "How To Beat Your Deamons",
+      "duration": 10,
+      "type": "technique",
+      "level": "advanced",
+      "filetype": "long",
+      "learningPoints": [
+        "Talk to yourself",
+        "Good intention,bad outcomes",
+        "Improving mental skills",
+      ]
+    },
+  {
+    "id": "mental_1",
+    "youtubeId": "xhSk2q2FR28",
+    "category": "mental",
+    "title": "Mental preparation",
+    "duration": 6,
+    "type": "technique",
+    "level": "advanced",
+    "filetype": "long",
+    "learningPoints": [
+      "How to prepare mentally",
+      "How your self-talk affects your body",
+      "The four elements of a good goal"
+    ]
+  },
+  {
+    "id": "mental_2",
+    "youtubeId": "xYTurhF1JM0",
+    "category": "mental",
+    "title": "How To Calm Your Nerves",
+    "duration": 3,
+    "type": "technique",
+    "level": "advanced",
+    "filetype": "long",
+    "learningPoints": [
+      "ITF Rituals",
+      "The relaxed thoughts",
+    ]
+  },
+  {
+    "id": "mental_2",
+    "youtubeId": "xYTurhF1JM0",
+    "category": "mental",
+    "title": "How To Calm Your Nerves",
+    "duration": 3,
+    "type": "technique",
+    "level": "advanced",
+    "filetype": "long",
+    "learningPoints": [
+      "ITF Rituals",
+      "The relaxed thoughts",
+    ]
+  },
+
+  
 ]
 
 

@@ -253,6 +253,30 @@ class HomeViewController: UIViewController,
             name: .showAICoachDetail,
             object: nil
         )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleShowServeVideoPlayback(_:)),
+            name: Notification.Name("ShowServeVideoPlayback"),
+            object: nil
+        )
+    }
+    
+    @objc private func handleShowServeVideoPlayback(_ notification: Notification) {
+        guard let videoURL = notification.object as? URL else {
+            print("❌ [REPLAY] No video URL in notification")
+            return
+        }
+        
+        print("✅ [REPLAY] Opening serve video:", videoURL.lastPathComponent)
+        
+        // Navigate to home tab if not already there
+        if activeTab != .home {
+            activeTab = .home
+            showFeedView()
+        }
+        
+        // Open the video in ContentAnalysisViewController
+        openContentAnalysis(for: videoURL)
     }
     
     @objc private func handleShowAICoachDetail(_ notification: Notification) {
@@ -527,7 +551,7 @@ class HomeViewController: UIViewController,
                     self.pendingUploadMode = .coach
                     self.presentVideoPicker()
                 }
-            }
+            },
         )
         
         let hosting = UIHostingController(
