@@ -29,7 +29,9 @@ class AICoach {
             var feedbackArrayDetailed = [String]()
             var positiveFeedbackArray = [String]()
             var positiveFeedbackDetailed = [String]()
-            var highlightInstructions = [HighlightInstruction]()
+            
+            var negativeHighlights: [HighlightInstruction] = []
+            var positiveHighlights: [HighlightInstruction] = []
 
             func vprint(_ label: String, _ value: Any? = nil) {
                 if verbose {
@@ -58,7 +60,7 @@ class AICoach {
                     feedbackArray.append("Your knee bend is too shallow")
                     feedbackArrayDetailed.append("More knee flexion strengthens loading")
                     
-                    highlightInstructions.append(
+                    negativeHighlights.append(
                         HighlightInstruction(
                             joints: [.leftKnee, .leftHip, .leftAnkle, .rightHip, .rightAnkle, .rightKnee],
                             segments: [(.leftHip, .leftKnee), (.leftKnee, .leftAnkle), (.rightHip, .rightKnee), (.rightKnee, .rightAnkle)],
@@ -70,7 +72,7 @@ class AICoach {
                     positiveFeedbackArray.append("Strong lower-body loading — great knee bend")
                     positiveFeedbackDetailed.append("Optimal power position achieved")
                     
-                    highlightInstructions.append(
+                    positiveHighlights.append(
                         HighlightInstruction(
                             joints: [.leftKnee, .leftHip, .leftAnkle, .rightHip, .rightAnkle, .rightKnee],
                             segments: [(.leftHip, .leftKnee), (.leftKnee, .leftAnkle), (.rightHip, .rightKnee), (.rightKnee, .rightAnkle)],
@@ -105,7 +107,7 @@ class AICoach {
                         feedbackArray.append("Your contact point is too far right")
                         feedbackArrayDetailed.append("Reduces directional stability")
 
-                        highlightInstructions.append(
+                        negativeHighlights.append(
                             HighlightInstruction(
                                 joints: [.rightShoulder, .rightWrist],
                                 segments: [(.rightShoulder, .rightWrist)],
@@ -117,7 +119,7 @@ class AICoach {
                         feedbackArray.append("Your contact point is too far left")
                         feedbackArrayDetailed.append("Center contact improves control")
 
-                        highlightInstructions.append(
+                        negativeHighlights.append(
                             HighlightInstruction(
                                 joints: [.rightShoulder, .rightWrist],
                                 segments: [(.rightShoulder, .rightWrist)],
@@ -129,7 +131,7 @@ class AICoach {
                         positiveFeedbackArray.append("Great ball contact alignment")
                         positiveFeedbackDetailed.append("Centered contact maximizes power")
 
-                        highlightInstructions.append(
+                        positiveHighlights.append(
                             HighlightInstruction(
                                 joints: [hitterShoulder == leftShoulder ? .leftShoulder : .rightShoulder,
                                          hitterWrist == leftWrist ? .leftWrist : .rightWrist],
@@ -154,7 +156,7 @@ class AICoach {
                         feedbackArray.append("Your hitting arm should be more extended")
                         feedbackArrayDetailed.append("Straight arm maximizes reach")
 
-                        highlightInstructions.append(
+                        negativeHighlights.append(
                             HighlightInstruction(
                                 joints: [.leftShoulder, .leftElbow, .leftWrist],
                                 segments: [(.leftShoulder, .leftElbow),
@@ -167,7 +169,7 @@ class AICoach {
                         positiveFeedbackArray.append("Excellent arm extension at contact")
                         positiveFeedbackDetailed.append("Full reach achieved")
 
-                        highlightInstructions.append(
+                        positiveHighlights.append(
                             HighlightInstruction(
                                 joints: [.leftShoulder, .leftElbow, .leftWrist],
                                 segments: [(.leftShoulder, .leftElbow),
@@ -189,7 +191,7 @@ class AICoach {
                     feedbackArray.append("Increase your shoulder tilt")
                     feedbackArrayDetailed.append("Better upward swing path")
 
-                    highlightInstructions.append(
+                    negativeHighlights.append(
                         HighlightInstruction(
                             joints: [.leftShoulder, .rightShoulder],
                             segments: [(.leftShoulder, .rightShoulder)],
@@ -201,7 +203,7 @@ class AICoach {
                     positiveFeedbackArray.append("Good shoulder tilt")
                     positiveFeedbackDetailed.append("Proper upward trajectory angle")
 
-                    highlightInstructions.append(
+                    positiveHighlights.append(
                         HighlightInstruction(
                             joints: [.leftShoulder, .rightShoulder],
                             segments: [(.leftShoulder, .rightShoulder)],
@@ -215,7 +217,7 @@ class AICoach {
                     feedbackArrayDetailed.joined(separator: "\n"),
                     positiveFeedbackArray.joined(separator: "\n"),
                     positiveFeedbackDetailed.joined(separator: "\n"),
-                    highlightInstructions
+                    negativeHighlights + positiveHighlights
                 )
                 return
             }
@@ -250,7 +252,7 @@ class AICoach {
                         feedbackArray.append("Your contact point is too far right")
                         feedbackArrayDetailed.append("Reduces directional stability")
 
-                        highlightInstructions.append(
+                        negativeHighlights.append(
                             HighlightInstruction(
                                 joints: [.rightShoulder, .rightWrist],
                                 segments: [(.rightShoulder, .rightWrist)],
@@ -262,7 +264,7 @@ class AICoach {
                         feedbackArray.append("Your contact point is too far left")
                         feedbackArrayDetailed.append("Center contact improves control")
 
-                        highlightInstructions.append(
+                        negativeHighlights.append(
                             HighlightInstruction(
                                 joints: [.rightShoulder, .rightWrist],
                                 segments: [(.rightShoulder, .rightWrist)],
@@ -274,7 +276,7 @@ class AICoach {
                         positiveFeedbackArray.append("Great ball contact alignment")
                         positiveFeedbackDetailed.append("Optimal hitting zone achieved")
 
-                        highlightInstructions.append(
+                        positiveHighlights.append(
                             HighlightInstruction(
                                 joints: [hitterShoulder == leftShoulder ? .leftShoulder : .rightShoulder,
                                          hitterWrist == leftWrist ? .leftWrist : .rightWrist],
@@ -299,7 +301,7 @@ class AICoach {
                         feedbackArray.append("Your hitting arm should be more extended")
                         feedbackArrayDetailed.append("Straight arm maximizes reach")
 
-                        highlightInstructions.append(
+                        negativeHighlights.append(
                             HighlightInstruction(
                                 joints: [.rightShoulder, hitterElbowJoint, isLeftHigher ? .leftWrist : .rightWrist],
                                 segments: [(.rightShoulder, hitterElbowJoint),
@@ -312,7 +314,7 @@ class AICoach {
                         positiveFeedbackArray.append("Excellent arm extension at contact")
                         positiveFeedbackDetailed.append("Maximum reach and power")
 
-                        highlightInstructions.append(
+                        positiveHighlights.append(
                             HighlightInstruction(
                                 joints: [.rightShoulder, hitterElbowJoint, isLeftHigher ? .leftWrist : .rightWrist],
                                 segments: [(.rightShoulder, hitterElbowJoint),
@@ -333,7 +335,7 @@ class AICoach {
                     feedbackArray.append("Increase your shoulder tilt")
                     feedbackArrayDetailed.append("Better upward swing path")
 
-                    highlightInstructions.append(
+                    negativeHighlights.append(
                         HighlightInstruction(
                             joints: [.leftShoulder, .rightShoulder],
                             segments: [(.leftShoulder, .rightShoulder)],
@@ -345,7 +347,7 @@ class AICoach {
                     positiveFeedbackArray.append("Good shoulder tilt")
                     positiveFeedbackDetailed.append("Correct upward swing angle")
 
-                    highlightInstructions.append(
+                    positiveHighlights.append(
                         HighlightInstruction(
                             joints: [.leftShoulder, .rightShoulder],
                             segments: [(.leftShoulder, .rightShoulder)],
@@ -359,7 +361,7 @@ class AICoach {
                     feedbackArrayDetailed.joined(separator: "\n"),
                     positiveFeedbackArray.joined(separator: "\n"),
                     positiveFeedbackDetailed.joined(separator: "\n"),
-                    highlightInstructions
+                    negativeHighlights + positiveHighlights
                 )
                 return
             }
@@ -393,7 +395,7 @@ class AICoach {
                         feedbackArray.append("Your tossing arm should be straighter")
                         feedbackArrayDetailed.append("Straight arm improves toss stability")
 
-                        highlightInstructions.append(
+                        negativeHighlights.append(
                             HighlightInstruction(
                                 joints: [.leftShoulder, .leftElbow, .leftWrist],
                                 segments: [(.leftShoulder, .leftElbow),
@@ -406,7 +408,7 @@ class AICoach {
                         positiveFeedbackArray.append("Excellent tossing-arm extension")
                         positiveFeedbackDetailed.append("Stable toss platform achieved")
 
-                        highlightInstructions.append(
+                        positiveHighlights.append(
                             HighlightInstruction(
                                 joints: [.leftShoulder, .leftElbow, .leftWrist],
                                 segments: [(.leftShoulder, .leftElbow),
@@ -431,7 +433,7 @@ class AICoach {
                         feedbackArray.append("Your tossing arm should point more upward")
                         feedbackArrayDetailed.append("Better vertical alignment")
 
-                        highlightInstructions.append(
+                        negativeHighlights.append(
                             HighlightInstruction(
                                 joints: [.leftShoulder, .leftWrist],
                                 segments: [(.leftShoulder, .leftWrist)],
@@ -443,7 +445,7 @@ class AICoach {
                         positiveFeedbackArray.append("Good toss direction")
                         positiveFeedbackDetailed.append("Vertical alignment correct")
 
-                        highlightInstructions.append(
+                        positiveHighlights.append(
                             HighlightInstruction(
                                 joints: [.leftShoulder, .leftWrist],
                                 segments: [(.leftShoulder, .leftWrist)],
@@ -461,7 +463,7 @@ class AICoach {
                     feedbackArray.append("Your hip should lead your knee forward")
                     feedbackArrayDetailed.append("Correct hip lead loads kinetic chain")
 
-                    highlightInstructions.append(
+                    negativeHighlights.append(
                         HighlightInstruction(
                             joints: [.leftHip, .leftKnee],
                             segments: [(.leftHip, .leftKnee)],
@@ -473,7 +475,7 @@ class AICoach {
                     positiveFeedbackArray.append("Good hip lead")
                     positiveFeedbackDetailed.append("Kinetic chain properly loaded")
 
-                    highlightInstructions.append(
+                    positiveHighlights.append(
                         HighlightInstruction(
                             joints: [.leftHip, .leftKnee],
                             segments: [(.leftHip, .leftKnee)],
@@ -495,7 +497,7 @@ class AICoach {
                         feedbackArray.append("Your hitting-arm elbow should align more horizontally")
                         feedbackArrayDetailed.append("Helps racket drop")
 
-                        highlightInstructions.append(
+                        negativeHighlights.append(
                             HighlightInstruction(
                                 joints: [.rightShoulder, .rightElbow],
                                 segments: [(.rightShoulder, .rightElbow)],
@@ -507,7 +509,7 @@ class AICoach {
                         positiveFeedbackArray.append("Good shoulder–elbow alignment")
                         positiveFeedbackDetailed.append("Optimal racket drop position")
 
-                        highlightInstructions.append(
+                        positiveHighlights.append(
                             HighlightInstruction(
                                 joints: [.rightShoulder, .rightElbow],
                                 segments: [(.rightShoulder, .rightElbow)],
@@ -530,7 +532,7 @@ class AICoach {
                         feedbackArray.append("Your hitting-arm elbow should be more bent")
                         feedbackArrayDetailed.append("Tighter angle improves whip")
 
-                        highlightInstructions.append(
+                        negativeHighlights.append(
                             HighlightInstruction(
                                 joints: [.rightShoulder, .rightElbow, .rightWrist],
                                 segments: [(.rightShoulder, .rightElbow),
@@ -543,7 +545,7 @@ class AICoach {
                         positiveFeedbackArray.append("Great hitting-arm loading angle")
                         positiveFeedbackDetailed.append("Maximum whip effect ready")
 
-                        highlightInstructions.append(
+                        positiveHighlights.append(
                             HighlightInstruction(
                                 joints: [.rightShoulder, .rightElbow, .rightWrist],
                                 segments: [(.rightShoulder, .rightElbow),
@@ -559,7 +561,7 @@ class AICoach {
                     feedbackArrayDetailed.joined(separator: "\n"),
                     positiveFeedbackArray.joined(separator: "\n"),
                     positiveFeedbackDetailed.joined(separator: "\n"),
-                    highlightInstructions
+                    negativeHighlights + positiveHighlights
                 )
                 return
             }
@@ -596,7 +598,7 @@ class AICoach {
                         feedbackArray.append("Your contact point could be slightly further forward")
                         feedbackArrayDetailed.append("Earlier contact improves acceleration")
 
-                        highlightInstructions.append(
+                        negativeHighlights.append(
                             HighlightInstruction(
                                 joints: [hittingShoulder == leftShoulder ? .leftShoulder : .rightShoulder,
                                          elbowJoint,
@@ -611,7 +613,7 @@ class AICoach {
                         feedbackArray.append("Your contact point is too far in front")
                         feedbackArrayDetailed.append("Optimal contact slightly ahead")
 
-                        highlightInstructions.append(
+                        negativeHighlights.append(
                             HighlightInstruction(
                                 joints: [hittingShoulder == leftShoulder ? .leftShoulder : .rightShoulder,
                                          elbowJoint,
@@ -626,7 +628,7 @@ class AICoach {
                         positiveFeedbackArray.append("Well-timed contact point")
                         positiveFeedbackDetailed.append("Well-timed contact point")
 
-                        highlightInstructions.append(
+                        positiveHighlights.append(
                             HighlightInstruction(
                                 joints: [hittingShoulder == leftShoulder ? .leftShoulder : .rightShoulder,
                                          elbowJoint,
@@ -652,7 +654,7 @@ class AICoach {
                         feedbackArray.append("Your hitting arm should be more extended")
                         feedbackArrayDetailed.append("Straight arm maximizes reach")
 
-                        highlightInstructions.append(
+                        negativeHighlights.append(
                             HighlightInstruction(
                                 joints: [hittingShoulder == leftShoulder ? .leftShoulder : .rightShoulder,
                                          elbowJoint,
@@ -667,7 +669,7 @@ class AICoach {
                         positiveFeedbackArray.append("Great arm extension at contact")
                         positiveFeedbackDetailed.append("Great arm extension at contact")
 
-                        highlightInstructions.append(
+                        positiveHighlights.append(
                             HighlightInstruction(
                                 joints: [hittingShoulder == leftShoulder ? .leftShoulder : .rightShoulder,
                                          elbowJoint,
@@ -693,7 +695,7 @@ class AICoach {
                         feedbackArray.append("Try forming a straighter upper-body line")
                         feedbackArrayDetailed.append("Improves energy transfer")
 
-                        highlightInstructions.append(
+                        negativeHighlights.append(
                             HighlightInstruction(
                                 joints: [.rightHip, .rightShoulder, .rightWrist],
                                 segments: [(.rightHip, .rightShoulder),
@@ -706,7 +708,7 @@ class AICoach {
                         positiveFeedbackArray.append("Excellent upper-body alignment")
                         positiveFeedbackDetailed.append("Excellent upper-body alignment")
 
-                        highlightInstructions.append(
+                        positiveHighlights.append(
                             HighlightInstruction(
                                 joints: [.rightHip, .rightShoulder, .rightWrist],
                                 segments: [(.rightHip, .rightShoulder),
@@ -724,7 +726,7 @@ class AICoach {
                     feedbackArray.append("Your non-hitting arm should stay lower")
                     feedbackArrayDetailed.append("Stabilizes torso rotation")
 
-                    highlightInstructions.append(
+                    negativeHighlights.append(
                         HighlightInstruction(
                             joints: [.leftShoulder, .leftWrist],
                             segments: [(.leftShoulder, .leftWrist)],
@@ -736,7 +738,7 @@ class AICoach {
                     positiveFeedbackArray.append("Good non-hitting-arm positioning")
                     positiveFeedbackDetailed.append("Good non-hitting-arm positioning")
 
-                    highlightInstructions.append(
+                    positiveHighlights.append(
                         HighlightInstruction(
                             joints: [.leftShoulder, .leftWrist],
                             segments: [(.leftShoulder, .leftWrist)],
@@ -750,7 +752,7 @@ class AICoach {
                     feedbackArrayDetailed.joined(separator: "\n"),
                     positiveFeedbackArray.joined(separator: "\n"),
                     positiveFeedbackDetailed.joined(separator: "\n"),
-                    highlightInstructions
+                    negativeHighlights + positiveHighlights
                 )
                 return
             }
