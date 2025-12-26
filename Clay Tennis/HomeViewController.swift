@@ -24,6 +24,7 @@ struct CoachHubWrapper: View {
     let recordAction: () -> Void
     let uploadAction: () -> Void
     let onReplayServe: (URL) -> Void
+    let shareVideo: (URL) -> Void
     let lastServeSpeed = FeedItemStorage
         .load()
         .filter { $0.type == .serve }
@@ -49,6 +50,7 @@ struct CoachHubWrapper: View {
                     recordAction: recordAction,
                     uploadAction: uploadAction,
                     onReplayServe: onReplayServe, // ✅ NEW
+                    shareVideo: shareVideo,
                     latestFocusTitle: state.selectedMode == .technique ? "Refine Toss Consistency" : nil,
                     latestFocusStrength: state.selectedMode == .technique ? "Stable leg drive detected" : nil,
                     latestFocusCorrection: state.selectedMode == .technique ? "Toss drifting too far left" : nil,
@@ -567,6 +569,23 @@ class HomeViewController: UIViewController,
                 }
 
                 self.openContentAnalysis(for: url) // ✅ matches FeedView behavior
+            },
+            shareVideo: { [weak self] (url: URL) in
+                guard let self = self else { return }
+
+                print("🎬 [CoachHub → Share] Opening:", url.lastPathComponent)
+
+                print("here we try to share")
+                let speed = FeedItemStorage
+                    .load()
+                    .first(where: { $0.thumbnailURL == url })?
+                    .fastestSpeedKmh
+
+                self.shareServeVideo(
+                    videoURL: url,
+                    speedKmh: speed
+                )
+
             }
         )
 
@@ -584,6 +603,47 @@ class HomeViewController: UIViewController,
         disableLessonSwipeBack()
         navigationController?.setNavigationBarHidden(false, animated: false)
     }
+    
+    
+    
+    private func shareServeVideo(
+        videoURL: URL,
+        speedKmh: Double?
+    ) {
+
+        let appLink = "https://apps.apple.com/ch/app/clay-tennis/id6755401829?l=en-GB"
+
+        let text: String
+        if let speed = speedKmh, speed > 0 {
+            text = "I achieved a serve speed of \(Int(speed)) km/h 🎾 — try to beat it on Clay Tennis!\n\(appLink)"
+        } else {
+            text = "Check out my serve on Clay Tennis 🎾\n\(appLink)"
+        }
+
+        let items: [Any] = [text, videoURL]
+
+
+
+        let activityVC = UIActivityViewController(
+            activityItems: items,
+            applicationActivities: nil
+        )
+
+        // iPad safety
+        if let popover = activityVC.popoverPresentationController {
+            popover.sourceView = self.view
+            popover.sourceRect = CGRect(
+                x: self.view.bounds.midX,
+                y: self.view.bounds.midY,
+                width: 0,
+                height: 0
+            )
+            popover.permittedArrowDirections = []
+        }
+
+        present(activityVC, animated: true)
+    }
+
 
 
     

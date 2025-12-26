@@ -29,6 +29,7 @@ struct CoachHubView: View {
 
     // ✅ NEW: parent-provided replay hook (URL-based, like FeedView)
     let onReplayServe: (URL) -> Void
+    let shareVideo: (URL) -> Void
 
     let latestFocusTitle: String?
     let latestFocusStrength: String?
@@ -81,8 +82,20 @@ struct CoachHubView: View {
 
                         print("🎬 [CoachHub] Replaying serve:", url.lastPathComponent)
                         onReplayServe(url)
+                    },
+                    shareVideo: { index in
+                        guard
+                            index < recentServeItems.count,
+                            let url = recentServeItems[index].thumbnailURL
+                        else {
+                            print("❌ [CoachHub] Missing serve URL for replay")
+                            return
+                        }
+                        
+                        print("🎬 [CoachHub] Replaying serve:", url.lastPathComponent)
+                        shareVideo(url)
                     }
-                )
+                    )
             }
             
             Spacer()
@@ -607,6 +620,7 @@ struct ServeSpeedTrendCard: View {
     let speeds: [Double]
     let onSelectIndex: (Int) -> Void
     let onReplayServe: (Int) -> Void  // NEW: callback for replay
+    let shareVideo: (Int) -> Void
     
     @State private var selectedIndex: Int? = nil
     @State private var showDetailOverlay = false
@@ -812,6 +826,8 @@ struct ServeSpeedTrendCard: View {
                     // Secondary Action
                     Button {
                         // Could add share/export functionality here
+                        print("share clicked")
+                        shareVideo(index)
                     } label: {
                         HStack(spacing: 8) {
                             Image(systemName: "square.and.arrow.up")
@@ -1029,25 +1045,5 @@ struct ServeSpeedTrendCard: View {
             return CGPoint(x: x, y: y)
         }
     }
-}
-
-
-// MARK: - Updated Preview
-
-#Preview("Serve Speed Trend with Detail") {
-    ServeSpeedTrendCard(
-        speeds: [
-            142, 148, 151, 149, 155,
-            158, 160, 162, 159, 165
-        ],
-        onSelectIndex: { index in
-            print("Selected serve #\(index + 1)")
-        },
-        onReplayServe: { index in
-            print("🎬 Replaying serve #\(index + 1)")
-        }
-    )
-    .padding()
-    .background(Color(.systemBackground))
 }
 
