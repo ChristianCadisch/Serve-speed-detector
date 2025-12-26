@@ -471,41 +471,52 @@ struct CoachHubView: View {
         let negative = item.aiTips.first
         
         return AnyView(
-            VStack(alignment: .leading, spacing: 18) {
-                
-                Text("CURRENT FOCUS")
-                    .font(.caption.bold())
-                    .tracking(1)
-                    .foregroundStyle(.secondary)
-                
-                Text(item.title)
-                    .font(.title2.weight(.semibold))
-                
-                if let p = positive {
-                    insightRow(
-                        icon: "checkmark.circle.fill",
-                        color: .green,
-                        text: p
-                    )
+            Button {
+                print("🎯 [CoachHub] Opening AI Coach detail for:", item.id)
+                NotificationCenter.default.post(
+                    name: .showAICoachDetail,
+                    object: item
+                )
+            } label: {
+                VStack(alignment: .leading, spacing: 18) {
+                    
+                    Text("CURRENT FOCUS")
+                        .font(.caption.bold())
+                        .tracking(1)
+                        .foregroundStyle(.secondary)
+                    
+                    Text(item.title)
+                        .font(.title2.weight(.semibold))
+                    
+                    if let p = positive {
+                        insightRow(
+                            icon: "checkmark.circle.fill",
+                            color: .green,
+                            text: p
+                        )
+                    }
+                    
+                    if let n = negative {
+                        insightRow(
+                            icon: "exclamationmark.triangle.fill",
+                            color: .orange,
+                            text: n
+                        )
+                    }
                 }
-                
-                if let n = negative {
-                    insightRow(
-                        icon: "exclamationmark.triangle.fill",
-                        color: .orange,
-                        text: n
-                    )
-                }
-            }
                 .padding(22)
                 .background(
                     RoundedRectangle(cornerRadius: 26, style: .continuous)
                         .fill(.ultraThinMaterial)
                         .shadow(color: .black.opacity(0.12), radius: 16, y: 8)
                 )
-                .transition(.move(edge: .bottom).combined(with: .opacity))
+            }
+            .buttonStyle(.plain)
+            .transition(.move(edge: .bottom).combined(with: .opacity))
         )
     }
+
+
     
     
     
@@ -1013,6 +1024,7 @@ struct ServeSpeedTrendCard: View {
         }
     }
 }
+
 
 // MARK: - Updated Preview
 

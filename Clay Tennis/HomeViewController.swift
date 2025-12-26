@@ -289,20 +289,21 @@ class HomeViewController: UIViewController,
         
         print("✅ [DETAIL] Showing AI Coach detail for item:", feedItem.id)
         
-        // Ensure we're on the home/feed tab
+        // Ensure we're on home/feed
         if activeTab != .home {
             activeTab = .home
             showFeedView()
         }
         
-        // ✅ FIRST: Pop the AICoachScreen off the stack
+        // Pop any transient AI screen if present
         navigationController?.popViewController(animated: false)
         
-        // ✅ THEN: Push the detail view (small delay to ensure pop completes)
+        // Push detail after layout settles
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             self.showAICoachDetailView(feedItem)
         }
     }
+
     
     private func showAICoachDetailView(_ item: FeedItem) {
         let detailView = AICoachDetailView(
@@ -312,7 +313,7 @@ class HomeViewController: UIViewController,
                     let url = item.thumbnailURL,
                     let angle = ServeCameraAngle(storedValue: item.side)
                 else {
-                    assertionFailure("❌ [AI REPLAY] Missing or invalid camera angle")
+                    assertionFailure("❌ [AI REPLAY] Missing video URL or angle")
                     return
                 }
                 
@@ -326,6 +327,7 @@ class HomeViewController: UIViewController,
         let hosting = UIHostingController(rootView: AnyView(detailView))
         navigationController?.pushViewController(hosting, animated: true)
     }
+
     
     
     
