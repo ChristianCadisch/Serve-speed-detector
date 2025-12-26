@@ -731,37 +731,36 @@ struct ServeSpeedTrendCard: View {
                     .padding(.horizontal, 24)
                 
                 // Stats Grid
-                VStack(spacing: 16) {
-                    HStack(spacing: 12) {
-                        statPill(
-                            icon: "chart.line.uptrend.xyaxis",
-                            label: "vs Average",
-                            value: improvement >= 0
+                VStack(spacing: 12) {
+
+                    statPill(
+                        icon: "chart.line.uptrend.xyaxis",
+                        label: "vs Average",
+                        value: improvement >= 0
                             ? "+\(Int(improvement)) km/h"
                             : "\(Int(improvement)) km/h",
-                            color: improvement >= 0 ? .green : .orange
+                        color: improvement >= 0 ? .green : .orange
+                    )
+
+                    if isPersonalBest {
+                        statPill(
+                            icon: "trophy.fill",
+                            label: "Personal Best",
+                            value: "🎾 Great power!",
+                            color: .yellow
                         )
-                        
-                        if isPersonalBest {
-                            statPill(
-                                icon: "trophy.fill",
-                                label: "Personal Best",
-                                value: "🎾",
-                                color: .yellow
-                            )
-                        }
                     }
-                    
+
                     if index > 0 {
                         let previousSpeed = speeds[index - 1]
                         let change = speed - previousSpeed
-                        
+
                         statPill(
                             icon: change >= 0 ? "arrow.up.right" : "arrow.down.right",
                             label: "vs Previous",
                             value: change >= 0
-                            ? "+\(Int(change)) km/h"
-                            : "\(Int(change)) km/h",
+                                ? "+\(Int(change)) km/h"
+                                : "\(Int(change)) km/h",
                             color: change >= 0 ? .blue : .secondary
                         )
                     }
@@ -769,6 +768,7 @@ struct ServeSpeedTrendCard: View {
                 .padding(.horizontal, 24)
                 .padding(.top, 20)
                 .padding(.bottom, 16)
+
                 
                 Divider()
                     .padding(.horizontal, 24)
@@ -849,31 +849,37 @@ struct ServeSpeedTrendCard: View {
         value: String,
         color: Color
     ) -> some View {
-        HStack(spacing: 10) {
-            Image(systemName: icon)
-                .font(.callout)
-                .foregroundStyle(color)
-                .frame(width: 24)
-            
-            VStack(alignment: .leading, spacing: 2) {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack(spacing: 8) {
+                Image(systemName: icon)
+                    .font(.callout)
+                    .foregroundStyle(color)
+                    .frame(width: 22)
+
                 Text(label)
                     .font(.caption2)
                     .foregroundStyle(.secondary)
-                
-                Text(value)
-                    .font(.callout.weight(.semibold))
-                    .foregroundStyle(.primary)
+
+                Spacer()
             }
-            
-            Spacer()
+
+            Text(value)
+                .font(.callout.weight(.semibold))
+                .foregroundStyle(.primary)
+                .lineLimit(nil)
+                .fixedSize(horizontal: false, vertical: true)
+                .layoutPriority(1)
         }
         .padding(.horizontal, 14)
-        .padding(.vertical, 10)
+        .padding(.vertical, 12)
+        .frame(minHeight: 64)
+        .frame(maxWidth: .infinity, alignment: .leading)
         .background(
-            RoundedRectangle(cornerRadius: 12, style: .continuous)
+            RoundedRectangle(cornerRadius: 14, style: .continuous)
                 .fill(Color(.secondarySystemFill))
         )
     }
+
     
     // MARK: - Y Axis
     
