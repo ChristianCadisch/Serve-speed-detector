@@ -21,295 +21,708 @@ class AICoach {
     
     
     func provideFeedback(
-        for joints: [VNHumanBodyPoseObservation.JointName: CGPoint],
-        pose: String,
-        verbose: Bool = false
-    ) {
-        var feedbackArray = [String]()
-        var feedbackArrayDetailed = [String]()
-        var positiveFeedbackArray = [String]()
-        var keywordArray = [String]()
-        var highlightInstructions = [HighlightInstruction]()
+            for joints: [VNHumanBodyPoseObservation.JointName: CGPoint],
+            pose: String,
+            verbose: Bool = false
+        ) {
+            var feedbackArray = [String]()
+            var feedbackArrayDetailed = [String]()
+            var positiveFeedbackArray = [String]()
+            var positiveFeedbackDetailed = [String]()
+            var highlightInstructions = [HighlightInstruction]()
 
-        func vprint(_ label: String, _ value: Any? = nil) {
-            if verbose {
-                if let v = value { print("🤖 [AICOACH DEBUG] \(label): \(v)") }
-                else { print("🤖 [AICOACH DEBUG] \(label)") }
-            }
-        }
-
-        // ---------------------------------------------------------
-        // MARK: - TROPHY BEHIND
-        // ---------------------------------------------------------
-        if pose == "Trophy behind" {
-
-            guard
-                let leftKneeAngle = calculateAngle(from: joints, joint1: .leftHip, joint2: .leftKnee, joint3: .leftAnkle),
-                let rightKneeAngle = calculateAngle(from: joints, joint1: .rightHip, joint2: .rightKnee, joint3: .rightAnkle)
-            else { return }
-
-            let avgLoad = (180 - leftKneeAngle + 180 - rightKneeAngle) / 2
-            let idealLoad = 75.0
-
-            if avgLoad < idealLoad {
-                feedbackArray.append("Your knee bend is too shallow")
-                feedbackArrayDetailed.append("More knee flexion strengthens loading")
-                keywordArray.append("trophy_knee_bend_low")
-
-                highlightInstructions.append(
-                    HighlightInstruction(
-                        joints: [.leftKnee, .rightKnee],
-                        segments: [(.leftHip, .leftKnee), (.rightHip, .rightKnee)],
-                        color: "orange"
-                    )
-                )
-            } else {
-                positiveFeedbackArray.append("Strong lower-body loading — great knee bend")
-                keywordArray.append("trophy_knee_bend_good")
-
-                highlightInstructions.append(
-                    HighlightInstruction(
-                        joints: [.leftKnee, .rightKnee],
-                        segments: [(.leftHip, .leftKnee), (.rightHip, .rightKnee)],
-                        color: "green"
-                    )
-                )
+            func vprint(_ label: String, _ value: Any? = nil) {
+                if verbose {
+                    if let v = value { print("🤖 [AICOACH DEBUG] \(label): \(v)") }
+                    else { print("🤖 [AICOACH DEBUG] \(label)") }
+                }
             }
 
-            guard let leftAnkle = joints[.leftAnkle], let rightAnkle = joints[.rightAnkle] else { return }
-            let stanceWidth = abs(leftAnkle.x - rightAnkle.x)
-            let reference = 112.0
-
-            if stanceWidth / reference < 0.9 {
-                feedbackArray.append("Your stance is slightly too narrow")
-                feedbackArrayDetailed.append("Wider base improves balance")
-                keywordArray.append("trophy_stance_narrow")
-
-                highlightInstructions.append(
-                    HighlightInstruction(
-                        joints: [.leftAnkle, .rightAnkle],
-                        segments: [],
-                        color: "orange"
-                    )
-                )
-            } else {
-                positiveFeedbackArray.append("Good, stable stance width")
-                keywordArray.append("trophy_stance_good")
-
-                highlightInstructions.append(
-                    HighlightInstruction(
-                        joints: [.leftAnkle, .rightAnkle],
-                        segments: [],
-                        color: "green"
-                    )
-                )
-            }
-
-            feedbackHandler?(
-                feedbackArray.joined(separator: "\n"),
-                feedbackArrayDetailed.joined(separator: "\n"),
-                positiveFeedbackArray.joined(separator: "\n"),
-                keywordArray.joined(separator: "\n"),
-                highlightInstructions
-            )
-            return
-        }
-
-        // ---------------------------------------------------------
-        // MARK: - HIT BEHIND
-        // ---------------------------------------------------------
-        if pose == "Hit behind" {
-
-            guard
-                let leftWrist = joints[.leftWrist],
-                let rightWrist = joints[.rightWrist],
-                let leftShoulder = joints[.leftShoulder],
-                let rightShoulder = joints[.rightShoulder]
-            else { return }
-
-            let isLeftHigher = leftWrist.y < rightWrist.y
-            let hitterWrist = isLeftHigher ? leftWrist : rightWrist
-            let hitterShoulder = isLeftHigher ? leftShoulder : rightShoulder
-            let hitterElbowJoint = isLeftHigher ? VNHumanBodyPoseObservation.JointName.leftElbow : .rightElbow
-
-            if let armAngle = calculateAngle(
-                from: joints,
-                joint1: .rightShoulder,
-                joint2: isLeftHigher ? .leftWrist : .rightWrist,
-                joint3: isLeftHigher ? .rightWrist : .leftWrist
-            ) {
-                if armAngle < 50 {
-                    feedbackArray.append("Your contact point is too far right")
-                    feedbackArrayDetailed.append("Reduces directional stability")
-                    keywordArray.append("hit_contact_right")
-
+            // ---------------------------------------------------------
+            // MARK: - TROPHY BEHIND
+            // ---------------------------------------------------------
+            if pose == "Trophy behind" {
+                
+                guard
+                    let leftKneeAngle = calculateAngle(from: joints, joint1: .leftHip, joint2: .leftKnee, joint3: .leftAnkle),
+                    let rightKneeAngle = calculateAngle(from: joints, joint1: .rightHip, joint2: .rightKnee, joint3: .rightAnkle)
+                else { return }
+                
+                let avgLoad = abs((180 - leftKneeAngle + 180 - rightKneeAngle) / 2)
+                let minimalLoad = 75.0
+                
+                print("📊 [TROPHY BEHIND] Avg Load: \(avgLoad)° (Ideal: \(minimalLoad)°)")
+                
+                if avgLoad < minimalLoad {
+                    print("⚠️ FEEDBACK: Your knee bend is too shallow | Metric: avgLoad=\(avgLoad)° < \(minimalLoad)°")
+                    feedbackArray.append("Your knee bend is too shallow")
+                    feedbackArrayDetailed.append("More knee flexion strengthens loading")
+                    
                     highlightInstructions.append(
                         HighlightInstruction(
-                            joints: [.rightShoulder, .rightWrist],
-                            segments: [(.rightShoulder, .rightWrist)],
-                            color: "orange"
-                        )
-                    )
-                } else if armAngle > 100 {
-                    feedbackArray.append("Your contact point is too far left")
-                    feedbackArrayDetailed.append("Center contact improves control")
-                    keywordArray.append("hit_contact_left")
-
-                    highlightInstructions.append(
-                        HighlightInstruction(
-                            joints: [.rightShoulder, .rightWrist],
-                            segments: [(.rightShoulder, .rightWrist)],
+                            joints: [.leftKnee, .leftHip, .leftAnkle, .rightHip, .rightAnkle, .rightKnee],
+                            segments: [(.leftHip, .leftKnee), (.leftKnee, .leftAnkle), (.rightHip, .rightKnee), (.rightKnee, .rightAnkle)],
                             color: "orange"
                         )
                     )
                 } else {
-                    positiveFeedbackArray.append("Great ball contact alignment")
-                    keywordArray.append("hit_contact_good")
-
+                    print("✅ POSITIVE: Strong lower-body loading — great knee bend | Metric: avgLoad=\(avgLoad)° >= \(minimalLoad)°")
+                    positiveFeedbackArray.append("Strong lower-body loading — great knee bend")
+                    positiveFeedbackDetailed.append("Optimal power position achieved")
+                    
                     highlightInstructions.append(
                         HighlightInstruction(
-                            joints: [hitterShoulder == leftShoulder ? .leftShoulder : .rightShoulder,
-                                     hitterWrist == leftWrist ? .leftWrist : .rightWrist],
-                            segments: [(hitterShoulder == leftShoulder ? .leftShoulder : .rightShoulder,
-                                        hitterWrist == leftWrist ? .leftWrist : .rightWrist)],
+                            joints: [.leftKnee, .leftHip, .leftAnkle, .rightHip, .rightAnkle, .rightKnee],
+                            segments: [(.leftHip, .leftKnee), (.leftKnee, .leftAnkle), (.rightHip, .rightKnee), (.rightKnee, .rightAnkle)],
                             color: "green"
                         )
                     )
                 }
-            }
+                
+                
+                guard
+                    let leftWrist = joints[.leftWrist],
+                    let rightWrist = joints[.rightWrist],
+                    let leftShoulder = joints[.leftShoulder],
+                    let rightShoulder = joints[.rightShoulder]
+                else { return }
 
-            if let elbowAngle = calculateAngle(
-                from: joints,
-                joint1: .rightShoulder,
-                joint2: hitterElbowJoint,
-                joint3: isLeftHigher ? .leftWrist : .rightWrist
-            ) {
-                if elbowAngle > 30 {
-                    feedbackArray.append("Your hitting arm should be more extended")
-                    feedbackArrayDetailed.append("Straight arm maximizes reach")
-                    keywordArray.append("hit_arm_bent")
+                let isLeftHigher = leftWrist.y < rightWrist.y
+                let hitterWrist = isLeftHigher ? leftWrist : rightWrist
+                let hitterShoulder = isLeftHigher ? leftShoulder : rightShoulder
+                let hitterElbowJoint = isLeftHigher ? VNHumanBodyPoseObservation.JointName.leftElbow : .rightElbow
+
+                if let armAngle = calculateAngle(
+                    from: joints,
+                    joint1: .rightShoulder,
+                    joint2: isLeftHigher ? .leftWrist : .rightWrist,
+                    joint3: isLeftHigher ? .rightWrist : .leftWrist
+                ) {
+                    print("📊 [TROPHY BEHIND] Arm Angle: \(armAngle)° (Range: 50-100°)")
+                    
+                    if armAngle < 50 {
+                        print("⚠️ FEEDBACK: Your contact point is too far right | Metric: armAngle=\(armAngle)° < 50°")
+                        feedbackArray.append("Your contact point is too far right")
+                        feedbackArrayDetailed.append("Reduces directional stability")
+
+                        highlightInstructions.append(
+                            HighlightInstruction(
+                                joints: [.rightShoulder, .rightWrist],
+                                segments: [(.rightShoulder, .rightWrist)],
+                                color: "orange"
+                            )
+                        )
+                    } else if armAngle > 100 {
+                        print("⚠️ FEEDBACK: Your contact point is too far left | Metric: armAngle=\(armAngle)° > 100°")
+                        feedbackArray.append("Your contact point is too far left")
+                        feedbackArrayDetailed.append("Center contact improves control")
+
+                        highlightInstructions.append(
+                            HighlightInstruction(
+                                joints: [.rightShoulder, .rightWrist],
+                                segments: [(.rightShoulder, .rightWrist)],
+                                color: "orange"
+                            )
+                        )
+                    } else {
+                        print("✅ POSITIVE: Great ball contact alignment | Metric: armAngle=\(armAngle)° (50-100°)")
+                        positiveFeedbackArray.append("Great ball contact alignment")
+                        positiveFeedbackDetailed.append("Centered contact maximizes power")
+
+                        highlightInstructions.append(
+                            HighlightInstruction(
+                                joints: [hitterShoulder == leftShoulder ? .leftShoulder : .rightShoulder,
+                                         hitterWrist == leftWrist ? .leftWrist : .rightWrist],
+                                segments: [(hitterShoulder == leftShoulder ? .leftShoulder : .rightShoulder,
+                                            hitterWrist == leftWrist ? .leftWrist : .rightWrist)],
+                                color: "green"
+                            )
+                        )
+                    }
+                }
+
+                if let elbowAngle = calculateAngle(
+                    from: joints,
+                    joint1: .leftShoulder,
+                    joint2: .leftElbow,
+                    joint3: .leftWrist
+                   ) {
+                    print("📊 [TROPHY BEHIND] Elbow Angle: \(elbowAngle)° (Threshold: 30°)")
+                    
+                    if elbowAngle > 30 {
+                        print("⚠️ FEEDBACK: Your hitting arm should be more extended | Metric: elbowAngle=\(elbowAngle)° > 30°")
+                        feedbackArray.append("Your hitting arm should be more extended")
+                        feedbackArrayDetailed.append("Straight arm maximizes reach")
+
+                        highlightInstructions.append(
+                            HighlightInstruction(
+                                joints: [.leftShoulder, .leftElbow, .leftWrist],
+                                segments: [(.leftShoulder, .leftElbow),
+                                           (.leftElbow, .leftWrist)],
+                                color: "orange"
+                            )
+                        )
+                    } else {
+                        print("✅ POSITIVE: Excellent arm extension at contact | Metric: elbowAngle=\(elbowAngle)° <= 30°")
+                        positiveFeedbackArray.append("Excellent arm extension at contact")
+                        positiveFeedbackDetailed.append("Full reach achieved")
+
+                        highlightInstructions.append(
+                            HighlightInstruction(
+                                joints: [.leftShoulder, .leftElbow, .leftWrist],
+                                segments: [(.leftShoulder, .leftElbow),
+                                           (.leftElbow, .leftWrist)],
+                                color: "green"
+                            )
+                        )
+                    }
+                }
+                
+                
+                let higherShoulder = isLeftHigher ? leftShoulder : rightShoulder
+                let lowerShoulder = isLeftHigher ? rightShoulder : leftShoulder
+                
+                print("📊 [TROPHY BEHIND] Shoulder Tilt: lower.y=\(lowerShoulder.y), higher.y=\(higherShoulder.y)")
+
+                if lowerShoulder.y <= higherShoulder.y {
+                    print("⚠️ FEEDBACK: Increase your shoulder tilt | Metric: lowerShoulder.y=\(lowerShoulder.y) <= higherShoulder.y=\(higherShoulder.y)")
+                    feedbackArray.append("Increase your shoulder tilt")
+                    feedbackArrayDetailed.append("Better upward swing path")
 
                     highlightInstructions.append(
                         HighlightInstruction(
-                            joints: [.rightShoulder, hitterElbowJoint, isLeftHigher ? .leftWrist : .rightWrist],
-                            segments: [(.rightShoulder, hitterElbowJoint),
-                                       (hitterElbowJoint, isLeftHigher ? .leftWrist : .rightWrist)],
+                            joints: [.leftShoulder, .rightShoulder],
+                            segments: [(.leftShoulder, .rightShoulder)],
                             color: "orange"
                         )
                     )
                 } else {
-                    positiveFeedbackArray.append("Excellent arm extension at contact")
-                    keywordArray.append("hit_arm_straight")
+                    print("✅ POSITIVE: Good shoulder tilt | Metric: lowerShoulder.y=\(lowerShoulder.y) > higherShoulder.y=\(higherShoulder.y)")
+                    positiveFeedbackArray.append("Good shoulder tilt")
+                    positiveFeedbackDetailed.append("Proper upward trajectory angle")
 
                     highlightInstructions.append(
                         HighlightInstruction(
-                            joints: [.rightShoulder, hitterElbowJoint, isLeftHigher ? .leftWrist : .rightWrist],
-                            segments: [(.rightShoulder, hitterElbowJoint),
-                                       (hitterElbowJoint, isLeftHigher ? .leftWrist : .rightWrist)],
+                            joints: [.leftShoulder, .rightShoulder],
+                            segments: [(.leftShoulder, .rightShoulder)],
                             color: "green"
                         )
                     )
                 }
+
+                feedbackHandler?(
+                    feedbackArray.joined(separator: "\n"),
+                    feedbackArrayDetailed.joined(separator: "\n"),
+                    positiveFeedbackArray.joined(separator: "\n"),
+                    positiveFeedbackDetailed.joined(separator: "\n"),
+                    highlightInstructions
+                )
+                return
             }
 
-            let higherShoulder = isLeftHigher ? leftShoulder : rightShoulder
-            let lowerShoulder = isLeftHigher ? rightShoulder : leftShoulder
+            // ---------------------------------------------------------
+            // MARK: - HIT BEHIND
+            // ---------------------------------------------------------
+            if pose == "Hit behind" {
 
-            if lowerShoulder.y <= higherShoulder.y {
-                feedbackArray.append("Increase your shoulder tilt")
-                feedbackArrayDetailed.append("Better upward swing path")
-                keywordArray.append("hit_shoulder_flat")
+                guard
+                    let leftWrist = joints[.leftWrist],
+                    let rightWrist = joints[.rightWrist],
+                    let leftShoulder = joints[.leftShoulder],
+                    let rightShoulder = joints[.rightShoulder]
+                else { return }
 
-                highlightInstructions.append(
-                    HighlightInstruction(
-                        joints: [.leftShoulder, .rightShoulder],
-                        segments: [(.leftShoulder, .rightShoulder)],
-                        color: "orange"
-                    )
-                )
-            } else {
-                positiveFeedbackArray.append("Good shoulder tilt")
-                keywordArray.append("hit_shoulder_tilt_good")
+                let isLeftHigher = leftWrist.y < rightWrist.y
+                let hitterWrist = isLeftHigher ? leftWrist : rightWrist
+                let hitterShoulder = isLeftHigher ? leftShoulder : rightShoulder
+                let hitterElbowJoint = isLeftHigher ? VNHumanBodyPoseObservation.JointName.leftElbow : .rightElbow
 
-                highlightInstructions.append(
-                    HighlightInstruction(
-                        joints: [.leftShoulder, .rightShoulder],
-                        segments: [(.leftShoulder, .rightShoulder)],
-                        color: "green"
-                    )
-                )
-            }
+                if let armAngle = calculateAngle(
+                    from: joints,
+                    joint1: .rightShoulder,
+                    joint2: isLeftHigher ? .leftWrist : .rightWrist,
+                    joint3: isLeftHigher ? .rightWrist : .leftWrist
+                ) {
+                    print("📊 [HIT BEHIND] Arm Angle: \(armAngle)° (Range: 50-100°)")
+                    
+                    if armAngle < 50 {
+                        print("⚠️ FEEDBACK: Your contact point is too far right | Metric: armAngle=\(armAngle)° < 50°")
+                        feedbackArray.append("Your contact point is too far right")
+                        feedbackArrayDetailed.append("Reduces directional stability")
 
-            feedbackHandler?(
-                feedbackArray.joined(separator: "\n"),
-                feedbackArrayDetailed.joined(separator: "\n"),
-                positiveFeedbackArray.joined(separator: "\n"),
-                keywordArray.joined(separator: "\n"),
-                highlightInstructions
-            )
-            return
-        }
+                        highlightInstructions.append(
+                            HighlightInstruction(
+                                joints: [.rightShoulder, .rightWrist],
+                                segments: [(.rightShoulder, .rightWrist)],
+                                color: "orange"
+                            )
+                        )
+                    } else if armAngle > 100 {
+                        print("⚠️ FEEDBACK: Your contact point is too far left | Metric: armAngle=\(armAngle)° > 100°")
+                        feedbackArray.append("Your contact point is too far left")
+                        feedbackArrayDetailed.append("Center contact improves control")
 
-        // ---------------------------------------------------------
-        // MARK: - TROPHY SIDE
-        // ---------------------------------------------------------
-        if pose == "Trophy side" {
+                        highlightInstructions.append(
+                            HighlightInstruction(
+                                joints: [.rightShoulder, .rightWrist],
+                                segments: [(.rightShoulder, .rightWrist)],
+                                color: "orange"
+                            )
+                        )
+                    } else {
+                        print("✅ POSITIVE: Great ball contact alignment | Metric: armAngle=\(armAngle)° (50-100°)")
+                        positiveFeedbackArray.append("Great ball contact alignment")
+                        positiveFeedbackDetailed.append("Optimal hitting zone achieved")
 
-            guard
-                let leftShoulder = joints[.leftShoulder],
-                let leftElbow = joints[.leftElbow],
-                let leftWrist = joints[.leftWrist],
-                let rightShoulder = joints[.rightShoulder],
-                let rightElbow = joints[.rightElbow],
-                let rightWrist = joints[.rightWrist],
-                let leftHip = joints[.leftHip],
-                let leftKnee = joints[.leftKnee]
-            else { return }
+                        highlightInstructions.append(
+                            HighlightInstruction(
+                                joints: [hitterShoulder == leftShoulder ? .leftShoulder : .rightShoulder,
+                                         hitterWrist == leftWrist ? .leftWrist : .rightWrist],
+                                segments: [(hitterShoulder == leftShoulder ? .leftShoulder : .rightShoulder,
+                                            hitterWrist == leftWrist ? .leftWrist : .rightWrist)],
+                                color: "green"
+                            )
+                        )
+                    }
+                }
 
-            if let elbowAngle = calculateAngle(
-                from: joints,
-                joint1: .leftShoulder,
-                joint2: .leftElbow,
-                joint3: .leftWrist
-            ) {
-                if elbowAngle > 25 {
-                    feedbackArray.append("Your tossing arm should be straighter")
-                    feedbackArrayDetailed.append("Straight arm improves toss stability")
-                    keywordArray.append("trophy_arm_bent")
+                if let elbowAngle = calculateAngle(
+                    from: joints,
+                    joint1: .rightShoulder,
+                    joint2: hitterElbowJoint,
+                    joint3: isLeftHigher ? .leftWrist : .rightWrist
+                ) {
+                    print("📊 [HIT BEHIND] Elbow Angle: \(elbowAngle)° (Threshold: 30°)")
+                    
+                    if elbowAngle > 30 {
+                        print("⚠️ FEEDBACK: Your hitting arm should be more extended | Metric: elbowAngle=\(elbowAngle)° > 30°")
+                        feedbackArray.append("Your hitting arm should be more extended")
+                        feedbackArrayDetailed.append("Straight arm maximizes reach")
+
+                        highlightInstructions.append(
+                            HighlightInstruction(
+                                joints: [.rightShoulder, hitterElbowJoint, isLeftHigher ? .leftWrist : .rightWrist],
+                                segments: [(.rightShoulder, hitterElbowJoint),
+                                           (hitterElbowJoint, isLeftHigher ? .leftWrist : .rightWrist)],
+                                color: "orange"
+                            )
+                        )
+                    } else {
+                        print("✅ POSITIVE: Excellent arm extension at contact | Metric: elbowAngle=\(elbowAngle)° <= 30°")
+                        positiveFeedbackArray.append("Excellent arm extension at contact")
+                        positiveFeedbackDetailed.append("Maximum reach and power")
+
+                        highlightInstructions.append(
+                            HighlightInstruction(
+                                joints: [.rightShoulder, hitterElbowJoint, isLeftHigher ? .leftWrist : .rightWrist],
+                                segments: [(.rightShoulder, hitterElbowJoint),
+                                           (hitterElbowJoint, isLeftHigher ? .leftWrist : .rightWrist)],
+                                color: "green"
+                            )
+                        )
+                    }
+                }
+
+                let higherShoulder = isLeftHigher ? leftShoulder : rightShoulder
+                let lowerShoulder = isLeftHigher ? rightShoulder : leftShoulder
+                
+                print("📊 [HIT BEHIND] Shoulder Tilt: lower.y=\(lowerShoulder.y), higher.y=\(higherShoulder.y)")
+
+                if lowerShoulder.y <= higherShoulder.y {
+                    print("⚠️ FEEDBACK: Increase your shoulder tilt | Metric: lowerShoulder.y=\(lowerShoulder.y) <= higherShoulder.y=\(higherShoulder.y)")
+                    feedbackArray.append("Increase your shoulder tilt")
+                    feedbackArrayDetailed.append("Better upward swing path")
 
                     highlightInstructions.append(
                         HighlightInstruction(
-                            joints: [.leftShoulder, .leftElbow, .leftWrist],
-                            segments: [(.leftShoulder, .leftElbow),
-                                       (.leftElbow, .leftWrist)],
+                            joints: [.leftShoulder, .rightShoulder],
+                            segments: [(.leftShoulder, .rightShoulder)],
                             color: "orange"
                         )
                     )
                 } else {
-                    positiveFeedbackArray.append("Excellent tossing-arm extension")
-                    keywordArray.append("trophy_arm_straight")
+                    print("✅ POSITIVE: Good shoulder tilt | Metric: lowerShoulder.y=\(lowerShoulder.y) > higherShoulder.y=\(higherShoulder.y)")
+                    positiveFeedbackArray.append("Good shoulder tilt")
+                    positiveFeedbackDetailed.append("Correct upward swing angle")
 
                     highlightInstructions.append(
                         HighlightInstruction(
-                            joints: [.leftShoulder, .leftElbow, .leftWrist],
-                            segments: [(.leftShoulder, .leftElbow),
-                                       (.leftElbow, .leftWrist)],
+                            joints: [.leftShoulder, .rightShoulder],
+                            segments: [(.leftShoulder, .rightShoulder)],
                             color: "green"
                         )
                     )
                 }
+
+                feedbackHandler?(
+                    feedbackArray.joined(separator: "\n"),
+                    feedbackArrayDetailed.joined(separator: "\n"),
+                    positiveFeedbackArray.joined(separator: "\n"),
+                    positiveFeedbackDetailed.joined(separator: "\n"),
+                    highlightInstructions
+                )
+                return
             }
 
-            if let tossAngle = calculateAngle(
-                from: joints,
-                joint1: .leftShoulder,
-                joint2: .leftWrist,
-                joint3: .rightShoulder
-            ) {
-                if abs(tossAngle - 90) > 15 {
-                    feedbackArray.append("Your tossing arm should point more upward")
-                    feedbackArrayDetailed.append("Better vertical alignment")
-                    keywordArray.append("trophy_toss_off")
+            // ---------------------------------------------------------
+            // MARK: - TROPHY SIDE
+            // ---------------------------------------------------------
+            if pose == "Trophy side" {
+
+                guard
+                    let leftShoulder = joints[.leftShoulder],
+                    let leftElbow = joints[.leftElbow],
+                    let leftWrist = joints[.leftWrist],
+                    let rightShoulder = joints[.rightShoulder],
+                    let rightElbow = joints[.rightElbow],
+                    let rightWrist = joints[.rightWrist],
+                    let leftHip = joints[.leftHip],
+                    let leftKnee = joints[.leftKnee]
+                else { return }
+
+                if let elbowAngle = calculateAngle(
+                    from: joints,
+                    joint1: .leftShoulder,
+                    joint2: .leftElbow,
+                    joint3: .leftWrist
+                ) {
+                    print("📊 [TROPHY SIDE] Tossing Arm Elbow Angle: \(elbowAngle)° (Threshold: 25°)")
+                    
+                    if elbowAngle > 25 {
+                        print("⚠️ FEEDBACK: Your tossing arm should be straighter | Metric: elbowAngle=\(elbowAngle)° > 25°")
+                        feedbackArray.append("Your tossing arm should be straighter")
+                        feedbackArrayDetailed.append("Straight arm improves toss stability")
+
+                        highlightInstructions.append(
+                            HighlightInstruction(
+                                joints: [.leftShoulder, .leftElbow, .leftWrist],
+                                segments: [(.leftShoulder, .leftElbow),
+                                           (.leftElbow, .leftWrist)],
+                                color: "orange"
+                            )
+                        )
+                    } else {
+                        print("✅ POSITIVE: Excellent tossing-arm extension | Metric: elbowAngle=\(elbowAngle)° <= 25°")
+                        positiveFeedbackArray.append("Excellent tossing-arm extension")
+                        positiveFeedbackDetailed.append("Stable toss platform achieved")
+
+                        highlightInstructions.append(
+                            HighlightInstruction(
+                                joints: [.leftShoulder, .leftElbow, .leftWrist],
+                                segments: [(.leftShoulder, .leftElbow),
+                                           (.leftElbow, .leftWrist)],
+                                color: "green"
+                            )
+                        )
+                    }
+                }
+
+                if let tossAngle = calculateAngle(
+                    from: joints,
+                    joint1: .leftShoulder,
+                    joint2: .leftWrist,
+                    joint3: .rightShoulder
+                ) {
+                    let deviationFrom90 = abs(tossAngle - 90)
+                    print("📊 [TROPHY SIDE] Toss Angle: \(tossAngle)° (Deviation from 90°: \(deviationFrom90)°, Max: 15°)")
+                    
+                    if deviationFrom90 > 15 {
+                        print("⚠️ FEEDBACK: Your tossing arm should point more upward | Metric: deviation=\(deviationFrom90)° > 15°")
+                        feedbackArray.append("Your tossing arm should point more upward")
+                        feedbackArrayDetailed.append("Better vertical alignment")
+
+                        highlightInstructions.append(
+                            HighlightInstruction(
+                                joints: [.leftShoulder, .leftWrist],
+                                segments: [(.leftShoulder, .leftWrist)],
+                                color: "orange"
+                            )
+                        )
+                    } else {
+                        print("✅ POSITIVE: Good toss direction | Metric: deviation=\(deviationFrom90)° <= 15°")
+                        positiveFeedbackArray.append("Good toss direction")
+                        positiveFeedbackDetailed.append("Vertical alignment correct")
+
+                        highlightInstructions.append(
+                            HighlightInstruction(
+                                joints: [.leftShoulder, .leftWrist],
+                                segments: [(.leftShoulder, .leftWrist)],
+                                color: "green"
+                            )
+                        )
+                    }
+                }
+
+                let hipKneeOffset = leftKnee.x - (leftHip.x + 0.02)
+                print("📊 [TROPHY SIDE] Hip-Knee Offset: \(hipKneeOffset) (leftKnee.x=\(leftKnee.x), leftHip.x+0.02=\(leftHip.x + 0.02))")
+
+                if (leftHip.x + 0.02) < leftKnee.x {
+                    print("⚠️ FEEDBACK: Your hip should lead your knee forward | Metric: leftHip.x+0.02=\(leftHip.x + 0.02) < leftKnee.x=\(leftKnee.x)")
+                    feedbackArray.append("Your hip should lead your knee forward")
+                    feedbackArrayDetailed.append("Correct hip lead loads kinetic chain")
+
+                    highlightInstructions.append(
+                        HighlightInstruction(
+                            joints: [.leftHip, .leftKnee],
+                            segments: [(.leftHip, .leftKnee)],
+                            color: "orange"
+                        )
+                    )
+                } else {
+                    print("✅ POSITIVE: Good hip lead | Metric: leftHip.x+0.02=\(leftHip.x + 0.02) >= leftKnee.x=\(leftKnee.x)")
+                    positiveFeedbackArray.append("Good hip lead")
+                    positiveFeedbackDetailed.append("Kinetic chain properly loaded")
+
+                    highlightInstructions.append(
+                        HighlightInstruction(
+                            joints: [.leftHip, .leftKnee],
+                            segments: [(.leftHip, .leftKnee)],
+                            color: "green"
+                        )
+                    )
+                }
+
+                if let shoulderLine = calculateAngle(
+                    from: joints,
+                    joint1: .leftShoulder,
+                    joint2: .rightShoulder,
+                    joint3: .rightElbow
+                ) {
+                    print("📊 [TROPHY SIDE] Shoulder-Elbow Line Angle: \(shoulderLine)° (Threshold: 20°)")
+                    
+                    if shoulderLine > 20 {
+                        print("⚠️ FEEDBACK: Your hitting-arm elbow should align more horizontally | Metric: shoulderLine=\(shoulderLine)° > 20°")
+                        feedbackArray.append("Your hitting-arm elbow should align more horizontally")
+                        feedbackArrayDetailed.append("Helps racket drop")
+
+                        highlightInstructions.append(
+                            HighlightInstruction(
+                                joints: [.rightShoulder, .rightElbow],
+                                segments: [(.rightShoulder, .rightElbow)],
+                                color: "orange"
+                            )
+                        )
+                    } else {
+                        print("✅ POSITIVE: Good shoulder–elbow alignment | Metric: shoulderLine=\(shoulderLine)° <= 20°")
+                        positiveFeedbackArray.append("Good shoulder–elbow alignment")
+                        positiveFeedbackDetailed.append("Optimal racket drop position")
+
+                        highlightInstructions.append(
+                            HighlightInstruction(
+                                joints: [.rightShoulder, .rightElbow],
+                                segments: [(.rightShoulder, .rightElbow)],
+                                color: "green"
+                            )
+                        )
+                    }
+                }
+
+                if let rightElbowAngle = calculateAngle(
+                    from: joints,
+                    joint1: .rightShoulder,
+                    joint2: .rightElbow,
+                    joint3: .rightWrist
+                ) {
+                    print("📊 [TROPHY SIDE] Hitting Arm Elbow Angle: \(rightElbowAngle)° (Threshold: 80°)")
+                    
+                    if rightElbowAngle > 80 {
+                        print("⚠️ FEEDBACK: Your hitting-arm elbow should be more bent | Metric: rightElbowAngle=\(rightElbowAngle)° > 80°")
+                        feedbackArray.append("Your hitting-arm elbow should be more bent")
+                        feedbackArrayDetailed.append("Tighter angle improves whip")
+
+                        highlightInstructions.append(
+                            HighlightInstruction(
+                                joints: [.rightShoulder, .rightElbow, .rightWrist],
+                                segments: [(.rightShoulder, .rightElbow),
+                                           (.rightElbow, .rightWrist)],
+                                color: "orange"
+                            )
+                        )
+                    } else {
+                        print("✅ POSITIVE: Great hitting-arm loading angle | Metric: rightElbowAngle=\(rightElbowAngle)° <= 80°")
+                        positiveFeedbackArray.append("Great hitting-arm loading angle")
+                        positiveFeedbackDetailed.append("Maximum whip effect ready")
+
+                        highlightInstructions.append(
+                            HighlightInstruction(
+                                joints: [.rightShoulder, .rightElbow, .rightWrist],
+                                segments: [(.rightShoulder, .rightElbow),
+                                           (.rightElbow, .rightWrist)],
+                                color: "green"
+                            )
+                        )
+                    }
+                }
+
+                feedbackHandler?(
+                    feedbackArray.joined(separator: "\n"),
+                    feedbackArrayDetailed.joined(separator: "\n"),
+                    positiveFeedbackArray.joined(separator: "\n"),
+                    positiveFeedbackDetailed.joined(separator: "\n"),
+                    highlightInstructions
+                )
+                return
+            }
+
+            // ---------------------------------------------------------
+            // MARK: - HIT SIDE
+            // ---------------------------------------------------------
+            if pose == "Hit side" {
+
+                guard
+                    let leftWrist = joints[.leftWrist],
+                    let rightWrist = joints[.rightWrist],
+                    let leftShoulder = joints[.leftShoulder],
+                    let rightShoulder = joints[.rightShoulder],
+                    let rightElbow = joints[.rightElbow],
+                    let rightHip = joints[.rightHip]
+                else { return }
+
+                let isLeftHigher = leftWrist.y < rightWrist.y
+                let hittingWrist = isLeftHigher ? leftWrist : rightWrist
+                let hittingShoulder = isLeftHigher ? leftShoulder : rightShoulder
+                let elbowJoint = isLeftHigher ? VNHumanBodyPoseObservation.JointName.leftElbow : .rightElbow
+
+                if let armDirection = calculateAngle(
+                    from: joints,
+                    joint1: hittingShoulder == leftShoulder ? .leftShoulder : .rightShoulder,
+                    joint2: hittingWrist == leftWrist ? .leftWrist : .rightWrist,
+                    joint3: elbowJoint
+                ) {
+                    print("📊 [HIT SIDE] Arm Direction Angle: \(armDirection)° (Range: 55-75°)")
+                    
+                    if armDirection > 75 {
+                        print("⚠️ FEEDBACK: Your contact point could be slightly further forward | Metric: armDirection=\(armDirection)° > 75°")
+                        feedbackArray.append("Your contact point could be slightly further forward")
+                        feedbackArrayDetailed.append("Earlier contact improves acceleration")
+
+                        highlightInstructions.append(
+                            HighlightInstruction(
+                                joints: [hittingShoulder == leftShoulder ? .leftShoulder : .rightShoulder,
+                                         elbowJoint,
+                                         hittingWrist == leftWrist ? .leftWrist : .rightWrist],
+                                segments: [(hittingShoulder == leftShoulder ? .leftShoulder : .rightShoulder, elbowJoint),
+                                           (elbowJoint, hittingWrist == leftWrist ? .leftWrist : .rightWrist)],
+                                color: "orange"
+                            )
+                        )
+                    } else if armDirection < 55 {
+                        print("⚠️ FEEDBACK: Your contact point is too far in front | Metric: armDirection=\(armDirection)° < 55°")
+                        feedbackArray.append("Your contact point is too far in front")
+                        feedbackArrayDetailed.append("Optimal contact slightly ahead")
+
+                        highlightInstructions.append(
+                            HighlightInstruction(
+                                joints: [hittingShoulder == leftShoulder ? .leftShoulder : .rightShoulder,
+                                         elbowJoint,
+                                         hittingWrist == leftWrist ? .leftWrist : .rightWrist],
+                                segments: [(hittingShoulder == leftShoulder ? .leftShoulder : .rightShoulder, elbowJoint),
+                                           (elbowJoint, hittingWrist == leftWrist ? .leftWrist : .rightWrist)],
+                                color: "orange"
+                            )
+                        )
+                    } else {
+                        print("✅ POSITIVE: Well-timed contact point | Metric: armDirection=\(armDirection)° (55-75°)")
+                        positiveFeedbackArray.append("Well-timed contact point")
+                        positiveFeedbackDetailed.append("Well-timed contact point")
+
+                        highlightInstructions.append(
+                            HighlightInstruction(
+                                joints: [hittingShoulder == leftShoulder ? .leftShoulder : .rightShoulder,
+                                         elbowJoint,
+                                         hittingWrist == leftWrist ? .leftWrist : .rightWrist],
+                                segments: [(hittingShoulder == leftShoulder ? .leftShoulder : .rightShoulder, elbowJoint),
+                                           (elbowJoint, hittingWrist == leftWrist ? .leftWrist : .rightWrist)],
+                                color: "green"
+                            )
+                        )
+                    }
+                }
+
+                if let elbowAngle = calculateAngle(
+                    from: joints,
+                    joint1: hittingShoulder == leftShoulder ? .leftShoulder : .rightShoulder,
+                    joint2: elbowJoint,
+                    joint3: hittingWrist == leftWrist ? .leftWrist : .rightWrist
+                ) {
+                    print("📊 [HIT SIDE] Elbow Angle: \(elbowAngle)° (Threshold: 30°)")
+                    
+                    if elbowAngle > 30 {
+                        print("⚠️ FEEDBACK: Your hitting arm should be more extended | Metric: elbowAngle=\(elbowAngle)° > 30°")
+                        feedbackArray.append("Your hitting arm should be more extended")
+                        feedbackArrayDetailed.append("Straight arm maximizes reach")
+
+                        highlightInstructions.append(
+                            HighlightInstruction(
+                                joints: [hittingShoulder == leftShoulder ? .leftShoulder : .rightShoulder,
+                                         elbowJoint,
+                                         hittingWrist == leftWrist ? .leftWrist : .rightWrist],
+                                segments: [(hittingShoulder == leftShoulder ? .leftShoulder : .rightShoulder, elbowJoint),
+                                           (elbowJoint, hittingWrist == leftWrist ? .leftWrist : .rightWrist)],
+                                color: "orange"
+                            )
+                        )
+                    } else {
+                        print("✅ POSITIVE: Great arm extension at contact | Metric: elbowAngle=\(elbowAngle)° <= 30°")
+                        positiveFeedbackArray.append("Great arm extension at contact")
+                        positiveFeedbackDetailed.append("Great arm extension at contact")
+
+                        highlightInstructions.append(
+                            HighlightInstruction(
+                                joints: [hittingShoulder == leftShoulder ? .leftShoulder : .rightShoulder,
+                                         elbowJoint,
+                                         hittingWrist == leftWrist ? .leftWrist : .rightWrist],
+                                segments: [(hittingShoulder == leftShoulder ? .leftShoulder : .rightShoulder, elbowJoint),
+                                           (elbowJoint, hittingWrist == leftWrist ? .leftWrist : .rightWrist)],
+                                color: "green"
+                            )
+                        )
+                    }
+                }
+
+                if let stretchAngle = calculateAngle(
+                    from: joints,
+                    joint1: .rightHip,
+                    joint2: .rightShoulder,
+                    joint3: .rightWrist
+                ) {
+                    print("📊 [HIT SIDE] Upper Body Stretch Angle: \(stretchAngle)° (Threshold: 20°)")
+                    
+                    if stretchAngle > 20 {
+                        print("⚠️ FEEDBACK: Try forming a straighter upper-body line | Metric: stretchAngle=\(stretchAngle)° > 20°")
+                        feedbackArray.append("Try forming a straighter upper-body line")
+                        feedbackArrayDetailed.append("Improves energy transfer")
+
+                        highlightInstructions.append(
+                            HighlightInstruction(
+                                joints: [.rightHip, .rightShoulder, .rightWrist],
+                                segments: [(.rightHip, .rightShoulder),
+                                           (.rightShoulder, .rightWrist)],
+                                color: "orange"
+                            )
+                        )
+                    } else {
+                        print("✅ POSITIVE: Excellent upper-body alignment | Metric: stretchAngle=\(stretchAngle)° <= 20°")
+                        positiveFeedbackArray.append("Excellent upper-body alignment")
+                        positiveFeedbackDetailed.append("Excellent upper-body alignment")
+
+                        highlightInstructions.append(
+                            HighlightInstruction(
+                                joints: [.rightHip, .rightShoulder, .rightWrist],
+                                segments: [(.rightHip, .rightShoulder),
+                                           (.rightShoulder, .rightWrist)],
+                                color: "green"
+                            )
+                        )
+                    }
+                }
+
+                print("📊 [HIT SIDE] Non-hitting Arm: leftWrist.y=\(leftWrist.y), leftShoulder.y=\(leftShoulder.y)")
+
+                if leftWrist.y > leftShoulder.y {
+                    print("⚠️ FEEDBACK: Your non-hitting arm should stay lower | Metric: leftWrist.y=\(leftWrist.y) > leftShoulder.y=\(leftShoulder.y)")
+                    feedbackArray.append("Your non-hitting arm should stay lower")
+                    feedbackArrayDetailed.append("Stabilizes torso rotation")
 
                     highlightInstructions.append(
                         HighlightInstruction(
@@ -319,8 +732,9 @@ class AICoach {
                         )
                     )
                 } else {
-                    positiveFeedbackArray.append("Good toss direction")
-                    keywordArray.append("trophy_toss_up")
+                    print("✅ POSITIVE: Good non-hitting-arm positioning | Metric: leftWrist.y=\(leftWrist.y) <= leftShoulder.y=\(leftShoulder.y)")
+                    positiveFeedbackArray.append("Good non-hitting-arm positioning")
+                    positiveFeedbackDetailed.append("Good non-hitting-arm positioning")
 
                     highlightInstructions.append(
                         HighlightInstruction(
@@ -330,288 +744,17 @@ class AICoach {
                         )
                     )
                 }
-            }
 
-            if (leftHip.x + 0.02) < leftKnee.x {
-                feedbackArray.append("Your hip should lead your knee forward")
-                feedbackArrayDetailed.append("Correct hip lead loads kinetic chain")
-                keywordArray.append("trophy_hip_back")
-
-                highlightInstructions.append(
-                    HighlightInstruction(
-                        joints: [.leftHip, .leftKnee],
-                        segments: [(.leftHip, .leftKnee)],
-                        color: "orange"
-                    )
+                feedbackHandler?(
+                    feedbackArray.joined(separator: "\n"),
+                    feedbackArrayDetailed.joined(separator: "\n"),
+                    positiveFeedbackArray.joined(separator: "\n"),
+                    positiveFeedbackDetailed.joined(separator: "\n"),
+                    highlightInstructions
                 )
-            } else {
-                positiveFeedbackArray.append("Good hip lead")
-                keywordArray.append("trophy_hip_good")
-
-                highlightInstructions.append(
-                    HighlightInstruction(
-                        joints: [.leftHip, .leftKnee],
-                        segments: [(.leftHip, .leftKnee)],
-                        color: "green"
-                    )
-                )
+                return
             }
-
-            if let shoulderLine = calculateAngle(
-                from: joints,
-                joint1: .leftShoulder,
-                joint2: .rightShoulder,
-                joint3: .rightElbow
-            ) {
-                if shoulderLine > 20 {
-                    feedbackArray.append("Your hitting-arm elbow should align more horizontally")
-                    feedbackArrayDetailed.append("Helps racket drop")
-                    keywordArray.append("trophy_elbow_high")
-
-                    highlightInstructions.append(
-                        HighlightInstruction(
-                            joints: [.rightShoulder, .rightElbow],
-                            segments: [(.rightShoulder, .rightElbow)],
-                            color: "orange"
-                        )
-                    )
-                } else {
-                    positiveFeedbackArray.append("Good shoulder–elbow alignment")
-                    keywordArray.append("trophy_elbow_good")
-
-                    highlightInstructions.append(
-                        HighlightInstruction(
-                            joints: [.rightShoulder, .rightElbow],
-                            segments: [(.rightShoulder, .rightElbow)],
-                            color: "green"
-                        )
-                    )
-                }
-            }
-
-            if let rightElbowAngle = calculateAngle(
-                from: joints,
-                joint1: .rightShoulder,
-                joint2: .rightElbow,
-                joint3: .rightWrist
-            ) {
-                if rightElbowAngle > 80 {
-                    feedbackArray.append("Your hitting-arm elbow should be more bent")
-                    feedbackArrayDetailed.append("Tighter angle improves whip")
-                    keywordArray.append("trophy_hitting_elbow_open")
-
-                    highlightInstructions.append(
-                        HighlightInstruction(
-                            joints: [.rightShoulder, .rightElbow, .rightWrist],
-                            segments: [(.rightShoulder, .rightElbow),
-                                       (.rightElbow, .rightWrist)],
-                            color: "orange"
-                        )
-                    )
-                } else {
-                    positiveFeedbackArray.append("Great hitting-arm loading angle")
-                    keywordArray.append("trophy_hitting_elbow_good")
-
-                    highlightInstructions.append(
-                        HighlightInstruction(
-                            joints: [.rightShoulder, .rightElbow, .rightWrist],
-                            segments: [(.rightShoulder, .rightElbow),
-                                       (.rightElbow, .rightWrist)],
-                            color: "green"
-                        )
-                    )
-                }
-            }
-
-            feedbackHandler?(
-                feedbackArray.joined(separator: "\n"),
-                feedbackArrayDetailed.joined(separator: "\n"),
-                positiveFeedbackArray.joined(separator: "\n"),
-                keywordArray.joined(separator: "\n"),
-                highlightInstructions
-            )
-            return
         }
-
-        // ---------------------------------------------------------
-        // MARK: - HIT SIDE
-        // ---------------------------------------------------------
-        if pose == "Hit side" {
-
-            guard
-                let leftWrist = joints[.leftWrist],
-                let rightWrist = joints[.rightWrist],
-                let leftShoulder = joints[.leftShoulder],
-                let rightShoulder = joints[.rightShoulder],
-                let rightElbow = joints[.rightElbow],
-                let rightHip = joints[.rightHip]
-            else { return }
-
-            let isLeftHigher = leftWrist.y < rightWrist.y
-            let hittingWrist = isLeftHigher ? leftWrist : rightWrist
-            let hittingShoulder = isLeftHigher ? leftShoulder : rightShoulder
-            let elbowJoint = isLeftHigher ? VNHumanBodyPoseObservation.JointName.leftElbow : .rightElbow
-
-            if let armDirection = calculateAngle(
-                from: joints,
-                joint1: hittingShoulder == leftShoulder ? .leftShoulder : .rightShoulder,
-                joint2: hittingWrist == leftWrist ? .leftWrist : .rightWrist,
-                joint3: elbowJoint
-            ) {
-                if armDirection > 75 {
-                    feedbackArray.append("Your contact point could be slightly further forward")
-                    feedbackArrayDetailed.append("Earlier contact improves acceleration")
-                    keywordArray.append("hit_forward_low")
-
-                    highlightInstructions.append(
-                        HighlightInstruction(
-                            joints: [hittingShoulder == leftShoulder ? .leftShoulder : .rightShoulder,
-                                     elbowJoint,
-                                     hittingWrist == leftWrist ? .leftWrist : .rightWrist],
-                            segments: [(hittingShoulder == leftShoulder ? .leftShoulder : .rightShoulder, elbowJoint),
-                                       (elbowJoint, hittingWrist == leftWrist ? .leftWrist : .rightWrist)],
-                            color: "orange"
-                        )
-                    )
-                } else if armDirection < 55 {
-                    feedbackArray.append("Your contact point is too far in front")
-                    feedbackArrayDetailed.append("Optimal contact slightly ahead")
-                    keywordArray.append("hit_forward_high")
-
-                    highlightInstructions.append(
-                        HighlightInstruction(
-                            joints: [hittingShoulder == leftShoulder ? .leftShoulder : .rightShoulder,
-                                     elbowJoint,
-                                     hittingWrist == leftWrist ? .leftWrist : .rightWrist],
-                            segments: [(hittingShoulder == leftShoulder ? .leftShoulder : .rightShoulder, elbowJoint),
-                                       (elbowJoint, hittingWrist == leftWrist ? .leftWrist : .rightWrist)],
-                            color: "orange"
-                        )
-                    )
-                } else {
-                    positiveFeedbackArray.append("Well-timed contact point")
-                    keywordArray.append("hit_forward_good")
-
-                    highlightInstructions.append(
-                        HighlightInstruction(
-                            joints: [hittingShoulder == leftShoulder ? .leftShoulder : .rightShoulder,
-                                     elbowJoint,
-                                     hittingWrist == leftWrist ? .leftWrist : .rightWrist],
-                            segments: [(hittingShoulder == leftShoulder ? .leftShoulder : .rightShoulder, elbowJoint),
-                                       (elbowJoint, hittingWrist == leftWrist ? .leftWrist : .rightWrist)],
-                            color: "green"
-                        )
-                    )
-                }
-            }
-
-            if let elbowAngle = calculateAngle(
-                from: joints,
-                joint1: hittingShoulder == leftShoulder ? .leftShoulder : .rightShoulder,
-                joint2: elbowJoint,
-                joint3: hittingWrist == leftWrist ? .leftWrist : .rightWrist
-            ) {
-                if elbowAngle > 30 {
-                    feedbackArray.append("Your hitting arm should be more extended")
-                    feedbackArrayDetailed.append("Straight arm maximizes reach")
-                    keywordArray.append("hit_arm_bent")
-
-                    highlightInstructions.append(
-                        HighlightInstruction(
-                            joints: [hittingShoulder == leftShoulder ? .leftShoulder : .rightShoulder,
-                                     elbowJoint,
-                                     hittingWrist == leftWrist ? .leftWrist : .rightWrist],
-                            segments: [(hittingShoulder == leftShoulder ? .leftShoulder : .rightShoulder, elbowJoint),
-                                       (elbowJoint, hittingWrist == leftWrist ? .leftWrist : .rightWrist)],
-                            color: "orange"
-                        )
-                    )
-                } else {
-                    positiveFeedbackArray.append("Great arm extension at contact")
-                    keywordArray.append("hit_arm_straight")
-
-                    highlightInstructions.append(
-                        HighlightInstruction(
-                            joints: [hittingShoulder == leftShoulder ? .leftShoulder : .rightShoulder,
-                                     elbowJoint,
-                                     hittingWrist == leftWrist ? .leftWrist : .rightWrist],
-                            segments: [(hittingShoulder == leftShoulder ? .leftShoulder : .rightShoulder, elbowJoint),
-                                       (elbowJoint, hittingWrist == leftWrist ? .leftWrist : .rightWrist)],
-                            color: "green"
-                        )
-                    )
-                }
-            }
-
-            if let stretchAngle = calculateAngle(
-                from: joints,
-                joint1: .rightHip,
-                joint2: .rightShoulder,
-                joint3: .rightWrist
-            ) {
-                if stretchAngle > 20 {
-                    feedbackArray.append("Try forming a straighter upper-body line")
-                    feedbackArrayDetailed.append("Improves energy transfer")
-                    keywordArray.append("hit_torso_bent")
-
-                    highlightInstructions.append(
-                        HighlightInstruction(
-                            joints: [.rightHip, .rightShoulder, .rightWrist],
-                            segments: [(.rightHip, .rightShoulder),
-                                       (.rightShoulder, .rightWrist)],
-                            color: "orange"
-                        )
-                    )
-                } else {
-                    positiveFeedbackArray.append("Excellent upper-body alignment")
-                    keywordArray.append("hit_torso_good")
-
-                    highlightInstructions.append(
-                        HighlightInstruction(
-                            joints: [.rightHip, .rightShoulder, .rightWrist],
-                            segments: [(.rightHip, .rightShoulder),
-                                       (.rightShoulder, .rightWrist)],
-                            color: "green"
-                        )
-                    )
-                }
-            }
-
-            if leftWrist.y > leftShoulder.y {
-                feedbackArray.append("Your non-hitting arm should stay lower")
-                feedbackArrayDetailed.append("Stabilizes torso rotation")
-                keywordArray.append("hit_leftarm_high")
-
-                highlightInstructions.append(
-                    HighlightInstruction(
-                        joints: [.leftShoulder, .leftWrist],
-                        segments: [(.leftShoulder, .leftWrist)],
-                        color: "orange"
-                    )
-                )
-            } else {
-                positiveFeedbackArray.append("Good non-hitting-arm positioning")
-                keywordArray.append("hit_leftarm_good")
-
-                highlightInstructions.append(
-                    HighlightInstruction(
-                        joints: [.leftShoulder, .leftWrist],
-                        segments: [(.leftShoulder, .leftWrist)],
-                        color: "green"
-                    )
-                )
-            }
-
-            feedbackHandler?(
-                feedbackArray.joined(separator: "\n"),
-                feedbackArrayDetailed.joined(separator: "\n"),
-                positiveFeedbackArray.joined(separator: "\n"),
-                keywordArray.joined(separator: "\n"),
-                highlightInstructions
-            )
-            return
-        }
-    }
 
     
     

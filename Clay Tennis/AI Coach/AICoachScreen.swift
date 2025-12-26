@@ -219,15 +219,19 @@ struct AICoachScreen: View {
     }
     
     private func detailedText(for tip: String) -> String? {
-        let allTips = state.positiveFeedbackArray + state.feedbackArray
-        guard
-            let index = allTips.firstIndex(of: tip),
-            index < state.feedbackArrayDetailed.count
-        else {
-            return nil
+        if let idx = state.feedbackArray.firstIndex(of: tip),
+           idx < state.feedbackArrayDetailed.count {
+            return state.feedbackArrayDetailed[idx]
         }
-        return state.feedbackArrayDetailed[index]
+
+        if let idx = state.positiveFeedbackArray.firstIndex(of: tip),
+           idx < state.positiveFeedbackArrayDetailed.count {
+            return state.positiveFeedbackArrayDetailed[idx]
+        }
+
+        return nil
     }
+
 
     
     private var displayedFeedback: [(text: String, isPositive: Bool)] {
@@ -244,14 +248,14 @@ struct AICoachScreen: View {
                 ]
             } else {
                 return positives
-                    .prefix(2)
+                    //.prefix(2)
                     .map { (text: $0, isPositive: true) }
             }
         }
         
         // CASE 2 → No positives → show two negatives
         return negatives
-            .prefix(2)
+            //.prefix(2)
             .map { (text: $0, isPositive: false) }
     }
     
@@ -409,7 +413,7 @@ struct AICoachScreen: View {
             aiTips: state.feedbackArray,
             aiTipsDetailed: state.feedbackArrayDetailed,
             positiveAITips: state.positiveFeedbackArray,
-            keyword: state.keywordArray,
+            positiveAITipsDetailed: state.positiveFeedbackArrayDetailed,
             side: selectedAngle.rawValue,
             quizTopicKey: nil,
             quizDifficulty: nil,

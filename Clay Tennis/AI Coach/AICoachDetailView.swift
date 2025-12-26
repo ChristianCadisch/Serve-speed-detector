@@ -17,8 +17,9 @@ struct AICoachDetailView: View {
     @State private var showVideoUpload = false
     
     private var positiveTips: [String]? { item.positiveAITips }
-    private var negativeTips: [String]? { item.aiTipsDetailed }
-    private var keywords: [String] { item.keyword ?? [] }
+    private var positiveTipsDetailed: [String]? { item.positiveAITipsDetailed }
+    private var negativeTips: [String]? { item.aiTips }
+    private var negativeTipsDetailed: [String]? { item.aiTipsDetailed }
     
     var body: some View {
         ZStack {
@@ -315,29 +316,7 @@ struct AICoachDetailView: View {
         .shadow(color: .black.opacity(0.10), radius: 14, y: 4)
     }
     
-    
-    // MARK: - Keyword Bar
-    
-    private var keywordBar: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 8) {
-                ForEach(keywords, id: \.self) { keyword in
-                    Text(keyword.uppercased())
-                        .font(.caption2.weight(.semibold))
-                        .padding(.horizontal, 10)
-                        .padding(.vertical, 6)
-                        .background(
-                            Capsule()
-                                .fill(Color.blue.opacity(
-                                    colorScheme == .dark ? 0.28 : 0.20
-                                ))
-                        )
-                        .foregroundColor(.blue)
-                }
-            }
-        }
-        .padding(.top, 4)
-    }
+
     
     
     // MARK: - Metadata Section
@@ -404,6 +383,6 @@ extension FeedItem {
         aiTipCount: 2,
         aiTips: ["Improve toss height consistency"],
         positiveAITips: ["Well done on your ball toss!"],
-        keyword: ["trophy pose", "left arm", "contact", "timing"]
+        positiveAITipsDetailed: ["trophy pose", "left arm", "contact", "timing"]
     )
 }

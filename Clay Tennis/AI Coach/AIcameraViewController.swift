@@ -73,39 +73,44 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
         bodyPoseRequest = VNDetectHumanBodyPoseRequest(completionHandler: handleBodyPose)
-        
-        // Initialize the overlay view
+
         overlayView = UIView()
         overlayView.translatesAutoresizingMaskIntoConstraints = false
         overlayView.backgroundColor = .clear
-        overlayView.isUserInteractionEnabled = false  // Important: let touches pass through
+        overlayView.isUserInteractionEnabled = false
         overlayView.addSubview(darkeningLayer)
 
-                
-        
         setupLayers()
-        aiCoach.feedbackHandler = { short, detailed, positive, keyword, highlights in
+
+        aiCoach.feedbackHandler = { short, detailed, positive, positiveDetailed, highlights in
             let gm = GameManager.shared
 
-            gm.playerStats.feedbackArray = short.components(separatedBy: "\n")
-            gm.playerStats.feedbackArrayDetailed = detailed.components(separatedBy: "\n")
-            gm.playerStats.positiveFeedbackArray = positive.components(separatedBy: "\n")
-            gm.playerStats.keywordArray = keyword.components(separatedBy: "\n")
+            let negativeShort = short.components(separatedBy: "\n").filter { !$0.isEmpty }
+            let negativeDetailed = detailed.components(separatedBy: "\n").filter { !$0.isEmpty }
+            let positiveShort = positive.components(separatedBy: "\n").filter { !$0.isEmpty }
+            let positiveDetailedArr = positiveDetailed.components(separatedBy: "\n").filter { !$0.isEmpty }
+
+            gm.playerStats.feedbackArray = negativeShort
+            gm.playerStats.feedbackArrayDetailed = negativeDetailed
+            gm.playerStats.positiveFeedbackArray = positiveShort
+            gm.playerStats.positiveFeedbackArrayDetailed = positiveDetailedArr
+
             var map: [String: [HighlightInstruction]] = [:]
 
-            for (index, text) in gm.playerStats.feedbackArray.enumerated() {
-                if index < highlights.count {
-                    map[text] = [highlights[index]]
-                }
+            // ---- NEGATIVE FEEDBACK ----
+            for i in 0..<negativeShort.count {
+                guard i < highlights.count else { continue }
+                map[negativeShort[i]] = [highlights[i]]
             }
 
-            for (index, text) in gm.playerStats.positiveFeedbackArray.enumerated() {
-                // shift index if positives come before negatives
-                let globalIndex = index + gm.playerStats.feedbackArray.count
-                if globalIndex < highlights.count {
-                    map[text] = [highlights[globalIndex]]
-                }
+            // ---- POSITIVE FEEDBACK ----
+            let offset = negativeShort.count
+            for i in 0..<positiveShort.count {
+                let globalIndex = offset + i
+                guard globalIndex < highlights.count else { continue }
+                map[positiveShort[i]] = [highlights[globalIndex]]
             }
 
             GameStateObserver.shared.highlightMap = map
@@ -116,8 +121,8 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
                 userInfo: nil
             )
         }
-
     }
+
     
     
 
@@ -664,6 +669,8 @@ class AIcameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBu
     
     func setupWithVideoURL(_ url: URL) {
         let asset = AVAsset(url: url)
+        let gm = GameManager.shared
+        gm.reset()
         startReadingAsset(asset)
     }
     

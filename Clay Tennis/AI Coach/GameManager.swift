@@ -154,7 +154,7 @@ class GameStateObserver: ObservableObject {
     @Published var feedbackArray: [String] = []
     @Published var feedbackArrayDetailed : [String] = []
     @Published var positiveFeedbackArray: [String] = []
-    @Published var keywordArray: [String] = []
+    @Published var positiveFeedbackArrayDetailed: [String] = []
     @Published var videoProgress: CGFloat = 0.0
     @Published var trophyFramePosition: CGFloat? = nil
     @Published var serveFramePosition: CGFloat? = nil
@@ -175,7 +175,7 @@ class GameStateObserver: ObservableObject {
         feedbackArray = gameManager.playerStats.feedbackArray
         feedbackArrayDetailed = gameManager.playerStats.feedbackArrayDetailed
         positiveFeedbackArray = gameManager.playerStats.positiveFeedbackArray
-        keywordArray = gameManager.playerStats.keywordArray
+        positiveFeedbackArrayDetailed = gameManager.playerStats.positiveFeedbackArrayDetailed
     }
     
     deinit {
@@ -189,5 +189,5 @@ struct PlayerStats {
     var feedbackArray = [String]()
     var feedbackArrayDetailed = [String]()
     var positiveFeedbackArray = [String]()
-    var keywordArray = [String]()
+    var positiveFeedbackArrayDetailed = [String]()
 }
