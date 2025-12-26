@@ -26,7 +26,7 @@ class ContentAnalysisViewController: UIViewController,
     // MARK: - IBOutlets
     private var serveSpeedLabel: UILabel!
     var detectedServeCount: Int = 0
-    var speedContainerView: UIView!
+    var speedContainerView: UIVisualEffectView!
     private var motionWarningView: UIView?
     
     
@@ -130,9 +130,13 @@ class ContentAnalysisViewController: UIViewController,
     }
     
     private func checkForTrajectoryCompletion() {
-        if framesWithoutUpdate >= updateThreshold, let lastTrajectory = lastObservedTrajectory {
-            var speed = round(Double(3.6*18) / lastTrajectory.timeRange.duration.seconds)
+
+        if framesWithoutUpdate >= updateThreshold,
+           let lastTrajectory = lastObservedTrajectory {
+
+            var speed = round(Double(3.6 * 18) / lastTrajectory.timeRange.duration.seconds)
             print("New speed detected: \(speed)")
+
             if speed > 200 {
                 speed = 0
                 print("speed wrongly measured, reset to 0")
@@ -142,131 +146,130 @@ class ContentAnalysisViewController: UIViewController,
             } else {
                 DispatchQueue.main.async { [weak self] in
                     guard let self = self else { return }
+
+                    // ─────────────────────────────
+                    // VISUAL UPDATE (unchanged logic)
+                    // ─────────────────────────────
                     self.trajectoryView.speed = speed
                     self.trajectoryView.numberOfServes += 1
                     self.detectedServeCount = self.trajectoryView.numberOfServes
-                    print("Serve count now: \(self.detectedServeCount)")
 
-                    
-                    
-                    
-                    
-                    let numberString = String(format: "%.0f", speed)
-                    let unitString = "km/h"
-                    
-                    let bigFont = UIFont.systemFont(ofSize: 45, weight: .bold)
-                    let smallFont = UIFont.systemFont(ofSize: 20, weight: .medium)
-                    
                     let attributed = NSMutableAttributedString(
-                        string: numberString + "\n",
-                        attributes: [.font: bigFont]
+                        string: String(format: "%.0f", speed),
+                        attributes: [.font: UIFont.systemFont(ofSize: 48, weight: .bold)]
                     )
-                    
+
                     attributed.append(NSAttributedString(
-                        string: unitString,
-                        attributes: [.font: smallFont]
+                        string: "\nkm/h",
+                        attributes: [
+                            .font: UIFont.systemFont(ofSize: 17, weight: .medium),
+                            .foregroundColor: UIColor.white.withAlphaComponent(0.75)
+                        ]
                     ))
-                    
+
                     self.serveSpeedLabel.attributedText = attributed
-                    
-                    
-                    // Update highest score
-                    if let videoAsset = self.recordedVideoSource,
-                       let urlString = (videoAsset as? AVURLAsset)?.url.absoluteString {
-                        
-                        let key = "FastestSpeed_\(urlString)"
-                        
-                        let previousVideoFastest = UserDefaults.standard.double(forKey: key)
-                        
-                        if speed > previousVideoFastest {
-                            UserDefaults.standard.set(speed, forKey: key)
-                            print("new fastest speed overall is \(speed)")
-                        }
-                        
-                        // also update serve count
-                        let count_key = "ServeCount_\(urlString)"
-                        UserDefaults.standard.set(self.detectedServeCount, forKey: count_key)
+
+                    // ─────────────────────────────
+                    // 🔥 CRITICAL FIX: persistence
+                    // ─────────────────────────────
+                    self.saveFastestSpeed(speed)
+
+                    // also persist serve count (feed relies on this too)
+                    if let asset = self.recordedVideoSource,
+                       let urlString = (asset as? AVURLAsset)?.url.absoluteString {
+                        UserDefaults.standard.set(
+                            self.detectedServeCount,
+                            forKey: "ServeCount_\(urlString)"
+                        )
                     }
-                    
+
+
+
+                    UIView.animate(withDuration: 0.15, animations: {
+                        self.speedContainerView.transform =
+                            CGAffineTransform(scaleX: 1.05, y: 1.05)
+                    }) { _ in
+                        UIView.animate(withDuration: 0.2) {
+                            self.speedContainerView.transform = .identity
+                        }
+                    }
                 }
             }
-            
+
             lastObservedTrajectory = nil
             framesWithoutUpdate = 0
         }
     }
+
     
     
     
     private func setupButtonsAndLabels() {
-        
-        // --- Container View ---
-        speedContainerView = UIView()
-        speedContainerView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-        speedContainerView.layer.cornerRadius = 10
+
+        // --- Container (HUD style) ---
+        speedContainerView = UIVisualEffectView(effect: UIBlurEffect(style: .systemUltraThinMaterialDark))
+        speedContainerView.layer.cornerRadius = 22
         speedContainerView.clipsToBounds = true
-        
+
         view.addSubview(speedContainerView)
         speedContainerView.translatesAutoresizingMaskIntoConstraints = false
-        
-        let containerSize: CGFloat = 120
-        
+
+        let cardWidth: CGFloat = 180
+        let cardHeight: CGFloat = 140
+
         NSLayoutConstraint.activate([
-            speedContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            speedContainerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50),
-            speedContainerView.widthAnchor.constraint(equalToConstant: containerSize),
-            speedContainerView.heightAnchor.constraint(equalToConstant: containerSize)
+            speedContainerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            speedContainerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -28),
+            speedContainerView.widthAnchor.constraint(equalToConstant: cardWidth),
+            speedContainerView.heightAnchor.constraint(equalToConstant: cardHeight)
         ])
-        
-        
+
         // --- Speed Label ---
         serveSpeedLabel = UILabel()
         serveSpeedLabel.textAlignment = .center
         serveSpeedLabel.textColor = .white
-        serveSpeedLabel.numberOfLines = 3
-        
-        let number = "0"
-        let unit = "km/h"
-        
-        let bigFont = UIFont.systemFont(ofSize: 45, weight: .bold)
-        let smallFont = UIFont.systemFont(ofSize: 20, weight: .medium)
-        
+        serveSpeedLabel.numberOfLines = 2
+
         let attributed = NSMutableAttributedString(
-            string: number + "\n",
-            attributes: [.font: bigFont, .foregroundColor: UIColor.white]
+            string: "0",
+            attributes: [.font: UIFont.systemFont(ofSize: 48, weight: .bold)]
         )
+
         attributed.append(NSAttributedString(
-            string: unit,
-            attributes: [.font: smallFont, .foregroundColor: UIColor.white]
+            string: "\nkm/h",
+            attributes: [
+                .font: UIFont.systemFont(ofSize: 17, weight: .medium),
+                .foregroundColor: UIColor.white.withAlphaComponent(0.75)
+            ]
         ))
-        
+
         serveSpeedLabel.attributedText = attributed
-        
-        
-        // --- Title Label ---
+
+        // --- Title ---
         let titleLabel = UILabel()
-        titleLabel.text = "Serve speed"
-        titleLabel.textColor = .white
-        titleLabel.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
+        titleLabel.text = "Serve Speed"
+        titleLabel.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
+        titleLabel.textColor = UIColor.white.withAlphaComponent(0.7)
         titleLabel.textAlignment = .center
-        
-        
-        // --- Stack View to center all content ---
+
         let stack = UIStackView(arrangedSubviews: [titleLabel, serveSpeedLabel])
         stack.axis = .vertical
         stack.alignment = .center
-        stack.spacing = 4
-        
-        speedContainerView.addSubview(stack)
+        stack.spacing = 2
+
+        speedContainerView.contentView.addSubview(stack)
         stack.translatesAutoresizingMaskIntoConstraints = false
-        
+
         NSLayoutConstraint.activate([
             stack.centerXAnchor.constraint(equalTo: speedContainerView.centerXAnchor),
-            stack.centerYAnchor.constraint(equalTo: speedContainerView.centerYAnchor),
-            stack.widthAnchor.constraint(equalTo: speedContainerView.widthAnchor, constant: 0)
+            stack.centerYAnchor.constraint(equalTo: speedContainerView.centerYAnchor)
         ])
+
+
     }
+
     
+
     
     @objc private func backButtonTapped() {
         print("back tapped")
