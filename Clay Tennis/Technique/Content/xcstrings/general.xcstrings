@@ -1362,7 +1362,1142 @@
           }
         }
       }
+    },
+    
+  "icloud_downloading": {
+    "comment": "Shown while a video is being downloaded from iCloud",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Wird aus iCloud geladen…"
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Downloading from iCloud…"
+        }
+      }
     }
+  },
+
+  "navigation_coach": {
+    "comment": "Navigation title for AI coach chat",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Coach"
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Coach"
+        }
+      }
+    }
+  },
+
+  "navigation_real_coach": {
+    "comment": "Navigation title for real coach finder",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Trainer finden"
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Real Coach"
+        }
+      }
+    }
+  },
+
+  "navigation_training_hub": {
+    "comment": "Navigation title for training hub",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Trainingsübersicht"
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Training Hub"
+        }
+      }
+    }
+  },
+
+  "share_serve_with_speed": {
+    "comment": "Share text when serve speed is available",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Ich habe eine Aufschlaggeschwindigkeit von %d km/h erreicht 🎾 — schlag mich auf Clay Tennis!\n%@"
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "I achieved a serve speed of %d km/h 🎾 — try to beat it on Clay Tennis!\n%@"
+        }
+      }
+    }
+  },
+
+  "share_serve_no_speed": {
+    "comment": "Share text when serve speed is not available",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Schau dir meinen Aufschlag auf Clay Tennis an 🎾\n%@"
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Check out my serve on Clay Tennis 🎾\n%@"
+        }
+      }
+    }
+  },
+
+  "feed_serve_speed_title": {
+    "comment": "Feed item title for serve speed result",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Serve Geschwindigkeit"
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Serve Speed"
+        }
+      }
+    }
+  },
+
+  "feed_serve_count": {
+    "comment": "Subtitle showing number of serves",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "%d Aufschläge"
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "%d serves"
+        }
+      }
+    }
+  },
+  
+  "find_coach_header_caps": {
+    "comment": "Small caps header above the main Find Coach title",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "ANGEBOT VON ECHTEM TRAINER ANFORDERN" } },
+      "en": { "stringUnit": { "state": "translated", "value": "REQUEST OFFER FROM REAL COACH" } }
+    }
+  },
+
+  "find_coach_header_title": {
+    "comment": "Main title for Find Coach screen",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Persönliches Coaching – individuell für dich" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Personal coaching, curated for you" } }
+    }
+  },
+
+  "find_coach_section_details": {
+    "comment": "Section title for user details",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Deine Angaben" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Your details" } }
+    }
+  },
+
+  "find_coach_name_title": {
+    "comment": "Label for name input field",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Dein Name" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Your name" } }
+    }
+  },
+
+  "find_coach_name_placeholder": {
+    "comment": "Placeholder for name input field",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "z. B. Alex Federer" } },
+      "en": { "stringUnit": { "state": "translated", "value": "e.g. Alex Federer" } }
+    }
+  },
+
+  "find_coach_email_title": {
+    "comment": "Label for email input field",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "E-Mail-Adresse" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Email" } }
+    }
+  },
+
+  "find_coach_email_placeholder": {
+    "comment": "Placeholder for email input field",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Wie kann dich der Trainer erreichen?" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Where should the coach reach you?" } }
+    }
+  },
+
+  "find_coach_location_title": {
+    "comment": "Label for location input field",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Ort" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Location" } }
+    }
+  },
+
+  "find_coach_location_placeholder": {
+    "comment": "Placeholder for location input field",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Stadt oder PLZ" } },
+      "en": { "stringUnit": { "state": "translated", "value": "City or ZIP code" } }
+    }
+  },
+
+  "find_coach_budget_title": {
+    "comment": "Section title for budget selection",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Budget pro Einheit" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Budget per session" } }
+    }
+  },
+
+  "find_coach_level_title": {
+    "comment": "Section title for player level selection",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Spielstärke" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Player level" } }
+    }
+  },
+
+  "find_coach_submit": {
+    "comment": "Submit button title before submission",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Trainer anfragen" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Request Coach" } }
+    }
+  },
+
+  "find_coach_submit_done": {
+    "comment": "Submit button title after successful submission",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Anfrage gesendet" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Request Sent" } }
+    }
+  },
+
+  "find_coach_error_name": {
+    "comment": "Error shown when name is missing",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Bitte gib deinen Namen ein." } },
+      "en": { "stringUnit": { "state": "translated", "value": "Please enter your name." } }
+    }
+  },
+
+  "find_coach_error_email": {
+    "comment": "Error shown when email is missing",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Bitte gib deine E-Mail-Adresse ein." } },
+      "en": { "stringUnit": { "state": "translated", "value": "Please enter your email address." } }
+    }
+  },
+
+  "find_coach_error_email_invalid": {
+    "comment": "Error shown when email is invalid",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Bitte gib eine gültige E-Mail-Adresse ein." } },
+      "en": { "stringUnit": { "state": "translated", "value": "Please enter a valid email address." } }
+    }
+  },
+
+  "find_coach_error_location": {
+    "comment": "Error shown when location is missing",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Bitte gib deinen Standort an." } },
+      "en": { "stringUnit": { "state": "translated", "value": "Please enter your location." } }
+    }
+  },
+
+  "find_coach_level_beginner": {
+    "comment": "Beginner player level",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Anfänger" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Beginner" } }
+    }
+  },
+
+  "find_coach_level_intermediate": {
+    "comment": "Intermediate player level",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Fortgeschritten" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Intermediate" } }
+    }
+  },
+
+  "find_coach_level_advanced": {
+    "comment": "Advanced player level",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Sehr fortgeschritten" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Advanced" } }
+    }
+  },
+
+  "feed_app_title": {
+    "comment": "Top-left app label in feed",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "CLAY" } },
+      "en": { "stringUnit": { "state": "translated", "value": "CLAY" } }
+    }
+  },
+
+  "feed_daily_streak": {
+    "comment": "Label for daily streak counter",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "TÄGLICHE SERIE" } },
+      "en": { "stringUnit": { "state": "translated", "value": "DAILY STREAK" } }
+    }
+  },
+
+  "feed_weekly_streak": {
+    "comment": "Label for weekly streak counter",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "WOCHENSERIE" } },
+      "en": { "stringUnit": { "state": "translated", "value": "WEEKLY STREAK" } }
+    }
+  },
+
+  "feed_today": {
+    "comment": "Feed section title for today",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "HEUTE" } },
+      "en": { "stringUnit": { "state": "translated", "value": "TODAY" } }
+    }
+  },
+
+  "feed_yesterday": {
+    "comment": "Feed section title for yesterday",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "GESTERN" } },
+      "en": { "stringUnit": { "state": "translated", "value": "YESTERDAY" } }
+    }
+  },
+
+  "feed_last_week": {
+    "comment": "Feed section title for last week",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "LETZTE WOCHE" } },
+      "en": { "stringUnit": { "state": "translated", "value": "LAST WEEK" } }
+    }
+  },
+
+  "feed_empty_hero_title": {
+    "comment": "Hero title when feed is empty",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Nimm deinen ersten Aufschlag auf" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Record Your First Serve" } }
+    }
+  },
+
+  "feed_empty_hero_subtitle": {
+    "comment": "Hero subtitle when feed is empty",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Starte dein Training und schalte die KI-Analyse frei" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Start your training and unlock AI analysis" } }
+    }
+  },
+
+  "feed_recommended_quizzes": {
+    "comment": "Header for recommended training carousel",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "EMPFOHLENE QUIZZES" } },
+      "en": { "stringUnit": { "state": "translated", "value": "RECOMMENDED QUIZZES" } }
+    }
+  },
+
+  "feed_priority_drill": {
+    "comment": "Badge shown on training prescription cards",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "EMPFOHLEN" } },
+      "en": { "stringUnit": { "state": "translated", "value": "PRIORITY DRILL" } }
+    }
+  },
+
+  "feed_see_all_training": {
+    "comment": "CTA to open all training content",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Alle Trainings ansehen" } },
+      "en": { "stringUnit": { "state": "translated", "value": "See All Training" } }
+    }
+  },
+
+  "feed_session_serve": {
+    "comment": "Fallback label for serve session row",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "AUFSCHLAG-SESSION" } },
+      "en": { "stringUnit": { "state": "translated", "value": "SESSION SERVE" } }
+    }
+  },
+
+  "feed_kmh_unit": {
+    "comment": "Unit label for serve speed",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "KM/H" } },
+      "en": { "stringUnit": { "state": "translated", "value": "KM/H" } }
+    }
+  },
+
+  "feed_quiz_mastery": {
+    "comment": "Quiz mastery percentage label",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "%d%% MEISTERSCHAFT" } },
+      "en": { "stringUnit": { "state": "translated", "value": "%d% MASTERY" } }
+    }
+  },
+
+  "feed_ai_analysis_from": {
+    "comment": "Prefix for AI coach analysis source",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "ANALYSE AUS %@" } },
+      "en": { "stringUnit": { "state": "translated", "value": "ANALYSIS FROM %@" } }
+    }
+  },
+
+  "feed_ai_fixes": {
+    "comment": "Label for number of AI fixes",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "KORREKTUREN" } },
+      "en": { "stringUnit": { "state": "translated", "value": "FIXES" } }
+    }
+  },
+  
+  "coach_hub_header_serve": {
+    "comment": "Small header label above coach hub content",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "AUFSCHLAG" } },
+      "en": { "stringUnit": { "state": "translated", "value": "SERVE" } }
+    }
+  },
+
+  "coach_hub_angle_title": {
+    "comment": "Title asking how the video was filmed",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Wie wurde dein Video aufgenommen?" } },
+      "en": { "stringUnit": { "state": "translated", "value": "How was your video filmed?" } }
+    }
+  },
+
+  "coach_hub_angle_subtitle": {
+    "comment": "Explanation text for angle selection",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Das hilft der KI, deinen Aufschlag korrekt zu analysieren" } },
+      "en": { "stringUnit": { "state": "translated", "value": "This helps the AI analyze your serve correctly" } }
+    }
+  },
+
+  "coach_hub_angle_side_title": {
+    "comment": "Angle selection title for side view",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Von der Seite gefilmt" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Filmed from the side" } }
+    }
+  },
+
+  "coach_hub_angle_side_subtitle": {
+    "comment": "Angle selection subtitle for side view",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Ideal für Kniebeugung & Trophy-Position" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Best for knee bend & trophy pose" } }
+    }
+  },
+
+  "coach_hub_angle_back_title": {
+    "comment": "Angle selection title for back view",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Von hinten gefilmt" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Filmed from the back" } }
+    }
+  },
+
+  "coach_hub_angle_back_subtitle": {
+    "comment": "Angle selection subtitle for back view",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Ideal für Armzug & Pronation" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Best for arm path & pronation" } }
+    }
+  },
+
+  "coach_hub_record_speed": {
+    "comment": "Primary CTA to record serve speed",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Aufschlaggeschwindigkeit messen" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Measure Serve Speed" } }
+    }
+  },
+
+  "coach_hub_record_technique": {
+    "comment": "Primary CTA to get technique feedback",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Technik analysieren" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Get Technique Feedback" } }
+    }
+  },
+
+  "coach_hub_help_setup": {
+    "comment": "Secondary help button for phone setup",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "So positionierst du dein Handy" } },
+      "en": { "stringUnit": { "state": "translated", "value": "How to set up your phone" } }
+    }
+  },
+
+  "coach_hub_current_focus": {
+    "comment": "Header for current coaching focus card",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "AKTUELLER FOKUS" } },
+      "en": { "stringUnit": { "state": "translated", "value": "CURRENT FOCUS" } }
+    }
+  },
+
+  "serve_trend_title": {
+    "comment": "Title for serve speed trend chart",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "SERVE SPEED – VERLAUF" } },
+      "en": { "stringUnit": { "state": "translated", "value": "SERVE SPEED TREND" } }
+    }
+  },
+
+  "serve_trend_now": {
+    "comment": "X-axis label for most recent serve",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Jetzt" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Now" } }
+    }
+  },
+
+  "serve_detail_watch_replay": {
+    "comment": "Button title to watch serve replay",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Wiederholung ansehen" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Watch Replay" } }
+    }
+  },
+
+  "serve_detail_share": {
+    "comment": "Button title to share serve result",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Ergebnis teilen" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Share Result" } }
+    }
+  },
+
+  "serve_detail_vs_average": {
+    "comment": "Stat label comparing to average",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "vs. Durchschnitt" } },
+      "en": { "stringUnit": { "state": "translated", "value": "vs Average" } }
+    }
+  },
+
+  "serve_detail_personal_best": {
+    "comment": "Label for personal best serve",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Persönlicher Rekord" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Personal Best" } }
+    }
+  },
+
+  "serve_detail_vs_previous": {
+    "comment": "Stat label comparing to previous serve",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "vs. Vorheriger" } },
+      "en": { "stringUnit": { "state": "translated", "value": "vs Previous" } }
+    }
+  },
+
+  "serve_detail_power_badge": {
+    "comment": "Celebratory power text for personal best",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "🎾 Starke Power!" } },
+      "en": { "stringUnit": { "state": "translated", "value": "🎾 Great power!" } }
+    }
+  },
+
+  "serve_slogan_1": {
+    "comment": "Random power slogan 1",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Starke Power!" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Great power!" } }
+    }
+  },
+
+  "serve_slogan_2": {
+    "comment": "Random power slogan 2",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Explosiver Treffpunkt!" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Huge pop on contact!" } }
+    }
+  },
+
+  "serve_slogan_3": {
+    "comment": "Random power slogan 3",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Explosive Beschleunigung!" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Explosive acceleration!" } }
+    }
+  },
+
+  "serve_slogan_4": {
+    "comment": "Random power slogan 4",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Blitzschneller Schlägerkopf!" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Lightning-fast racket speed!" } }
+    }
+  },
+    "book_coach_button": {
+    "comment": "Button title to open the Find Coach flow",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Trainer buchen"
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Book a coach"
+        }
+      }
+    }
+  },
+  "onboarding_camera_settings_title": {
+    "comment": "Onboarding page title explaining camera settings",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Kameraeinstellungen"
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Camera settings"
+        }
+      }
+    }
+  },
+
+  "onboarding_camera_settings_description": {
+    "comment": "Onboarding page description recommending slow motion recording",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Stelle deine Kamera auf Zeitlupe ein, um maximale Genauigkeit zu erzielen"
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Set your camera to slow motion for maximum accuracy"
+        }
+      }
+    }
+  },
+  "onboarding_angle_selection_title": {
+    "comment": "Onboarding page title explaining side vs back angle selection",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Blickwinkel auswählen"
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Angle selection"
+        }
+      }
+    }
+  },
+
+  "onboarding_angle_selection_description": {
+    "comment": "Onboarding description explaining side vs back mode selection",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Der KI-Coach analysiert deinen Aufschlag von der Seite oder von hinten – wähle vor dem Upload den richtigen Modus aus"
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "The AI coach analyzes your serve from the side or from behind – select the correct mode before uploading"
+        }
+      }
+    }
+  },
+
+  "onboarding_recording_position_title": {
+    "comment": "Onboarding page title explaining recording position",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Aufnahmeposition"
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Recording position"
+        }
+      }
+    }
+  },
+
+  "onboarding_recording_position_description": {
+    "comment": "Onboarding description explaining camera placement relative to player",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Positioniere dich direkt hinter oder seitlich vom Spieler und achte darauf, dass der gesamte Körper im Bild ist"
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Stand directly behind or to the side of the player and keep the full body in frame"
+        }
+      }
+    }
+  },
+
+  "onboarding_understand_feedback_title": {
+    "comment": "Onboarding page title explaining feedback interaction",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Feedback verstehen"
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Understand your feedback"
+        }
+      }
+    }
+  },
+
+  "onboarding_understand_feedback_description": {
+    "comment": "Onboarding description explaining tapping feedback for details",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Tippe auf ein Feedback, um genau zu sehen, worauf sich der Coach bezieht"
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Tap on any feedback to see exactly what the coach is referring to"
+        }
+      }
+    }
+  },
+  "ai_coach_analysis_title": {
+    "comment": "Small header title for AI coach analysis session",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "KI-Analyse" } },
+      "en": { "stringUnit": { "state": "translated", "value": "AI Coach Analysis" } }
+    }
+  },
+
+  "ai_coach_technique_insights_count": {
+    "comment": "Headline showing number of technique insights",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "%d Technik-Insights" } },
+      "en": { "stringUnit": { "state": "translated", "value": "%d Technique Insights" } }
+    }
+  },
+
+  "ai_coach_reopen_analysis": {
+    "comment": "Primary CTA to replay AI coach analysis",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "KI-Analyse erneut öffnen" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Reopen AI Analysis" } }
+    }
+  },
+
+  "ai_coach_submit_to_coach": {
+    "comment": "Secondary CTA to submit video to a real coach",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "An Trainer senden" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Submit to Coach" } }
+    }
+  },
+
+  "ai_coach_section_overview": {
+    "comment": "Section header for strengths and corrections",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Was der Coach gesehen hat" } },
+      "en": { "stringUnit": { "state": "translated", "value": "What the Coach Saw" } }
+    }
+  },
+
+  "ai_coach_strength_label": {
+    "comment": "Label for positive insight",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Stärke" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Strength" } }
+    }
+  },
+
+  "ai_coach_correction_label": {
+    "comment": "Label for corrective insight",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Korrektur" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Correction" } }
+    }
+  },
+
+  "ai_coach_session_details": {
+    "comment": "Title for metadata / session details section",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Session-Details" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Session Details" } }
+    }
+  },
+
+  "ai_coach_metadata_serve": {
+    "comment": "Metadata chip label for serve",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Aufschlag" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Serve" } }
+    }
+  },
+
+  "ai_coach_metadata_trophy": {
+    "comment": "Metadata chip label for trophy pose",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Trophy-Position" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Trophy Pose" } }
+    }
+  },
+
+  "ai_coach_metadata_right_arm": {
+    "comment": "Metadata chip label for right arm",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Rechter Arm" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Right Arm" } }
+    }
+  },
+
+  "ai_coach_example_session_title": {
+    "comment": "Feed item title for example AI coach session",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "KI-Coach-Session" } },
+      "en": { "stringUnit": { "state": "translated", "value": "AI Coach Session" } }
+    }
+  },
+  "ai_export_error_title": {
+    "comment": "Alert title shown when AI coach video export fails",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Exportfehler" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Export Error" } }
+    }
+  },
+
+  "ai_export_error_ok": {
+    "comment": "OK button title for export error alert",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "OK" } },
+      "en": { "stringUnit": { "state": "translated", "value": "OK" } }
+    }
+  },
+
+  "ai_banner_trophy_detected": {
+    "comment": "Floating banner text when trophy pose is detected",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Trophy-Position erkannt" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Trophy Pose Detected" } }
+    }
+  },
+
+  "ai_banner_serve_detected": {
+    "comment": "Floating banner text when serve is detected",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Aufschlag erkannt" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Serve Detected" } }
+    }
+  },
+
+  "ai_insights_title": {
+    "comment": "Headline introducing AI insights section",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Clays Insights" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Clay’s insights" } }
+    }
+  },
+
+  "ai_continue_button": {
+    "comment": "Continue button to resume video playback",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Weiter" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Continue" } }
+    }
+  },
+
+  "ai_feed_title": {
+    "comment": "Feed item title for AI coach analysis",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "KI-Coach-Analyse" } },
+      "en": { "stringUnit": { "state": "translated", "value": "AI Coach Analysis" } }
+    }
+  },
+
+  "ai_feed_subtitle": {
+    "comment": "Feed item subtitle describing serve technique insights",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Aufschlag-Technik Insights" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Serve technique insights" } }
+    }
+  },
+
+  "ai_feed_tips_count": {
+    "comment": "Primary metric text showing number of AI tips",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "%d Tipps" } },
+      "en": { "stringUnit": { "state": "translated", "value": "%d tips" } }
+    }
+  },
+
+  "ai_snapshot_title": {
+    "comment": "Snapshot header title when trophy pose is identified",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Trophy-Position erkannt" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Trophy Pose Identified" } }
+    }
+  },
+
+  "ai_snapshot_subtitle": {
+    "comment": "Snapshot subtitle describing trophy pose characteristics",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Schläger oben, Ellbogen hoch, Knie aktiv"
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Racket up, elbow high, knees engaged"
+        }
+      }
+    }
+  },
+
+  "ai_details_navigation_title": {
+    "comment": "Navigation title for AI coach details list",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Detaillierte Analyse" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Detailed Analysis" } }
+    }
+  },
+  "photo_access_required_title": {
+    "comment": "Title indicating full photo access is required",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Voller Fotozugriff erforderlich"
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Full Photo Access Needed"
+        }
+      }
+    }
+  },
+
+  "photo_access_required_description": {
+    "comment": "Explanation why full photo access is needed for video analysis",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Clay verarbeitet alle Videos lokal auf deinem Gerät.\nUm sie korrekt analysieren zu können, benötigen wir Zugriff auf die originalen Videodateien.\n\nDiese Videos verlassen dein Gerät niemals und werden nicht hochgeladen."
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Clay processes all videos locally on your device.\nTo correctly analyze them, we need access to the original video files.\n\nThese videos never leave your device and are never uploaded."
+        }
+      }
+    }
+  },
+
+  "photo_access_required_button": {
+    "comment": "Button title to open system settings for granting photo access",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Vollen Fotozugriff erlauben"
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Grant Full Photo Access"
+        }
+      }
+    }
+  }
+
+
+
+
   },
   "version" : "1.1"
 }

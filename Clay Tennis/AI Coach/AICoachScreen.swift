@@ -54,11 +54,17 @@ struct AICoachScreen: View {
             }
         }
         
-        .alert("Export Error", isPresented: .constant(exportError != nil)) {
-            Button("OK") { exportError = nil }
+        .alert(
+            NSLocalizedString("ai_export_error_title", tableName: "general", comment: ""),
+            isPresented: .constant(exportError != nil)
+        ) {
+            Button(
+                NSLocalizedString("ai_export_error_ok", tableName: "general", comment: "")
+            ) { exportError = nil }
         } message: {
             if let error = exportError { Text(error) }
         }
+
         .onChange(of: state.videoProgress) { progress in
             if progress >= 1.0 {
                 exportVideo()
@@ -118,7 +124,11 @@ struct AICoachScreen: View {
                     .font(.title3.weight(.semibold))
                     .foregroundColor(.blue)
                 
-                Text(observation == "Trophy" ? "Trophy Pose Detected" : "Serve Detected")
+                Text(
+                    observation == "Trophy"
+                        ? NSLocalizedString("ai_banner_trophy_detected", tableName: "general", comment: "")
+                        : NSLocalizedString("ai_banner_serve_detected", tableName: "general", comment: "")
+                )
                     .font(.headline.weight(.semibold))
                     .fontDesign(.rounded)
             }
@@ -161,7 +171,9 @@ struct AICoachScreen: View {
                             .foregroundColor(.blue)
                             .font(.headline)
                         
-                        Text("Clay's insights")
+                        Text(
+                            NSLocalizedString("ai_insights_title", tableName: "general", comment: "")
+                        )
                             .font(.title3.weight(.semibold))
                             .fontDesign(.rounded)
                     }
@@ -281,7 +293,9 @@ struct AICoachScreen: View {
             
         }) {
             HStack(spacing: 8) {
-                Text("Continue")
+                Text(
+                    NSLocalizedString("ai_continue_button", tableName: "general", comment: "")
+                )
                     .font(.headline.weight(.semibold))
                 Image(systemName: "arrow.right.circle.fill")
                     .font(.title3.weight(.semibold))
@@ -403,9 +417,16 @@ struct AICoachScreen: View {
             date: Date(),
             thumbnailURL: resolvedVideoURL,
             assetLocalIdentifier: assetLocalIdentifier,
-            title: "AI Coach Analysis",
-            subtitle: "Serve technique insights",
-            primaryMetricText: "\(state.feedbackArray.count + state.positiveFeedbackArray.count) tips",
+            title: NSLocalizedString("ai_feed_title", tableName: "general", comment: ""),
+            subtitle: NSLocalizedString("ai_feed_subtitle", tableName: "general", comment: ""),
+            primaryMetricText: String(
+                format: NSLocalizedString(
+                    "ai_feed_tips_count",
+                    tableName: "general",
+                    comment: ""
+                ),
+                state.feedbackArray.count + state.positiveFeedbackArray.count
+            ),
             secondaryMetricText: nil,
             fastestSpeedKmh: nil,
             serveCount: nil,
@@ -420,6 +441,7 @@ struct AICoachScreen: View {
             quizCorrectAnswers: nil,
             quizTotalQuestions: nil
         )
+
 
         
         
@@ -504,11 +526,15 @@ struct AICoachScreen: View {
                 .shadow(radius: 6)
             
             VStack(alignment: .leading, spacing: 6) {
-                Text("Trophy Pose Identified")
+                Text(
+                    NSLocalizedString("ai_snapshot_title", tableName: "general", comment: "")
+                )
                     .font(.headline.weight(.semibold))
                     .fontDesign(.rounded)
                 
-                Text("Racket up, elbow high, knees engaged")
+                Text(
+                    NSLocalizedString("ai_snapshot_subtitle", tableName: "general", comment: "")
+                )
                     .font(.subheadline)
                     .foregroundColor(.secondary)
             }
@@ -667,7 +693,9 @@ struct AICoachDetailsView: View {
                 .padding(.vertical, 6)
             }
         }
-        .navigationTitle("Detailed Analysis")
+        .navigationTitle(
+            NSLocalizedString("ai_details_navigation_title", tableName: "general", comment: "")
+        )
     }
 }
 

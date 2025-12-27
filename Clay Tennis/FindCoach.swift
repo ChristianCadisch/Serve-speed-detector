@@ -97,12 +97,12 @@ struct FindCoach: View {
 
     private var header: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("REQUEST OFFER FROM REAL COACH")
+            Text(NSLocalizedString("find_coach_header_caps", tableName: "general", comment: ""))
                 .font(.caption.bold())
                 .tracking(1.4)
                 .foregroundStyle(.secondary)
 
-            Text("Personal coaching, curated for you")
+            Text(NSLocalizedString("find_coach_header_title", tableName: "general", comment: ""))
                 .font(.system(size: 30, weight: .heavy, design: .rounded))
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -113,26 +113,28 @@ struct FindCoach: View {
     private var requiredSection: some View {
         VStack(alignment: .leading, spacing: 18) {
 
-            sectionTitle("Your details")
+            sectionTitle(NSLocalizedString("find_coach_section_details", tableName: "general", comment: ""))
 
             inputField(
-                title: "Your name",
-                placeholder: "e.g. Alex Federer",
+                title: NSLocalizedString("find_coach_name_title", tableName: "general", comment: ""),
+                placeholder: NSLocalizedString("find_coach_name_placeholder", tableName: "general", comment: ""),
                 text: $name
             )
 
             inputField(
-                title: "Email",
-                placeholder: "Where should the coach reach you?",
+                title: NSLocalizedString("find_coach_email_title", tableName: "general", comment: ""),
+                placeholder: NSLocalizedString("find_coach_email_placeholder", tableName: "general", comment: ""),
                 text: $email,
                 keyboard: .emailAddress
             )
 
+
             inputField(
-                title: "Location",
-                placeholder: "City or ZIP code",
+                title: NSLocalizedString("find_coach_location_title", tableName: "general", comment: ""),
+                placeholder: NSLocalizedString("find_coach_location_placeholder", tableName: "general", comment: ""),
                 text: $location
             )
+
         }
     }
 
@@ -141,7 +143,7 @@ struct FindCoach: View {
     private var budgetSection: some View {
         VStack(alignment: .leading, spacing: 16) {
 
-            sectionTitle("Budget per session")
+            sectionTitle(NSLocalizedString("find_coach_budget_title", tableName: "general", comment: ""))
 
             VStack(alignment: .leading, spacing: 12) {
                 Slider(value: $price, in: 60...150, step: 5)
@@ -165,7 +167,7 @@ struct FindCoach: View {
     private var levelSection: some View {
         VStack(alignment: .leading, spacing: 16) {
 
-            sectionTitle("Player level")
+            sectionTitle(NSLocalizedString("find_coach_level_title", tableName: "general", comment: ""))
 
             HStack(spacing: 12) {
                 levelButton(.beginner)
@@ -182,22 +184,22 @@ struct FindCoach: View {
             errorMessage = nil
 
             guard !name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
-                errorMessage = "Please enter your name."
+                errorMessage = NSLocalizedString("find_coach_error_name", tableName: "general", comment: "")
                 return
             }
 
             guard !email.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
-                errorMessage = "Please enter your email address."
+                errorMessage = NSLocalizedString("find_coach_error_email", tableName: "general", comment: "")
                 return
             }
 
             guard isValidEmail(email) else {
-                errorMessage = "Please enter a valid email address."
+                errorMessage = NSLocalizedString("find_coach_error_email_invalid", tableName: "general", comment: "")
                 return
             }
 
             guard !location.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
-                errorMessage = "Please enter your location."
+                errorMessage = NSLocalizedString("find_coach_error_location", tableName: "general", comment: "")
                 return
             }
 
@@ -224,7 +226,11 @@ struct FindCoach: View {
 
         } label: {
 
-            Text(didSubmit ? "Request Sent" : "Request Coach")
+            Text(
+                didSubmit
+                    ? NSLocalizedString("find_coach_submit_done", tableName: "general", comment: "")
+                    : NSLocalizedString("find_coach_submit", tableName: "general", comment: "")
+            )
                 .font(.headline)
                 .frame(maxWidth: .infinity)
                 .padding()
@@ -341,7 +347,7 @@ private struct CelebrationOverlay: View {
                     .scaleEffect(animate ? 1 : 0.6)
                     .opacity(animate ? 1 : 0)
 
-                Text("Request Sent")
+                Text(NSLocalizedString("find_coach_submit_done", tableName: "general", comment: ""))
                     .font(.system(size: 30, weight: .heavy, design: .rounded))
                     .foregroundStyle(.white)
                     .scaleEffect(animate ? 1 : 0.9)
@@ -368,9 +374,12 @@ enum PlayerLevel: String {
 
     var title: String {
         switch self {
-        case .beginner: return "Beginner"
-        case .intermediate: return "Intermediate"
-        case .advanced: return "Advanced"
+        case .beginner:
+            return NSLocalizedString("find_coach_level_beginner", tableName: "general", comment: "")
+        case .intermediate:
+            return NSLocalizedString("find_coach_level_intermediate", tableName: "general", comment: "")
+        case .advanced:
+            return NSLocalizedString("find_coach_level_advanced", tableName: "general", comment: "")
         }
     }
 }

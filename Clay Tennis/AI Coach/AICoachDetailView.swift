@@ -101,7 +101,13 @@ struct AICoachDetailView: View {
 
                 
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("AI Coach Analysis")
+                    Text(
+                        NSLocalizedString(
+                            "ai_coach_analysis_title",
+                            tableName: "general",
+                            comment: ""
+                        )
+                    )
                         .font(.subheadline.weight(.semibold))
                         .foregroundColor(.secondary)
                     
@@ -113,7 +119,16 @@ struct AICoachDetailView: View {
                 Spacer()
             }
             
-            Text("\(item.aiTipCount ?? 0) Technique Insights")
+            Text(
+                String(
+                    format: NSLocalizedString(
+                        "ai_coach_technique_insights_count",
+                        tableName: "general",
+                        comment: ""
+                    ),
+                    item.aiTipCount ?? 0
+                )
+            )
                 .font(.system(size: 36, weight: .semibold, design: .rounded))
                 .foregroundStyle(.primary)
             
@@ -126,7 +141,13 @@ struct AICoachDetailView: View {
                     Image(systemName: "play.circle.fill")
                         .font(.title3.weight(.semibold))
 
-                    Text("Reopen AI Analysis")
+                    Text(
+                        NSLocalizedString(
+                            "ai_coach_reopen_analysis",
+                            tableName: "general",
+                            comment: ""
+                        )
+                    )
                         .font(.headline.weight(.semibold))
 
                     Spacer()
@@ -161,7 +182,13 @@ struct AICoachDetailView: View {
                     Image(systemName: "person.fill.checkmark")
                         .font(.title3.weight(.semibold))
 
-                    Text("Submit to Coach")
+                    Text(
+                        NSLocalizedString(
+                            "ai_coach_submit_to_coach",
+                            tableName: "general",
+                            comment: ""
+                        )
+                    )
                         .font(.headline.weight(.semibold))
 
                     Spacer()
@@ -229,12 +256,22 @@ struct AICoachDetailView: View {
             
             // Add ALL positive tips
             for p in positives {
-                output.append(("Strength", p, "checkmark.circle.fill", .green))
+                output.append((
+                    NSLocalizedString("ai_coach_strength_label", tableName: "general", comment: ""),
+                    p,
+                    "checkmark.circle.fill",
+                    .green
+                ))
             }
             
             // Add ALL negative tips
             for n in negatives {
-                output.append(("Correction", n, "exclamationmark.triangle.fill", .orange))
+                output.append((
+                    NSLocalizedString("ai_coach_correction_label", tableName: "general", comment: ""),
+                    n,
+                    "exclamationmark.triangle.fill",
+                    .orange
+                ))
             }
             
             output.forEach { (title, text, _, _) in
@@ -246,7 +283,13 @@ struct AICoachDetailView: View {
         
         return VStack(alignment: .leading, spacing: 22) {
             
-            Text("What the Coach Saw")
+            Text(
+                NSLocalizedString(
+                    "ai_coach_section_overview",
+                    tableName: "general",
+                    comment: ""
+                )
+            )
                 .font(.title3.weight(.semibold))
                 .padding(.horizontal, 22)
             
@@ -318,44 +361,6 @@ struct AICoachDetailView: View {
     
 
     
-    
-    // MARK: - Metadata Section
-    
-    private var sessionMetadata: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            
-            Text("Session Details")
-                .font(.headline)
-                .padding(.horizontal, 22)
-            
-            HStack(spacing: 10) {
-                metadataChip("Serve")
-                metadataChip("Trophy Pose")
-                metadataChip("Right Arm")
-            }
-            .padding(.horizontal, 22)
-        }
-    }
-    
-    private func metadataChip(_ label: String) -> some View {
-        HStack(spacing: 6) {
-            Image(systemName: "circle.fill")
-                .font(.system(size: 6))
-            Text(label)
-                .font(.caption.weight(.semibold))
-        }
-        .padding(.horizontal, 12)
-        .padding(.vertical, 6)
-        .background(
-            Capsule()
-                .fill(
-                    Color.blue.opacity(
-                        colorScheme == .dark ? 0.25 : 0.18
-                    )
-                )
-        )
-        .foregroundColor(.blue)
-    }
 }
     
 

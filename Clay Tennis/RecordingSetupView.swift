@@ -56,11 +56,20 @@ struct SpeedRecordingSetupView: View {
                     OnboardingPage(
                         name: "timelapse",
                         isSystemImage: true,
-                        title: "Camera settings",
-                        description: "Set your camera to slow motion for maximum accuracy",
+                        title: NSLocalizedString(
+                            "onboarding_camera_settings_title",
+                            tableName: "general",
+                            comment: ""
+                        ),
+                        description: NSLocalizedString(
+                            "onboarding_camera_settings_description",
+                            tableName: "general",
+                            comment: ""
+                        ),
                         size: CGSize(width: 300, height: 300),
                         cornerRadius: 30
                     )
+
                     .tag(3)
                     
                 }
@@ -158,11 +167,20 @@ struct TechniqueRecordingSetupView: View {
                 TabView(selection: $currentPage) {
 
                     // PAGE 1 — SIDE VS BACK
+                    // PAGE 1 — SIDE VS BACK
                     OnboardingPage(
                         name: "mode",
                         isSystemImage: false,
-                        title: "Angle selection",
-                        description: "The AI coach analyzes your serve from the side or from behind - select the correct mode before uploading",
+                        title: NSLocalizedString(
+                            "onboarding_angle_selection_title",
+                            tableName: "general",
+                            comment: ""
+                        ),
+                        description: NSLocalizedString(
+                            "onboarding_angle_selection_description",
+                            tableName: "general",
+                            comment: ""
+                        ),
                         size: CGSize(width: 350, height: 300),
                         cornerRadius: 30
                     )
@@ -170,27 +188,47 @@ struct TechniqueRecordingSetupView: View {
 
 
                     // PAGE 2 — CAMERA POSITION
+                    // PAGE 2 — CAMERA POSITION
                     OnboardingPage(
                         name: "player_visual",
                         isSystemImage: false,
-                        title: "Recording position",
-                        description: "Stand directly behind or to the side of the player and keep the full body in frame",
+                        title: NSLocalizedString(
+                            "onboarding_recording_position_title",
+                            tableName: "general",
+                            comment: ""
+                        ),
+                        description: NSLocalizedString(
+                            "onboarding_recording_position_description",
+                            tableName: "general",
+                            comment: ""
+                        ),
                         size: CGSize(width: 300, height: 300),
                         cornerRadius: 30
                     )
                     .tag(1)
 
 
+
                     // PAGE 3 — UNDERSTAND FEEDBAK
+                    // PAGE 3 — UNDERSTAND FEEDBACK
                     OnboardingPage(
-                        name: "hand.tap",
-                        isSystemImage: true,
-                        title: "Understand your feedback",
-                        description: "Tap on any feedback to see exactly what the coach is referring to",
+                        name: "feedback_detail",
+                        isSystemImage: false,
+                        title: NSLocalizedString(
+                            "onboarding_understand_feedback_title",
+                            tableName: "general",
+                            comment: ""
+                        ),
+                        description: NSLocalizedString(
+                            "onboarding_understand_feedback_description",
+                            tableName: "general",
+                            comment: ""
+                        ),
                         size: CGSize(width: 200, height: 200),
                         cornerRadius: 30
                     )
                     .tag(2)
+
 
                     
                 }

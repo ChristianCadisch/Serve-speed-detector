@@ -34,7 +34,7 @@ struct FeedView: View {
             // MARK: - Top Bar
             HStack(alignment: .firstTextBaseline) {
 
-                Text("CLAY")
+                Text(NSLocalizedString("feed_app_title", tableName: "general", comment: ""))
                     .font(.caption.bold())
                     .tracking(2)
                     .foregroundStyle(.secondary)
@@ -47,7 +47,12 @@ struct FeedView: View {
                     let daily = dailyStreak()
                     let useDaily = daily > weekly
 
-                    Text(useDaily ? "DAILY STREAK" : "WEEKLY STREAK")
+                    Text(
+                        useDaily
+                            ? NSLocalizedString("feed_daily_streak", tableName: "general", comment: "")
+                            : NSLocalizedString("feed_weekly_streak", tableName: "general", comment: "")
+                    )
+
                         .font(.caption2.bold())
                         .tracking(1)
                         .foregroundStyle(.secondary)
@@ -197,12 +202,16 @@ struct FeedView: View {
 
             VStack(alignment: .leading, spacing: 12) {
 
-                Text("Record Your First Serve")
+                Text(
+                    NSLocalizedString("feed_empty_hero_title", tableName: "general", comment: "")
+                )
                     .font(.system(size: 44, weight: .heavy, design: .rounded))
                     .foregroundColor(.white)
                     .shadow(radius: 6)
 
-                Text("Start your training and unlock AI analysis")
+                Text(
+                    NSLocalizedString("feed_empty_hero_subtitle", tableName: "general", comment: "")
+                )
                     .font(.footnote.weight(.semibold))
                     .tracking(1)
                     .foregroundColor(.white.opacity(0.85))
@@ -320,9 +329,13 @@ struct FeedView: View {
     private var groupedFeedItems: [(title: String, items: [FeedItem])] {
         let calendar = Calendar.current
         let grouped = Dictionary(grouping: feedItems) { item -> String in
-            if calendar.isDateInToday(item.date) { return "TODAY" }
-            else if calendar.isDateInYesterday(item.date) { return "YESTERDAY" }
-            else { return "LAST WEEK" }
+            if calendar.isDateInToday(item.date) {
+                return NSLocalizedString("feed_today", tableName: "general", comment: "")
+            } else if calendar.isDateInYesterday(item.date) {
+                return NSLocalizedString("feed_yesterday", tableName: "general", comment: "")
+            } else {
+                return NSLocalizedString("feed_last_week", tableName: "general", comment: "")
+            }
         }
         
         return grouped
@@ -333,7 +346,9 @@ struct FeedView: View {
     private var prescribedTrainingCarousel: some View {
         VStack(alignment: .leading, spacing: 12) {
             
-            Text("RECOMMENDED QUIZZES")
+            Text(
+                NSLocalizedString("feed_recommended_quizzes", tableName: "general", comment: "")
+            )
                 .font(.caption.bold())
                 .tracking(1)
                 .foregroundStyle(.secondary)
@@ -381,7 +396,9 @@ struct FeedView: View {
 
         VStack(alignment: .leading, spacing: 10) {
 
-            Text("PRIORITY DRILL")
+            Text(
+                NSLocalizedString("feed_priority_drill", tableName: "general", comment: "")
+            )
                 .font(.caption2.bold())
                 .tracking(1)
                 .foregroundStyle(.secondary)
@@ -422,7 +439,9 @@ struct FeedView: View {
                 .font(.system(size: 32))
                 .foregroundStyle(.secondary)
             
-            Text("See All Training")
+            Text(
+                NSLocalizedString("feed_see_all_training", tableName: "general", comment: "")
+            )
                 .font(.footnote.bold())
                 .foregroundStyle(.secondary)
         }
@@ -515,7 +534,8 @@ struct FeedView: View {
 
             VStack(alignment: .leading, spacing: 6) {
 
-                Text(item.subtitle?.uppercased() ?? "SESSION SERVE")
+                Text(item.subtitle?.uppercased()
+                     ?? NSLocalizedString("feed_session_serve", tableName: "general", comment: ""))
                     .font(.caption2.bold())
                     .tracking(1)
                     .foregroundStyle(.secondary)
@@ -731,7 +751,17 @@ struct FeedView: View {
 
                     let pct = Int((Double(c) / Double(max(t, 1))) * 100)
 
-                    Text("\(pct)% MASTERY")
+                    Text(
+                        String(
+                            format: NSLocalizedString(
+                                "feed_quiz_mastery",
+                                tableName: "general",
+                                comment: ""
+                            ),
+                            pct
+                        )
+                    )
+
                         .font(.footnote.bold())
                         .tracking(0.5)
                         .foregroundStyle(pct >= 70 ? .primary : .secondary)
@@ -860,7 +890,17 @@ struct FeedView: View {
 
                 if let tips = item.aiTipCount {
                     if let side = item.side{
-                        Text("ANALYSIS FROM \(side.uppercased())")
+                        Text(
+                            String(
+                                format: NSLocalizedString(
+                                    "feed_ai_analysis_from",
+                                    tableName: "general",
+                                    comment: ""
+                                ),
+                                side.uppercased()
+                            )
+                        )
+
                             .font(.caption2.bold())
                             .tracking(1)
                             .foregroundStyle(.secondary)
@@ -879,7 +919,9 @@ struct FeedView: View {
                     Text("\(tips)")
                         .font(.system(size: 24, weight: .heavy, design: .rounded))
 
-                    Text("FIXES")
+                    Text(
+                        NSLocalizedString("feed_ai_fixes", tableName: "general", comment: "")
+                    )
                         .font(.caption2.bold())
                         .tracking(1)
                         .foregroundStyle(.secondary)

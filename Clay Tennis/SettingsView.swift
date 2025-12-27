@@ -76,7 +76,14 @@ struct SettingsView: View {
                                     showRecordingSetup = true
                                 }
                                 Divider()
-                                Button("Book a coach") {
+                                Button(
+                                    NSLocalizedString(
+                                        "book_coach_button",
+                                        tableName: "general",
+                                        comment: ""
+                                    )
+                                ) {
+
                                     showFindCoach = true
                                 }
                                 Divider()

@@ -116,7 +116,12 @@ class HomeViewController: UIViewController,
         spinner.startAnimating()
         
         let label = UILabel()
-        label.text = "Downloading from iCloud…"
+        label.text = NSLocalizedString(
+            "icloud_downloading",
+            tableName: "general",
+            comment: ""
+        )
+
         label.textColor = .white
         label.font = .systemFont(ofSize: 16, weight: .semibold)
         label.textAlignment = .center
@@ -167,7 +172,11 @@ class HomeViewController: UIViewController,
                                 )
                             )
 
-                            self.replaceRoot(with: hosting, title: "Real Coach")
+                            self.replaceRoot(
+                                with: hosting,
+                                title: NSLocalizedString("navigation_real_coach", tableName: "general", comment: "")
+                            )
+
                             self.navigationItem.leftBarButtonItem = nil
                             self.disableLessonSwipeBack()
                             self.navigationController?.setNavigationBarHidden(false, animated: false)
@@ -186,7 +195,11 @@ class HomeViewController: UIViewController,
             )
         )
         
-        replaceRoot(with: hosting, title: "Coach")
+        replaceRoot(
+            with: hosting,
+            title: NSLocalizedString("navigation_coach", tableName: "general", comment: "")
+        )
+
         navigationItem.leftBarButtonItem = nil
         disableLessonSwipeBack()
         navigationController?.setNavigationBarHidden(false, animated: false)
@@ -598,7 +611,10 @@ class HomeViewController: UIViewController,
         )
 
         coachHubHostingController = hosting
-        replaceRoot(with: hosting, title: "Training Hub")
+        replaceRoot(
+            with: hosting,
+            title: NSLocalizedString("navigation_training_hub", tableName: "general", comment: "")
+        )
         navigationItem.leftBarButtonItem = nil
         disableLessonSwipeBack()
         navigationController?.setNavigationBarHidden(false, animated: false)
@@ -615,10 +631,26 @@ class HomeViewController: UIViewController,
 
         let text: String
         if let speed = speedKmh, speed > 0 {
-            text = "I achieved a serve speed of \(Int(speed)) km/h 🎾 — try to beat it on Clay Tennis!\n\(appLink)"
+            text = String(
+                format: NSLocalizedString(
+                    "share_serve_with_speed",
+                    tableName: "general",
+                    comment: ""
+                ),
+                Int(speed),
+                appLink
+            )
         } else {
-            text = "Check out my serve on Clay Tennis 🎾\n\(appLink)"
+            text = String(
+                format: NSLocalizedString(
+                    "share_serve_no_speed",
+                    tableName: "general",
+                    comment: ""
+                ),
+                appLink
+            )
         }
+
 
         let items: [Any] = [text, videoURL]
 
@@ -934,8 +966,11 @@ class HomeViewController: UIViewController,
                 date: Date(),
                 thumbnailURL: url,
                 assetLocalIdentifier: self.lastPickedAssetIdentifier,
-                title: "Serve Speed",
-                subtitle: "\(serveCount) serves",
+                title: NSLocalizedString("feed_serve_speed_title", tableName: "general", comment: ""),
+                subtitle: String(
+                    format: NSLocalizedString("feed_serve_count", tableName: "general", comment: ""),
+                    serveCount
+                ),
                 primaryMetricText: "\(Int(speed)) km/h",
                 secondaryMetricText: nil,
                 fastestSpeedKmh: speed,

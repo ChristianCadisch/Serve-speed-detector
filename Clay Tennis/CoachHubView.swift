@@ -160,11 +160,11 @@ struct CoachHubView: View {
                 .padding(.top, 8)
             
             VStack(spacing: 6) {
-                Text("How was your video filmed?")
+                Text(NSLocalizedString("coach_hub_angle_title", tableName: "general", comment: ""))
                     .font(.headline.weight(.semibold))
                 
                 HStack(spacing: 6) {
-                    Text("This helps the AI analyze your serve correctly")
+                    Text(NSLocalizedString("coach_hub_angle_subtitle", tableName: "general", comment: ""))
                         .font(.footnote)
                         .foregroundStyle(.secondary)
                     
@@ -184,14 +184,14 @@ struct CoachHubView: View {
                 
                 angleSelectionButton(
                     angle: .side,
-                    title: "Filmed from the side",
-                    subtitle: "Best for knee bend & trophy pose"
+                    title: NSLocalizedString("coach_hub_angle_side_title", tableName: "general", comment: ""),
+                    subtitle: NSLocalizedString("coach_hub_angle_side_subtitle", tableName: "general", comment: "")
                 )
                 
                 angleSelectionButton(
                     angle: .back,
-                    title: "Filmed from the back",
-                    subtitle: "Best for arm path & pronation"
+                    title: NSLocalizedString("coach_hub_angle_back_title", tableName: "general", comment: ""),
+                    subtitle: NSLocalizedString("coach_hub_angle_back_subtitle", tableName: "general", comment: "")
                 )
             }
             
@@ -256,7 +256,7 @@ struct CoachHubView: View {
     
     private var header: some View {
         VStack(alignment: .leading, spacing: 6) {
-            Text("SERVE")
+            Text(NSLocalizedString("coach_hub_header_serve", tableName: "general", comment: ""))
                 .font(.caption.bold())
                 .tracking(2)
                 .foregroundStyle(.secondary)
@@ -385,7 +385,7 @@ struct CoachHubView: View {
             } label: {
                 HStack(spacing: 6) {
                     Image(systemName: "info.circle")
-                    Text("How to set up your phone")
+                    Text(NSLocalizedString("coach_hub_help_setup", tableName: "general", comment: ""))
                 }
                 .font(.footnote.weight(.medium))
                 .foregroundStyle(.secondary)
@@ -399,10 +399,13 @@ struct CoachHubView: View {
     
     private var recordButtonTitle: String {
         switch selectedMode {
-        case .speed:     return "Measure Serve Speed"
-        case .technique: return "Get Technique Feedback"
+        case .speed:
+            return NSLocalizedString("coach_hub_record_speed", tableName: "general", comment: "")
+        case .technique:
+            return NSLocalizedString("coach_hub_record_technique", tableName: "general", comment: "")
         }
     }
+
     
     private var uploadButtonTitle: String {
         switch selectedMode {
@@ -411,65 +414,6 @@ struct CoachHubView: View {
         }
     }
     
-    
-    // MARK: - Last Serve Card (Speed Mode)
-    
-    private var lastServeCard: some View {
-        VStack(alignment: .leading, spacing: 18) {
-            
-            Text("LAST SERVE")
-                .font(.caption.bold())
-                .tracking(1)
-                .foregroundStyle(.secondary)
-            
-            HStack(alignment: .firstTextBaseline, spacing: 8) {
-                if let speed = lastServeSpeed {
-                    Text("\(Int(speed))")
-                        .font(.system(size: 56, weight: .heavy, design: .rounded))
-                        .foregroundStyle(
-                            LinearGradient(
-                                colors: [.blue, .cyan],
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
-                            )
-                        )
-                    
-                    Text("km/h")
-                        .font(.title2.weight(.semibold))
-                        .foregroundStyle(.secondary)
-                }
-            }
-            
-            HStack(spacing: 12) {
-                Image(systemName: "bolt.fill")
-                    .foregroundStyle(.yellow)
-                
-                Text(selectedSlogan)
-                    .font(.body.weight(.medium))
-                
-                Spacer()
-            }
-            .onAppear {
-                selectedSlogan = powerSlogans.randomElement() ?? "Great power!"
-            }
-        }
-        .padding(22)
-        .background(
-            RoundedRectangle(cornerRadius: 26, style: .continuous)
-                .fill(.ultraThinMaterial)
-                .shadow(color: .black.opacity(0.12), radius: 16, y: 8)
-        )
-        .transition(.move(edge: .bottom).combined(with: .opacity))
-    }
-    
-    
-    @State private var selectedSlogan = ""
-    private let powerSlogans = [
-        "Great power!",
-        "Huge pop on contact!",
-        "Explosive acceleration!",
-        "Lightning-fast racket speed!"
-    ]
     
     
     
@@ -493,7 +437,7 @@ struct CoachHubView: View {
             } label: {
                 VStack(alignment: .leading, spacing: 18) {
                     
-                    Text("CURRENT FOCUS")
+                    Text(NSLocalizedString("coach_hub_current_focus", tableName: "general", comment: ""))
                         .font(.caption.bold())
                         .tracking(1)
                         .foregroundStyle(.secondary)
@@ -639,7 +583,7 @@ struct ServeSpeedTrendCard: View {
         ZStack {
             VStack(alignment: .leading, spacing: 16) {
                 
-                Text("SERVE SPEED TREND")
+                Text(NSLocalizedString("serve_trend_title", tableName: "general", comment: ""))
                     .font(.caption.bold())
                     .tracking(1)
                     .foregroundStyle(.secondary)
@@ -749,20 +693,22 @@ struct ServeSpeedTrendCard: View {
 
                     statPill(
                         icon: "chart.line.uptrend.xyaxis",
-                        label: "vs Average",
+                        label: NSLocalizedString("serve_detail_vs_average", tableName: "general", comment: ""),
                         value: improvement >= 0
                             ? "+\(Int(improvement)) km/h"
                             : "\(Int(improvement)) km/h",
                         color: improvement >= 0 ? .green : .orange
                     )
 
+
                     if isPersonalBest {
                         statPill(
                             icon: "trophy.fill",
-                            label: "Personal Best",
-                            value: "🎾 Great power!",
+                            label: NSLocalizedString("serve_detail_personal_best", tableName: "general", comment: ""),
+                            value: NSLocalizedString("serve_detail_power_badge", tableName: "general", comment: ""),
                             color: .yellow
                         )
+
                     }
 
                     if index > 0 {
@@ -771,12 +717,13 @@ struct ServeSpeedTrendCard: View {
 
                         statPill(
                             icon: change >= 0 ? "arrow.up.right" : "arrow.down.right",
-                            label: "vs Previous",
+                            label: NSLocalizedString("serve_detail_vs_previous", tableName: "general", comment: ""),
                             value: change >= 0
                                 ? "+\(Int(change)) km/h"
                                 : "\(Int(change)) km/h",
                             color: change >= 0 ? .blue : .secondary
                         )
+
                     }
                 }
                 .padding(.horizontal, 24)
@@ -800,7 +747,7 @@ struct ServeSpeedTrendCard: View {
                             Image(systemName: "play.circle.fill")
                                 .font(.title3)
                             
-                            Text("Watch Replay")
+                            Text(NSLocalizedString("serve_detail_watch_replay", tableName: "general", comment: ""))
                                 .font(.headline.weight(.semibold))
                             
                             Spacer()
@@ -833,7 +780,7 @@ struct ServeSpeedTrendCard: View {
                             Image(systemName: "square.and.arrow.up")
                                 .font(.callout)
                             
-                            Text("Share Result")
+                            Text(NSLocalizedString("serve_detail_share", tableName: "general", comment: ""))
                                 .font(.subheadline.weight(.medium))
                         }
                         .foregroundStyle(.secondary)
@@ -917,7 +864,9 @@ struct ServeSpeedTrendCard: View {
     private var xAxisLabels: some View {
         HStack {
             ForEach(speeds.indices, id: \.self) { index in
-                Text(index == speeds.count - 1 ? "Now" : "\(index + 1)")
+                Text(index == speeds.count - 1
+                     ? NSLocalizedString("serve_trend_now", tableName: "general", comment: "")
+                     : "\(index + 1)")
                     .font(.caption2)
                     .foregroundStyle(.secondary)
                     .frame(maxWidth: .infinity)
