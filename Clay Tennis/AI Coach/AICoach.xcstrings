@@ -1,0 +1,999 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    
+  "trophy_knee_bend_shallow_title": {
+    "comment": "Negative feedback title when knee bend is too shallow in trophy phase",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Deine Kniebeugung ist zu gering"
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Your knee bend is too shallow"
+        }
+      }
+    }
+  },
+
+  "trophy_knee_bend_shallow_detail": {
+    "comment": "Detailed explanation for insufficient knee bend during trophy phase",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Während der Trophy-Phase hilft eine ausreichende Kniebeugung dabei, den Körperschwerpunkt abzusenken und Energie in den Beinen zu speichern. Eine zu geringe Beugung limitiert diese Energiespeicherung und verringert die Effektivität der späteren Aufwärtsbeschleunigung beim Aufschlag."
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "During the trophy phase, sufficient knee flexion helps lower the body’s center of mass and store energy in the legs. According to the biomechanical principles of stroke preparation, a shallow knee bend limits this energy storage and reduces the effectiveness of the upward acceleration later in the serve."
+        }
+      }
+    }
+  },
+
+  "trophy_knee_bend_strong_title": {
+    "comment": "Positive feedback title for strong lower body loading in trophy phase",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Starke Beinarbeit – sehr gute Kniebeugung"
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Strong lower-body loading — great knee bend"
+        }
+      }
+    }
+  },
+
+  "trophy_knee_bend_strong_detail": {
+    "comment": "Detailed explanation for good knee bend in trophy phase",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Deine Kniebeugung bringt dich in eine stabile und gut ausbalancierte Ladeposition. Dadurch kann Energie effizient aus den Beinen in die Aufwärtsbewegung übertragen werden – eine wichtige Grundlage für einen kontrollierten und kraftvollen Aufschlag."
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Your knee bend places your body in a stable, well-balanced loading position. This supports effective energy transfer from the legs into the upward swing, which is a key requirement for a controlled and powerful serve motion."
+        }
+      }
+    }
+  },
+
+  "trophy_toss_arm_bent_title": {
+    "comment": "Negative feedback title when tossing arm is too bent",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Strecke deinen Wurfarm mehr"
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Straighten your tossing arm"
+        }
+      }
+    }
+  },
+
+  "trophy_toss_arm_bent_detail": {
+    "comment": "Detailed explanation for bent tossing arm",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Ein deutlich angewinkelter Wurfarm reduziert die Stabilität des Ballwurfs. In der Aufschlagvorbereitung sollte der Wurfarm möglichst gestreckt nach oben geführt werden, um einen ruhigen, wiederholbaren Wurf und eine stabile Oberkörperposition zu unterstützen."
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "A noticeably bent tossing arm reduces the stability of the ball toss. In the service preparation phase, the tossing arm should be extended upward to support a calm, repeatable toss and a stable upper-body position"
+        }
+      }
+    }
+  },
+
+  "trophy_toss_arm_extended_title": {
+    "comment": "Positive feedback title for well-extended tossing arm",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Sehr gute Streckung des Wurfarms"
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Excellent tossing arm extension"
+        }
+      }
+    }
+  },
+
+  "trophy_toss_arm_extended_detail": {
+    "comment": "Detailed explanation for good tossing arm extension",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Dein Wurfarm ist gut gestreckt, was einen ruhigen und kontrollierten Ballwurf unterstützt. Eine saubere Streckung stabilisiert den Oberkörper in der Vorbereitung und ermöglicht eine flüssige Aufschlagbewegung ohne unnötige Korrekturen."
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Your tossing arm is well extended, which supports a calm and controlled ball toss. An extended tossing arm helps stabilize the upper body during the serve preparation and allows the striking motion to unfold without unnecessary adjustments"
+        }
+      }
+    }
+  },
+
+  "trophy_toss_arm_not_vertical_title": {
+    "comment": "Negative feedback title when tossing arm is not vertical",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Führe deinen Wurfarm mehr nach oben"
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Point your tossing arm more upward"
+        }
+      }
+    }
+  },
+
+  "trophy_toss_arm_not_vertical_detail": {
+    "comment": "Detailed explanation for poor tossing arm verticality",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Wenn der Wurfarm stark von der Vertikalen abweicht, wird der Ballwurf schwerer kontrollierbar. Eine ruhige, nach oben gerichtete Armbewegung hilft, das Gleichgewicht zu halten und eine konstante Vorbereitung zu erreichen."
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "When the tossing arm deviates strongly from a vertical direction, the ball toss becomes harder to control. A calm upward arm action helps maintain balance and a consistent preparation phase"
+        }
+      }
+    }
+  },
+
+  "trophy_toss_arm_vertical_title": {
+    "comment": "Positive feedback title for good tossing arm verticality",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Sehr gute Aufwärtsbewegung des Wurfarms"
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Great upward toss direction"
+        }
+      }
+    }
+  },
+  "trophy_toss_arm_vertical_detail": {
+    "comment": "Detailed explanation for good tossing arm verticality",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Dein Wurfarm bewegt sich sauber nach oben, was einen ruhigen und kontrollierten Ballwurf unterstützt. Diese Aufwärtsbewegung stabilisiert die Vorbereitung und ermöglicht einen flüssigen Bewegungsablauf im Aufschlag."
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Your tossing arm moves in a clean upward direction, which supports a calm and controlled ball toss. This upward action helps maintain balance during the preparation phase and allows the serve motion to develop smoothly"
+        }
+      }
+    }
+    },
+    
+  "hit_behind_arm_not_extended_title": {
+    "comment": "Negative feedback title when hitting arm is too bent at contact",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Dein Schlagarm könnte stärker gestreckt sein"
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Your hitting arm could be more extended"
+        }
+      }
+    }
+  },
+
+  "hit_behind_arm_not_extended_detail": {
+    "comment": "Detailed explanation for insufficient hitting arm extension at contact",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Ein stark angewinkelter Schlagarm kann die effektive Kraftübertragung im Schlag einschränken. Ein gut gestreckter Arm unterstützt eine effiziente Energieübertragung entlang der kinetischen Kette."
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "A strongly bent hitting arm can limit the effective transfer of force through the stroke. An extended arm supports a more efficient energy transmission along the kinetic chain"
+        }
+      }
+    }
+  },
+
+  "hit_behind_arm_extended_title": {
+    "comment": "Positive feedback title for good hitting arm extension at contact",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Sehr gute Armstreckung im Treffpunkt"
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Excellent arm extension at contact"
+        }
+      }
+    }
+  },
+
+  "hit_behind_arm_extended_detail": {
+    "comment": "Detailed explanation for good arm extension at contact",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Deine Armstreckung im Treffpunkt sorgt für einen stabilen Treffmoment. Dadurch bleibt die kinetische Kette geschlossen und der Schlag folgt den biomechanischen Grundprinzipien."
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Your arm extension at contact supports a stable point of contact. This helps maintain continuity in the kinematic chain and allows the stroke to be executed in line with the biomechanical principles"
+        }
+      }
+    }
+  },
+
+  "hit_behind_shoulder_tilt_insufficient_title": {
+    "comment": "Negative feedback title when shoulder tilt is too small",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Erhöhe deine Schulterneigung"
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Increase your shoulder tilt"
+        }
+      }
+    }
+  },
+
+  "hit_behind_shoulder_tilt_insufficient_detail": {
+    "comment": "Detailed explanation for insufficient shoulder tilt",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Eine sehr geringe Schulterneigung weist auf eine eingeschränkte Oberkörpervorbereitung hin. Eine klare Schulterneigung unterstützt Rotation und Schlagtiefe."
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "A very small shoulder tilt indicates limited upper-body preparation"
+        }
+      }
+    }
+  },
+
+  "hit_behind_shoulder_tilt_good_title": {
+    "comment": "Positive feedback title for good shoulder tilt",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Gute Schulterneigung"
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Good shoulder tilt"
+        }
+      }
+    }
+  },
+
+  "hit_behind_shoulder_tilt_good_detail": {
+    "comment": "Detailed explanation for good shoulder tilt",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Deine Schulterausrichtung zeigt eine klare Neigung, die eine stabile Oberkörperposition und eine saubere Schlagvorbereitung unterstützt."
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Your shoulder alignment shows a clear tilt, which supports stable upper-body positioning"
+        }
+      }
+    }
+  },
+  
+  "trophy_side_toss_arm_not_extended_title": {
+    "comment": "Negative feedback title when tossing arm elbow is too bent (side view)",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Strecke deinen Wurfarm mehr"
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Straighten your tossing arm"
+        }
+      }
+    }
+  },
+
+  "trophy_side_toss_arm_not_extended_detail": {
+    "comment": "Detailed explanation for bent tossing arm during side-view trophy phase",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Ein deutlich angewinkelter Wurfarm kann die Stabilität des Oberkörpers in der Aufschlagvorbereitung reduzieren. Ein gut gestreckter Wurfarm unterstützt eine ruhige und kontrollierte Vorbereitung."
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "A noticeably bent tossing arm can reduce upper-body stability during the service preparation. An extended tossing arm to supports a calm, controlled preparation phase"
+        }
+      }
+    }
+  },
+
+  "trophy_side_toss_arm_extended_title": {
+    "comment": "Positive feedback title for good tossing arm extension (side view)",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Sehr gute Streckung des Wurfarms"
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Excellent tossing-arm extension"
+        }
+      }
+    }
+  },
+
+  "trophy_side_toss_arm_extended_detail": {
+    "comment": "Detailed explanation for good tossing arm extension during side-view trophy phase",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Dein Wurfarm ist gut gestreckt, was eine stabile Oberkörperposition in der Aufschlagvorbereitung unterstützt und die Bewegung kontrolliert hält."
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Your tossing arm is well extended, which supports a stable upper-body position during the service preparation and helps keep the movement controlled"
+        }
+      }
+    }
+  },
+
+  "trophy_side_toss_arm_not_vertical_title": {
+    "comment": "Negative feedback title when tossing arm is not vertical enough (side view)",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Führe deinen Wurfarm mehr nach oben"
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Point your tossing arm more upward"
+        }
+      }
+    }
+  },
+
+  "trophy_side_toss_arm_not_vertical_detail": {
+    "comment": "Detailed explanation for insufficient tossing arm verticality (side view)",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Eine stark abweichende Richtung des Wurfarms kann den Ballwurf schwerer kontrollierbar machen."
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "A strongly deviating tossing arm direction can make the ball toss harder to control"
+        }
+      }
+    }
+  },
+
+  "trophy_side_toss_arm_vertical_title": {
+    "comment": "Positive feedback title for good tossing arm verticality (side view)",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Sehr gute Aufwärtsbewegung des Wurfarms"
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Great upward toss direction"
+        }
+      }
+    }
+  },
+
+  "trophy_side_toss_arm_vertical_detail": {
+    "comment": "Detailed explanation for good tossing arm verticality (side view)",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Dein Wurfarm bewegt sich klar nach oben und unterstützt so einen ruhigen und kontrollierten Ballwurf in der Aufschlagvorbereitung."
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Your tossing arm moves clearly upward, which supports a calm and controlled ball toss during the service preparation"
+        }
+      }
+    }
+  },
+
+  "trophy_side_hit_arm_underloaded_title": {
+    "comment": "Negative feedback title when hitting arm elbow bend is too small (side view)",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Erlaube mehr Beugung im Schlagarm"
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Allow more bend in your hitting arm"
+        }
+      }
+    }
+  },
+
+  "trophy_side_hit_arm_underloaded_detail": {
+    "comment": "Detailed explanation for insufficient elbow loading of hitting arm",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Eine sehr geringe Ellenbogenbeugung kann die Vorbereitung des Schlagarms einschränken."
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "A very small elbow bend can limit the preparation of the hitting arm"
+        }
+      }
+    }
+  },
+
+  "trophy_side_hit_arm_loaded_title": {
+    "comment": "Positive feedback title for good hitting arm loading angle (side view)",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Sehr gute Ladeposition des Schlagarms"
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Great hitting-arm loading angle"
+        }
+      }
+    }
+  },
+
+  "trophy_side_hit_arm_loaded_detail": {
+    "comment": "Detailed explanation for good hitting arm elbow loading",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Deine Ellenbogenposition unterstützt eine koordinierte Vorbereitung des Schlagarms."
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Your elbow position supports a coordinated preparation of the hitting arm"
+        }
+      }
+    }
+  },
+
+  "trophy_side_hip_lead_good_title": {
+    "comment": "Positive feedback title for good leading-hip position (side view)",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Sehr gute Hüftführung nach vorne"
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Excellent hip lead"
+        }
+      }
+    }
+  },
+
+  "trophy_side_hip_lead_good_detail": {
+    "comment": "Detailed explanation for good leading-hip position",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Deine vordere Hüfte befindet sich klar in einer führenden Position. Das unterstützt einen effektiven Gewichtsverlagerung und die Koordination zwischen Unter- und Oberkörper im Aufschlag."
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Your front hip shows a clear forward position, which supports effective weight transfer and coordination between the lower and upper body during the service motion"
+        }
+      }
+    }
+  },
+
+  "trophy_side_hip_lead_insufficient_title": {
+    "comment": "Negative feedback title when leading hip does not move forward enough",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Schiebe deine vordere Hüfte stärker nach vorne"
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Drive your front hip more toward the court"
+        }
+      }
+    }
+  },
+
+  "trophy_side_hip_lead_insufficient_detail": {
+    "comment": "Detailed explanation for insufficient leading-hip position",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Eine eingeschränkte Vorwärtsbewegung der vorderen Hüfte kann die Effektivität der Gewichtsverlagerung in der Aufschlagvorbereitung reduzieren."
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "A limited forward position of the front hip can reduce the effectiveness of the weight transfer during the service preparation"
+        }
+      }
+    }
+  },
+  
+  "hit_side_contact_not_clean_title": {
+    "comment": "Negative feedback title when contact point alignment is off",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Dein Treffpunkt könnte sauberer sein"
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Your contact point could be cleaner"
+        }
+      }
+    }
+  },
+
+  "hit_side_contact_not_clean_detail": {
+    "comment": "Detailed explanation for misaligned contact point",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Ein nicht optimal ausgerichteter Treffpunkt kann es erschweren, die gewünschte Schlagmechanik umzusetzen."
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "A contact position that is not well aligned can make it harder to apply the intended stroke mechanics"
+        }
+      }
+    }
+  },
+
+  "hit_side_contact_excellent_title": {
+    "comment": "Positive feedback title for excellent contact point",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Sehr guter Treffpunkt"
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Excellent contact point"
+        }
+      }
+    }
+  },
+
+  "hit_side_contact_excellent_detail": {
+    "comment": "Detailed explanation for excellent contact point alignment",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Deine Armposition im Treffpunkt entspricht sehr gut einem pro-typischen Treffmoment."
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Your arm alignment at contact corresponds well with the pro-level point of contact"
+        }
+      }
+    }
+  },
+
+  "hit_side_arm_not_extended_title": {
+    "comment": "Negative feedback title when hitting arm is too bent at contact",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Dein Schlagarm sollte stärker gestreckt sein"
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Your hitting arm should be more extended"
+        }
+      }
+    }
+  },
+
+  "hit_side_arm_not_extended_detail": {
+    "comment": "Detailed explanation for insufficient hitting-arm extension at contact",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Ein stark angewinkelter Schlagarm kann die Stabilität im Treffmoment reduzieren."
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "A strongly bent hitting arm can reduce stability when hitting the ball"
+        }
+      }
+    }
+  },
+
+  "hit_side_arm_extended_title": {
+    "comment": "Positive feedback title for good hitting-arm extension at contact",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Sehr gute Armstreckung im Treffpunkt"
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Great arm extension at contact"
+        }
+      }
+    }
+  },
+
+  "hit_side_arm_extended_detail": {
+    "comment": "Detailed explanation for good energy transfer at contact",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Die Energie wird effizient in den Ball übertragen."
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Efficient energy transfer into the ball"
+        }
+      }
+    }
+  },
+
+  "hit_side_upper_body_misaligned_title": {
+    "comment": "Negative feedback title for poor upper-body alignment",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Versuche eine geradere Oberkörperlinie zu formen"
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Try forming a straighter upper-body line"
+        }
+      }
+    }
+  },
+
+  "hit_side_upper_body_misaligned_detail": {
+    "comment": "Detailed explanation for poor hip–shoulder–wrist alignment",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Eine stark abweichende Oberkörperausrichtung kann die koordinierte Schlagbewegung beeinträchtigen. Biomechanische Prinzipien zeigen, dass alle beteiligten Segmente gut aufeinander abgestimmt sein müssen."
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "A strongly deviating upper-body alignment can interfere with coordinated stroke execution. Biomechanical principles emphasize that all involved body segments must be well coordinated to achieve a stable and effective stroke"
+        }
+      }
+    }
+  },
+
+  "hit_side_upper_body_aligned_title": {
+    "comment": "Positive feedback title for good upper-body alignment",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Sehr gute Oberkörperausrichtung"
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Excellent upper-body alignment"
+        }
+      }
+    }
+  },
+
+  "hit_side_upper_body_aligned_detail": {
+    "comment": "Detailed explanation for good upper-body alignment",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Deine Oberkörperausrichtung unterstützt ein koordiniertes Zusammenspiel von Unterkörper, Rumpf und Schlagarm."
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Your upper-body alignment supports coordinated interaction between the lower body, trunk, and hitting arm"
+        }
+      }
+    }
+  },
+
+  "hit_side_non_hit_arm_high_title": {
+    "comment": "Negative feedback title when non-hitting arm is too high",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Halte deinen Nicht-Schlagarm tiefer"
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Your non-hitting arm should stay lower"
+        }
+      }
+    }
+  },
+
+  "hit_side_non_hit_arm_high_detail": {
+    "comment": "Detailed explanation for raised non-hitting arm",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Ein angehobener Nicht-Schlagarm kann die Balance des Oberkörpers in der Schlagphase beeinträchtigen. Gegenbewegungen und Körperkontrolle sind entscheidend für Stabilität."
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "A raised non-hitting arm can reduce upper-body balance during the hitting phase. Counter-movements and body control are key to maintain overall stability"
+        }
+      }
+    }
+  },
+
+  "hit_side_non_hit_arm_good_title": {
+    "comment": "Positive feedback title for good non-hitting arm positioning",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Gute Position des Nicht-Schlagarms"
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Good non-hitting-arm positioning"
+        }
+      }
+    }
+  },
+
+  "hit_side_non_hit_arm_good_detail": {
+    "comment": "Detailed explanation for good non-hitting arm discipline",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Die Position deines Nicht-Schlagarms unterstützt die Balance des Oberkörpers während der Schlagbewegung."
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Your non-hitting arm positioning supports overall upper-body balance during the stroke execution"
+        }
+      }
+    }
+  }
+
+
+
+
+
+
+  },
+  "version" : "1.1"
+}
