@@ -44,7 +44,9 @@ struct LessonsView: View {
                 }
 
             }
-            .navigationTitle("Lessons")
+            .navigationTitle(
+                NSLocalizedString("lessons_title", tableName: "general", comment: "")
+            )
             .navigationBarTitleDisplayMode(.large)
             .navigationDestination(item: $selectedVideo) { video in
                 if video.filetype == "long" {
@@ -63,7 +65,11 @@ struct LessonsView: View {
                         videoId: video.id,
                         youtubeId: video.youtubeId,
                         title: video.title,
-                        subtitle: "\(video.duration)-second technique tip"
+                        subtitle: String(
+                            format: NSLocalizedString("short_tip_subtitle", tableName: "general", comment: ""),
+                            video.duration
+                        )
+
                     )
                     .navigationTitle(video.title)
                     .navigationBarTitleDisplayMode(.inline)
@@ -153,8 +159,11 @@ struct LessonsView: View {
     }
 
     private var progressTitle: String {
-        mode == .longs ? "Deep Lessons Progress" : "Quick Tips Progress"
+        mode == .longs
+        ? NSLocalizedString("progress_deep_lessons", tableName: "general", comment: "")
+        : NSLocalizedString("progress_quick_tips", tableName: "general", comment: "")
     }
+
 
 
 
@@ -170,14 +179,17 @@ struct LessonsView: View {
 enum LessonMode: CaseIterable {
     case longs
     case shorts
-    
+
     var title: String {
         switch self {
-        case .shorts: return "Quick Tips"
-        case .longs: return "Deep Lessons"
+        case .shorts:
+            return NSLocalizedString("lesson_mode_quick_tips", tableName: "general", comment: "")
+        case .longs:
+            return NSLocalizedString("lesson_mode_deep_lessons", tableName: "general", comment: "")
         }
     }
 }
+
 
 // MARK: - Quick Tip Card
 
@@ -283,7 +295,12 @@ fileprivate struct DeepLessonCard: View {
                         .font(.caption2)
                         .foregroundStyle(accentGreen)
 
-                    Text("Coach lesson · \(video.durationText)")
+                    Text(
+                        String(
+                            format: NSLocalizedString("coach_lesson_label", tableName: "general", comment: ""),
+                            video.durationText
+                        )
+                    )
                         .font(.caption.weight(.semibold))
                         .foregroundStyle(accentGreen)
                 }
@@ -334,7 +351,9 @@ fileprivate struct CompletedOverlay: View {
                         Image(systemName: "checkmark.circle.fill")
                             .font(.system(size: 14, weight: .semibold))
 
-                        Text("Completed")
+                        Text(
+                            NSLocalizedString("completed_badge", tableName: "general", comment: "")
+                        )
                             .font(.caption.weight(.semibold))
                     }
                     .foregroundStyle(.white)
@@ -377,57 +396,58 @@ fileprivate struct LessonsProgressCard: View {
 
     private var motivationalLine: String {
         guard total > 0 else {
-            return "Let’s get started 🎾"
+            return NSLocalizedString("motivation_start", tableName: "general", comment: "")
         }
 
-        // Completed everything
         if completed >= total {
-            return "All done. That’s discipline 🌱"
+            return NSLocalizedString("motivation_all_done", tableName: "general", comment: "")
         }
+
 
         // Few-lesson tracks (≤ 10)
         if total <= 10 {
             switch completed {
             case 0:
-                return "The first one is the hardest 🎾"
+                return NSLocalizedString("motivation_few_0", tableName: "general", comment: "")
             case 1:
-                return "Good start 👏"
+                return NSLocalizedString("motivation_few_1", tableName: "general", comment: "")
             case 2:
-                return "Momentum building 🚀"
+                return NSLocalizedString("motivation_few_2", tableName: "general", comment: "")
             case 3:
-                return "Solid consistency ⭐️"
+                return NSLocalizedString("motivation_few_3", tableName: "general", comment: "")
             case 4:
-                return "Habits forming 💪"
+                return NSLocalizedString("motivation_few_4", tableName: "general", comment: "")
             case 5:
-                return "Halfway there 🔥"
+                return NSLocalizedString("motivation_few_5", tableName: "general", comment: "")
             case 6:
-                return "Most stop here. You didn’t 😤"
+                return NSLocalizedString("motivation_few_6", tableName: "general", comment: "")
             case 7:
-                return "This is getting serious 👀"
+                return NSLocalizedString("motivation_few_7", tableName: "general", comment: "")
             case 8:
-                return "Elite focus 🎯"
+                return NSLocalizedString("motivation_few_8", tableName: "general", comment: "")
             default:
-                return "Almost there 🏁"
+                return NSLocalizedString("motivation_few_almost", tableName: "general", comment: "")
             }
         }
 
-        // Longer tracks (> 10): phase-based messaging
+        // Longer tracks (> 10)
         let progress = Double(completed) / Double(total)
 
         switch progress {
         case ..<0.1:
-            return "The first step counts 🎾"
+            return NSLocalizedString("motivation_long_start", tableName: "general", comment: "")
         case ..<0.25:
-            return "Building momentum 🚀"
+            return NSLocalizedString("motivation_long_early", tableName: "general", comment: "")
         case ..<0.5:
-            return "Consistency over time ⭐️"
+            return NSLocalizedString("motivation_long_mid", tableName: "general", comment: "")
         case ..<0.75:
-            return "Real progress showing 💪"
+            return NSLocalizedString("motivation_long_late", tableName: "general", comment: "")
         case ..<0.95:
-            return "Strong finish coming up 🔥"
+            return NSLocalizedString("motivation_long_finish", tableName: "general", comment: "")
         default:
-            return "Almost complete 🏁"
+            return NSLocalizedString("motivation_long_almost", tableName: "general", comment: "")
         }
+
     }
 
 
@@ -460,7 +480,13 @@ fileprivate struct LessonsProgressCard: View {
                 Text(title)
                     .font(.headline)
 
-                Text("\(completed) of \(total) completed")
+                Text(
+                    String(
+                        format: NSLocalizedString("progress_count", tableName: "general", comment: ""),
+                        completed,
+                        total
+                    )
+                )
                     .font(.caption)
                     .foregroundStyle(.secondary)
 

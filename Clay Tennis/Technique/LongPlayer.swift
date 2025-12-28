@@ -86,14 +86,22 @@ struct LongPlayer: View {
 
                         HStack(spacing: 6) {
                             Image(systemName: "clock")
-                            Text(durationText)
+                            Text(
+                                String(
+                                    format: NSLocalizedString("longplayer_duration", tableName: "general", comment: ""),
+                                    durationText
+                                )
+                            )
                         }
                         .font(.subheadline.weight(.medium))
                         .foregroundStyle(.secondary)
 
+
                         // MARK: - Learning Bullets
                         VStack(alignment: .leading, spacing: 8) {
-                            Text("You'll learn")
+                            Text(
+                                NSLocalizedString("longplayer_youll_learn", tableName: "general", comment: "")
+                            )
                                 .font(.subheadline.weight(.semibold))
 
                             ForEach(learningPoints, id: \.self) { point in
@@ -126,8 +134,13 @@ struct LongPlayer: View {
                         Image(systemName: "play.fill")
                             .font(.title3.weight(.semibold))
 
-                        Text(hasProgress ? "CONTINUE LESSON" : "START LESSON")
-                            .font(.headline.weight(.semibold))
+                        Text(
+                            hasProgress
+                            ? NSLocalizedString("longplayer_continue_lesson", tableName: "general", comment: "")
+                            : NSLocalizedString("longplayer_start_lesson", tableName: "general", comment: "")
+                        )
+                        .font(.headline.weight(.semibold))
+
 
                         Spacer()
 

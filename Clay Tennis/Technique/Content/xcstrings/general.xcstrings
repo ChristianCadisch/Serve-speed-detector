@@ -2493,6 +2493,578 @@
         }
       }
     }
+  },
+
+"video_review_nav_title": {
+    "comment": "Navigation title for the video review upload flow",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Review" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Review" } }
+    }
+  },
+
+  "video_review_step1_title": {
+    "comment": "Title for step 1 explaining human coach review",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Review durch echten Trainer" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Human Coach Review" } }
+    }
+  },
+
+  "video_review_bullet_licensed": {
+    "comment": "Bullet: assigned to licensed tennis coach",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Zuteilung an einen lizenzierten Tennistrainer" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Assigned to a licensed tennis coach" } }
+    }
+  },
+
+  "video_review_bullet_pricing": {
+    "comment": "Bullet: clear pricing before confirmation",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Klare Preise vor deiner Bestätigung" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Clear pricing before confirmation" } }
+    }
+  },
+
+  "video_review_bullet_confirmation": {
+    "comment": "Bullet: nothing happens without confirmation",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Nichts passiert ohne deine Bestätigung" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Nothing happens without confirmation" } }
+    }
+  },
+
+  "video_review_bullet_payment_outside": {
+    "comment": "Bullet: payment happens outside the app",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Bezahlung erfolgt außerhalb der App" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Payment happens outside the app" } }
+    }
+  },
+
+  "video_review_bullet_privacy": {
+    "comment": "Bullet: video shared only with your coach",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Video wird nur mit deinem Trainer geteilt" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Video shared only with your coach" } }
+    }
+  },
+
+  "video_review_proceed": {
+    "comment": "Button title to proceed from info step to form step",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Weiter" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Proceed" } }
+    }
+  },
+
+  "video_review_preview_title": {
+    "comment": "Caption title above the video thumbnail preview",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Video zur Überprüfung" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Video to be reviewed" } }
+    }
+  },
+
+  "video_review_full_name_placeholder": {
+    "comment": "Text field placeholder for full name",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Dein vollständiger Name" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Your full name" } }
+    }
+  },
+
+  "video_review_contact_placeholder": {
+    "comment": "Text field placeholder for email or phone number",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "E-Mail oder Telefonnummer" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Email or phone number" } }
+    }
+  },
+
+  "video_review_focus_placeholder": {
+    "comment": "Text field placeholder for what coach should focus on",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Worauf soll der Trainer achten? (optional)" } },
+      "en": { "stringUnit": { "state": "translated", "value": "What should the coach focus on? (optional)" } }
+    }
+  },
+
+  "video_review_submitting": {
+    "comment": "Submit button title while uploading",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Wird gesendet…" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Submitting…" } }
+    }
+  },
+
+  "video_review_submit": {
+    "comment": "Submit button title to submit video for coach review",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Für Trainer-Review senden" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Submit for Coach Review" } }
+    }
+  },
+
+  "video_review_too_large_error": {
+    "comment": "Error message shown when video is larger than 250MB",
+    "extractionState": "stale",
+    "localizations": {
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Dieses Video ist größer als 250 MB.\n\nTipp: Kurze Aufschlag-Clips (5–8 Sekunden rund um den Treffpunkt) laden am schnellsten hoch und funktionieren am besten für das Trainer-Review."
+        }
+      },
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "This video is larger than 250 MB.\n\nTip: Short serve clips (5–8 seconds around contact) upload fastest and work best for coach review."
+        }
+      }
+    }
+  },
+
+  "video_review_submission_failed": {
+    "comment": "Generic error message when submission fails",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Senden fehlgeschlagen." } },
+      "en": { "stringUnit": { "state": "translated", "value": "Submission failed." } }
+    }
+  },
+
+  "video_review_celebration_title": {
+    "comment": "Celebration overlay title after successful submission",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Video gesendet" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Video Submitted" } }
+    }
+  },
+
+  "video_review_celebration_subtitle": {
+    "comment": "Celebration overlay subtitle after successful submission",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Dein Trainer meldet sich in Kürze" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Your coach will reach out shortly" } }
+    }
+  },
+
+"lessons_title": {
+    "comment": "Navigation title for the lessons screen",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Lektionen" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Lessons" } }
+    }
+  },
+
+  "lesson_mode_quick_tips": {
+    "comment": "Segment title for quick lesson tips",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Quick Tipps" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Quick Tips" } }
+    }
+  },
+
+  "lesson_mode_deep_lessons": {
+    "comment": "Segment title for long-form lessons",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Vertiefte Lektionen" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Deep Lessons" } }
+    }
+  },
+
+  "progress_deep_lessons": {
+    "comment": "Progress card title for deep lessons",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Fortschritt – Vertiefte Lektionen" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Deep Lessons Progress" } }
+    }
+  },
+
+  "progress_quick_tips": {
+    "comment": "Progress card title for quick tips",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Fortschritt – Quick Tipps" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Quick Tips Progress" } }
+    }
+  },
+
+  "completed_badge": {
+    "comment": "Badge shown on completed lessons",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Abgeschlossen" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Completed" } }
+    }
+  },
+
+  "coach_lesson_label": {
+    "comment": "Label indicating a coached lesson with duration",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Trainer-Lektion · %@"
+      } },
+      "en": { "stringUnit": { "state": "translated", "value": "Coach lesson · %@"
+      } }
+    }
+  },
+
+  "short_tip_subtitle": {
+    "comment": "Subtitle for short technique tip video",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "%@-Sekunden Technik-Tipp" } },
+      "en": { "stringUnit": { "state": "translated", "value": "%@-second technique tip" } }
+    }
+  },
+
+  "progress_count": {
+    "comment": "Progress count label (X of Y completed)",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "%d von %d abgeschlossen" } },
+      "en": { "stringUnit": { "state": "translated", "value": "%d of %d completed" } }
+    }
+  },
+
+  "motivation_start": {
+    "comment": "Motivational text shown before starting lessons",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Los geht’s 🎾" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Let’s get started 🎾" } }
+    }
+  },
+
+  "motivation_all_done": {
+    "comment": "Motivational text when everything is completed",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Alles erledigt. Starke Disziplin 🌱" } },
+      "en": { "stringUnit": { "state": "translated", "value": "All done. That’s discipline 🌱" } }
+    }
+  },
+  "motivation_few_0": {
+    "comment": "Motivation when 0 lessons completed (few-lesson track)",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Der erste Schritt ist der schwerste 🎾" } },
+      "en": { "stringUnit": { "state": "translated", "value": "The first one is the hardest 🎾" } }
+    }
+  },
+
+  "motivation_few_1": {
+    "comment": "Motivation when 1 lesson completed (few-lesson track)",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Guter Start 👏" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Good start 👏" } }
+    }
+  },
+
+  "motivation_few_2": {
+    "comment": "Motivation when 2 lessons completed (few-lesson track)",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Momentum baut sich auf 🚀" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Momentum building 🚀" } }
+    }
+  },
+
+  "motivation_few_3": {
+    "comment": "Motivation when 3 lessons completed (few-lesson track)",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Starke Konstanz ⭐️" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Solid consistency ⭐️" } }
+    }
+  },
+
+  "motivation_few_4": {
+    "comment": "Motivation when 4 lessons completed (few-lesson track)",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Gewohnheiten entstehen 💪" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Habits forming 💪" } }
+    }
+  },
+
+  "motivation_few_5": {
+    "comment": "Motivation when 5 lessons completed (few-lesson track)",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Halbzeit 🔥" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Halfway there 🔥" } }
+    }
+  },
+
+  "motivation_few_6": {
+    "comment": "Motivation when 6 lessons completed (few-lesson track)",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Hier hören viele auf. Du nicht 😤" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Most stop here. You didn’t 😤" } }
+    }
+  },
+
+  "motivation_few_7": {
+    "comment": "Motivation when 7 lessons completed (few-lesson track)",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Jetzt wird’s ernst 👀" } },
+      "en": { "stringUnit": { "state": "translated", "value": "This is getting serious 👀" } }
+    }
+  },
+
+  "motivation_few_8": {
+    "comment": "Motivation when 8 lessons completed (few-lesson track)",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Elite-Fokus 🎯" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Elite focus 🎯" } }
+    }
+  },
+
+  "motivation_few_almost": {
+    "comment": "Motivation when almost finished (few-lesson track)",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Fast geschafft 🏁" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Almost there 🏁" } }
+    }
+  },
+  "motivation_long_start": {
+    "comment": "Motivation at the very beginning of a long track",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Der erste Schritt zählt 🎾" } },
+      "en": { "stringUnit": { "state": "translated", "value": "The first step counts 🎾" } }
+    }
+  },
+
+  "motivation_long_early": {
+    "comment": "Motivation during early phase of a long track",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Momentum aufbauen 🚀" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Building momentum 🚀" } }
+    }
+  },
+
+  "motivation_long_mid": {
+    "comment": "Motivation during mid phase of a long track",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Konstanz über Zeit ⭐️" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Consistency over time ⭐️" } }
+    }
+  },
+
+  "motivation_long_late": {
+    "comment": "Motivation during late phase of a long track",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Echter Fortschritt sichtbar 💪" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Real progress showing 💪" } }
+    }
+  },
+
+  "motivation_long_finish": {
+    "comment": "Motivation shortly before finishing a long track",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Starker Endspurt 🔥" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Strong finish coming up 🔥" } }
+    }
+  },
+
+  "motivation_long_almost": {
+    "comment": "Motivation when a long track is almost complete",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Fast abgeschlossen 🏁" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Almost complete 🏁" } }
+    }
+  },
+
+  "longplayer_youll_learn": {
+    "comment": "Header above the learning bullet points in a long lesson",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Das lernst du" } },
+      "en": { "stringUnit": { "state": "translated", "value": "You'll learn" } }
+    }
+  },
+
+  "longplayer_duration": {
+    "comment": "Duration label for a lesson",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "%@" } },
+      "en": { "stringUnit": { "state": "translated", "value": "%@" } }
+    }
+  },
+  "longplayer_start_lesson": {
+    "comment": "Primary CTA to start a long lesson",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "LEKTION STARTEN" } },
+      "en": { "stringUnit": { "state": "translated", "value": "START LESSON" } }
+    }
+  },
+
+  "longplayer_continue_lesson": {
+    "comment": "Primary CTA to continue a started long lesson",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "LEKTION FORTSETZEN" } },
+      "en": { "stringUnit": { "state": "translated", "value": "CONTINUE LESSON" } }
+    }
+  },
+  "theory_learn_title": {
+    "comment": "Section header for the learning section",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Lernen" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Learn" } }
+    }
+  },
+
+  "theory_lessons_completed": {
+    "comment": "Progress text showing completed lessons count",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "%d von %d Lektionen abgeschlossen" } },
+      "en": { "stringUnit": { "state": "translated", "value": "%d of %d lessons completed" } }
+    }
+  },
+
+  "theory_explore_all": {
+    "comment": "CTA to explore all lessons",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Alle entdecken" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Explore all" } }
+    }
+  },
+  "theory_more_lessons_title": {
+    "comment": "Headline for the more lessons card",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "MEHR LEKTIONEN" } },
+      "en": { "stringUnit": { "state": "translated", "value": "MORE LESSONS" } }
+    }
+  },
+
+  "theory_more_lessons_subtitle": {
+    "comment": "Subtitle encouraging exploring the full library",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Gesamte Bibliothek entdecken" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Explore full library" } }
+    }
+  },
+
+  "theory_more_lessons_body": {
+    "comment": "Description text for more lessons card",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Alle kurzen Tipps und vertieften Lektionen zu diesem Thema." } },
+      "en": { "stringUnit": { "state": "translated", "value": "All short tips and in-depth lessons for this topic." } }
+    }
+  },
+
+  "theory_more_lessons_cta": {
+    "comment": "CTA label inside the more lessons card",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Weiterlernen" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Continue learning" } }
+    }
+  },
+  "theory_validate_title": {
+    "comment": "Header for the quiz validation section",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Überprüfe dein Verständnis" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Check your understanding" } }
+    }
+  },
+
+  "quiz_completed": {
+    "comment": "Quiz state label when completed",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Abgeschlossen" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Completed" } }
+    }
+  },
+
+  "quiz_locked": {
+    "comment": "Quiz state label when locked",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Schließe das vorherige Quiz ab, um freizuschalten" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Complete previous quiz to unlock" } }
+    }
+  },
+
+  "quiz_progress": {
+    "comment": "Quiz progress text showing solved questions",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "%d/%d Fragen gelöst" } },
+      "en": { "stringUnit": { "state": "translated", "value": "%d/%d questions solved" } }
+    }
+  },
+   "theory_recommended_lesson": {
+    "comment": "Editorial label for a recommended long lesson",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "EMPFOHLENE LEKTION" } },
+      "en": { "stringUnit": { "state": "translated", "value": "RECOMMENDED LESSON" } }
+    }
+  },
+
+  "theory_coach_lesson": {
+    "comment": "Label for a coach-led lesson with duration",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Trainer-Lektion · %@" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Coach lesson · %@" } }
+    }
+  },
+
+  "video_watched": {
+    "comment": "Badge shown when a video was watched",
+    "extractionState": "stale",
+    "localizations": {
+      "de": { "stringUnit": { "state": "translated", "value": "Angesehen" } },
+      "en": { "stringUnit": { "state": "translated", "value": "Watched" } }
+    }
   }
 
 

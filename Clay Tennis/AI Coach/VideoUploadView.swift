@@ -56,7 +56,9 @@ struct VideoUploadView: View {
                 .padding(.top, 32)
                 .padding(.bottom, 44)
             }
-            .navigationTitle("Review")
+            .navigationTitle(
+                NSLocalizedString("video_review_nav_title", tableName: "general", comment: "")
+            )
             .navigationBarTitleDisplayMode(.inline)
             .animation(.easeInOut(duration: 0.25), value: step)
             .onAppear {
@@ -103,16 +105,33 @@ struct VideoUploadView: View {
     private var infoStep: some View {
         VStack(spacing: 28) {
 
-            Text("Human Coach Review")
+            Text(
+                NSLocalizedString("video_review_step1_title", tableName: "general", comment: "")
+            )
                 .font(.system(size: 30, weight: .semibold, design: .rounded))
                 .multilineTextAlignment(.center)
 
             VStack(alignment: .leading, spacing: 16) {
-                Label("Assigned to a licensed tennis coach", systemImage: "person.fill.checkmark")
-                Label("Clear pricing before confirmation", systemImage: "tag.fill")
-                Label("Nothing happens without confirmation", systemImage: "checkmark.circle.fill")
-                Label("Payment happens outside the app", systemImage: "arrow.up.right.square")
-                Label("Video shared only with your coach", systemImage: "lock.fill")
+                Label(
+                    NSLocalizedString("video_review_bullet_licensed", tableName: "general", comment: ""),
+                    systemImage: "person.fill.checkmark"
+                )
+                Label(
+                    NSLocalizedString("video_review_bullet_pricing", tableName: "general", comment: ""),
+                    systemImage: "tag.fill"
+                )
+                Label(
+                    NSLocalizedString("video_review_bullet_confirmation", tableName: "general", comment: ""),
+                    systemImage: "checkmark.circle.fill"
+                )
+                Label(
+                    NSLocalizedString("video_review_bullet_payment_outside", tableName: "general", comment: ""),
+                    systemImage: "arrow.up.right.square"
+                )
+                Label(
+                    NSLocalizedString("video_review_bullet_privacy", tableName: "general", comment: ""),
+                    systemImage: "lock.fill"
+                )
             }
             .foregroundStyle(.secondary)
 
@@ -120,7 +139,9 @@ struct VideoUploadView: View {
                 print("➡️ [FLOW] Proceed to form")
                 step = .form
             } label: {
-                Text("Proceed")
+                Text(
+                    NSLocalizedString("video_review_proceed", tableName: "general", comment: "")
+                )
                     .frame(maxWidth: .infinity, minHeight: 56)
             }
             .buttonStyle(.borderedProminent)
@@ -159,7 +180,9 @@ struct VideoUploadView: View {
 
     private func videoPreview(url: URL) -> some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("Video to be reviewed")
+            Text(
+                NSLocalizedString("video_review_preview_title", tableName: "general", comment: "")
+            )
                 .font(.caption.weight(.semibold))
                 .foregroundStyle(.secondary)
 
@@ -174,14 +197,20 @@ struct VideoUploadView: View {
 
     private var formSection: some View {
         VStack(spacing: 18) {
-            TextField("Your full name", text: $fullName)
-                .textFieldStyle(.roundedBorder)
-
-            TextField("Email or phone number", text: $contactInfo)
+            TextField(
+                NSLocalizedString("video_review_full_name_placeholder", tableName: "general", comment: ""),
+                text: $fullName
+            )
                 .textFieldStyle(.roundedBorder)
 
             TextField(
-                "What should the coach focus on? (optional)",
+                NSLocalizedString("video_review_contact_placeholder", tableName: "general", comment: ""),
+                text: $contactInfo
+            )
+                .textFieldStyle(.roundedBorder)
+
+            TextField(
+                NSLocalizedString("video_review_focus_placeholder", tableName: "general", comment: ""),
                 text: $focusNotes,
                 axis: .vertical
             )
@@ -210,7 +239,11 @@ struct VideoUploadView: View {
             
             uploadVideo(at: url)
         } label: {
-            Text(isUploading ? "Submitting…" : "Submit for Coach Review")
+            Text(
+                isUploading
+                    ? NSLocalizedString("video_review_submitting", tableName: "general", comment: "")
+                    : NSLocalizedString("video_review_submit", tableName: "general", comment: "")
+            )
                 .frame(maxWidth: .infinity, minHeight: 60)
         }
         .buttonStyle(.borderedProminent)
@@ -315,7 +348,11 @@ struct VideoUploadView: View {
                     print("❌ [ERROR] Submission failed:", error.localizedDescription)
                     await MainActor.run {
                         isUploading = false
-                        errorMessage = "Submission failed."
+                        errorMessage = NSLocalizedString(
+                            "video_review_submission_failed",
+                            tableName: "general",
+                            comment: ""
+                        )
                     }
                 }
             }
@@ -362,9 +399,13 @@ private struct SubmissionCelebrationOverlay: View {
             VStack(spacing: 12) {
                 Image(systemName: "checkmark.circle.fill")
                     .font(.system(size: 56))
-                Text("Video Submitted")
+                Text(
+                    NSLocalizedString("video_review_celebration_title", tableName: "general", comment: "")
+                )
                     .font(.system(size: 30, weight: .heavy))
-                Text("Your coach will reach out shortly")
+                Text(
+                    NSLocalizedString("video_review_celebration_subtitle", tableName: "general", comment: "")
+                )
             }
             .foregroundStyle(.white)
             .scaleEffect(animate ? 1 : 0.8)

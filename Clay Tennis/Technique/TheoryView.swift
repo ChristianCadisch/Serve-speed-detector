@@ -72,11 +72,13 @@ struct TheoryView: View {
             VStack(alignment: .leading, spacing: 14) {
 
                 HStack {
-                    Text("MORE LESSONS")
-                        .font(.caption2.bold())
-                        .tracking(1)
-                        .foregroundStyle(Color.white.opacity(0.85))
-                        .textCase(.uppercase)
+                    Text(
+                        NSLocalizedString("theory_more_lessons_title", tableName: "general", comment: "")
+                    )
+                    .font(.caption2.bold())
+                    .tracking(1)
+                    .textCase(.uppercase)
+
 
                     Spacer()
 
@@ -85,11 +87,15 @@ struct TheoryView: View {
                         .foregroundStyle(Color.white.opacity(0.85))
                 }
 
-                Text("Explore full library")
+                Text(
+                    NSLocalizedString("theory_more_lessons_subtitle", tableName: "general", comment: "")
+                )
                     .font(.system(size: 16, weight: .semibold))
                     .foregroundStyle(Color.white)
 
-                Text("All short tips and in-depth lessons for this topic.")
+                Text(
+                    NSLocalizedString("theory_more_lessons_body", tableName: "general", comment: "")
+                )
                     .font(.caption)
                     .foregroundStyle(Color.white.opacity(0.9))
                     .lineLimit(2)
@@ -98,7 +104,9 @@ struct TheoryView: View {
 
                 // Grounded CTA row
                 HStack(spacing: 6) {
-                    Text("Continue learning")
+                    Text(
+                        NSLocalizedString("theory_more_lessons_cta", tableName: "general", comment: "")
+                    )
                         .font(.caption.weight(.semibold))
                     Image(systemName: "arrow.right")
                         .font(.caption.weight(.semibold))
@@ -203,8 +211,11 @@ struct TheoryView: View {
             HStack(alignment: .firstTextBaseline) {
 
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Learn")
-                        .font(.headline)
+                    Text(
+                        NSLocalizedString("theory_learn_title", tableName: "general", comment: "")
+                    )
+                    .font(.headline)
+
 
                     HStack(spacing: 8) {
 
@@ -226,9 +237,16 @@ struct TheoryView: View {
                         }
                         .frame(width: 12, height: 12)
 
-                        Text("\(completedCount) of \(totalCount) lessons completed")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
+                        Text(
+                            String(
+                                format: NSLocalizedString("theory_lessons_completed", tableName: "general", comment: ""),
+                                completedCount,
+                                totalCount
+                            )
+                        )
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+
                     }
                 }
 
@@ -238,8 +256,11 @@ struct TheoryView: View {
                     showLessons = true
                 } label: {
                     HStack(spacing: 4) {
-                        Text("Explore all")
-                            .font(.caption)
+                        Text(
+                            NSLocalizedString("theory_explore_all", tableName: "general", comment: "")
+                        )
+                        .font(.caption)
+
                         Image(systemName: "chevron.right")
                             .font(.caption2.weight(.semibold))
                     }
@@ -284,7 +305,9 @@ struct TheoryView: View {
 
         return VStack(alignment: .leading, spacing: 14) {
 
-            Text("Check your understanding")
+            Text(
+                NSLocalizedString("theory_validate_title", tableName: "general", comment: "")
+            )
                 .font(.headline)
                 .padding(.horizontal)
 
@@ -408,11 +431,15 @@ struct TheoryView: View {
 
         switch state {
         case .completed:
-            return "Completed"
+            return NSLocalizedString("quiz_completed", tableName: "general", comment: "")
         case .locked:
-            return "Complete previous quiz to unlock"
+            return NSLocalizedString("quiz_locked", tableName: "general", comment: "")
         case .unlocked:
-            return "\(score)/\(total) questions solved"
+            return String(
+                format: NSLocalizedString("quiz_progress", tableName: "general", comment: ""),
+                score,
+                total
+            )
         }
     }
 
@@ -537,7 +564,9 @@ fileprivate struct UnifiedVideoCard: View {
                 HStack(spacing: 6) {
                     Image(systemName: "star.fill")
                         .font(.system(size: 11, weight: .semibold))
-                    Text("RECOMMENDED LESSON")
+                    Text(
+                        NSLocalizedString("theory_recommended_lesson", tableName: "general", comment: "")
+                    )
                         .font(.caption2.bold())
                         .tracking(0.8)
                 }
@@ -555,7 +584,12 @@ fileprivate struct UnifiedVideoCard: View {
                         Image(systemName: "graduationcap.fill")
                             .font(.caption)
 
-                        Text("Coach lesson · \(video.durationText)")
+                        Text(
+                            String(
+                                format: NSLocalizedString("theory_coach_lesson", tableName: "general", comment: ""),
+                                video.durationText
+                            )
+                        )
                             .font(.caption.weight(.semibold))
 
                     }
@@ -738,7 +772,9 @@ fileprivate struct LargeVideoCard: View {
             Image(systemName: "checkmark")
                 .font(.system(size: 11, weight: .semibold))
 
-            Text("Watched")
+            Text(
+                NSLocalizedString("video_watched", tableName: "general", comment: "")
+            )
                 .font(.caption2.weight(.semibold))
         }
         .foregroundStyle(.white)
